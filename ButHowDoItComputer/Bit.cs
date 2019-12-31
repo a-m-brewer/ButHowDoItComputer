@@ -1,6 +1,6 @@
 namespace ButHowDoItComputer
 {
-    public class Bit
+    public class Bit : IBit
     {
         public Bit(bool initialState)
         {

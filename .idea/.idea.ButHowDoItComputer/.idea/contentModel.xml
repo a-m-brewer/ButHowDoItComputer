@@ -3,16 +3,46 @@
   <component name="ContentModelStore">
     <e p="$USER_HOME$/.Rider2019.3/system/extResources" t="IncludeRecursive" />
     <e p="$USER_HOME$/.Rider2019.3/system/resharper-host/local/Transient/ReSharperHost/v193/SolutionCaches/_ButHowDoItComputer.1600610798.00" t="ExcludeRecursive" />
+    <e p="$USER_HOME$/.nuget/packages/microsoft.net.test.sdk/16.3.0/build/netcoreapp1.0" t="Include">
+      <e p="Microsoft.NET.Test.Sdk.Program.cs" t="Include" />
+    </e>
+    <e p="$USER_HOME$/.nuget/packages/nunit3testadapter/3.15.1/build/netcoreapp2.0/NUnit3.TestAdapter.dll" t="Include" />
+    <e p="$USER_HOME$/.nuget/packages/nunit3testadapter/3.15.1/build/netcoreapp2.0/NUnit3.TestAdapter.pdb" t="Include" />
+    <e p="$USER_HOME$/.nuget/packages/nunit3testadapter/3.15.1/build/netcoreapp2.0/nunit.engine.api.dll" t="Include" />
+    <e p="$USER_HOME$/.nuget/packages/nunit3testadapter/3.15.1/build/netcoreapp2.0/nunit.engine.dll" t="Include" />
     <e p="$PROJECT_DIR$" t="IncludeFlat">
       <e p="ButHowDoItComputer" t="IncludeRecursive">
         <e p="Bit.cs" t="Include" />
         <e p="ButHowDoItComputer.csproj" t="IncludeRecursive" />
+        <e p="Gates" t="Include">
+          <e p="And.cs" t="Include" />
+          <e p="IGate.cs" t="Include" />
+          <e p="ISingleInputGate.cs" t="Include" />
+          <e p="NAnd.cs" t="Include" />
+          <e p="Not.cs" t="Include" />
+        </e>
+        <e p="IBit.cs" t="Include" />
         <e p="Program.cs" t="Include" />
         <e p="bin" t="ExcludeRecursive" />
         <e p="obj" t="ExcludeRecursive">
           <e p="Debug" t="Include">
             <e p="netcoreapp3.0" t="Include">
               <e p="ButHowDoItComputer.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+      </e>
+      <e p="ButHowDoItComputer.Tests" t="IncludeRecursive">
+        <e p="AndTests.cs" t="Include" />
+        <e p="BitTests.cs" t="Include" />
+        <e p="ButHowDoItComputer.Tests.csproj" t="IncludeRecursive" />
+        <e p="NAndTests.cs" t="Include" />
+        <e p="NotTests.cs" t="Include" />
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netcoreapp3.0" t="Include">
+              <e p="ButHowDoItComputer.Tests.AssemblyInfo.cs" t="Include" />
             </e>
           </e>
         </e>
