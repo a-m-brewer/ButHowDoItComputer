@@ -1,4 +1,4 @@
-namespace ButHowDoItComputer
+namespace ButHowDoItComputer.DataTypes.Interfaces
 {
     public interface IBit
     {

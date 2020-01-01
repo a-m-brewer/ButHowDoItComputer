@@ -12,16 +12,32 @@
     <e p="$USER_HOME$/.nuget/packages/nunit3testadapter/3.15.1/build/netcoreapp2.0/nunit.engine.dll" t="Include" />
     <e p="$PROJECT_DIR$" t="IncludeFlat">
       <e p="ButHowDoItComputer" t="IncludeRecursive">
-        <e p="Bit.cs" t="Include" />
         <e p="ButHowDoItComputer.csproj" t="IncludeRecursive" />
+        <e p="DataTypes" t="Include">
+          <e p="Bit.cs" t="Include" />
+          <e p="Factories" t="Include">
+            <e p="BitFactory.cs" t="Include" />
+          </e>
+          <e p="Interfaces" t="Include">
+            <e p="IBit.cs" t="Include" />
+            <e p="IBitFactory.cs" t="Include" />
+          </e>
+        </e>
         <e p="Gates" t="Include">
           <e p="And.cs" t="Include" />
-          <e p="IGate.cs" t="Include" />
-          <e p="ISingleInputGate.cs" t="Include" />
+          <e p="ITwoInputGate.cs" t="Include" />
+          <e p="Interfaces" t="Include">
+            <e p="IAnd.cs" t="Include" />
+            <e p="IGate.cs" t="Include" />
+            <e p="IMemoryGate.cs" t="Include" />
+            <e p="INAnd.cs" t="Include" />
+            <e p="INot.cs" t="Include" />
+            <e p="ISingleInputGate.cs" t="Include" />
+          </e>
+          <e p="MemoryGate.cs" t="Include" />
           <e p="NAnd.cs" t="Include" />
           <e p="Not.cs" t="Include" />
         </e>
-        <e p="IBit.cs" t="Include" />
         <e p="Program.cs" t="Include" />
         <e p="bin" t="ExcludeRecursive" />
         <e p="obj" t="ExcludeRecursive">
@@ -36,6 +52,7 @@
         <e p="AndTests.cs" t="Include" />
         <e p="BitTests.cs" t="Include" />
         <e p="ButHowDoItComputer.Tests.csproj" t="IncludeRecursive" />
+        <e p="MemoryGateTests.cs" t="Include" />
         <e p="NAndTests.cs" t="Include" />
         <e p="NotTests.cs" t="Include" />
         <e p="bin" t="ExcludeRecursive" />

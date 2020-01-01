@@ -1,8 +1,8 @@
-using System;
 using System.Collections.Generic;
+using ButHowDoItComputer.DataTypes;
+using ButHowDoItComputer.DataTypes.Factories;
 using ButHowDoItComputer.Gates;
 using NUnit.Framework;
-using NUnit.Framework.Internal;
 
 namespace ButHowDoItComputer.Tests
 {
@@ -20,7 +20,7 @@ namespace ButHowDoItComputer.Tests
         [Test, TestCaseSource(nameof(_andData))]
         public void ReturnsCorrectNewBit(bool expected, List<Bit> bits)
         {
-            var sut = new And();
+            var sut = new And(new BitFactory());
             Assert.AreEqual(expected, sut.Apply(bits).State);
         }
     }

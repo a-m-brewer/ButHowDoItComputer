@@ -1,12 +1,24 @@
 using System.Collections.Generic;
+using ButHowDoItComputer.DataTypes;
+using ButHowDoItComputer.DataTypes.Interfaces;
+using ButHowDoItComputer.Gates.Interfaces;
 
 namespace ButHowDoItComputer.Gates
 {
-    public class NAnd : IGate
+    public class NAnd : INAnd
     {
+        private readonly INot _not;
+        private readonly IAnd _and;
+
+        public NAnd(INot not, IAnd and)
+        {
+            _not = not;
+            _and = and;
+        }
+        
         public IBit Apply(IEnumerable<IBit> bits)
         {
-            return new Bit(new Not().Apply(new And().Apply(bits)).State);
+            return _not.Apply(_and.Apply(bits));
         }
     }
 }

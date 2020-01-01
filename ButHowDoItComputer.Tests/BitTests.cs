@@ -1,3 +1,4 @@
+using ButHowDoItComputer.DataTypes;
 using NUnit.Framework;
 
 namespace ButHowDoItComputer.Tests
