@@ -18,23 +18,31 @@
           <e p="Byte.cs" t="Include" />
           <e p="Factories" t="Include">
             <e p="BitFactory.cs" t="Include" />
+            <e p="ByteFactory.cs" t="Include" />
           </e>
           <e p="Interfaces" t="Include">
             <e p="IBit.cs" t="Include" />
             <e p="IBitFactory.cs" t="Include" />
             <e p="IByte.cs" t="Include" />
+            <e p="IByteFactory.cs" t="Include" />
           </e>
         </e>
         <e p="Gates" t="Include">
           <e p="And.cs" t="Include" />
-          <e p="ITwoInputGate.cs" t="Include" />
+          <e p="ByteMemoryGate.cs" t="Include" />
+          <e p="Factories" t="Include">
+            <e p="MemoryGateFactory.cs" t="Include" />
+          </e>
           <e p="Interfaces" t="Include">
             <e p="IAnd.cs" t="Include" />
             <e p="IGate.cs" t="Include" />
             <e p="IMemoryGate.cs" t="Include" />
+            <e p="IMemoryGateFactory.cs" t="Include" />
             <e p="INAnd.cs" t="Include" />
             <e p="INot.cs" t="Include" />
+            <e p="IObjectCreationFactory.cs" t="Include" />
             <e p="ISingleInputGate.cs" t="Include" />
+            <e p="ITwoInputGate.cs" t="Include" />
           </e>
           <e p="MemoryGate.cs" t="Include" />
           <e p="NAnd.cs" t="Include" />
@@ -54,6 +62,7 @@
         <e p="AndTests.cs" t="Include" />
         <e p="BitTests.cs" t="Include" />
         <e p="ButHowDoItComputer.Tests.csproj" t="IncludeRecursive" />
+        <e p="ByteMemoryGateTests.cs" t="Include" />
         <e p="MemoryGateTests.cs" t="Include" />
         <e p="NAndTests.cs" t="Include" />
         <e p="NotTests.cs" t="Include" />

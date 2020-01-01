@@ -1,6 +1,6 @@
 using ButHowDoItComputer.DataTypes.Interfaces;
 
-namespace ButHowDoItComputer.Gates
+namespace ButHowDoItComputer.Gates.Interfaces
 {
     public interface ITwoInputGate
     {
