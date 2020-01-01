@@ -15,12 +15,14 @@
         <e p="ButHowDoItComputer.csproj" t="IncludeRecursive" />
         <e p="DataTypes" t="Include">
           <e p="Bit.cs" t="Include" />
+          <e p="Byte.cs" t="Include" />
           <e p="Factories" t="Include">
             <e p="BitFactory.cs" t="Include" />
           </e>
           <e p="Interfaces" t="Include">
             <e p="IBit.cs" t="Include" />
             <e p="IBitFactory.cs" t="Include" />
+            <e p="IByte.cs" t="Include" />
           </e>
         </e>
         <e p="Gates" t="Include">

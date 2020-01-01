@@ -1,4 +1,5 @@
 using ButHowDoItComputer.DataTypes;
+using ButHowDoItComputer.DataTypes.Interfaces;
 using NUnit.Framework;
 
 namespace ButHowDoItComputer.Tests
