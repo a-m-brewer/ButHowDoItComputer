@@ -13,6 +13,16 @@
     <e p="$PROJECT_DIR$" t="IncludeFlat">
       <e p="ButHowDoItComputer" t="IncludeRecursive">
         <e p="ButHowDoItComputer.csproj" t="IncludeRecursive" />
+        <e p="Codes" t="Include">
+          <e p="ASCII" t="Include">
+            <e p="Assci.cs" t="Include" />
+            <e p="ByteToAsciiConverter.cs" t="Include" />
+            <e p="ByteToBase10Converter.cs" t="Include" />
+            <e p="Interfaces" t="Include">
+              <e p="IByteToBase10Converter.cs" t="Include" />
+            </e>
+          </e>
+        </e>
         <e p="DataTypes" t="Include">
           <e p="Bit.cs" t="Include" />
           <e p="Byte.cs" t="Include" />
@@ -63,6 +73,8 @@
         <e p="BitTests.cs" t="Include" />
         <e p="ButHowDoItComputer.Tests.csproj" t="IncludeRecursive" />
         <e p="ByteMemoryGateTests.cs" t="Include" />
+        <e p="ByteToAsciiConverterTests.cs" t="Include" />
+        <e p="ByteToBase10ConverterTests.cs" t="Include" />
         <e p="MemoryGateTests.cs" t="Include" />
         <e p="NAndTests.cs" t="Include" />
         <e p="NotTests.cs" t="Include" />

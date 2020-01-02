@@ -8,7 +8,7 @@ namespace ButHowDoItComputer.Gates
     public class ByteMemoryGate
     {
         private readonly IByteFactory _byteFactory;
-        private List<IMemoryGate> _memoryGates;
+        private readonly List<IMemoryGate> _memoryGates;
 
         public ByteMemoryGate(IMemoryGateFactory memoryGateFactory, IByteFactory byteFactory)
         {
