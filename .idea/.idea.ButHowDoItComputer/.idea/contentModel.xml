@@ -19,9 +19,13 @@
             <e p="ByteToAsciiConverter.cs" t="Include" />
             <e p="ByteToBase10Converter.cs" t="Include" />
             <e p="Interfaces" t="Include">
+              <e p="IByteToAsciiConverter.cs" t="Include" />
               <e p="IByteToBase10Converter.cs" t="Include" />
             </e>
           </e>
+        </e>
+        <e p="Components" t="Include">
+          <e p="Bus.cs" t="Include" />
         </e>
         <e p="DataTypes" t="Include">
           <e p="Bit.cs" t="Include" />
@@ -39,24 +43,31 @@
         </e>
         <e p="Gates" t="Include">
           <e p="And.cs" t="Include" />
+          <e p="ByteEnabler.cs" t="Include" />
           <e p="ByteMemoryGate.cs" t="Include" />
+          <e p="Decoder.cs" t="Include" />
           <e p="Factories" t="Include">
             <e p="MemoryGateFactory.cs" t="Include" />
           </e>
           <e p="Interfaces" t="Include">
             <e p="IAnd.cs" t="Include" />
+            <e p="IByteEnabler.cs" t="Include" />
+            <e p="IByteGate.cs" t="Include" />
+            <e p="IByteMemoryGate.cs" t="Include" />
             <e p="IGate.cs" t="Include" />
             <e p="IMemoryGate.cs" t="Include" />
             <e p="IMemoryGateFactory.cs" t="Include" />
             <e p="INAnd.cs" t="Include" />
             <e p="INot.cs" t="Include" />
             <e p="IObjectCreationFactory.cs" t="Include" />
+            <e p="IRegister.cs" t="Include" />
             <e p="ISingleInputGate.cs" t="Include" />
             <e p="ITwoInputGate.cs" t="Include" />
           </e>
           <e p="MemoryGate.cs" t="Include" />
           <e p="NAnd.cs" t="Include" />
           <e p="Not.cs" t="Include" />
+          <e p="Register.cs" t="Include" />
         </e>
         <e p="Program.cs" t="Include" />
         <e p="bin" t="ExcludeRecursive" />
@@ -71,13 +82,17 @@
       <e p="ButHowDoItComputer.Tests" t="IncludeRecursive">
         <e p="AndTests.cs" t="Include" />
         <e p="BitTests.cs" t="Include" />
+        <e p="BusTests.cs" t="Include" />
         <e p="ButHowDoItComputer.Tests.csproj" t="IncludeRecursive" />
+        <e p="ByteEnablerTests.cs" t="Include" />
         <e p="ByteMemoryGateTests.cs" t="Include" />
         <e p="ByteToAsciiConverterTests.cs" t="Include" />
         <e p="ByteToBase10ConverterTests.cs" t="Include" />
+        <e p="DecoderTests.cs" t="Include" />
         <e p="MemoryGateTests.cs" t="Include" />
         <e p="NAndTests.cs" t="Include" />
         <e p="NotTests.cs" t="Include" />
+        <e p="RegisterTests.cs" t="Include" />
         <e p="bin" t="ExcludeRecursive" />
         <e p="obj" t="ExcludeRecursive">
           <e p="Debug" t="Include">

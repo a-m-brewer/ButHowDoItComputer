@@ -24,6 +24,12 @@ namespace ButHowDoItComputer.DataTypes
             _bitFactory = bitFactory;
         }
 
+        public Byte(IBitFactory bitFactory)
+        {
+            _bitFactory = bitFactory;
+            _bits = Enumerable.Range(0, 8).Select(s => _bitFactory.Create(false)).ToArray();
+        }
+
         public IBit One
         {
             get => _bits[0];

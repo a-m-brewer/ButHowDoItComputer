@@ -5,7 +5,7 @@ using ButHowDoItComputer.Gates.Interfaces;
 
 namespace ButHowDoItComputer.Gates
 {
-    public class ByteMemoryGate
+    public class ByteMemoryGate : IByteMemoryGate
     {
         private readonly IByteFactory _byteFactory;
         private readonly List<IMemoryGate> _memoryGates;

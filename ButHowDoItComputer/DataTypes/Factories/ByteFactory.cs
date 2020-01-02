@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using ButHowDoItComputer.DataTypes.Interfaces;
 
 namespace ButHowDoItComputer.DataTypes.Factories
@@ -20,6 +21,11 @@ namespace ButHowDoItComputer.DataTypes.Factories
             }
             
             return new Byte(bits, _bitFactory);
+        }
+
+        public IByte Create()
+        {
+            return new Byte(Enumerable.Range(0, 8).Select(s => _bitFactory.Create(false)).ToArray(), _bitFactory);
         }
     }
 }
