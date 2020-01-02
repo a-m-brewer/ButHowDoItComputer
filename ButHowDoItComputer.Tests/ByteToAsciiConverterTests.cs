@@ -27,5 +27,18 @@ namespace ButHowDoItComputer.Tests
             var result = new ByteToAsciiConverter(new ByteToBase10Converter(new BitFactory(), new ByteFactory(new BitFactory()))).ToAscii(inputByte);
             Assert.AreEqual(expectedChar, result);
         }
+        
+        [Test, TestCaseSource(nameof(TestData))]
+        public void CanConvertFromAsciiToByte(IByte outputByte, string inputChar)
+        {
+            var result =
+                new ByteToAsciiConverter(new ByteToBase10Converter(new BitFactory(), new ByteFactory(new BitFactory())))
+                    .ToByte(inputChar);
+
+            for (var i = 0; i < outputByte.Count; i++)
+            {
+                Assert.AreEqual(outputByte[i].State, result[i].State);
+            }
+        }
     }
 }

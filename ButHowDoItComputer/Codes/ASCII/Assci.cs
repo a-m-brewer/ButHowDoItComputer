@@ -168,7 +168,7 @@ namespace ButHowDoItComputer.Codes.ASCII
         public static string FileSeparator => "\u001c";
         public static string GroupSeparator => "\u001d";
         public static string RecordSeparator => "\u001f";
-        public static string UnitSeparator => "\u0020";
+        public static string UnitSeparator => "US";
         public static string Delete => "\u0021";
     }
 }
