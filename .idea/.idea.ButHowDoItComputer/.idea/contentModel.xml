@@ -17,10 +17,8 @@
           <e p="ASCII" t="Include">
             <e p="Assci.cs" t="Include" />
             <e p="ByteToAsciiConverter.cs" t="Include" />
-            <e p="ByteToBase10Converter.cs" t="Include" />
             <e p="Interfaces" t="Include">
               <e p="IByteToAsciiConverter.cs" t="Include" />
-              <e p="IByteToBase10Converter.cs" t="Include" />
             </e>
           </e>
         </e>
@@ -70,6 +68,16 @@
           <e p="Register.cs" t="Include" />
         </e>
         <e p="Program.cs" t="Include" />
+        <e p="Utils" t="Include">
+          <e p="Base10Converter.cs" t="Include" />
+          <e p="BitHelpers.cs" t="Include" />
+          <e p="BitList.cs" t="Include" />
+          <e p="ByteToBase10Converter.cs" t="Include" />
+          <e p="Interfaces" t="Include">
+            <e p="IBase10Converter.cs" t="Include" />
+            <e p="IByteToBase10Converter.cs" t="Include" />
+          </e>
+        </e>
         <e p="bin" t="ExcludeRecursive" />
         <e p="obj" t="ExcludeRecursive">
           <e p="Debug" t="Include">
@@ -81,6 +89,7 @@
       </e>
       <e p="ButHowDoItComputer.Tests" t="IncludeRecursive">
         <e p="AndTests.cs" t="Include" />
+        <e p="Base10ConverterTests.cs" t="Include" />
         <e p="BitTests.cs" t="Include" />
         <e p="BusTests.cs" t="Include" />
         <e p="ButHowDoItComputer.Tests.csproj" t="IncludeRecursive" />

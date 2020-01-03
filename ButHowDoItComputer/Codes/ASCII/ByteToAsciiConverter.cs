@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using ButHowDoItComputer.Codes.ASCII.Interfaces;
 using ButHowDoItComputer.DataTypes.Interfaces;
+using ButHowDoItComputer.Utils.Interfaces;
 
 namespace ButHowDoItComputer.Codes.ASCII
 {

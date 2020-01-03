@@ -5,6 +5,7 @@ using ButHowDoItComputer.Codes.ASCII;
 using ButHowDoItComputer.DataTypes.Factories;
 using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Gates.Interfaces;
+using ButHowDoItComputer.Utils;
 using NUnit.Framework;
 
 namespace ButHowDoItComputer.Tests
@@ -14,17 +15,20 @@ namespace ButHowDoItComputer.Tests
     {
         private static readonly object[] TestData = Enumerable
             .Range(0, 127)
-            .Select(s => 
+            .Select(s =>
                 new object[]
                 {
-                    new ByteToBase10Converter(new BitFactory(), new ByteFactory(new BitFactory())).ToByte(s),  Convert.ToChar((char) s).ToString()
+                    new ByteToBase10Converter(new BitFactory(), new ByteFactory(new BitFactory()),
+                        new Base10Converter(new BitFactory())).ToByte((uint) s),
+                    Convert.ToChar((char) s).ToString()
                 })
             .ToArray();
 
         [Test, TestCaseSource(nameof(TestData))]
         public void CanConvertFromByteToAscii(IByte inputByte, string expectedChar)
         {
-            var result = new ByteToAsciiConverter(new ByteToBase10Converter(new BitFactory(), new ByteFactory(new BitFactory()))).ToAscii(inputByte);
+            var result = new ByteToAsciiConverter(new ByteToBase10Converter(new BitFactory(),
+                new ByteFactory(new BitFactory()), new Base10Converter(new BitFactory()))).ToAscii(inputByte);
             Assert.AreEqual(expectedChar, result);
         }
         
@@ -32,7 +36,8 @@ namespace ButHowDoItComputer.Tests
         public void CanConvertFromAsciiToByte(IByte outputByte, string inputChar)
         {
             var result =
-                new ByteToAsciiConverter(new ByteToBase10Converter(new BitFactory(), new ByteFactory(new BitFactory())))
+                new ByteToAsciiConverter(new ByteToBase10Converter(new BitFactory(), new ByteFactory(new BitFactory()),
+                        new Base10Converter(new BitFactory())))
                     .ToByte(inputChar);
 
             for (var i = 0; i < outputByte.Count; i++)

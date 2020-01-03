@@ -5,7 +5,7 @@ namespace ButHowDoItComputer.Codes.ASCII
 {
     public static class Ascii
     {
-        public static Dictionary<int, string> Codes => new Dictionary<int, string>
+        public static Dictionary<uint, string> Codes => new Dictionary<uint, string>
         {
             {0, Null},
             {1, StartOfHeader},

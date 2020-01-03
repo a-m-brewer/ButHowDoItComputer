@@ -18,7 +18,7 @@ namespace ButHowDoItComputer.Tests
         public void Setup()
         {
             _bitFactory = new BitFactory();
-            _sut = new Decoder(new Not(_bitFactory), new And(_bitFactory));
+            _sut = new Decoder(new Not(_bitFactory), new And(_bitFactory), _bitFactory);
         }
 
         [Test]

@@ -1,8 +1,10 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Gates.Interfaces;
+using ButHowDoItComputer.Utils;
 
 namespace ButHowDoItComputer.Gates
 {
@@ -10,54 +12,77 @@ namespace ButHowDoItComputer.Gates
     {
         private readonly INot _not;
         private readonly IAnd _and;
+        private readonly IBitFactory _bitFactory;
 
-        public Decoder(INot not, IAnd and)
+        public Decoder(INot not, IAnd and, IBitFactory bitFactory)
         {
             _not = not;
             _and = and;
+            _bitFactory = bitFactory;
         }
-        
+
         public IList<IBit> Apply(IList<IBit> inputs)
         {
-            var combinations = Cominations(inputs.Count);
-
-            var output = new List<List<IBit>>();
-            for (int i = 0; i < combinations.Count; i++)
-            {
-                var tempList = new List<IBit>();
-                for (int j = 0; j < combinations[i].Count; j++)
-                {
-                    if (combinations[i][j])
-                    {
-                        tempList.Add(inputs[j]); 
-                    }
-                    else
-                    {
-                        tempList.Add(_not.Apply(inputs[j]));
-                    }
-                }
-                output.Add(tempList);
-            }
+            // get a truth table based on the length of the input
+            var combinations = GenerateCombinations(inputs.Count);
             
-            var output2 = output.Select(s => _and.Apply(s));
+            // apply the not inputs based on each truth table row
+            var allGatesInputs = CreateGatesInputs(combinations, inputs);
 
-            return output2.ToList();
+            // take the inputs and apply and to them
+            var gatesOutput= allGatesInputs.Select(s => _and.Apply(s)).ToList();
+
+            // result yay!
+            return gatesOutput;
         }
 
-        public List<List<bool>> Cominations(int n)
+        /// <summary>
+        /// A decoder takes inputs like a truth table.
+        /// So using the GenerateCombinations method we can no what inputs need to be negated based on the truth table
+        /// </summary>
+        /// <param name="combinations"></param>
+        /// <param name="inputList"></param>
+        /// <returns></returns>
+        private IEnumerable<List<IBit>> CreateGatesInputs(IEnumerable<BitList> combinations, IEnumerable<IBit> inputList)
         {
-            var matrix = new List<List<bool>>();
+            var input = inputList.Reverse().ToList();
+            return combinations.Select(
+                combination => 
+                    combination.Select(
+                        (bit, bitIndex) => 
+                            bit.State 
+                                ? input[bitIndex] 
+                                : _not.Apply(input[bitIndex])).ToList()
+                    )
+                .ToList();
+        }
 
-            var count = Math.Pow(2, n);
-            for (var i = 0; i < count; i++)
+        /// <summary>
+        /// Create a truth table of a given length
+        /// e.g. if length == 2 the output would be as following
+        /// | a | b |
+        /// | 0 | 0 |
+        /// | 0 | 1 |
+        /// | 1 | 0 |
+        /// | 1 | 1 |
+        /// </summary>
+        /// <param name="length"></param>
+        /// <returns></returns>
+        private IEnumerable<BitList> GenerateCombinations(int length)
+        {
+            var output = new List<BitList>();
+            var numberOfCombinations = (int) Math.Pow(2, length);
+            for (var bitList = new BitList(); bitList < numberOfCombinations; bitList++)
             {
-                var str = Convert.ToString(i, 2).PadLeft(n, '0');
-                var boolArr = str.Select((x) => x == '1').ToList();
-                
-                matrix.Add(boolArr);
+                if (bitList.Count != length)
+                {
+                    bitList.AddRange(_bitFactory.Create(length - bitList.Count));
+                }
+
+                output.Add(bitList);
             }
 
-            return matrix;
+            return output;
         }
     }
 }

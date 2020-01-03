@@ -4,6 +4,7 @@ using ButHowDoItComputer.Codes.ASCII;
 using ButHowDoItComputer.DataTypes;
 using ButHowDoItComputer.DataTypes.Factories;
 using ButHowDoItComputer.DataTypes.Interfaces;
+using ButHowDoItComputer.Utils;
 using NUnit.Framework;
 using Byte = ButHowDoItComputer.DataTypes.Byte;
 
@@ -12,7 +13,7 @@ namespace ButHowDoItComputer.Tests
     public class ByteToBase10ConverterTests
     {
         private List<IBit> _twentyInBits;
-        private int _twenty;
+        private uint _twenty;
         private ByteToBase10Converter _sut;
         private Byte _twentyByte;
 
@@ -33,8 +34,9 @@ namespace ButHowDoItComputer.Tests
             
             _twenty = 20;
             _twentyByte = new Byte(_twentyInBits.ToArray(), new BitFactory());
-            
-            _sut = new ByteToBase10Converter(new BitFactory(), new ByteFactory(new BitFactory()));
+
+            _sut = new ByteToBase10Converter(new BitFactory(), new ByteFactory(new BitFactory()),
+                new Base10Converter(new BitFactory()));
         }
         
         [Test]
@@ -58,12 +60,6 @@ namespace ButHowDoItComputer.Tests
         {
             const int large = 256;
             Assert.Throws<OutOfMemoryException>(() => { _sut.ToByte(large); });
-        }
-
-        [Test]
-        public void ThrowsOutOfMemoryExceptionIfLessThan0()
-        {
-            Assert.Throws<OutOfMemoryException>(() => { _sut.ToByte(-1); });
         }
     }
 }
