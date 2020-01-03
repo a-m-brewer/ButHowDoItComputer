@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using ButHowDoItComputer.DataTypes.Interfaces;
@@ -8,7 +7,7 @@ using ButHowDoItComputer.Utils;
 
 namespace ButHowDoItComputer.Gates
 {
-    public class Decoder
+    public class Decoder : IDecoder
     {
         private readonly INot _not;
         private readonly IAnd _and;
@@ -21,13 +20,14 @@ namespace ButHowDoItComputer.Gates
             _bitFactory = bitFactory;
         }
 
-        public IList<IBit> Apply(IList<IBit> inputs)
+        public IEnumerable<IBit> Apply(IEnumerable<IBit> inputs)
         {
+            var inputList = inputs.ToList();
             // get a truth table based on the length of the input
-            var combinations = GenerateCombinations(inputs.Count);
+            var combinations = GenerateCombinations(inputList.Count);
             
             // apply the not inputs based on each truth table row
-            var allGatesInputs = CreateGatesInputs(combinations, inputs);
+            var allGatesInputs = CreateGatesInputs(combinations, inputList);
 
             // take the inputs and apply and to them
             var gatesOutput= allGatesInputs.Select(s => _and.Apply(s)).ToList();
