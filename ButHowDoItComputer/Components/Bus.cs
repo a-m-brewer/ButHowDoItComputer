@@ -5,15 +5,15 @@ using ButHowDoItComputer.Gates.Interfaces;
 
 namespace ButHowDoItComputer.Components
 {
-    public class Bus : IList<IRegister>
+    public class Bus : IBus
     {
         private readonly IList<IRegister> _registers;
-        private IByte _bus;
+        public IByte State { get; private set; }
 
         public Bus(IList<IRegister> registers, IByteFactory byteFactory)
         {
             _registers = registers;
-            _bus = byteFactory.Create();
+            State = byteFactory.Create();
         }
         
         public IEnumerator<IRegister> GetEnumerator()
@@ -80,7 +80,11 @@ namespace ButHowDoItComputer.Components
         {
             foreach (var register in _registers)
             {
-                _bus = register.Apply(_bus);
+                var result = register.Apply(State);
+                if (register.Enable.State)
+                {
+                    State = result;
+                }
             }
         }
     }
