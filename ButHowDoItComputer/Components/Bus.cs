@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using ButHowDoItComputer.Components.Interfaces;
 using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Gates.Interfaces;
 

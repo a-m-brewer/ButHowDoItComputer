@@ -24,7 +24,10 @@
         </e>
         <e p="Components" t="Include">
           <e p="Bus.cs" t="Include" />
-          <e p="IBus.cs" t="Include" />
+          <e p="Interfaces" t="Include">
+            <e p="IBus.cs" t="Include" />
+            <e p="IRam.cs" t="Include" />
+          </e>
           <e p="Ram.cs" t="Include" />
         </e>
         <e p="DataTypes" t="Include">

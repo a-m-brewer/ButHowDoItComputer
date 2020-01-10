@@ -8,7 +8,7 @@ namespace ButHowDoItComputer.Gates.Interfaces
         IBit Set { get; set; }
         IByte Byte { get; }
         
-        IByte Apply(IByte input, IBit set, IBit enable);
+        IByte ApplyOnce(IByte input, bool enable = false);
         IByte Apply(IByte input);
     }
 }

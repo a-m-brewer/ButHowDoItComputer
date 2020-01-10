@@ -7,6 +7,7 @@ namespace ButHowDoItComputer.Gates
     {
         private readonly IByteMemoryGate _byteMemoryGate;
         private readonly IByteEnabler _byteEnabler;
+        private readonly IBitFactory _bitFactory;
 
         public IBit Enable { get; set; }
         public IBit Set { get; set; }
@@ -17,17 +18,19 @@ namespace ButHowDoItComputer.Gates
         {
             _byteMemoryGate = byteMemoryGate;
             _byteEnabler = byteEnabler;
+            _bitFactory = bitFactory;
             Byte = byteFactory.Create();
             Set = bitFactory.Create(false);
             Enable = bitFactory.Create(false);
         }
         
-        public IByte Apply(IByte input, IBit set, IBit enable)
+        public IByte ApplyOnce(IByte input, bool enable = false)
         {
-            Set = set;
-            Enable = enable;
-
-            return Apply(input);
+            Enable.State = enable;
+            Set = _bitFactory.Create(true);
+            var applied = Apply(input);
+            Set = _bitFactory.Create(false);
+            return applied;
         }
 
         public IByte Apply(IByte input)

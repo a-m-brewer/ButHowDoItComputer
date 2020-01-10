@@ -1,14 +1,15 @@
 using System.Collections.Generic;
 using System.Linq;
+using ButHowDoItComputer.Components.Interfaces;
 using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Gates.Interfaces;
 
 namespace ButHowDoItComputer.Components
 {
-    public class Ram
+    public class Ram : IRam
     {
         public IBus MemoryAddressBus { get; }
-        private IRegisterFactory _registerFactory;
+        private readonly IRegisterFactory _registerFactory;
         private readonly IBitFactory _bitFactory;
         private readonly IDecoder _decoder;
         private readonly IAnd _and;
@@ -71,23 +72,39 @@ namespace ButHowDoItComputer.Components
             var inputData = MemoryAddressRegister.Byte;
             var yInput = new List<IBit> {inputData.One, inputData.Two, inputData.Three, inputData.Four};
             var yDecoder = _decoder.Apply(yInput).ToList();
-            
+
             var xInput = new List<IBit> {inputData.Five, inputData.Six, inputData.Seven, inputData.Eight};
             var xDecoder = _decoder.Apply(xInput).ToList();
-            
+
             for (var y = 0; y < yDecoder.Count; y++)
             {
                 for (var x = 0; x < xDecoder.Count; x++)
                 {
                     var xAndY = _and.Apply(new List<IBit> {xDecoder[x], yDecoder[y]});
-            
+
                     var s = _and.Apply(new List<IBit> {xAndY, Set});
                     var e = _and.Apply(new List<IBit> {xAndY, Enable});
-            
+
                     _internalRegisters[y][x].Set = s;
                     _internalRegisters[y][x].Enable = e;
                 }
             }
+        }
+
+        public void ApplyState()
+        {
+            Set.State = true;
+            Apply();
+            Io.Apply();
+            Set.State = false;
+        }
+
+        public void ApplyEnable()
+        {
+            Enable.State = true;
+            Apply();
+            Io.Apply();
+            Enable.State = false;
         }
     }
 }

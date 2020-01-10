@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using ButHowDoItComputer.Components;
+using ButHowDoItComputer.DataTypes;
 using ButHowDoItComputer.DataTypes.Factories;
 using ButHowDoItComputer.Gates;
 using ButHowDoItComputer.Gates.Factories;
@@ -68,41 +69,50 @@ namespace ButHowDoItComputer.Tests
             _outputBus.Add(writeRegister); 
             _outputBus.Add(readRegister); 
             
+            // set address register to first register of ram
             var address = _byteConverter.ToByte(0);
             _ram.SetMemoryAddress(address);
 
+            // byte where all bits are true
             var data = _byteConverter.ToByte(255);
-
-            writeRegister.Set.State = true;
-            writeRegister.Enable.State = true;
-            writeRegister.Apply(data);
-            writeRegister.Set.State = false;
+            
+            // store that data in the write register and place on bus
+            writeRegister.ApplyOnce(data, true);
             _outputBus.Apply();
             
-            _ram.Set.State = true;
-            _ram.Apply();
-            _outputBus.Apply();
-            _ram.Set.State = false;
+            // bus should be the data byte defined above
+            Assert.IsTrue(_outputBus.State.All(a => a.State));
             
-            writeRegister.Set.State = true;
-            writeRegister.Apply(_byteConverter.ToByte(100));
-            writeRegister.Set.State = false;
+            // move whats in the Io bus into the currently selected ram register
+            _ram.ApplyState();
 
+            // make a different byte
+            var expected = _byteConverter.ToByte(100);
+            
+            // save it to the write register
+            writeRegister.ApplyOnce(expected, true);
+
+            // move the value in write register to read register so that it is different from what the ram is.
             readRegister.Set.State = true;
             _outputBus.Apply();
             readRegister.Set.State = false;
 
+            // make sure that happend
+            for (var i = 0; i < readRegister.Byte.Count; i++)
+            {
+                Assert.AreEqual(expected[i].State, readRegister.Byte[i].State);
+            }
+
+            // disable the write register so that its value does not go on the bus.
             writeRegister.Enable.State = false; 
             
-            _ram.Enable.State = true;
+            // move what is in ram to read register
             readRegister.Set.State = true;
-            _ram.Apply();
-            _outputBus.Apply();
+            _ram.ApplyEnable();
             readRegister.Set.State = false;
             
-            // TODO: write the asserts for this test.
-            // TODO: maybe make the api easier
-            Assert.Fail();            
+            // check the read register is now what was in ram.
+            Assert.IsTrue(readRegister.Byte.All(a => a.State));
         }
     }
 }

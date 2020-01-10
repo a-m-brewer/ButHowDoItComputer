@@ -43,7 +43,9 @@ namespace ButHowDoItComputer.Tests
         {
             var expected = input && set && enable;
             var bits = Enumerable.Range(0, 8).Select(s => _bitFactory.Create(input)).ToArray();
-            var result = _sut.Apply(new Byte(bits, _bitFactory), new Bit(set), new Bit(enable));
+            _sut.Set = new Bit(set);
+            _sut.Enable = new Bit(enable);
+            var result = _sut.Apply(new Byte(bits, _bitFactory));
             Assert.AreEqual(expected, result.All(a => a.State));
         }
     }
