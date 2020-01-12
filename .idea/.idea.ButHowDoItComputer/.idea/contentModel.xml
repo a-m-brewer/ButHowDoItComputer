@@ -69,15 +69,19 @@
             <e p="INAnd.cs" t="Include" />
             <e p="INot.cs" t="Include" />
             <e p="IObjectCreationFactory.cs" t="Include" />
+            <e p="IOr.cs" t="Include" />
             <e p="IRegister.cs" t="Include" />
             <e p="IRegisterFactory.cs" t="Include" />
             <e p="ISingleInputGate.cs" t="Include" />
             <e p="ITwoInputGate.cs" t="Include" />
+            <e p="IXOr.cs" t="Include" />
           </e>
           <e p="MemoryGate.cs" t="Include" />
           <e p="NAnd.cs" t="Include" />
           <e p="Not.cs" t="Include" />
+          <e p="Or.cs" t="Include" />
           <e p="Register.cs" t="Include" />
+          <e p="XOr.cs" t="Include" />
         </e>
         <e p="Program.cs" t="Include" />
         <e p="Utils" t="Include">
@@ -113,8 +117,10 @@
         <e p="MemoryGateTests.cs" t="Include" />
         <e p="NAndTests.cs" t="Include" />
         <e p="NotTests.cs" t="Include" />
+        <e p="OrTests.cs" t="Include" />
         <e p="RamTests.cs" t="Include" />
         <e p="RegisterTests.cs" t="Include" />
+        <e p="XOrTests.cs" t="Include" />
         <e p="bin" t="ExcludeRecursive" />
         <e p="obj" t="ExcludeRecursive">
           <e p="Debug" t="Include">
