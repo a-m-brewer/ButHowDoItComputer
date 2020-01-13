@@ -1,7 +1,8 @@
 using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Gates.Interfaces;
+using ButHowDoItComputer.Parts.Interfaces;
 
-namespace ButHowDoItComputer.Gates
+namespace ButHowDoItComputer.Parts
 {
     public class Register : IRegister
     {
@@ -12,13 +13,19 @@ namespace ButHowDoItComputer.Gates
         public IBit Enable { get; set; }
         public IBit Set { get; set; }
 
+        public IByte Input { get; set; }
+
         public IByte Byte { get; private set; }
+        
+        public IByte Output { get; private set; }
 
         public Register(IByteMemoryGate byteMemoryGate, IByteEnabler byteEnabler, IByteFactory byteFactory, IBitFactory bitFactory)
         {
             _byteMemoryGate = byteMemoryGate;
             _byteEnabler = byteEnabler;
             _bitFactory = bitFactory;
+            Input = byteFactory.Create();
+            Output = byteFactory.Create();
             Byte = byteFactory.Create();
             Set = bitFactory.Create(false);
             Enable = bitFactory.Create(false);
@@ -36,12 +43,25 @@ namespace ButHowDoItComputer.Gates
         public IByte Apply(IByte input)
         {
             ApplyPrivate(input);
-            return _byteEnabler.Apply(Byte, Enable);
+            ApplyOutput();
+            return Output;
+        }
+
+        public IByte Apply()
+        {
+            ApplyPrivate(Input);
+            ApplyOutput();
+            return Output;
         }
 
         private void ApplyPrivate(IByte input)
         {
             Byte = _byteMemoryGate.Apply(input, Set);
+        }
+
+        private void ApplyOutput()
+        {
+            Output = _byteEnabler.Apply(Byte, Enable);
         }
     }
 }

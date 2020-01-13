@@ -1,7 +1,9 @@
 using ButHowDoItComputer.DataTypes.Interfaces;
+using ButHowDoItComputer.Gates;
 using ButHowDoItComputer.Gates.Interfaces;
+using ButHowDoItComputer.Parts.Interfaces;
 
-namespace ButHowDoItComputer.Gates.Factories
+namespace ButHowDoItComputer.Parts.Factories
 {
     public class RegisterFactory : IRegisterFactory
     {

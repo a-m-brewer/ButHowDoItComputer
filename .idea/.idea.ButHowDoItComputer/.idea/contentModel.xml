@@ -23,16 +23,21 @@
           </e>
         </e>
         <e p="Components" t="Include">
-          <e p="Bus.cs" t="Include" />
           <e p="Interfaces" t="Include">
-            <e p="IBus.cs" t="Include" />
-            <e p="IRam.cs" t="Include" />
+            <e p="IRegisterTransfer.cs" t="Include" />
+            <e p="IShifter.cs" t="Include" />
           </e>
-          <e p="Ram.cs" t="Include" />
+          <e p="LeftShifter.cs" t="Include" />
+          <e p="RightShifter.cs" t="Include" />
+          <e p="Shifter.cs" t="Include" />
+          <e p="TheNoter.cs" t="Include" />
         </e>
         <e p="DataTypes" t="Include">
           <e p="Bit.cs" t="Include" />
           <e p="Byte.cs" t="Include" />
+          <e p="Enums" t="Include">
+            <e p="Direction.cs" t="Include" />
+          </e>
           <e p="Factories" t="Include">
             <e p="BitFactory.cs" t="Include" />
             <e p="ByteFactory.cs" t="Include" />
@@ -52,7 +57,6 @@
           <e p="Factories" t="Include">
             <e p="ByteMemoryGateFactory.cs" t="Include" />
             <e p="MemoryGateFactory.cs" t="Include" />
-            <e p="RegisterFactory.cs" t="Include" />
           </e>
           <e p="Interfaces" t="Include">
             <e p="IAnd.cs" t="Include" />
@@ -64,24 +68,37 @@
             <e p="IDecoder.cs" t="Include" />
             <e p="IGate.cs" t="Include" />
             <e p="IInputTransformer.cs" t="Include" />
+            <e p="IInverter.cs" t="Include" />
             <e p="IMemoryGate.cs" t="Include" />
             <e p="IMemoryGateFactory.cs" t="Include" />
             <e p="INAnd.cs" t="Include" />
             <e p="INot.cs" t="Include" />
             <e p="IObjectCreationFactory.cs" t="Include" />
             <e p="IOr.cs" t="Include" />
-            <e p="IRegister.cs" t="Include" />
-            <e p="IRegisterFactory.cs" t="Include" />
             <e p="ISingleInputGate.cs" t="Include" />
             <e p="ITwoInputGate.cs" t="Include" />
             <e p="IXOr.cs" t="Include" />
           </e>
+          <e p="Inverter.cs" t="Include" />
           <e p="MemoryGate.cs" t="Include" />
           <e p="NAnd.cs" t="Include" />
           <e p="Not.cs" t="Include" />
           <e p="Or.cs" t="Include" />
-          <e p="Register.cs" t="Include" />
           <e p="XOr.cs" t="Include" />
+        </e>
+        <e p="Parts" t="Include">
+          <e p="Bus.cs" t="Include" />
+          <e p="Factories" t="Include">
+            <e p="RegisterFactory.cs" t="Include" />
+          </e>
+          <e p="Interfaces" t="Include">
+            <e p="IBus.cs" t="Include" />
+            <e p="IRam.cs" t="Include" />
+            <e p="IRegister.cs" t="Include" />
+            <e p="IRegisterFactory.cs" t="Include" />
+          </e>
+          <e p="Ram.cs" t="Include" />
+          <e p="Register.cs" t="Include" />
         </e>
         <e p="Program.cs" t="Include" />
         <e p="Utils" t="Include">
@@ -114,12 +131,15 @@
         <e p="ByteToAsciiConverterTests.cs" t="Include" />
         <e p="ByteToBase10ConverterTests.cs" t="Include" />
         <e p="DecoderTests.cs" t="Include" />
+        <e p="InverterTests.cs" t="Include" />
         <e p="MemoryGateTests.cs" t="Include" />
         <e p="NAndTests.cs" t="Include" />
         <e p="NotTests.cs" t="Include" />
         <e p="OrTests.cs" t="Include" />
         <e p="RamTests.cs" t="Include" />
         <e p="RegisterTests.cs" t="Include" />
+        <e p="ShifterTests.cs" t="Include" />
+        <e p="TestUtils.cs" t="Include" />
         <e p="XOrTests.cs" t="Include" />
         <e p="bin" t="ExcludeRecursive" />
         <e p="obj" t="ExcludeRecursive">

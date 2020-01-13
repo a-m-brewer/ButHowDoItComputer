@@ -1,11 +1,12 @@
 using System.Collections.Generic;
 using System.Linq;
-using ButHowDoItComputer.Components;
-using ButHowDoItComputer.DataTypes;
 using ButHowDoItComputer.DataTypes.Factories;
 using ButHowDoItComputer.Gates;
 using ButHowDoItComputer.Gates.Factories;
 using ButHowDoItComputer.Gates.Interfaces;
+using ButHowDoItComputer.Parts;
+using ButHowDoItComputer.Parts.Factories;
+using ButHowDoItComputer.Parts.Interfaces;
 using ButHowDoItComputer.Utils;
 using NUnit.Framework;
 
@@ -31,7 +32,7 @@ namespace ButHowDoItComputer.Tests
         public void Setup()
         {
             _bitFactory = new BitFactory();
-            _byteFactory = new ByteFactory(_bitFactory);
+            _byteFactory = new ByteFactory(_bitFactory, new Base10Converter(_bitFactory));
             _converter = new Base10Converter(_bitFactory);
 
             _byteConverter = new ByteToBase10Converter(_bitFactory, _byteFactory, _converter);

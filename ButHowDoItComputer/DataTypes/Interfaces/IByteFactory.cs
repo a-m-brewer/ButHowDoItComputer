@@ -6,5 +6,6 @@ namespace ButHowDoItComputer.DataTypes.Interfaces
     {
         IByte Create(IBit[] bits);
         IByte Create();
+        IByte Create(uint input);
     }
 }

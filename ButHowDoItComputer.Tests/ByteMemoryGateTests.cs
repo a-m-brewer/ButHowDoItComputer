@@ -3,6 +3,7 @@ using ButHowDoItComputer.DataTypes;
 using ButHowDoItComputer.DataTypes.Factories;
 using ButHowDoItComputer.Gates;
 using ButHowDoItComputer.Gates.Factories;
+using ButHowDoItComputer.Utils;
 using NUnit.Framework;
 
 namespace ButHowDoItComputer.Tests
@@ -15,7 +16,7 @@ namespace ButHowDoItComputer.Tests
         [TestCase(true)]
         public void CanStoreAByte(bool expected)
         {
-            var sut = new ByteMemoryGate(new MemoryGateFactory(new NAnd(new Not(new BitFactory()), new And(new BitFactory())), new BitFactory()), new ByteFactory(new BitFactory()));
+            var sut = new ByteMemoryGate(new MemoryGateFactory(new NAnd(new Not(new BitFactory()), new And(new BitFactory())), new BitFactory()), new ByteFactory(new BitFactory(), new Base10Converter(new BitFactory())));
 
             var input = new Byte(Enumerable.Range(0, 8).Select(s => new Bit(expected)).ToArray(), new BitFactory());
             var set = new Bit(true);
@@ -31,7 +32,7 @@ namespace ButHowDoItComputer.Tests
         [Test]
         public void CanKeepTheValueOfAByte()
         {
-            var sut = new ByteMemoryGate(new MemoryGateFactory(new NAnd(new Not(new BitFactory()), new And(new BitFactory())), new BitFactory()), new ByteFactory(new BitFactory()));
+            var sut = new ByteMemoryGate(new MemoryGateFactory(new NAnd(new Not(new BitFactory()), new And(new BitFactory())), new BitFactory()), new ByteFactory(new BitFactory(), new Base10Converter(new BitFactory())));
 
             var input = new Byte(Enumerable.Range(0, 8).Select(s => new Bit(true)).ToArray(), new BitFactory());
             var set = new Bit(true);

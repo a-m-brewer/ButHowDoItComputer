@@ -3,6 +3,8 @@ using ButHowDoItComputer.DataTypes;
 using ButHowDoItComputer.DataTypes.Factories;
 using ButHowDoItComputer.Gates;
 using ButHowDoItComputer.Gates.Factories;
+using ButHowDoItComputer.Parts;
+using ButHowDoItComputer.Utils;
 using NUnit.Framework;
 
 namespace ButHowDoItComputer.Tests
@@ -22,7 +24,7 @@ namespace ButHowDoItComputer.Tests
         public void Setup()
         {
             _bitFactory = new BitFactory();
-            _byteFactory = new ByteFactory(_bitFactory);
+            _byteFactory = new ByteFactory(_bitFactory, new Base10Converter(_bitFactory));
             _and = new And(_bitFactory);
             _memoryGateFactory = new MemoryGateFactory(new NAnd(new Not(_bitFactory), _and), _bitFactory); 
             _byteMemoryGate = new ByteMemoryGate(_memoryGateFactory, _byteFactory);

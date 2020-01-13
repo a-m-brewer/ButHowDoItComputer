@@ -35,7 +35,7 @@ namespace ButHowDoItComputer.Tests
             _twenty = 20;
             _twentyByte = new Byte(_twentyInBits.ToArray(), new BitFactory());
 
-            _sut = new ByteToBase10Converter(new BitFactory(), new ByteFactory(new BitFactory()),
+            _sut = new ByteToBase10Converter(new BitFactory(), new ByteFactory(new BitFactory(), new Base10Converter(new BitFactory())),
                 new Base10Converter(new BitFactory()));
         }
         

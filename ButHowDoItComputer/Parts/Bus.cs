@@ -1,10 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
-using ButHowDoItComputer.Components.Interfaces;
 using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Gates.Interfaces;
+using ButHowDoItComputer.Parts.Interfaces;
 
-namespace ButHowDoItComputer.Components
+namespace ButHowDoItComputer.Parts
 {
     public class Bus : IBus
     {

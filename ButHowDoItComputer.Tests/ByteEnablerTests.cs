@@ -3,6 +3,7 @@ using ButHowDoItComputer.DataTypes;
 using ButHowDoItComputer.DataTypes.Factories;
 using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Gates;
+using ButHowDoItComputer.Utils;
 using NUnit.Framework;
 
 namespace ButHowDoItComputer.Tests
@@ -18,7 +19,7 @@ namespace ButHowDoItComputer.Tests
         public void Setup()
         {
             _bitFactory = new BitFactory();
-            _byteFactory = new ByteFactory(_bitFactory);
+            _byteFactory = new ByteFactory(_bitFactory, new Base10Converter(_bitFactory));
             
             _sut = new ByteEnabler(new And(_bitFactory), _byteFactory);
         }

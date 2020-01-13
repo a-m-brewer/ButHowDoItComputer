@@ -1,7 +1,7 @@
 using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Gates.Interfaces;
 
-namespace ButHowDoItComputer.Components.Interfaces
+namespace ButHowDoItComputer.Parts.Interfaces
 {
     public interface IRam
     {
