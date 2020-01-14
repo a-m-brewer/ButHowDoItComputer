@@ -28,12 +28,14 @@
             <e p="IRegisterListGate.cs" t="Include" />
             <e p="IRegisterOr.cs" t="Include" />
             <e p="IRegisterTransfer.cs" t="Include" />
+            <e p="IRegisterXOr.cs" t="Include" />
             <e p="IShifter.cs" t="Include" />
           </e>
           <e p="LeftShifter.cs" t="Include" />
           <e p="RegisterAnd.cs" t="Include" />
           <e p="RegisterInverter.cs" t="Include" />
           <e p="RegisterOr.cs" t="Include" />
+          <e p="RegisterXOr.cs" t="Include" />
           <e p="RightShifter.cs" t="Include" />
           <e p="Shifter.cs" t="Include" />
         </e>
@@ -60,6 +62,7 @@
           <e p="ByteEnabler.cs" t="Include" />
           <e p="ByteMemoryGate.cs" t="Include" />
           <e p="ByteOr.cs" t="Include" />
+          <e p="ByteXOr.cs" t="Include" />
           <e p="Decoder.cs" t="Include" />
           <e p="Factories" t="Include">
             <e p="ByteMemoryGateFactory.cs" t="Include" />
@@ -75,6 +78,7 @@
             <e p="IByteMemoryGate.cs" t="Include" />
             <e p="IByteMemoryGateFactory.cs" t="Include" />
             <e p="IByteOr.cs" t="Include" />
+            <e p="IByteXOr.cs" t="Include" />
             <e p="IDecoder.cs" t="Include" />
             <e p="IGate.cs" t="Include" />
             <e p="IInputTransformer.cs" t="Include" />
@@ -142,6 +146,7 @@
         <e p="ByteOrTests.cs" t="Include" />
         <e p="ByteToAsciiConverterTests.cs" t="Include" />
         <e p="ByteToBase10ConverterTests.cs" t="Include" />
+        <e p="ByteXOrTests.cs" t="Include" />
         <e p="DecoderTests.cs" t="Include" />
         <e p="InverterTests.cs" t="Include" />
         <e p="MemoryGateTests.cs" t="Include" />
@@ -151,7 +156,9 @@
         <e p="RamTests.cs" t="Include" />
         <e p="RegisterAndTests.cs" t="Include" />
         <e p="RegisterInverterTests.cs" t="Include" />
+        <e p="RegisterOrTests.cs" t="Include" />
         <e p="RegisterTests.cs" t="Include" />
+        <e p="RegisterXOrTests.cs" t="Include" />
         <e p="ShifterTests.cs" t="Include" />
         <e p="TestUtils.cs" t="Include" />
         <e p="XOrTests.cs" t="Include" />
