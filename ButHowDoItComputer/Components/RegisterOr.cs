@@ -6,13 +6,13 @@ using ButHowDoItComputer.Parts.Interfaces;
 
 namespace ButHowDoItComputer.Components
 {
-    public class RegisterAnd : IRegisterAnd
+    public class RegisterOr : IRegisterOr
     {
-        private readonly IByteAnd _byteAnd;
+        private readonly IByteOr _byteOr;
 
-        public RegisterAnd(IByteAnd byteAnd)
+        public RegisterOr(IByteOr byteOr)
         {
-            _byteAnd = byteAnd;
+            _byteOr = byteOr;
         }
         
         public void Apply(IList<IRegister> inputRegisters, IRegister outputRegister)
@@ -22,7 +22,7 @@ namespace ButHowDoItComputer.Components
                 inputRegister.Apply();
             }
 
-            var outputRegisterInput = _byteAnd.Apply(inputRegisters.Select(s => s.Output).ToArray());
+            var outputRegisterInput = _byteOr.Apply(inputRegisters.Select(s => s.Output).ToArray());
             outputRegister.Input = outputRegisterInput;
             outputRegister.Apply();
         }

@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using ButHowDoItComputer.DataTypes.Interfaces;
-using ButHowDoItComputer.Gates.Interfaces;
 using ButHowDoItComputer.Parts.Interfaces;
 
 namespace ButHowDoItComputer.Parts
