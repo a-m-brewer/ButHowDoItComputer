@@ -8,23 +8,16 @@ namespace ButHowDoItComputer.Components
 {
     public class RegisterXOr : IRegisterXOr
     {
-        private readonly IByteXOr _byteXOr;
+        private readonly RegisterListGate _registerListGate;
 
         public RegisterXOr(IByteXOr byteXOr)
         {
-            _byteXOr = byteXOr;
+            _registerListGate = new RegisterListGate(byteXOr);
         }
         
         public void Apply(IList<IRegister> inputRegisters, IRegister outputRegister)
         {
-            foreach (var inputRegister in inputRegisters)
-            {
-                inputRegister.Apply();
-            }
-
-            var outputRegisterInput = _byteXOr.Apply(inputRegisters.Select(s => s.Output).ToArray());
-            outputRegister.Input = outputRegisterInput;
-            outputRegister.Apply();
+            _registerListGate.Apply(inputRegisters, outputRegister);
         }
     }
 }

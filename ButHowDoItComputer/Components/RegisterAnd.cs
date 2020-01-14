@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using ButHowDoItComputer.Components.Interfaces;
 using ButHowDoItComputer.Gates.Interfaces;
 using ButHowDoItComputer.Parts.Interfaces;
@@ -8,23 +7,16 @@ namespace ButHowDoItComputer.Components
 {
     public class RegisterAnd : IRegisterAnd
     {
-        private readonly IByteAnd _byteAnd;
+        private readonly RegisterListGate _registerListGate;
 
         public RegisterAnd(IByteAnd byteAnd)
         {
-            _byteAnd = byteAnd;
+            _registerListGate = new RegisterListGate(byteAnd);
         }
         
         public void Apply(IList<IRegister> inputRegisters, IRegister outputRegister)
         {
-            foreach (var inputRegister in inputRegisters)
-            {
-                inputRegister.Apply();
-            }
-
-            var outputRegisterInput = _byteAnd.Apply(inputRegisters.Select(s => s.Output).ToArray());
-            outputRegister.Input = outputRegisterInput;
-            outputRegister.Apply();
+            _registerListGate.Apply(inputRegisters, outputRegister);
         }
     }
 }

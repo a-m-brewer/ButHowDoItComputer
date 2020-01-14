@@ -8,23 +8,16 @@ namespace ButHowDoItComputer.Components
 {
     public class RegisterOr : IRegisterOr
     {
-        private readonly IByteOr _byteOr;
+        private RegisterListGate _registerListGate;
 
         public RegisterOr(IByteOr byteOr)
         {
-            _byteOr = byteOr;
+            _registerListGate = new RegisterListGate(byteOr);
         }
         
         public void Apply(IList<IRegister> inputRegisters, IRegister outputRegister)
         {
-            foreach (var inputRegister in inputRegisters)
-            {
-                inputRegister.Apply();
-            }
-
-            var outputRegisterInput = _byteOr.Apply(inputRegisters.Select(s => s.Output).ToArray());
-            outputRegister.Input = outputRegisterInput;
-            outputRegister.Apply();
+            _registerListGate.Apply(inputRegisters, outputRegister);
         }
     }
 }
