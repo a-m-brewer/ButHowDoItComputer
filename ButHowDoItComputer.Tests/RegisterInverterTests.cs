@@ -13,7 +13,7 @@ namespace ButHowDoItComputer.Tests
         {
             var byteFactory = new ByteFactory(new BitFactory(), new Base10Converter(new BitFactory()));
             var inverter = new Inverter(new Not(new BitFactory()), byteFactory);
-            var sut = new Components.RegisterInverterTests(inverter);
+            var sut = new Components.RegisterInverter(inverter);
             var input = byteFactory.Create(255);
             var expectedOutput = byteFactory.Create(0);
 

@@ -5,11 +5,11 @@ using ButHowDoItComputer.Parts.Interfaces;
 
 namespace ButHowDoItComputer.Components
 {
-    public class RegisterInverterTests : IRegisterTransfer
+    public class RegisterInverter : IRegisterTransfer
     {
         private readonly IInverter _inverter;
 
-        public RegisterInverterTests(IInverter inverter)
+        public RegisterInverter(IInverter inverter)
         {
             _inverter = inverter;
         }
