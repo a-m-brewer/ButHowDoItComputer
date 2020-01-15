@@ -24,6 +24,7 @@
         </e>
         <e p="Components" t="Include">
           <e p="Interfaces" t="Include">
+            <e p="IRegisterAdder.cs" t="Include" />
             <e p="IRegisterAnd.cs" t="Include" />
             <e p="IRegisterListGate.cs" t="Include" />
             <e p="IRegisterOr.cs" t="Include" />

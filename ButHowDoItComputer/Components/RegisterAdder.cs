@@ -1,10 +1,11 @@
+using ButHowDoItComputer.Components.Interfaces;
 using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Gates.Interfaces;
 using ButHowDoItComputer.Parts.Interfaces;
 
 namespace ButHowDoItComputer.Components
 {
-    public class RegisterAdder
+    public class RegisterAdder : IRegisterAdder
     {
         private readonly IByteAdder _byteAdder;
 
