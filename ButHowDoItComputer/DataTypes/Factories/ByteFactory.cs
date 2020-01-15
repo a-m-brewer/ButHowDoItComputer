@@ -35,8 +35,9 @@ namespace ButHowDoItComputer.DataTypes.Factories
         {
             var number = _base10Converter.ToBit(input).ToArray();
             var padding = Enumerable.Range(0, 8 - number.Length).Select(s => _bitFactory.Create(false)).ToList();
-            padding.AddRange(number);
-            return new Byte(padding.ToArray(), _bitFactory);
+            var output = number.ToList();
+            output.AddRange(padding);
+            return new Byte(output.ToArray(), _bitFactory);
         }
     }
 }

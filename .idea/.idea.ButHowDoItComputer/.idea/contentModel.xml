@@ -32,8 +32,10 @@
             <e p="IShifter.cs" t="Include" />
           </e>
           <e p="LeftShifter.cs" t="Include" />
+          <e p="RegisterAdder.cs" t="Include" />
           <e p="RegisterAnd.cs" t="Include" />
           <e p="RegisterInverter.cs" t="Include" />
+          <e p="RegisterListGate.cs" t="Include" />
           <e p="RegisterOr.cs" t="Include" />
           <e p="RegisterXOr.cs" t="Include" />
           <e p="RightShifter.cs" t="Include" />
@@ -58,6 +60,8 @@
         </e>
         <e p="Gates" t="Include">
           <e p="And.cs" t="Include" />
+          <e p="BitAdder.cs" t="Include" />
+          <e p="ByteAdder.cs" t="Include" />
           <e p="ByteAnd.cs" t="Include" />
           <e p="ByteEnabler.cs" t="Include" />
           <e p="ByteMemoryGate.cs" t="Include" />
@@ -70,7 +74,9 @@
           </e>
           <e p="Interfaces" t="Include">
             <e p="IAnd.cs" t="Include" />
+            <e p="IBitAdder.cs" t="Include" />
             <e p="IBitTransformer.cs" t="Include" />
+            <e p="IByteAdder.cs" t="Include" />
             <e p="IByteAnd.cs" t="Include" />
             <e p="IByteEnabler.cs" t="Include" />
             <e p="IByteGate.cs" t="Include" />
@@ -137,9 +143,11 @@
       <e p="ButHowDoItComputer.Tests" t="IncludeRecursive">
         <e p="AndTests.cs" t="Include" />
         <e p="Base10ConverterTests.cs" t="Include" />
+        <e p="BitAdderTests.cs" t="Include" />
         <e p="BitTests.cs" t="Include" />
         <e p="BusTests.cs" t="Include" />
         <e p="ButHowDoItComputer.Tests.csproj" t="IncludeRecursive" />
+        <e p="ByteAdderTests.cs" t="Include" />
         <e p="ByteAndTests.cs" t="Include" />
         <e p="ByteEnablerTests.cs" t="Include" />
         <e p="ByteMemoryGateTests.cs" t="Include" />
@@ -154,6 +162,7 @@
         <e p="NotTests.cs" t="Include" />
         <e p="OrTests.cs" t="Include" />
         <e p="RamTests.cs" t="Include" />
+        <e p="RegisterAdderTests.cs" t="Include" />
         <e p="RegisterAndTests.cs" t="Include" />
         <e p="RegisterInverterTests.cs" t="Include" />
         <e p="RegisterOrTests.cs" t="Include" />
