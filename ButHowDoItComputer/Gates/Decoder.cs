@@ -24,13 +24,13 @@ namespace ButHowDoItComputer.Gates
         {
             var inputList = inputs.ToList();
             // get a truth table based on the length of the input
-            var combinations = GenerateCombinations(inputList.Count);
+            var combinations = GenerateCombinations(inputList.Count).ToArray();
             
             // apply the not inputs based on each truth table row
-            var allGatesInputs = CreateGatesInputs(combinations, inputList);
+            var allGatesInputs = CreateGatesInputs(combinations, inputList).ToArray();
 
             // take the inputs and apply and to them
-            var gatesOutput= allGatesInputs.Select(s => _and.Apply(s)).ToList();
+            var gatesOutput= allGatesInputs.Select(s => _and.Apply(s.ToArray())).ToList();
 
             // result yay!
             return gatesOutput;

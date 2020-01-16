@@ -20,11 +20,11 @@ namespace ButHowDoItComputer.Gates
         
         public IBit Apply(IBit input, IBit set)
         {
-            var a = _nAnd.Apply(new List<IBit> {input, set});
-            var b = _nAnd.Apply(new List<IBit> {a, set});
+            var a = _nAnd.Apply(input, set);
+            var b = _nAnd.Apply(a, set);
 
-            _c = _nAnd.Apply(new List<IBit> {b, _o});
-            _o = _nAnd.Apply(new List<IBit> {a, _c});
+            _c = _nAnd.Apply(b, _o);
+            _o = _nAnd.Apply(a, _c);
 
             return _o;
         }

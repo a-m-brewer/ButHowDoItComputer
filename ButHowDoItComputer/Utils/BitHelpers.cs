@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using ButHowDoItComputer.DataTypes;
 using ButHowDoItComputer.DataTypes.Factories;
 using ButHowDoItComputer.DataTypes.Interfaces;
 
@@ -19,6 +20,11 @@ namespace ButHowDoItComputer.Utils
         public static IList<IBit> Increment(this IBit bit, uint amount)
         {
             return Increment(new List<IBit> {bit}, amount);
+        }
+        
+        public static IBit ToBit(this bool input)
+        {
+            return new Bit(input);
         }
     }
 }

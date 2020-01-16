@@ -16,7 +16,7 @@ namespace ButHowDoItComputer.Gates
             _and = and;
         }
         
-        public IBit Apply(IEnumerable<IBit> bits)
+        public IBit Apply(params IBit[] bits)
         {
             return _not.Apply(_and.Apply(bits));
         }

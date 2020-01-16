@@ -13,8 +13,8 @@ namespace ButHowDoItComputer.Gates
         {
             _bitFactory = bitFactory;
         }
-        
-        public IBit Apply(IEnumerable<IBit> bits)
+
+        public IBit Apply(params IBit[] bits)
         {
             return _bitFactory.Create(bits.All(a => a.State));
         }

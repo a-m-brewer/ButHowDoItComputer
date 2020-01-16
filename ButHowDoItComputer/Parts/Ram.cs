@@ -80,10 +80,10 @@ namespace ButHowDoItComputer.Parts
             {
                 for (var x = 0; x < xDecoder.Count; x++)
                 {
-                    var xAndY = _and.Apply(new List<IBit> {xDecoder[x], yDecoder[y]});
+                    var xAndY = _and.Apply(xDecoder[x], yDecoder[y]);
 
-                    var s = _and.Apply(new List<IBit> {xAndY, Set});
-                    var e = _and.Apply(new List<IBit> {xAndY, Enable});
+                    var s = _and.Apply(xAndY, Set);
+                    var e = _and.Apply(xAndY, Enable);
 
                     _internalRegisters[y][x].Set = s;
                     _internalRegisters[y][x].Enable = e;

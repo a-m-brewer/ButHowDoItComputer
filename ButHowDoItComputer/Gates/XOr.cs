@@ -17,7 +17,7 @@ namespace ButHowDoItComputer.Gates
             _nAnd = nAnd;
         }
 
-        public IBit Apply(IEnumerable<IBit> bits)
+        public IBit Apply(params IBit[] bits)
         {
             var bitList = bits.ToList();
 
@@ -41,10 +41,10 @@ namespace ButHowDoItComputer.Gates
             var notA = _not.Apply(a);
             var notB = _not.Apply(b);
 
-            var nAndA = _nAnd.Apply(new List<IBit> {a, notB});
-            var nAndB = _nAnd.Apply(new List<IBit> {notA, b});
+            var nAndA = _nAnd.Apply(a, notB);
+            var nAndB = _nAnd.Apply(notA, b);
 
-            return _nAnd.Apply(new List<IBit> {nAndA, nAndB});
+            return _nAnd.Apply(nAndA, nAndB);
         }
     }
 }

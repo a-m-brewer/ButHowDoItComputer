@@ -62,8 +62,10 @@
         <e p="Gates" t="Include">
           <e p="And.cs" t="Include" />
           <e p="BitAdder.cs" t="Include" />
+          <e p="BitComparator.cs" t="Include" />
           <e p="ByteAdder.cs" t="Include" />
           <e p="ByteAnd.cs" t="Include" />
+          <e p="ByteComparator.cs" t="Include" />
           <e p="ByteEnabler.cs" t="Include" />
           <e p="ByteMemoryGate.cs" t="Include" />
           <e p="ByteOr.cs" t="Include" />
@@ -76,9 +78,11 @@
           <e p="Interfaces" t="Include">
             <e p="IAnd.cs" t="Include" />
             <e p="IBitAdder.cs" t="Include" />
+            <e p="IBitComparator.cs" t="Include" />
             <e p="IBitTransformer.cs" t="Include" />
             <e p="IByteAdder.cs" t="Include" />
             <e p="IByteAnd.cs" t="Include" />
+            <e p="IByteComparator.cs" t="Include" />
             <e p="IByteEnabler.cs" t="Include" />
             <e p="IByteGate.cs" t="Include" />
             <e p="IByteListGate.cs" t="Include" />
@@ -101,6 +105,7 @@
             <e p="IXOr.cs" t="Include" />
           </e>
           <e p="Inverter.cs" t="Include" />
+          <e p="IsZeroGate.cs" t="Include" />
           <e p="MemoryGate.cs" t="Include" />
           <e p="NAnd.cs" t="Include" />
           <e p="Not.cs" t="Include" />
@@ -145,11 +150,13 @@
         <e p="AndTests.cs" t="Include" />
         <e p="Base10ConverterTests.cs" t="Include" />
         <e p="BitAdderTests.cs" t="Include" />
+        <e p="BitComparatorTests.cs" t="Include" />
         <e p="BitTests.cs" t="Include" />
         <e p="BusTests.cs" t="Include" />
         <e p="ButHowDoItComputer.Tests.csproj" t="IncludeRecursive" />
         <e p="ByteAdderTests.cs" t="Include" />
         <e p="ByteAndTests.cs" t="Include" />
+        <e p="ByteComparatorTests.cs" t="Include" />
         <e p="ByteEnablerTests.cs" t="Include" />
         <e p="ByteMemoryGateTests.cs" t="Include" />
         <e p="ByteOrTests.cs" t="Include" />
@@ -158,6 +165,7 @@
         <e p="ByteXOrTests.cs" t="Include" />
         <e p="DecoderTests.cs" t="Include" />
         <e p="InverterTests.cs" t="Include" />
+        <e p="IsZeroGateTests.cs" t="Include" />
         <e p="MemoryGateTests.cs" t="Include" />
         <e p="NAndTests.cs" t="Include" />
         <e p="NotTests.cs" t="Include" />

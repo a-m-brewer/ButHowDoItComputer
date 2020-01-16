@@ -20,7 +20,7 @@ namespace ButHowDoItComputer.Gates
             var bits = new IBit[8];
             for (var i = 0; i < input.Count; i++)
             {
-                bits[i] = _andGate.Apply(new List<IBit> {input[i], set});
+                bits[i] = _andGate.Apply(input[i], set);
             }
 
             return _byteFactory.Create(bits);
