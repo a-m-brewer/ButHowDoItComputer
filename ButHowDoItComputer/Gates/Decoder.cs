@@ -20,7 +20,7 @@ namespace ButHowDoItComputer.Gates
             _bitFactory = bitFactory;
         }
 
-        public IEnumerable<IBit> Apply(IEnumerable<IBit> inputs)
+        public IEnumerable<IBit> Apply(params IBit[] inputs)
         {
             var inputList = inputs.ToList();
             // get a truth table based on the length of the input

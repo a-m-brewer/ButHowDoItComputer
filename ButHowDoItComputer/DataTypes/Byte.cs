@@ -7,7 +7,7 @@ using ButHowDoItComputer.DataTypes.Interfaces;
 
 namespace ButHowDoItComputer.DataTypes
 {
-    [DebuggerDisplay("{" + nameof(One) + "}" + "{" + nameof(Two) + "}" + "{" + nameof(Three) + "}" + "{" + nameof(Four) + "} " + "{" + nameof(Five) + "}" + "{" + nameof(Six) + "}" + "{" + nameof(Seven) + "}" + "{" + nameof(Eight) + "}")]
+    [DebuggerDisplay("{" + nameof(One.State) + "}" + "{" + nameof(Two) + "}" + "{" + nameof(Three) + "}" + "{" + nameof(Four) + "} " + "{" + nameof(Five) + "}" + "{" + nameof(Six) + "}" + "{" + nameof(Seven) + "}" + "{" + nameof(Eight) + "}")]
     public class Byte : IByte
     {
         private IBit[] _bits;

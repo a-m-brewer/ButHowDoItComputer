@@ -26,4 +26,43 @@ namespace ButHowDoItComputer.Gates
             return _byteFactory.Create(bits);
         }
     }
+
+    public class ByteEnablerListGateAdapter : IByteEnablerListGateAdapter
+    {
+        private readonly IByteEnabler _byteEnabler;
+        private readonly IBit _set;
+
+        public ByteEnablerListGateAdapter(IByteEnabler byteEnabler, IBit set)
+        {
+            _byteEnabler = byteEnabler;
+            _set = set;
+        }
+
+        public IByte Apply(IList<IByte> input)
+        {
+            return _byteEnabler.Apply(input[0], _set);
+        }
+    }
+
+    public interface IByteEnablerListGateAdapter : IByteListGate { }
+
+    public interface IByteEnablerListGateFactory
+    {
+        IByteEnablerListGateAdapter Create(IBit set);
+    }
+
+    public class ByteEnablerListGateFactory : IByteEnablerListGateFactory
+    {
+        private readonly IByteEnabler _byteEnabler;
+
+        public ByteEnablerListGateFactory(IByteEnabler byteEnabler)
+        {
+            _byteEnabler = byteEnabler;
+        }
+
+        public IByteEnablerListGateAdapter Create(IBit set)
+        {
+            return new ByteEnablerListGateAdapter(_byteEnabler, set);
+        }
+    }
 }

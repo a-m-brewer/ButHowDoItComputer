@@ -8,4 +8,7 @@ namespace ButHowDoItComputer.Components.Interfaces
         IBit ShiftIn { get; set; }
         IBit ShiftOut { get; set; }
     }
+
+    public interface IRightShifter : IShifter { }
+    public interface ILeftShifter : IShifter { }
 }

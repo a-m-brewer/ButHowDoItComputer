@@ -4,6 +4,6 @@ namespace ButHowDoItComputer.Gates.Interfaces
 {
     public interface IInputTransformer<T>
     {
-        IEnumerable<T> Apply(IEnumerable<T> inputs);
+        IEnumerable<T> Apply(params T[] inputs);
     }
 }

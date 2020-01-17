@@ -1,11 +1,10 @@
-using System.Linq;
 using ButHowDoItComputer.Components.Interfaces;
 using ButHowDoItComputer.Gates.Interfaces;
 using ButHowDoItComputer.Parts.Interfaces;
 
 namespace ButHowDoItComputer.Components
 {
-    public class RegisterInverter : IRegisterTransfer
+    public class RegisterInverter : IRegisterInverter
     {
         private readonly IInverter _inverter;
 
@@ -22,4 +21,6 @@ namespace ButHowDoItComputer.Components
             outputRegister.Apply();
         }
     }
+
+    public interface IRegisterInverter : IRegisterTransfer { }
 }

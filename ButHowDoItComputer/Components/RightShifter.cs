@@ -1,11 +1,11 @@
-using ButHowDoItComputer.DataTypes.Enums;
+using ButHowDoItComputer.Components.Interfaces;
 using ButHowDoItComputer.DataTypes.Factories;
 using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Parts.Interfaces;
 
 namespace ButHowDoItComputer.Components
 {
-    public class RightShifter : Shifter
+    public class RightShifter : Shifter, IRightShifter
     {
         public RightShifter(ByteFactory byteFactory, IBitFactory bitFactory) : base(byteFactory, bitFactory)
         {

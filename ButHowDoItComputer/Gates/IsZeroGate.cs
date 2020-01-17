@@ -4,7 +4,7 @@ using ButHowDoItComputer.Gates.Interfaces;
 
 namespace ButHowDoItComputer.Gates
 {
-    public class IsZeroGate
+    public class IsZeroGate : IIsZeroGate
     {
         private readonly IOr _or;
         private readonly INot _not;
@@ -21,5 +21,10 @@ namespace ButHowDoItComputer.Gates
 
             return _not.Apply(orRes);
         }
+    }
+
+    public interface IIsZeroGate
+    {
+        IBit IsZero(IByte input);
     }
 }

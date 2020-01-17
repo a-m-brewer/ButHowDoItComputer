@@ -1,10 +1,11 @@
+using ButHowDoItComputer.Components.Interfaces;
 using ButHowDoItComputer.DataTypes.Factories;
 using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Parts.Interfaces;
 
 namespace ButHowDoItComputer.Components
 {
-    public class LeftShifter : Shifter
+    public class LeftShifter : Shifter, ILeftShifter
     {
         public LeftShifter(ByteFactory byteFactory, IBitFactory bitFactory) : base(byteFactory, bitFactory)
         {

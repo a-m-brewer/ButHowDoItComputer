@@ -4,13 +4,13 @@ namespace ButHowDoItComputer.DataTypes.Interfaces
 {
     public interface IByte : IList<IBit>
     {
-        public IBit One { get; set; }
-        public IBit Two { get; set; }
-        public IBit Three { get; set; }
-        public IBit Four { get; set; }
-        public IBit Five { get; set; }
-        public IBit Six { get; set; }
-        public IBit Seven { get; set; }
-        public IBit Eight { get; set; }
+        IBit One { get; set; }
+        IBit Two { get; set; }
+        IBit Three { get; set; }
+        IBit Four { get; set; }
+        IBit Five { get; set; }
+        IBit Six { get; set; }
+        IBit Seven { get; set; }
+        IBit Eight { get; set; }
     }
 }
