@@ -70,10 +70,10 @@ namespace ButHowDoItComputer.Parts
         public void Apply()
         {
             var inputData = MemoryAddressRegister.Byte;
-            var yInput = new List<IBit> {inputData.One, inputData.Two, inputData.Three, inputData.Four};
+            var yInput = new [] {inputData.One, inputData.Two, inputData.Three, inputData.Four};
             var yDecoder = _decoder.Apply(yInput).ToList();
 
-            var xInput = new List<IBit> {inputData.Five, inputData.Six, inputData.Seven, inputData.Eight};
+            var xInput = new [] {inputData.Five, inputData.Six, inputData.Seven, inputData.Eight};
             var xDecoder = _decoder.Apply(xInput).ToList();
 
             for (var y = 0; y < yDecoder.Count; y++)

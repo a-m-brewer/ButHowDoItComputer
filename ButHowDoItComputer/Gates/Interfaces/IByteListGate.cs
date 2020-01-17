@@ -5,6 +5,6 @@ namespace ButHowDoItComputer.Gates.Interfaces
 {
     public interface IByteListGate
     {
-        IByte Apply(IList<IByte> input);
+        IByte Apply(params IByte[] input);
     }
 }

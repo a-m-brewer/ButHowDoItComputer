@@ -87,5 +87,25 @@ namespace ButHowDoItComputer.Tests
         {
             return new ByteComparator(CreateBitComparator(), CreateByteFactory());
         }
+
+        public static ArithmeticLogicUnit CreateArithmeticLogicUnit()
+        {
+            var byteFactory = CreateByteFactory();
+            return new ArithmeticLogicUnit(
+                new ByteXOr(CreateXOr(), byteFactory),
+                new ByteOr(CreateOr(), byteFactory),
+                new ByteAnd(CreateAnd(), byteFactory),
+                new Inverter(CreateNot(), byteFactory),
+                new ByteAdder(new BitAdder(CreateXOr(), CreateOr(), CreateAnd()), CreateByteFactory()),
+                new ByteEnabler(CreateAnd(), CreateByteFactory()),
+                CreateAnd(),
+                new IsZeroGate(CreateOr(), CreateNot()),
+                new ByteDecoder(new Decoder(CreateNot(), CreateAnd(), CreateBitFactory()), CreateByteFactory()),
+                new ByteRightShifter(CreateByteFactory()),
+                new ByteLeftShifter(CreateByteFactory()),
+                CreateOr(),
+                new Wire(CreateByteFactory()),
+                new ByteComparator(new BitComparator(CreateXOr(), CreateAnd(), CreateOr(), CreateNot()), CreateByteFactory()));
+        }
     }
 }

@@ -19,7 +19,7 @@ namespace ButHowDoItComputer.Tests
                 new Or(new Not(new BitFactory()), new NAnd(new Not(new BitFactory()), new And(new BitFactory()))),
                 byteFactory);
 
-            var result = sut.Apply(new List<IByte> {byteFactory.Create(0), byteFactory.Create(255)});
+            var result = sut.Apply(new [] {byteFactory.Create(0), byteFactory.Create(255)});
 
             Assert.IsTrue(result.All(a => a.State));
         }

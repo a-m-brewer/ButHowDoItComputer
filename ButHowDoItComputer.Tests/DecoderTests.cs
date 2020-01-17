@@ -29,7 +29,7 @@ namespace ButHowDoItComputer.Tests
         [TestCase(true, true, false, false, false, true)]
         public void TruthTableTest(bool a, bool b, bool o1, bool o2, bool o3, bool o4)
         {
-            var result = _sut.Apply(new List<IBit> {new Bit(a), new Bit(b)}).ToList();
+            var result = _sut.Apply(new [] {new Bit(a), new Bit(b)}).ToList();
             var expected = new IBit[] {new Bit(o1), new Bit(o2), new Bit(o3), new Bit(o4)};
 
             Assert.AreEqual(4, result.Count); 
@@ -51,7 +51,7 @@ namespace ButHowDoItComputer.Tests
         [TestCase(true, true, true, false, false, false, false, false, false, false, true)]
         public void CanBeExtended(bool a, bool b, bool c, bool o1, bool o2, bool o3, bool o4, bool o5, bool o6, bool o7, bool o8)
         {
-            var result = _sut.Apply(new List<IBit> {new Bit(a), new Bit(b), new Bit(c)}).ToList();
+            var result = _sut.Apply(new [] {new Bit(a), new Bit(b), new Bit(c)}).ToList();
             var expected = new IBit[]
             {
                 new Bit(o1), new Bit(o2), new Bit(o3), new Bit(o4), new Bit(o5), new Bit(o6), new Bit(o7), new Bit(o8)

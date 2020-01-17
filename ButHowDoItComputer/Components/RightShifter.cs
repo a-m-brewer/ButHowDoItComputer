@@ -1,31 +1,27 @@
 using ButHowDoItComputer.Components.Interfaces;
 using ButHowDoItComputer.DataTypes.Factories;
 using ButHowDoItComputer.DataTypes.Interfaces;
+using ButHowDoItComputer.Gates.Interfaces;
 using ButHowDoItComputer.Parts.Interfaces;
+using ButHowDoItComputer.Utils;
 
 namespace ButHowDoItComputer.Components
 {
     public class RightShifter : Shifter, IRightShifter
     {
-        public RightShifter(ByteFactory byteFactory, IBitFactory bitFactory) : base(byteFactory, bitFactory)
+        private readonly IRightByteShifter _rightByteShifter;
+
+        public RightShifter(ByteFactory byteFactory, IBitFactory bitFactory, IRightByteShifter rightByteShifter) : base(byteFactory, bitFactory)
         {
+            _rightByteShifter = rightByteShifter;
         }
 
         protected override IBit[] GetShifter(IRegister inputRegister)
         {
-            ShiftOut = inputRegister.Output[0];
-            var secondRegisterInput = new[]
-            {
-                inputRegister.Output[1],
-                inputRegister.Output[2],
-                inputRegister.Output[3],
-                inputRegister.Output[4],
-                inputRegister.Output[5],
-                inputRegister.Output[6],
-                inputRegister.Output[7],
-                ShiftIn
-            };
-            return secondRegisterInput;
+            var (secondRegisterInput, shiftOut) = _rightByteShifter.Shift(inputRegister.Output, ShiftIn);
+            ShiftOut = shiftOut;
+            
+            return secondRegisterInput.ToBits();
         }
     }
 }

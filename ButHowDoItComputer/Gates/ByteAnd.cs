@@ -16,7 +16,7 @@ namespace ButHowDoItComputer.Gates
             _byteFactory = byteFactory;
         }
         
-        public IByte Apply(IList<IByte> input)
+        public IByte Apply(params IByte[] input)
         {
             var groups = new List<List<IBit>>();
             for (var i = 0; i < input[0].Count; i++)

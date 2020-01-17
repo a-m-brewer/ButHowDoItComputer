@@ -1,13 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using ButHowDoItComputer.DataTypes.Interfaces;
 
 namespace ButHowDoItComputer.DataTypes
 {
-    [DebuggerDisplay("{" + nameof(One.State) + "}" + "{" + nameof(Two) + "}" + "{" + nameof(Three) + "}" + "{" + nameof(Four) + "} " + "{" + nameof(Five) + "}" + "{" + nameof(Six) + "}" + "{" + nameof(Seven) + "}" + "{" + nameof(Eight) + "}")]
     public class Byte : IByte
     {
         private IBit[] _bits;

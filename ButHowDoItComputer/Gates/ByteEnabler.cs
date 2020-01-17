@@ -38,7 +38,7 @@ namespace ButHowDoItComputer.Gates
             _set = set;
         }
 
-        public IByte Apply(IList<IByte> input)
+        public IByte Apply(params IByte[] input)
         {
             return _byteEnabler.Apply(input[0], _set);
         }

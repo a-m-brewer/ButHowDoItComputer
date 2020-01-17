@@ -67,7 +67,7 @@ namespace ButHowDoItComputer.Tests
 
             inputRegister.Input = beforeByte;
             
-            var sut = new RightShifter(_byteFactory, _bitFactory);
+            var sut = new RightShifter(_byteFactory, _bitFactory, new ByteRightShifter(_byteFactory));
             
             sut.Apply(inputRegister, outputRegister);
 
@@ -117,7 +117,7 @@ namespace ButHowDoItComputer.Tests
 
             inputRegister.Input = beforeByte;
             
-            var sut = new LeftShifter(_byteFactory, _bitFactory);
+            var sut = new LeftShifter(_byteFactory, _bitFactory, new ByteLeftShifter(_byteFactory));
             
             sut.Apply(inputRegister, outputRegister);
 

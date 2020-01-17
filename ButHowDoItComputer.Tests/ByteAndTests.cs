@@ -17,7 +17,7 @@ namespace ButHowDoItComputer.Tests
             var byteFactory = new ByteFactory(new BitFactory(), new Base10Converter(new BitFactory()));
             var sut = new ByteAnd(new And(new BitFactory()), new ByteFactory(new BitFactory(), new Base10Converter(new BitFactory())));
 
-            var result = sut.Apply(new List<IByte> {byteFactory.Create(0), byteFactory.Create(255)});
+            var result = sut.Apply(new [] {byteFactory.Create(0), byteFactory.Create(255)});
 
             Assert.IsFalse(result.Any(a => a.State));
         }
