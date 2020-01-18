@@ -1,6 +1,6 @@
-﻿using ButHowDoItComputer.Components.Interfaces;
+﻿using ButHowDoItComputer.Adapters.Interfaces;
+using ButHowDoItComputer.Components.Interfaces;
 using ButHowDoItComputer.DataTypes.Interfaces;
-using ButHowDoItComputer.Gates;
 using ButHowDoItComputer.Parts.Interfaces;
 
 namespace ButHowDoItComputer.Components

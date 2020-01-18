@@ -21,6 +21,4 @@ namespace ButHowDoItComputer.Components
             outputRegister.Apply();
         }
     }
-
-    public interface IRegisterInverter : IRegisterTransfer { }
 }

@@ -1,7 +1,7 @@
 ﻿using ButHowDoItComputer.DataTypes;
 using ButHowDoItComputer.DataTypes.Interfaces;
 
-namespace ButHowDoItComputer.Parts.Interfaces
+namespace ButHowDoItComputer.Components.Interfaces
 {
     public interface IArithmeticLogicUnit
     {

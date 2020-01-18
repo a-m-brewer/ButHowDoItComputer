@@ -1,6 +1,6 @@
 ﻿namespace ButHowDoItComputer.Components.Interfaces
 {
-    public interface IRegisterEnabler : IRegisterWithSet
+    public interface IRegisterBus1 : IRegisterWithSet
     {
     }
 }

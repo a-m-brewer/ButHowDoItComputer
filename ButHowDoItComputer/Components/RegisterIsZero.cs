@@ -1,5 +1,6 @@
-﻿using ButHowDoItComputer.DataTypes.Interfaces;
-using ButHowDoItComputer.Gates;
+﻿using ButHowDoItComputer.Components.Interfaces;
+using ButHowDoItComputer.DataTypes.Interfaces;
+using ButHowDoItComputer.Gates.Interfaces;
 using ButHowDoItComputer.Parts.Interfaces;
 
 namespace ButHowDoItComputer.Components
@@ -18,10 +19,5 @@ namespace ButHowDoItComputer.Components
             inputRegister.Apply();
             return _isZeroGate.IsZero(inputRegister.Output);
         }
-    }
-
-    public interface IRegisterIsZero
-    {
-        IBit IsZero(IRegister inputRegister);
     }
 }

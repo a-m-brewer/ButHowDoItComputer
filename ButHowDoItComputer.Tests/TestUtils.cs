@@ -1,3 +1,4 @@
+using ButHowDoItComputer.Components;
 using ButHowDoItComputer.DataTypes;
 using ButHowDoItComputer.DataTypes.Factories;
 using ButHowDoItComputer.DataTypes.Interfaces;
@@ -106,6 +107,11 @@ namespace ButHowDoItComputer.Tests
                 CreateOr(),
                 new Wire(CreateByteFactory()),
                 new ByteComparator(new BitComparator(CreateXOr(), CreateAnd(), CreateOr(), CreateNot()), CreateByteFactory()));
+        }
+
+        public static Bus1 CreateBus1()
+        {
+            return new Bus1(CreateAnd(), CreateNot(), CreateOr(), CreateByteFactory());
         }
     }
 }

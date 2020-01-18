@@ -22,9 +22,4 @@ namespace ButHowDoItComputer.Gates
             return _not.Apply(orRes);
         }
     }
-
-    public interface IIsZeroGate
-    {
-        IBit IsZero(IByte input);
-    }
 }

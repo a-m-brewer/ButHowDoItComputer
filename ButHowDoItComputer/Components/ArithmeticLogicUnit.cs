@@ -1,11 +1,11 @@
-﻿using ButHowDoItComputer.DataTypes;
+﻿using ButHowDoItComputer.Components.Interfaces;
+using ButHowDoItComputer.DataTypes;
 using ButHowDoItComputer.DataTypes.Interfaces;
-using ButHowDoItComputer.Gates;
 using ButHowDoItComputer.Gates.Interfaces;
 using ButHowDoItComputer.Parts.Interfaces;
 using ButHowDoItComputer.Utils;
 
-namespace ButHowDoItComputer.Parts
+namespace ButHowDoItComputer.Components
 {
     public class ArithmeticLogicUnit : IArithmeticLogicUnit
     {

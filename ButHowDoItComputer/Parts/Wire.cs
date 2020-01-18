@@ -1,12 +1,9 @@
 ﻿using ButHowDoItComputer.DataTypes.Interfaces;
+using ButHowDoItComputer.Parts.Interfaces;
 using System.Linq;
 
 namespace ButHowDoItComputer.Parts
 {
-    public interface IWire
-    {
-        IByte Apply(params IByte[] input);
-    }
 
     public class Wire : IWire
     {

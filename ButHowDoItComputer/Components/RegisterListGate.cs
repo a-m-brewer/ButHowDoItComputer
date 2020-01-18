@@ -27,17 +27,4 @@ namespace ButHowDoItComputer.Components
             outputRegister.Apply();
         }
     }
-
-    public class RegisterListGateFactory : IRegisterListGateFactory
-    {
-        public IRegisterListGate Create(IByteListGate byteListGate)
-        {
-            return new RegisterListGate(byteListGate);
-        }
-    }
-
-    public interface IRegisterListGateFactory
-    {
-        IRegisterListGate Create(IByteListGate byteListGate);
-    }
 }

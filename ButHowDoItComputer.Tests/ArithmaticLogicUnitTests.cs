@@ -1,4 +1,5 @@
-﻿using ButHowDoItComputer.DataTypes;
+﻿using ButHowDoItComputer.Components;
+using ButHowDoItComputer.DataTypes;
 using ButHowDoItComputer.DataTypes.Factories;
 using ButHowDoItComputer.Parts;
 using ButHowDoItComputer.Utils;
