@@ -11,9 +11,22 @@
     <e p="C:\Users\Adam\.nuget\packages\nunit3testadapter\3.15.1\build\netcoreapp2.0\NUnit3.TestAdapter.dll" t="Include" />
     <e p="C:\Users\Adam\.nuget\packages\nunit3testadapter\3.15.1\build\netcoreapp2.0\NUnit3.TestAdapter.pdb" t="Include" />
     <e p="C:\Users\Adam\.Rider2019.2\system\extResources" t="IncludeRecursive" />
-    <e p="C:\Users\Adam\.Rider2019.2\system\resharper-host\local\Transient\ReSharperHost\v192\SolutionCaches\_ButHowDoItComputer.247678616.00" t="ExcludeRecursive" />
-    <e p="Z:\Documents\Code\gitrepos\ButHowDoItComputer" t="IncludeFlat">
+    <e p="C:\Users\Adam\.Rider2019.2\system\resharper-host\local\Transient\ReSharperHost\v192\SolutionCaches\_ButHowDoItComputer.1686650150.00" t="ExcludeRecursive" />
+    <e p="D:\Documents\Code\csharp\ButHowDoItComputer" t="IncludeFlat">
       <e p="ButHowDoItComputer" t="IncludeRecursive">
+        <e p="Adapters" t="Include">
+          <e p="ByteEnablerListGateAdapter.cs" t="Include" />
+          <e p="ByteGateToListAdapter.cs" t="Include" />
+          <e p="Factories" t="Include">
+            <e p="ByteEnablerListGateFactory.cs" t="Include" />
+            <e p="ByteGateToListFactory.cs" t="Include" />
+          </e>
+          <e p="Interfaces" t="Include">
+            <e p="IByteEnablerListGateAdapter.cs" t="Include" />
+            <e p="IByteEnablerListGateFactory.cs" t="Include" />
+            <e p="IByteGateToListFactory.cs" t="Include" />
+          </e>
+        </e>
         <e p="bin" t="ExcludeRecursive" />
         <e p="ButHowDoItComputer.csproj" t="IncludeRecursive" />
         <e p="Codes" t="Include">
@@ -26,21 +39,35 @@
           </e>
         </e>
         <e p="Components" t="Include">
+          <e p="ArithmeticLogicUnit.cs" t="Include" />
+          <e p="Factories" t="Include">
+            <e p="RegisterListGateFactory.cs" t="Include" />
+          </e>
           <e p="Interfaces" t="Include">
+            <e p="IArithmeticLogicUnit.cs" t="Include" />
             <e p="IRegisterAdder.cs" t="Include" />
             <e p="IRegisterAnd.cs" t="Include" />
+            <e p="IRegisterBus1.cs" t="Include" />
             <e p="IRegisterComparator.cs" t="Include" />
+            <e p="IRegisterEnabler.cs" t="Include" />
+            <e p="IRegisterInverter.cs" t="Include" />
+            <e p="IRegisterIsZero.cs" t="Include" />
             <e p="IRegisterListGate.cs" t="Include" />
+            <e p="IRegisterListGateFactory.cs" t="Include" />
             <e p="IRegisterOr.cs" t="Include" />
             <e p="IRegisterTransfer.cs" t="Include" />
             <e p="IRegisterXOr.cs" t="Include" />
             <e p="IShifter.cs" t="Include" />
+            <e p="RegisterWithSet.cs" t="Include" />
           </e>
           <e p="LeftShifter.cs" t="Include" />
           <e p="RegisterAdder.cs" t="Include" />
           <e p="RegisterAnd.cs" t="Include" />
+          <e p="RegisterBus1.cs" t="Include" />
           <e p="RegisterComparator.cs" t="Include" />
+          <e p="RegisterEnabler.cs" t="Include" />
           <e p="RegisterInverter.cs" t="Include" />
+          <e p="RegisterIsZero.cs" t="Include" />
           <e p="RegisterListGate.cs" t="Include" />
           <e p="RegisterOr.cs" t="Include" />
           <e p="RegisterXOr.cs" t="Include" />
@@ -48,8 +75,10 @@
           <e p="Shifter.cs" t="Include" />
         </e>
         <e p="DataTypes" t="Include">
+          <e p="AluOutput.cs" t="Include" />
           <e p="Bit.cs" t="Include" />
           <e p="Byte.cs" t="Include" />
+          <e p="ClockOutput.cs" t="Include" />
           <e p="Enums" t="Include">
             <e p="Direction.cs" t="Include" />
           </e>
@@ -63,17 +92,22 @@
             <e p="IByte.cs" t="Include" />
             <e p="IByteFactory.cs" t="Include" />
           </e>
+          <e p="Op.cs" t="Include" />
         </e>
         <e p="Gates" t="Include">
           <e p="And.cs" t="Include" />
           <e p="BitAdder.cs" t="Include" />
           <e p="BitComparator.cs" t="Include" />
+          <e p="Bus1.cs" t="Include" />
           <e p="ByteAdder.cs" t="Include" />
           <e p="ByteAnd.cs" t="Include" />
           <e p="ByteComparator.cs" t="Include" />
+          <e p="ByteDecoder.cs" t="Include" />
           <e p="ByteEnabler.cs" t="Include" />
+          <e p="ByteLeftShifter.cs" t="Include" />
           <e p="ByteMemoryGate.cs" t="Include" />
           <e p="ByteOr.cs" t="Include" />
+          <e p="ByteRightShifter.cs" t="Include" />
           <e p="ByteXOr.cs" t="Include" />
           <e p="Decoder.cs" t="Include" />
           <e p="Factories" t="Include">
@@ -85,20 +119,24 @@
             <e p="IBitAdder.cs" t="Include" />
             <e p="IBitComparator.cs" t="Include" />
             <e p="IBitTransformer.cs" t="Include" />
+            <e p="IBus1.cs" t="Include" />
             <e p="IByteAdder.cs" t="Include" />
             <e p="IByteAnd.cs" t="Include" />
             <e p="IByteComparator.cs" t="Include" />
+            <e p="IByteDecoder.cs" t="Include" />
             <e p="IByteEnabler.cs" t="Include" />
             <e p="IByteGate.cs" t="Include" />
             <e p="IByteListGate.cs" t="Include" />
             <e p="IByteMemoryGate.cs" t="Include" />
             <e p="IByteMemoryGateFactory.cs" t="Include" />
             <e p="IByteOr.cs" t="Include" />
+            <e p="IByteShifter.cs" t="Include" />
             <e p="IByteXOr.cs" t="Include" />
             <e p="IDecoder.cs" t="Include" />
             <e p="IGate.cs" t="Include" />
             <e p="IInputTransformer.cs" t="Include" />
             <e p="IInverter.cs" t="Include" />
+            <e p="IIsZeroGate.cs" t="Include" />
             <e p="IMemoryGate.cs" t="Include" />
             <e p="IMemoryGateFactory.cs" t="Include" />
             <e p="INAnd.cs" t="Include" />
@@ -126,38 +164,50 @@
         </e>
         <e p="Parts" t="Include">
           <e p="Bus.cs" t="Include" />
+          <e p="Clock.cs" t="Include" />
+          <e p="ClockState.cs" t="Include" />
           <e p="Factories" t="Include">
+            <e p="ClockStateFactory.cs" t="Include" />
             <e p="RegisterFactory.cs" t="Include" />
           </e>
           <e p="Interfaces" t="Include">
             <e p="IBus.cs" t="Include" />
+            <e p="IClockState.cs" t="Include" />
+            <e p="IClockStateFactory.cs" t="Include" />
             <e p="IRam.cs" t="Include" />
             <e p="IRegister.cs" t="Include" />
             <e p="IRegisterFactory.cs" t="Include" />
+            <e p="IWire.cs" t="Include" />
           </e>
           <e p="Ram.cs" t="Include" />
           <e p="Register.cs" t="Include" />
+          <e p="RegisterArithmeticLogicUnit.cs" t="Include" />
+          <e p="Wire.cs" t="Include" />
         </e>
         <e p="Program.cs" t="Include" />
         <e p="Utils" t="Include">
           <e p="Base10Converter.cs" t="Include" />
           <e p="BitHelpers.cs" t="Include" />
           <e p="BitList.cs" t="Include" />
+          <e p="ByteHelpers.cs" t="Include" />
           <e p="ByteToBase10Converter.cs" t="Include" />
           <e p="Interfaces" t="Include">
             <e p="IBase10Converter.cs" t="Include" />
             <e p="IByteToBase10Converter.cs" t="Include" />
           </e>
+          <e p="OpCodes.cs" t="Include" />
         </e>
       </e>
       <e p="ButHowDoItComputer.sln" t="IncludeFlat" />
       <e p="ButHowDoItComputer.Tests" t="IncludeRecursive">
         <e p="AndTests.cs" t="Include" />
+        <e p="ArithmaticLogicUnitTests.cs" t="Include" />
         <e p="Base10ConverterTests.cs" t="Include" />
         <e p="bin" t="ExcludeRecursive" />
         <e p="BitAdderTests.cs" t="Include" />
         <e p="BitComparatorTests.cs" t="Include" />
         <e p="BitTests.cs" t="Include" />
+        <e p="Bus1Tests.cs" t="Include" />
         <e p="BusTests.cs" t="Include" />
         <e p="ButHowDoItComputer.Tests.csproj" t="IncludeRecursive" />
         <e p="ByteAdderTests.cs" t="Include" />

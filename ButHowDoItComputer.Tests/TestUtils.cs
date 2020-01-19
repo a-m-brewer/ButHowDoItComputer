@@ -5,6 +5,7 @@ using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Gates;
 using ButHowDoItComputer.Gates.Factories;
 using ButHowDoItComputer.Parts;
+using ButHowDoItComputer.Parts.Factories;
 using ButHowDoItComputer.Utils;
 
 namespace ButHowDoItComputer.Tests
@@ -112,6 +113,16 @@ namespace ButHowDoItComputer.Tests
         public static Bus1 CreateBus1()
         {
             return new Bus1(CreateAnd(), CreateNot(), CreateOr(), CreateByteFactory());
+        }
+
+        public static Clock CreateClock()
+        {
+            return new Clock(CreateClockStateFactory(), CreateAnd(), CreateOr(), CreateBitFactory());
+        }
+
+        public static ClockStateFactory CreateClockStateFactory()
+        {
+            return new ClockStateFactory();
         }
     }
 }
