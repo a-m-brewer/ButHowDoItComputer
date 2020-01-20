@@ -93,6 +93,7 @@
             <e p="IByteFactory.cs" t="Include" />
           </e>
           <e p="Op.cs" t="Include" />
+          <e p="StepperOutput.cs" t="Include" />
         </e>
         <e p="Gates" t="Include">
           <e p="And.cs" t="Include" />
@@ -172,6 +173,7 @@
           </e>
           <e p="Interfaces" t="Include">
             <e p="IBus.cs" t="Include" />
+            <e p="IClock.cs" t="Include" />
             <e p="IClockState.cs" t="Include" />
             <e p="IClockStateFactory.cs" t="Include" />
             <e p="IRam.cs" t="Include" />
@@ -182,6 +184,7 @@
           <e p="Ram.cs" t="Include" />
           <e p="Register.cs" t="Include" />
           <e p="RegisterArithmeticLogicUnit.cs" t="Include" />
+          <e p="Stepper.cs" t="Include" />
           <e p="Wire.cs" t="Include" />
         </e>
         <e p="Program.cs" t="Include" />
@@ -219,6 +222,7 @@
         <e p="ByteToAsciiConverterTests.cs" t="Include" />
         <e p="ByteToBase10ConverterTests.cs" t="Include" />
         <e p="ByteXOrTests.cs" t="Include" />
+        <e p="ClockTests.cs" t="Include" />
         <e p="DecoderTests.cs" t="Include" />
         <e p="InverterTests.cs" t="Include" />
         <e p="IsZeroGateTests.cs" t="Include" />
@@ -242,6 +246,7 @@
         <e p="RegisterTests.cs" t="Include" />
         <e p="RegisterXOrTests.cs" t="Include" />
         <e p="ShifterTests.cs" t="Include" />
+        <e p="StepperTests.cs" t="Include" />
         <e p="TestUtils.cs" t="Include" />
         <e p="XOrTests.cs" t="Include" />
       </e>

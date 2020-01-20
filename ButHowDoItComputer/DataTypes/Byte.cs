@@ -119,7 +119,7 @@ namespace ButHowDoItComputer.DataTypes
             throw new NotSupportedException();
         }
 
-        public int Count { get; } = 8;
+        public int Count => _bits.Length;
 
         public bool IsReadOnly { get; } = false;
         

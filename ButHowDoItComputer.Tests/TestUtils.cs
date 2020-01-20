@@ -124,5 +124,15 @@ namespace ButHowDoItComputer.Tests
         {
             return new ClockStateFactory();
         }
+
+        public static MemoryGateFactory CreateMemoryGateFactory()
+        {
+            return new MemoryGateFactory(CreateNAnd(), CreateBitFactory());
+        }
+        
+        public static Stepper CreateStepper()
+        {
+            return new Stepper(CreateMemoryGateFactory(), CreateAnd(), CreateNot(), CreateOr(), CreateBitFactory());
+        }
     }
 }

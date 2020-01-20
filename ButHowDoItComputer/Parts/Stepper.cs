@@ -1,0 +1,78 @@
+﻿using System.Collections.Generic;
+using System.Linq;
+using ButHowDoItComputer.DataTypes;
+using ButHowDoItComputer.DataTypes.Interfaces;
+using ButHowDoItComputer.Gates.Interfaces;
+
+namespace ButHowDoItComputer.Parts
+{
+    public class Stepper
+    {
+        private readonly IAnd _and;
+        private readonly INot _not;
+        private readonly IOr _or;
+        private readonly IBitFactory _bitFactory;
+        private List<IMemoryGate> _memoryGates;
+        private IBit _step7;
+
+        public Stepper(IMemoryGateFactory memoryGateFactory, IAnd and, INot not, IOr or, IBitFactory bitFactory)
+        {
+            _and = and;
+            _not = not;
+            _or = or;
+            _bitFactory = bitFactory;
+            _memoryGates = Enumerable.Range(0, 12).Select(_ => memoryGateFactory.Create()).ToList();
+        }
+
+        public StepperOutput Step(IBit clk, IBit reset)
+        {
+            var notReset = _not.Apply(reset);
+            var notClk = _not.Apply(clk);
+            
+            var resetOrNotClk = _or.Apply(notClk, reset);
+            var clkOrReset = _or.Apply(clk, reset);
+
+            var m0 = _memoryGates[0].Apply(notReset, resetOrNotClk);
+            var m1 = _memoryGates[1].Apply(m0, clkOrReset);
+            var m2 = _memoryGates[2].Apply(m1, resetOrNotClk);
+            var m3 = _memoryGates[3].Apply(m2, clkOrReset);
+            var m4 = _memoryGates[4].Apply(m3, resetOrNotClk);
+            var m5 = _memoryGates[5].Apply(m4, clkOrReset);
+            var m6 = _memoryGates[6].Apply(m5, resetOrNotClk);
+            var m7 = _memoryGates[7].Apply(m6, clkOrReset);
+            var m8 = _memoryGates[8].Apply(m7, resetOrNotClk);
+            var m9 = _memoryGates[9].Apply(m8, clkOrReset);
+            var m10 = _memoryGates[10].Apply(m9, resetOrNotClk);
+            var m11 = _memoryGates[11].Apply(m10, clkOrReset);
+
+            var notM1 = _not.Apply(m1);
+            var notM3 = _not.Apply(m3);
+            var notM5 = _not.Apply(m5);
+            var notM7 = _not.Apply(m7);
+            var notM9 = _not.Apply(m9);
+            var notM11 = _not.Apply(m11);
+            
+            var step1 = _or.Apply(reset, notM1);
+            var step2 = _and.Apply(m1, notM3);
+            var step3 = _and.Apply(m3, notM5);
+            var step4 = _and.Apply(m5, notM7);
+            var step5 = _and.Apply(m7, notM9);
+            var step6 = _and.Apply(m9, notM11);
+            _step7 = m11;
+
+            var stepperArray = new[] {step1, step2, step3, step4, step5, step6, _step7};
+            
+            return new StepperOutput(stepperArray, _bitFactory);
+        }
+
+        public StepperOutput Step(IBit clk)
+        {
+            if (_step7 == null)
+            {
+                _step7 = _bitFactory.Create(false);
+            }
+
+            return Step(clk, _step7);
+        }
+    }
+}
