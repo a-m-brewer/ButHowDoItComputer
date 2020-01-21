@@ -1,10 +1,11 @@
 using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Gates.Interfaces;
 using ButHowDoItComputer.Parts.Interfaces;
+using ButHowDoItComputer.Utils.Interfaces;
 
 namespace ButHowDoItComputer.Parts
 {
-    public class Register : IRegister
+    public class Register : IRegister, ICpuEnableSubscriber, ICpuSettableSubscriber
     {
         private readonly IByteMemoryGate _byteMemoryGate;
         private readonly IByteEnabler _byteEnabler;
@@ -52,6 +53,11 @@ namespace ButHowDoItComputer.Parts
             ApplyPrivate(Input);
             ApplyOutput();
             return Output;
+        }
+
+        void IApplicable.Apply()
+        {
+            Apply();
         }
 
         private void ApplyPrivate(IByte input)

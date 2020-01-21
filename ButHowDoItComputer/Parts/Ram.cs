@@ -3,10 +3,11 @@ using System.Linq;
 using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Gates.Interfaces;
 using ButHowDoItComputer.Parts.Interfaces;
+using ButHowDoItComputer.Utils.Interfaces;
 
 namespace ButHowDoItComputer.Parts
 {
-    public class Ram : IRam
+    public class Ram : IRam, IApplicable, IEnablable, ISettable
     {
         public IBus MemoryAddressBus { get; }
         private readonly IRegisterFactory _registerFactory;

@@ -40,6 +40,10 @@
         </e>
         <e p="Components" t="Include">
           <e p="ArithmeticLogicUnit.cs" t="Include" />
+          <e p="CpuSubscribers" t="Include">
+            <e p="EnableSubscriberNotifier.cs" t="Include" />
+            <e p="SetSubscriberNotifier.cs" t="Include" />
+          </e>
           <e p="Factories" t="Include">
             <e p="RegisterListGateFactory.cs" t="Include" />
           </e>
@@ -79,6 +83,8 @@
           <e p="Bit.cs" t="Include" />
           <e p="Byte.cs" t="Include" />
           <e p="ClockOutput.cs" t="Include" />
+          <e p="CpuEnables.cs" t="Include" />
+          <e p="CpuSets.cs" t="Include" />
           <e p="Enums" t="Include">
             <e p="Direction.cs" t="Include" />
           </e>
@@ -165,6 +171,7 @@
         </e>
         <e p="Parts" t="Include">
           <e p="Bus.cs" t="Include" />
+          <e p="CentralProcessingUnit.cs" t="Include" />
           <e p="Clock.cs" t="Include" />
           <e p="ClockState.cs" t="Include" />
           <e p="Factories" t="Include">
@@ -179,6 +186,7 @@
             <e p="IRam.cs" t="Include" />
             <e p="IRegister.cs" t="Include" />
             <e p="IRegisterFactory.cs" t="Include" />
+            <e p="IStepper.cs" t="Include" />
             <e p="IWire.cs" t="Include" />
           </e>
           <e p="Ram.cs" t="Include" />
@@ -195,8 +203,15 @@
           <e p="ByteHelpers.cs" t="Include" />
           <e p="ByteToBase10Converter.cs" t="Include" />
           <e p="Interfaces" t="Include">
+            <e p="IApplicable.cs" t="Include" />
             <e p="IBase10Converter.cs" t="Include" />
             <e p="IByteToBase10Converter.cs" t="Include" />
+            <e p="ICpuEnableSubscriber.cs" t="Include" />
+            <e p="ICpuSettableSubscriber.cs" t="Include" />
+            <e p="ICpuSubscriberNotifier.cs" t="Include" />
+            <e p="ICpuSubscriberNotifierFactory.cs" t="Include" />
+            <e p="IEnablable.cs" t="Include" />
+            <e p="ISettable.cs" t="Include" />
           </e>
           <e p="OpCodes.cs" t="Include" />
         </e>
@@ -223,6 +238,7 @@
         <e p="ByteToBase10ConverterTests.cs" t="Include" />
         <e p="ByteXOrTests.cs" t="Include" />
         <e p="ClockTests.cs" t="Include" />
+        <e p="CpuSubscriberTests.cs" t="Include" />
         <e p="DecoderTests.cs" t="Include" />
         <e p="InverterTests.cs" t="Include" />
         <e p="IsZeroGateTests.cs" t="Include" />

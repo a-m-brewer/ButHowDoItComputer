@@ -3,10 +3,11 @@ using System.Linq;
 using ButHowDoItComputer.DataTypes;
 using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Gates.Interfaces;
+using ButHowDoItComputer.Parts.Interfaces;
 
 namespace ButHowDoItComputer.Parts
 {
-    public class Stepper
+    public class Stepper : IStepper
     {
         private readonly IAnd _and;
         private readonly INot _not;
