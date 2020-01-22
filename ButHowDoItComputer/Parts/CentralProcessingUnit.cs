@@ -39,6 +39,7 @@ namespace ButHowDoItComputer.Parts
             
             // TODO: route cpu updates here
             WireAdd();
+            WireInstructionRegister();
             
             ApplyEnables();
             ApplySets();
@@ -56,6 +57,23 @@ namespace ButHowDoItComputer.Parts
             _cpuSets.Acc.Update(CreateSetUpdate(_stepperOutput[4]));
             _cpuSets.Tmp.Update(CreateSetUpdate(_stepperOutput[3]));
             _cpuSets.R0.Update(CreateSetUpdate(_stepperOutput[5]));
+        }
+
+        /// <summary>
+        /// pg. 112
+        /// </summary>
+        private void WireInstructionRegister()
+        {
+            _bus1Sub.Update(_stepperOutput[0]);
+            
+            _cpuEnables.Iar.Update(CreateEnableUpdate(_stepperOutput[0]));
+            _cpuEnables.Ram.Update(CreateEnableUpdate(_stepperOutput[1]));
+            _cpuEnables.Acc.Update(CreateEnableUpdate(_stepperOutput[2]));
+            
+            _cpuSets.Ir.Update(CreateSetUpdate(_stepperOutput[1]));
+            _cpuSets.Mar.Update(CreateSetUpdate(_stepperOutput[0]));
+            _cpuSets.Iar.Update(CreateSetUpdate(_stepperOutput[2]));
+            _cpuSets.Acc.Update(CreateSetUpdate(_stepperOutput[0]));
         }
 
         private void ApplyEnables()

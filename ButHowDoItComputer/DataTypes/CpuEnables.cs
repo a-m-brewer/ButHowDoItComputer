@@ -15,6 +15,8 @@ namespace ButHowDoItComputer.DataTypes
         public ICpuSubscriberNotifier<IBit> R2 { get; set; }
         public ICpuSubscriberNotifier<IBit> R3 { get; set; }
         
+        public ICpuSubscriberNotifier<IBit> Iar { get; set; }
+        
         public IEnumerator<ICpuSubscriberNotifier<IBit>> GetEnumerator()
         {
             yield return Ram;
@@ -23,6 +25,7 @@ namespace ButHowDoItComputer.DataTypes
             yield return R1;
             yield return R2;
             yield return R3;
+            yield return Iar;
         }
 
         IEnumerator IEnumerable.GetEnumerator()

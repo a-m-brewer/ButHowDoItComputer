@@ -4,6 +4,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ButHowDoItComputer", "ButHo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ButHowDoItComputer.Tests", "ButHowDoItComputer.Tests\ButHowDoItComputer.Tests.csproj", "{F02F6915-9FB2-4224-BC53-08FA2A6D3011}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionItems", "{AAC0CFA7-E7D8-4277-BFF9-A72AB1F312D0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
