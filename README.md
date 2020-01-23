@@ -23,6 +23,10 @@
       - [The Adder](#the-adder)
       - [The first great invention](#the-first-great-invention)
       - [Instructions](#instructions)
+        - [The Arithmetic or Logic Instruction](#the-arithmetic-or-logic-instruction)
+          - [Operation](#operation)
+          - [Registers](#registers)
+          - [Instruction Codes](#instruction-codes)
 
 ## But How Do It Know? by J. Clark Scott
 
@@ -169,3 +173,49 @@ As we are designing our own CPU we get to make our own codes up.
 Depending on the codes that we choose will depend on how we wire up the CPU.
 There is a posibility of 256 instructions
 We are only going to create 9.
+
+##### The Arithmetic or Logic Instruction
+
+- Uses the ALU
+- Most veristile instruction 128 posibilities
+
+| ALU Instruction | Operation | Register A | Register B |
+| --------------- | --------- | ---------- | ---------- |
+| 1               | 000       | 00         | 00         |
+
+###### Operation
+
+- 000 Add
+- 001 Shift Left
+- 010 Shift Right
+- 011 Not
+- 100 And
+- 101 Or
+- 110 Xor
+- 111 Cmp
+
+###### Registers
+
+- 00 Register 0
+- 01 Register 1
+- 10 Register 2
+- 11 Register 3
+
+e.g. to add register 2 to register 3 and store in register 3 you would do
+
+1 000 10 11
+
+With one byte operations e.g. Shift Left you can choose where the anwser goes
+
+either 2 to 3 or 2 to 2 etc.
+
+###### Instruction Codes
+
+- ADD RA,RB Add RA and RB and put the answer in RB
+- SHR RA,RB Shift RA Right and put the answer in RB
+- SHL RA,RB Shift RA Left and put the answer in RB
+- NOT RA,RB Not RA and put the answer in RB
+- AND RA,RB And RA and RB and put the answer in RB
+- OR RA,RB Or RA and RB and put the answer in RB
+- XOR RA,RB XOR RA and RB and put the answer in RB
+- CMP RA,RB Compare RA and RB

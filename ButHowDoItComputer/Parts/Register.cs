@@ -5,7 +5,7 @@ using ButHowDoItComputer.Utils.Interfaces;
 
 namespace ButHowDoItComputer.Parts
 {
-    public class Register : IRegister, ICpuEnableSubscriber, ICpuSettableSubscriber
+    public class Register : IRegister, ICpuEnableSubscriber, ICpuSettableSubscriber, IByteCpuInput
     {
         private readonly IByteMemoryGate _byteMemoryGate;
         private readonly IByteEnabler _byteEnabler;
