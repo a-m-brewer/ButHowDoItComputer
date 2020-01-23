@@ -16,6 +16,8 @@ TestResults
 
 .idea
 .idea/*
+.vscode/*
+.vscode
 
 # Build results
 [Dd]ebug/
