@@ -219,3 +219,27 @@ either 2 to 3 or 2 to 2 etc.
 - OR RA,RB Or RA and RB and put the answer in RB
 - XOR RA,RB XOR RA and RB and put the answer in RB
 - CMP RA,RB Compare RA and RB
+- LD RA,RB Load RB from RAM address in RA
+- ST RA,RB Store RB to RAM address in RA
+- DATA RB, xxxx xxxx Load these 8 bits into RB
+- JMPR RB Jump to address in RB (moves the contents RB into Instruction Address Register, making that address in ram the next CPU instruction)
+- JMP Addr Jump to address in the next byte
+
+- JC Addr Jump if Carry is On
+- JA Addr Jump if A is larger than B
+- JE Addr Jump if A is equal to B
+- JZ Addr Jump if 0
+
+- JCA Addr Jump if Carry or A Larger
+- JCE Addr Jump if Carry or A equal B
+- JCZ Addr Jump if Carry or answer equal to 0
+- JAE Addr Jump if A is larger or equal to B
+- JAZ Addr Jump if A is larger or answer is 0
+- JEZ Addr Jump if A equals B or answer is 0
+
+- JCAE Addr Jump if Carry or A larger or equal to B
+- JCAZ Addr Jump if Carry or A larger or Zero
+- JCEZ Addr Jump if Carry or A equals B or Zero
+- JCAEZ Addr Jump if Carry, A larger, Equal or Zero
+
+- CLF Clear all Flags
