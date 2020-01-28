@@ -77,16 +77,32 @@ namespace ButHowDoItComputer.Parts
 
             var naIr123AndStep6AndStep0 = _and.Apply(notAndIr123, _cpuInput.Ir.Output[0], _stepperOutput[5]);
 
+            var step4AndIr0 = _and.Apply(_cpuInput.Ir.Output[0], _stepperOutput[3]);
+            var step5AndIr0 = _and.Apply(_cpuInput.Ir.Output[0], _stepperOutput[4]);
+
+            var step5AndThreeXEight7NotIr4 =
+                _and.Apply(_stepperOutput[4], threeXEightOutput[7], _not.Apply(_cpuInput.Ir.Output[4]));
+
+            var step4AndThreeXEight7AndIr4 =
+                _and.Apply(_stepperOutput[3], threeXEightOutput[7], _cpuInput.Ir.Output[4]);
+
+            UpdateAluOpCode();
+            
             var registerAEnable = RegisterAEnable(
-                _and.Apply(_stepperOutput[4], _cpuInput.Ir.Output[0]), 
+                step5AndIr0, 
                 threeXEightOutputAndStep4Ir4[0], 
                 threeXEightOutputAndStep4Ir4[1]);
             
             var registerBEnable = RegisterBEnable(
-                _and.Apply(_cpuInput.Ir.Output[0], _stepperOutput[4]),
+                step4AndIr0,
                 threeXEightOutputAndStep5NotIr4[1], 
                 threeXEightOutputAndStep4Ir4[4],
-                _and.Apply(_stepperOutput[3], threeXEightOutput[7], _cpuInput.Ir.Output[4]));
+                step4AndThreeXEight7AndIr4);
+
+            var registerBSet = RegisterBSet(naIr123AndStep6AndStep0, threeXEightOutputAndStep5NotIr4[0],
+                threeXEightOutputAndStep5NotIr4[2], step5AndThreeXEight7NotIr4);
+            
+            UpdateRegisters(registerAEnable, registerBEnable, registerBSet);
             
             UpdateIoClkEnable(threeXEightOutputAndStep5NotIr4[7]);
             
@@ -98,6 +114,11 @@ namespace ButHowDoItComputer.Parts
                 threeXEightOutputAndStep4Ir4[1], 
                 threeXEightOutputAndStep4Ir4[2], 
                 threeXEightOutputAndStep4Ir4[4], 
+                threeXEightOutputAndStep4Ir4[5]);
+            UpdateAccSet(
+                _stepperOutput[0], 
+                step5AndIr0, 
+                threeXEightOutputAndStep4Ir4[2], 
                 threeXEightOutputAndStep4Ir4[5]);
             
             UpdateRamEnable(_stepperOutput[1], threeXEightOutputAndStep5NotIr4[0], threeXEightOutputAndStep5NotIr4[2], threeXEightOutputAndStep5NotIr4[4], threeXEightStep6OrCaez);
@@ -112,47 +133,16 @@ namespace ButHowDoItComputer.Parts
                 threeXEightOutputAndStep5NotIr4[5], 
                 threeXEightStep6OrCaez);
             
-            // TODO: UpdateAccSet
-            // TODO: UpdateRamSet
-            // TODO: UpdateTmpSet
-            // TODO: UpdateFlagsSet
-            // TODO: RegisterBSet
-            // TODO: UpdateIoClkSet
+            UpdateRamSet(threeXEightOutputAndStep5NotIr4[1]);
+            UpdateTmpSet(step4AndIr0);
+            UpdateFlagsSet(threeXEightOutputAndStep4Ir4[6], _and.Apply(_cpuInput.Ir.Output[0], _stepperOutput[4]));
+            UpdateIoClkSet(step4AndThreeXEight7AndIr4);
             
+            _cpuEnables.InputOutput.Update(_cpuInput.Ir.Output[4]);
+            _cpuEnables.DataAddress.Update(_cpuInput.Ir.Output[5]);
+
             ApplyEnables();
             ApplySets();
-        }
-        
-        
-
-        /// <summary>
-        /// pg. 120
-        /// </summary>
-        private void UpdateAlu()
-        {
-            var stp4AndIr0 = _and.Apply(_stepperOutput[3], _cpuInput.Ir.Output[0]);
-            var stp5AndIr0 = _and.Apply(_stepperOutput[4], _cpuInput.Ir.Output[0]);
-
-            var andIr123 = _and.Apply(_cpuInput.Ir.Output[1], _cpuInput.Ir.Output[2], _cpuInput.Ir.Output[3]);
-            var notAndIr123 = _not.Apply(andIr123);
-
-            var notAndIr123AndIr0AndStp6 = _and.Apply(notAndIr123, _cpuInput.Ir.Output[0], _stepperOutput[5]);
-
-            _eRegB = stp4AndIr0;
-            _cpuSets.Tmp.Update(stp4AndIr0);
-
-            // TODO: eRegA etc will need to be OR'd with the other inputs coming in the following chapters
-            _eRegA = stp5AndIr0;
-            _cpuSets.Acc.Update(stp5AndIr0);
-
-            _sRegB = notAndIr123AndIr0AndStp6;
-            _cpuEnables.Acc.Update(notAndIr123AndIr0AndStp6);
-
-            var aluInput0 = _and.Apply(_cpuInput.Ir.Output[0], _cpuInput.Ir.Output[1], _stepperOutput[4]);
-            var aluInput1 = _and.Apply(_cpuInput.Ir.Output[0], _cpuInput.Ir.Output[2], _stepperOutput[4]);
-            var aluInput2 = _and.Apply(_cpuInput.Ir.Output[0], _cpuInput.Ir.Output[3], _stepperOutput[4]);
-
-            _aluOpSub.Update(new Op {One = aluInput0, Two = aluInput1, Three = aluInput2});
         }
 
         private IBit[] ThreeXEightOutput()
@@ -249,85 +239,90 @@ namespace ButHowDoItComputer.Parts
             _cpuSets.Ir.Update(CreateSetUpdate(step2));
         }
 
+        private void UpdateIoClkSet(IBit one)
+        {
+            _cpuSets.IoClk.Update(CreateSetUpdate(one));
+        }
+
+        private void UpdateRegisters(IBit regAEnable, IBit regBEnable, IBit regBSet)
+        {
+            var setDecoder = _decoder.Apply(_cpuInput.Ir.Output[6], _cpuInput.Ir.Output[7]).ToArray();
+            var enableDecoder1 = _decoder.Apply(_cpuInput.Ir.Output[6], _cpuInput.Ir.Output[7]).ToArray();
+            var enableDecoder2 = _decoder.Apply(_cpuInput.Ir.Output[4], _cpuInput.Ir.Output[5]).ToArray();
+
+            var e0 = CreateEnableUpdate(enableDecoder1[0], regBEnable);
+            var e1 = CreateEnableUpdate(enableDecoder1[1], regBEnable);
+            var e2 = CreateEnableUpdate(enableDecoder1[2], regBEnable);
+            var e3 = CreateEnableUpdate(enableDecoder1[3], regBEnable);
+            
+            var e4 = CreateEnableUpdate(enableDecoder2[0], regAEnable);
+            var e5 = CreateEnableUpdate(enableDecoder2[1], regAEnable);
+            var e6 = CreateEnableUpdate(enableDecoder2[2], regAEnable);
+            var e7 = CreateEnableUpdate(enableDecoder2[3], regAEnable);
+            
+            var enableRegister0Input = _or.Apply(e0, e4);
+            var enableRegister1Input = _or.Apply(e1, e5);
+            var enableRegister2Input = _or.Apply(e2, e6);
+            var enableRegister3Input = _or.Apply(e3, e7);
+            
+            _cpuEnables.R0.Update(enableRegister0Input);
+            _cpuEnables.R1.Update(enableRegister1Input);
+            _cpuEnables.R2.Update(enableRegister2Input);
+            _cpuEnables.R3.Update(enableRegister3Input);
+
+            var s0 = CreateSetUpdate(setDecoder[0], regBSet);
+            var s1 = CreateSetUpdate(setDecoder[1], regBSet);
+            var s2 = CreateSetUpdate(setDecoder[2], regBSet);
+            var s3 = CreateSetUpdate(setDecoder[3], regBSet);
+            
+            _cpuSets.R0.Update(s0);
+            _cpuSets.R1.Update(s1);
+            _cpuSets.R2.Update(s2);
+            _cpuSets.R3.Update(s3);
+        }
+
+        private void UpdateAluOpCode()
+        {
+            var one = _and.Apply( _cpuInput.Ir.Output[0], _stepperOutput[4], _cpuInput.Ir.Output[1]);
+            var two = _and.Apply( _cpuInput.Ir.Output[0], _stepperOutput[4], _cpuInput.Ir.Output[2]);
+            var three = _and.Apply( _cpuInput.Ir.Output[0], _stepperOutput[4], _cpuInput.Ir.Output[3]);
+
+            _aluOpSub.Update(new Op {One = one, Two = two, Three = three});
+        }
+
         private void UpdateMarSet(IBit one, IBit two, IBit three, IBit four, IBit five, IBit six)
         {
-            _cpuSets.Mar.Update(CreateSetUpdate(one, two, three, four, five, six));
+            _cpuSets.Mar.Update(CreateSetUpdate(_or.Apply(one, two, three, four, five, six)));
         }
         
         private void UpdateIarSet(IBit one, IBit two, IBit three, IBit four, IBit five, IBit six)
         {
-            _cpuSets.Iar.Update(CreateSetUpdate(one, two, three, four, five, six));
+            _cpuSets.Iar.Update(CreateSetUpdate(_or.Apply(one, two, three, four, five, six)));
         }
 
-        /// <summary>
-        /// TODO: if this remains a permanent wiring, create some unit tests. read pg. 105 for intended output
-        ///
-        /// pg. 119
-        /// When the book refers to register A and Register B it means the registers selected from the
-        ///
-        /// 1 000 00 01
-        ///
-        /// Second from last group of bits means register A is R0
-        /// Last 2 bits means that register B is R1
-        /// </summary>
-        private void WireAdd()
+        private void UpdateAccSet(IBit one, IBit two, IBit three, IBit four)
         {
-            var setDecoder = _decoder.Apply(_cpuInput.Ir.Output[5], _cpuInput.Ir.Output[6]).ToArray();
-            var enableDecoder1 = _decoder.Apply(_cpuInput.Ir.Output[5], _cpuInput.Ir.Output[6]).ToArray();
-            var enableDecoder2 = _decoder.Apply(_cpuInput.Ir.Output[3], _cpuInput.Ir.Output[4]).ToArray();
-
-            // TODO: set this to what it is meant to be once that has been found out
-
-            _cpuEnables.Acc.Update(CreateEnableUpdate(_stepperOutput[5]));
-            _cpuSets.Acc.Update(CreateSetUpdate(_stepperOutput[4]));
-            _cpuSets.Tmp.Update(CreateSetUpdate(_stepperOutput[3]));
-
-            var eAnd0 = CreateEnableUpdate(enableDecoder1[0], _sRegB);
-            var eAnd1 = CreateEnableUpdate(enableDecoder1[1], _sRegB);
-            var eAnd2 = CreateEnableUpdate(enableDecoder1[2], _sRegB);
-            var eAnd3 = CreateEnableUpdate(enableDecoder1[3], _sRegB);
-            
-            var eAnd4 = CreateEnableUpdate(enableDecoder2[0], _eRegA);
-            var eAnd5 = CreateEnableUpdate(enableDecoder2[1], _eRegA);
-            var eAnd6 = CreateEnableUpdate(enableDecoder2[2], _eRegA);
-            var eAnd7 = CreateEnableUpdate(enableDecoder2[3], _eRegA);
-
-            var r0In = _or.Apply(eAnd0, eAnd4);
-            var r1In = _or.Apply(eAnd1, eAnd5);
-            var r2In = _or.Apply(eAnd2, eAnd6);
-            var r3In = _or.Apply(eAnd3, eAnd7);
-            
-            _cpuEnables.R0.Update(r0In);
-            _cpuEnables.R1.Update(r1In);
-            _cpuEnables.R2.Update(r2In);
-            _cpuEnables.R3.Update(r3In);
-
-            var sAnd0 = CreateSetUpdate(setDecoder[0], _eRegB);
-            var sAnd1 = CreateSetUpdate(setDecoder[1], _eRegB);
-            var sAnd2 = CreateSetUpdate(setDecoder[2], _eRegB);
-            var sAnd3 = CreateSetUpdate(setDecoder[3], _eRegB);
-            
-            _cpuSets.R0.Update(sAnd0);
-            _cpuSets.R1.Update(sAnd1);
-            _cpuSets.R2.Update(sAnd2);
-            _cpuSets.R3.Update(sAnd3);
+            _cpuSets.Acc.Update(CreateSetUpdate(_or.Apply(one, two, three, four)));
         }
 
-        /// <summary>
-        /// pg. 112
-        /// </summary>
-        private void WireInstructionRegister()
+        private void UpdateRamSet(IBit one)
         {
-            _bus1Sub.Update(_stepperOutput[0]);
-            
-            _cpuEnables.Iar.Update(CreateEnableUpdate(_stepperOutput[0]));
-            _cpuEnables.Ram.Update(CreateEnableUpdate(_stepperOutput[1]));
-            _cpuEnables.Acc.Update(CreateEnableUpdate(_stepperOutput[2]));
-            
-            _cpuSets.Ir.Update(CreateSetUpdate(_stepperOutput[1]));
-            _cpuSets.Mar.Update(CreateSetUpdate(_stepperOutput[0]));
-            _cpuSets.Iar.Update(CreateSetUpdate(_stepperOutput[2]));
-            _cpuSets.Acc.Update(CreateSetUpdate(_stepperOutput[0]));
+            _cpuSets.Ram.Update(CreateSetUpdate(one));
+        }
+
+        private void UpdateTmpSet(IBit one)
+        {
+            _cpuSets.Tmp.Update(CreateSetUpdate(one));
+        }
+
+        private void UpdateFlagsSet(IBit one, IBit two)
+        {
+            _cpuSets.Flags.Update(CreateSetUpdate(_or.Apply(one, two)));
+        }
+
+        private IBit RegisterBSet(IBit one, IBit two, IBit three, IBit four)
+        {
+            return _or.Apply(one, two, three, four);
         }
 
         private void ApplyEnables()
