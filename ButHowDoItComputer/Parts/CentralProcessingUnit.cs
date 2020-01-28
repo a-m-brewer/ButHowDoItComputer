@@ -23,9 +23,6 @@ namespace ButHowDoItComputer.Parts
         private readonly INot _not;
         private readonly IDecoder _decoder;
         private StepperOutput _stepperOutput;
-        private IBit _eRegA;
-        private IBit _sRegB;
-        private IBit _eRegB;
 
         public CentralProcessingUnit(
             IClock clock, 
