@@ -48,10 +48,6 @@ namespace ButHowDoItComputer.Parts
             _or = or;
             _not = not;
             _decoder = decoder;
-
-            _eRegA = false.ToBit();
-            _sRegB = false.ToBit();
-            _eRegB = false.ToBit();
         }
 
         public void Step()
