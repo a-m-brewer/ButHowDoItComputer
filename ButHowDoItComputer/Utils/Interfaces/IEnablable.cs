@@ -4,6 +4,6 @@ namespace ButHowDoItComputer.Utils.Interfaces
 {
     public interface IEnablable
     {
-        IBit Enable { set; }
+        IBit Enable { get; set; }
     }
 }

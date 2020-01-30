@@ -70,5 +70,22 @@ namespace ButHowDoItComputer.Parts
         {
             ClkS = _and.Apply(Clk, ClkD);
         }
+
+        public void Apply()
+        {
+            Cycle();
+        }
+
+        public IBit Set
+        {
+            get => ClkS;
+            set => ClkS = value;
+        }
+
+        public IBit Enable
+        {
+            get => ClkE; 
+            set => ClkE = value;
+        }
     }
 }

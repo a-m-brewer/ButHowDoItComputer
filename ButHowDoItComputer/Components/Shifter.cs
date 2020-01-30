@@ -18,7 +18,7 @@ namespace ButHowDoItComputer.Components
             ShiftOut = bitFactory.Create(false);
         }
         
-        public void Apply(IRegister inputRegister, IRegister outputRegister)
+        public void Apply(IRegister<IByte> inputRegister, IRegister<IByte> outputRegister)
         {
             inputRegister.Apply();
             var secondRegisterInput = GetShifter(inputRegister);
@@ -26,7 +26,7 @@ namespace ButHowDoItComputer.Components
             outputRegister.Apply();
         }
 
-        protected virtual IBit[] GetShifter(IRegister inputRegister)
+        protected virtual IBit[] GetShifter(IRegister<IByte> inputRegister)
         {
             ShiftOut = inputRegister.Output[0];
             var secondRegisterInput = new[]

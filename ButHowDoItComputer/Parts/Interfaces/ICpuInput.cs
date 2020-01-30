@@ -2,8 +2,8 @@ using ButHowDoItComputer.DataTypes.Interfaces;
 
 namespace ButHowDoItComputer.Parts.Interfaces
 {
-    public interface IByteCpuInput
+    public interface ICpuInput<out T>
     {
-        IByte Output { get; }
+        T Output { get; }
     }
 }

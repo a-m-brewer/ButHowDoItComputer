@@ -16,7 +16,7 @@ namespace ButHowDoItComputer.Components
             _byteEnablerListGateFactory = byteEnablerListGateFactory;
         }
 
-        public void Apply(IRegister inputRegister, IBit set, IRegister outputRegister)
+        public void Apply(IRegister<IByte> inputRegister, IBit set, IRegister<IByte> outputRegister)
         {
             var byteListGate = _byteEnablerListGateFactory.Create(set);
             var registerListGate = _registerListGateFactory.Create(byteListGate);

@@ -5,14 +5,14 @@ using ButHowDoItComputer.Parts.Interfaces;
 
 namespace ButHowDoItComputer.Parts.Factories
 {
-    public class RegisterFactory : IRegisterFactory
+    public class ByteRegisterFactory : IByteRegisterFactory
     {
         private readonly IByteEnabler _byteEnabler;
         private readonly IByteFactory _byteFactory;
         private readonly IBitFactory _bitFactory;
         private readonly IByteMemoryGateFactory _byteMemoryGateFactory;
 
-        public RegisterFactory(IByteMemoryGateFactory byteMemoryGateFactory, IByteEnabler byteEnabler, IByteFactory byteFactory, IBitFactory bitFactory)
+        public ByteRegisterFactory(IByteMemoryGateFactory byteMemoryGateFactory, IByteEnabler byteEnabler, IByteFactory byteFactory, IBitFactory bitFactory)
         {
             _byteMemoryGateFactory = byteMemoryGateFactory;
             _byteEnabler = byteEnabler;
@@ -20,7 +20,7 @@ namespace ButHowDoItComputer.Parts.Factories
             _bitFactory = bitFactory;
         }
         
-        public IRegister Create()
+        public IRegister<IByte> Create()
         {
             return new Register(_byteMemoryGateFactory.Create(), _byteEnabler, _byteFactory, _bitFactory);
         }

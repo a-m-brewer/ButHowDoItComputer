@@ -16,7 +16,7 @@ namespace ButHowDoItComputer.Components
             _rightByteShifter = rightByteShifter;
         }
 
-        protected override IBit[] GetShifter(IRegister inputRegister)
+        protected override IBit[] GetShifter(IRegister<IByte> inputRegister)
         {
             var (secondRegisterInput, shiftOut) = _rightByteShifter.Shift(inputRegister.Output, ShiftIn);
             ShiftOut = shiftOut;

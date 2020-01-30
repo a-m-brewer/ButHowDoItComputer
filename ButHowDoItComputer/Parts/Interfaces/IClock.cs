@@ -1,9 +1,10 @@
 ﻿using ButHowDoItComputer.DataTypes;
 using ButHowDoItComputer.DataTypes.Interfaces;
+using ButHowDoItComputer.Utils.Interfaces;
 
 namespace ButHowDoItComputer.Parts.Interfaces
 {
-    public interface IClock
+    public interface IClock : ICpuSettableSubscriber, ICpuEnableSubscriber
     {
         IBit ClkS { get; }
         IBit ClkE { get; }

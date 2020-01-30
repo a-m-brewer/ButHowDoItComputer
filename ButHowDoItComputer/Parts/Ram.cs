@@ -10,12 +10,12 @@ namespace ButHowDoItComputer.Parts
     public class Ram : IRam, IApplicable, IEnablable, ISettable
     {
         public IBus MemoryAddressBus { get; }
-        private readonly IRegisterFactory _registerFactory;
+        private readonly IByteRegisterFactory _byteRegisterFactory;
         private readonly IBitFactory _bitFactory;
         private readonly IDecoder _decoder;
         private readonly IAnd _and;
 
-        public IRegister MemoryAddressRegister { get; private set; }
+        public IRegister<IByte> MemoryAddressRegister { get; private set; }
 
         public IBit Set { get; set; }
         public IBit Enable { get; set; }
@@ -23,14 +23,14 @@ namespace ButHowDoItComputer.Parts
 
         public IBus Io { get; }
 
-        private List<List<IRegister>> _internalRegisters = new List<List<IRegister>>();
+        private List<List<IRegister<IByte>>> _internalRegisters = new List<List<IRegister<IByte>>>();
 
-        public Ram(IBus memoryAddressBus, IBus outputBus, IRegisterFactory registerFactory, IBitFactory bitFactory,
+        public Ram(IBus memoryAddressBus, IBus outputBus, IByteRegisterFactory byteRegisterFactory, IBitFactory bitFactory,
             IDecoder decoder, IAnd and)
         {
             MemoryAddressBus = memoryAddressBus;
             Io = outputBus;
-            _registerFactory = registerFactory;
+            _byteRegisterFactory = byteRegisterFactory;
             _bitFactory = bitFactory;
             _decoder = decoder;
             _and = and;
@@ -44,7 +44,7 @@ namespace ButHowDoItComputer.Parts
 
         private void SetupInputRegister()
         {
-            MemoryAddressRegister = _registerFactory.Create();
+            MemoryAddressRegister = _byteRegisterFactory.Create();
             // never need to hide input registers value
             MemoryAddressRegister.Enable.State = true;
             MemoryAddressBus.Add(MemoryAddressRegister);
@@ -53,7 +53,7 @@ namespace ButHowDoItComputer.Parts
         private void SetupInternalRegisters()
         {
             _internalRegisters = Enumerable.Range(0, 16)
-                .Select(s => Enumerable.Range(0, 16).Select(y => _registerFactory.Create()).ToList()).ToList();
+                .Select(s => Enumerable.Range(0, 16).Select(y => _byteRegisterFactory.Create()).ToList()).ToList();
 
             foreach (var register in _internalRegisters.SelectMany(row => row))
             {
@@ -70,7 +70,7 @@ namespace ButHowDoItComputer.Parts
 
         public void Apply()
         {
-            var inputData = MemoryAddressRegister.Byte;
+            var inputData = MemoryAddressRegister.Data;
             var yInput = new [] {inputData.One, inputData.Two, inputData.Three, inputData.Four};
             var yDecoder = _decoder.Apply(yInput).ToList();
 

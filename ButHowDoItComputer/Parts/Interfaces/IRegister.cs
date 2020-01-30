@@ -1,17 +1,15 @@
 using ButHowDoItComputer.DataTypes.Interfaces;
+using ButHowDoItComputer.Utils.Interfaces;
 
 namespace ButHowDoItComputer.Parts.Interfaces
 {
-    public interface IRegister
+    public interface IRegister<T> : ICpuEnableSubscriber, ICpuSettableSubscriber, ICpuInput<T>
     {
-        IBit Enable { get; set; }
-        IBit Set { get; set; }
-        IByte Byte { get; }
-        IByte Input { get; set; }
-        IByte Output { get; }
+        T Data { get; }
+        T Input { get; set; }
+        T Output { get; }
         
-        IByte ApplyOnce(IByte input, bool enable = false);
-        IByte Apply(IByte input);
-        IByte Apply();
+        T ApplyOnce(T input, bool enable = false);
+        T Apply(T input);
     }
 }

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using ButHowDoItComputer.Components.Interfaces;
+using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Gates.Interfaces;
 using ButHowDoItComputer.Parts.Interfaces;
 
@@ -14,7 +15,7 @@ namespace ButHowDoItComputer.Components
             _registerListGate = new RegisterListGate(byteAnd);
         }
         
-        public void Apply(IList<IRegister> inputRegisters, IRegister outputRegister)
+        public void Apply(IList<IRegister<IByte>> inputRegisters, IRegister<IByte> outputRegister)
         {
             _registerListGate.Apply(inputRegisters, outputRegister);
         }

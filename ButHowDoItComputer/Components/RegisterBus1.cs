@@ -12,18 +12,33 @@ namespace ButHowDoItComputer.Components
         private readonly IBus1 _bus1;
         private readonly IByteGateToListFactory _byteGateToListFactory;
 
-        public RegisterBus1(IRegisterListGateFactory registerListGateFactory, IBus1 bus1, IByteGateToListFactory byteGateToListFactory)
+        public IRegister<IByte> InputRegister { get; private set; }
+        public IRegister<IByte> OutputRegister { get; private set; }
+        
+        public IBit Set { get; set; }
+
+        public RegisterBus1(IRegisterListGateFactory registerListGateFactory, IBus1 bus1, IByteGateToListFactory byteGateToListFactory, IByteRegisterFactory byteRegisterFactory)
         {
             _registerListGateFactory = registerListGateFactory;
             _bus1 = bus1;
             _byteGateToListFactory = byteGateToListFactory;
+            InputRegister = byteRegisterFactory.Create();
+            OutputRegister = byteRegisterFactory.Create();
         }
 
-        public void Apply(IRegister inputRegister, IBit bus1, IRegister outputRegister)
+        public void Apply(IRegister<IByte> inputRegister, IBit set, IRegister<IByte> outputRegister)
         {
-            var byteGate = _byteGateToListFactory.Convert(_bus1, bus1);
+            InputRegister = inputRegister;
+            OutputRegister = outputRegister;
+            Set = set;
+            Apply();
+        }
+
+        public void Apply()
+        {
+            var byteGate = _byteGateToListFactory.Convert(_bus1, Set);
             var registerGate = _registerListGateFactory.Create(byteGate);
-            registerGate.Apply(new[] { inputRegister }, outputRegister);
+            registerGate.Apply(new[] { InputRegister }, OutputRegister);
         }
     }
 }

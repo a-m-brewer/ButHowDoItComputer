@@ -14,7 +14,7 @@ namespace ButHowDoItComputer.Components
             _isZeroGate = isZeroGate;
         }
 
-        public IBit IsZero(IRegister inputRegister)
+        public IBit IsZero(IRegister<IByte> inputRegister)
         {
             inputRegister.Apply();
             return _isZeroGate.IsZero(inputRegister.Output);

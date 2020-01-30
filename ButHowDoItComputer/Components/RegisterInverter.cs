@@ -1,4 +1,5 @@
 using ButHowDoItComputer.Components.Interfaces;
+using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Gates.Interfaces;
 using ButHowDoItComputer.Parts.Interfaces;
 
@@ -13,7 +14,7 @@ namespace ButHowDoItComputer.Components
             _inverter = inverter;
         }
         
-        public void Apply(IRegister inputRegister, IRegister outputRegister)
+        public void Apply(IRegister<IByte> inputRegister, IRegister<IByte> outputRegister)
         {
             inputRegister.Apply();
             var outputRegisterInput = _inverter.Invert(inputRegister.Output);

@@ -5,6 +5,6 @@ namespace ButHowDoItComputer.Components.Interfaces
 {
     public interface IRegisterWithSet
     {
-        void Apply(IRegister inputRegister, IBit set, IRegister outputRegister);
+        void Apply(IRegister<IByte> inputRegister, IBit set, IRegister<IByte> outputRegister);
     }
 }

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using ButHowDoItComputer.Components.Interfaces;
+using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Gates.Interfaces;
 using ButHowDoItComputer.Parts.Interfaces;
 
@@ -15,7 +16,7 @@ namespace ButHowDoItComputer.Components
             _byteListGate = byteListGate;
         }
         
-        public void Apply(IList<IRegister> inputRegisters, IRegister outputRegister)
+        public void Apply(IList<IRegister<IByte>> inputRegisters, IRegister<IByte> outputRegister)
         {
             foreach (var inputRegister in inputRegisters)
             {

@@ -40,14 +40,14 @@ namespace ButHowDoItComputer.Tests
             registerOne.Apply(CreateByte(true));
             registerOne.Set.State = false;
             
-            var bus = new Bus(new List<IRegister> {registerOne, registerTwo}, _byteFactory);
+            var bus = new Bus(new List<IRegister<IByte>> {registerOne, registerTwo}, _byteFactory);
 
             bus[0].Enable.State = true;
             bus[1].Set.State = true;
 
             bus.Apply();
             
-            foreach (var bit in bus[1].Byte)
+            foreach (var bit in bus[1].Data)
             {
                 Assert.AreEqual(true, bit.State);
             }

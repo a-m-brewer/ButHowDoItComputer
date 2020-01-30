@@ -9,7 +9,7 @@ using ButHowDoItComputer.Utils.Interfaces;
 
 namespace ButHowDoItComputer.Parts
 {
-    public class CentralProcessingUnit
+    public class CentralProcessingUnit : ICentralProcessingUnit
     {
         private readonly IClock _clock;
         private readonly IStepper _stepper;

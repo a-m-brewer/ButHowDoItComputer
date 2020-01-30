@@ -5,7 +5,7 @@ using ButHowDoItComputer.Utils.Interfaces;
 
 namespace ButHowDoItComputer.Parts
 {
-    public class Register : IRegister, ICpuEnableSubscriber, ICpuSettableSubscriber, IByteCpuInput
+    public class Register : IRegister<IByte>
     {
         private readonly IByteMemoryGate _byteMemoryGate;
         private readonly IByteEnabler _byteEnabler;
@@ -16,7 +16,7 @@ namespace ButHowDoItComputer.Parts
 
         public IByte Input { get; set; }
 
-        public IByte Byte { get; private set; }
+        public IByte Data { get; private set; }
         
         public IByte Output { get; private set; }
 
@@ -27,7 +27,7 @@ namespace ButHowDoItComputer.Parts
             _bitFactory = bitFactory;
             Input = byteFactory.Create();
             Output = byteFactory.Create();
-            Byte = byteFactory.Create();
+            Data = byteFactory.Create();
             Set = bitFactory.Create(false);
             Enable = bitFactory.Create(false);
         }
@@ -62,12 +62,12 @@ namespace ButHowDoItComputer.Parts
 
         private void ApplyPrivate(IByte input)
         {
-            Byte = _byteMemoryGate.Apply(input, Set);
+            Data = _byteMemoryGate.Apply(input, Set);
         }
 
         private void ApplyOutput()
         {
-            Output = _byteEnabler.Apply(Byte, Enable);
+            Output = _byteEnabler.Apply(Data, Enable);
         }
     }
 }

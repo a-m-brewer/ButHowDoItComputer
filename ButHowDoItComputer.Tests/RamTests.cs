@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using ButHowDoItComputer.DataTypes.Factories;
+using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Gates;
 using ButHowDoItComputer.Gates.Factories;
 using ButHowDoItComputer.Gates.Interfaces;
@@ -22,7 +23,7 @@ namespace ButHowDoItComputer.Tests
         private MemoryGateFactory _memoryGateFactory;
         private ByteMemoryGateFactory _byteMemoryGateFactory;
         private And _and;
-        private RegisterFactory _registerFactory;
+        private ByteRegisterFactory _byteRegisterFactory;
         private Not _not;
         private Bus _inputBus;
         private Bus _outputBus;
@@ -42,11 +43,11 @@ namespace ButHowDoItComputer.Tests
             
             _memoryGateFactory = new MemoryGateFactory(new NAnd(_not, _and), _bitFactory);
             _byteMemoryGateFactory = new ByteMemoryGateFactory(_memoryGateFactory, _byteFactory); 
-            _registerFactory = new RegisterFactory(_byteMemoryGateFactory, new ByteEnabler(_and, _byteFactory), _byteFactory, _bitFactory);
+            _byteRegisterFactory = new ByteRegisterFactory(_byteMemoryGateFactory, new ByteEnabler(_and, _byteFactory), _byteFactory, _bitFactory);
             
-            _inputBus = new Bus(new List<IRegister>(), _byteFactory);
-            _outputBus = new Bus(new List<IRegister>(), _byteFactory);
-            _ram = new Ram(_inputBus, _outputBus, _registerFactory, _bitFactory, new Decoder(_not, _and, _bitFactory), _and);
+            _inputBus = new Bus(new List<IRegister<IByte>>(), _byteFactory);
+            _outputBus = new Bus(new List<IRegister<IByte>>(), _byteFactory);
+            _ram = new Ram(_inputBus, _outputBus, _byteRegisterFactory, _bitFactory, new Decoder(_not, _and, _bitFactory), _and);
         }
         
         [Test]
@@ -58,15 +59,15 @@ namespace ButHowDoItComputer.Tests
 
             for (var i = 0; i < address.Count; i++)
             {
-                Assert.AreEqual(address[i].State,_ram.MemoryAddressRegister.Byte[i].State); 
+                Assert.AreEqual(address[i].State,_ram.MemoryAddressRegister.Data[i].State); 
             }
         }
 
         [Test]
         public void CanPutDataIntoARegister()
         {
-            var writeRegister = _registerFactory.Create();
-            var readRegister = _registerFactory.Create();
+            var writeRegister = _byteRegisterFactory.Create();
+            var readRegister = _byteRegisterFactory.Create();
             _outputBus.Add(writeRegister); 
             _outputBus.Add(readRegister); 
             
@@ -99,9 +100,9 @@ namespace ButHowDoItComputer.Tests
             readRegister.Set.State = false;
 
             // make sure that happend
-            for (var i = 0; i < readRegister.Byte.Count; i++)
+            for (var i = 0; i < readRegister.Data.Count; i++)
             {
-                Assert.AreEqual(expected[i].State, readRegister.Byte[i].State);
+                Assert.AreEqual(expected[i].State, readRegister.Data[i].State);
             }
 
             // disable the write register so that its value does not go on the bus.
@@ -113,7 +114,7 @@ namespace ButHowDoItComputer.Tests
             readRegister.Set.State = false;
             
             // check the read register is now what was in ram.
-            Assert.IsTrue(readRegister.Byte.All(a => a.State));
+            Assert.IsTrue(readRegister.Data.All(a => a.State));
         }
     }
 }

@@ -7,16 +7,16 @@ namespace ButHowDoItComputer.Parts
 {
     public class Bus : IBus
     {
-        private readonly IList<IRegister> _registers;
+        private readonly IList<IRegister<IByte>> _registers;
         public IByte State { get; private set; }
 
-        public Bus(IList<IRegister> registers, IByteFactory byteFactory)
+        public Bus(IList<IRegister<IByte>> registers, IByteFactory byteFactory)
         {
             _registers = registers;
             State = byteFactory.Create();
         }
         
-        public IEnumerator<IRegister> GetEnumerator()
+        public IEnumerator<IRegister<IByte>> GetEnumerator()
         {
             return _registers.GetEnumerator();
         }
@@ -26,7 +26,7 @@ namespace ButHowDoItComputer.Parts
             return GetEnumerator();
         }
 
-        public void Add(IRegister item)
+        public void Add(IRegister<IByte> item)
         {
             _registers.Add(item);
         }
@@ -36,17 +36,17 @@ namespace ButHowDoItComputer.Parts
             throw new System.NotImplementedException();
         }
 
-        public bool Contains(IRegister item)
+        public bool Contains(IRegister<IByte> item)
         {
             return _registers.Contains(item);
         }
 
-        public void CopyTo(IRegister[] array, int arrayIndex)
+        public void CopyTo(IRegister<IByte>[] array, int arrayIndex)
         {
             _registers.CopyTo(array, arrayIndex);
         }
 
-        public bool Remove(IRegister item)
+        public bool Remove(IRegister<IByte> item)
         {
             return _registers.Remove(item);
         }
@@ -55,12 +55,12 @@ namespace ButHowDoItComputer.Parts
 
         public bool IsReadOnly => _registers.IsReadOnly;
         
-        public int IndexOf(IRegister item)
+        public int IndexOf(IRegister<IByte> item)
         {
             return _registers.IndexOf(item);
         }
 
-        public void Insert(int index, IRegister item)
+        public void Insert(int index, IRegister<IByte> item)
         {
             _registers.Insert(index, item);
         }
@@ -70,7 +70,7 @@ namespace ButHowDoItComputer.Parts
             _registers.RemoveAt(index);
         }
 
-        public IRegister this[int index]
+        public IRegister<IByte> this[int index]
         {
             get => _registers[index];
             set => _registers[index] = value;

@@ -5,6 +5,6 @@ namespace ButHowDoItComputer.Components.Interfaces
 {
     public interface IRegisterAdder
     {
-        IBit Apply(IRegister inputRegisterA, IRegister inputRegisterB, IBit carryIn, IRegister outputRegister);
+        IBit Apply(IRegister<IByte> inputRegisterA, IRegister<IByte> inputRegisterB, IBit carryIn, IRegister<IByte> outputRegister);
     }
 }

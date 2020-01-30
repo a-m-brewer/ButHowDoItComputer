@@ -4,6 +4,6 @@ namespace ButHowDoItComputer.Utils.Interfaces
 {
     public interface ISettable
     {
-        IBit Set { set; }
+        IBit Set { get; set; }
     }
 }

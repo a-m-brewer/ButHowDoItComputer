@@ -5,6 +5,6 @@ namespace ButHowDoItComputer.Components.Interfaces
 {
     public interface IRegisterIsZero
     {
-        IBit IsZero(IRegister inputRegister);
+        IBit IsZero(IRegister<IByte> inputRegister);
     }
 }
