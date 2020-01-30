@@ -22,7 +22,7 @@ namespace ButHowDoItComputer.Parts.Factories
         
         public IRegister<IByte> Create()
         {
-            return new Register(_byteMemoryGateFactory.Create(), _byteEnabler, _byteFactory, _bitFactory);
+            return new ByteRegister(_byteMemoryGateFactory.Create(), _byteEnabler, _byteFactory, _bitFactory);
         }
     }
 }

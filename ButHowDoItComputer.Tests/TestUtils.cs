@@ -12,20 +12,20 @@ namespace ButHowDoItComputer.Tests
 {
     public static class TestUtils
     {
-        public static Register CreateRegister(bool set = true, bool enable = true)
+        public static ByteRegister CreateRegister(bool set = true, bool enable = true)
         {
             var bitFactory = new BitFactory();
             var byteFactory = new ByteFactory(bitFactory, new Base10Converter(bitFactory));
             var memoryGateFactory = new MemoryGateFactory(new NAnd(new Not(bitFactory), new And(bitFactory)), bitFactory);
             var and = new And(bitFactory);
-            return new Register(new ByteMemoryGate(memoryGateFactory, byteFactory),
+            return new ByteRegister(new ByteMemoryGate(memoryGateFactory, byteFactory),
                 new ByteEnabler(and, byteFactory), byteFactory, bitFactory)
             {
                 Set = new Bit(set), Enable = new Bit(enable)
             };
         }
 
-        public static Register CreateRegister(this uint input, bool set = true, bool enable = true)
+        public static ByteRegister CreateRegister(this uint input, bool set = true, bool enable = true)
         {
             var b10ToByte = CreateByteToBase10Converter();
             var register = CreateRegister(set, enable);
@@ -33,7 +33,7 @@ namespace ButHowDoItComputer.Tests
             return register;
         }
         
-        public static Register CreateRegister(this IByte input, bool set = true, bool enable = true)
+        public static ByteRegister CreateRegister(this IByte input, bool set = true, bool enable = true)
         {
             var register = CreateRegister(set, enable);
             register.Input = input;

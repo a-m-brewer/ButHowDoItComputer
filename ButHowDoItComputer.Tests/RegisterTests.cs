@@ -18,7 +18,7 @@ namespace ButHowDoItComputer.Tests
         private ByteMemoryGate _byteMemoryGate;
         private And _and;
         private ByteEnabler _byteEnabler;
-        private Register _sut;
+        private ByteRegister _sut;
 
         [SetUp]
         public void Setup()
@@ -29,7 +29,7 @@ namespace ButHowDoItComputer.Tests
             _memoryGateFactory = new MemoryGateFactory(new NAnd(new Not(_bitFactory), _and), _bitFactory); 
             _byteMemoryGate = new ByteMemoryGate(_memoryGateFactory, _byteFactory);
             _byteEnabler = new ByteEnabler(_and, _byteFactory);
-            _sut = new Register(_byteMemoryGate, _byteEnabler, _byteFactory, _bitFactory);
+            _sut = new ByteRegister(_byteMemoryGate, _byteEnabler, _byteFactory, _bitFactory);
         }
 
         [Test]

@@ -53,9 +53,9 @@ namespace ButHowDoItComputer.Tests
             }
         }
 
-        private Register CreateRegister()
+        private ByteRegister CreateRegister()
         {
-            return new Register(new ByteMemoryGate(_memoryGateFactory, _byteFactory),
+            return new ByteRegister(new ByteMemoryGate(_memoryGateFactory, _byteFactory),
                                    new ByteEnabler(_and, _byteFactory), _byteFactory, _bitFactory);
         }
 

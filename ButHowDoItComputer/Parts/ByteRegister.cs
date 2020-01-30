@@ -5,7 +5,7 @@ using ButHowDoItComputer.Utils.Interfaces;
 
 namespace ButHowDoItComputer.Parts
 {
-    public class Register : IRegister<IByte>
+    public class ByteRegister : IRegister<IByte>
     {
         private readonly IByteMemoryGate _byteMemoryGate;
         private readonly IByteEnabler _byteEnabler;
@@ -20,7 +20,7 @@ namespace ButHowDoItComputer.Parts
         
         public IByte Output { get; private set; }
 
-        public Register(IByteMemoryGate byteMemoryGate, IByteEnabler byteEnabler, IByteFactory byteFactory, IBitFactory bitFactory)
+        public ByteRegister(IByteMemoryGate byteMemoryGate, IByteEnabler byteEnabler, IByteFactory byteFactory, IBitFactory bitFactory)
         {
             _byteMemoryGate = byteMemoryGate;
             _byteEnabler = byteEnabler;
