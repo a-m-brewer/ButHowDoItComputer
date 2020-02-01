@@ -2,8 +2,7 @@ using ButHowDoItComputer.DataTypes.Interfaces;
 
 namespace ButHowDoItComputer.Gates.Interfaces
 {
-    public interface IByteGate
+    public interface IByteGate : IGenericMemoryGate<IByte>
     {
-        IByte Apply(IByte input, IBit set);
     }
 }

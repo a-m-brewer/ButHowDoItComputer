@@ -48,16 +48,10 @@ namespace ButHowDoItComputer.Parts
             return Output;
         }
 
-        public IByte Apply()
+        void IApplicable.Apply()
         {
             ApplyPrivate(Input);
             ApplyOutput();
-            return Output;
-        }
-
-        void IApplicable.Apply()
-        {
-            Apply();
         }
 
         private void ApplyPrivate(IByte input)
