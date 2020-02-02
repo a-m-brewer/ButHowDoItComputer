@@ -16,7 +16,7 @@ namespace ButHowDoItComputer.DataTypes.Factories
             _base10Converter = base10Converter;
         }
         
-        public IByte Create(IBit[] bits)
+        public IByte Create(params IBit[] bits)
         {
             if (bits.Length != 8)
             {

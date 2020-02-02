@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using ButHowDoItComputer.DataTypes.Interfaces;
+using ButHowDoItComputer.Utils;
 
 namespace ButHowDoItComputer.DataTypes
 {
@@ -10,7 +11,7 @@ namespace ButHowDoItComputer.DataTypes
         {
             State = initialState;
         }
-        
-        public bool State { get; set; }
+
+        public bool State { get; set; } = false;
     }
 }

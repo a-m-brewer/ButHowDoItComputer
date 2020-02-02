@@ -2,7 +2,7 @@
 {
     public interface ICpuSubscriberNotifier<in TData>
     {
-        void Update(TData newState);
-        void Apply();
+        public void Update(TData newState);
+        public void Apply();
     }
 }

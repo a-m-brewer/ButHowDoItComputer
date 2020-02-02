@@ -1,13 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
+using ButHowDoItComputer.Components.CpuSubscribers;
 using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Parts.Interfaces;
+using ButHowDoItComputer.Utils.Interfaces;
 
 namespace ButHowDoItComputer.Parts
 {
     public class Bus : IBus
     {
         private readonly IList<IRegister<IByte>> _registers;
+
+        public List<IBusInputSubscriber<IByte>> BusSubscribers { get; set; } = new List<IBusInputSubscriber<IByte>>();
+        
         public IByte State { get; private set; }
 
         public Bus(IList<IRegister<IByte>> registers, IByteFactory byteFactory)
@@ -84,8 +89,18 @@ namespace ButHowDoItComputer.Parts
                 if (register.Enable.State)
                 {
                     State = result;
+
+                    foreach (var busSubscriber in BusSubscribers)
+                    {
+                        busSubscriber.Input = State;
+                    }
                 }
             }
+        }
+
+        public IByte Input
+        {
+            get => State; set => State = value; 
         }
     }
 }

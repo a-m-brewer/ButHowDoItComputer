@@ -1,7 +1,10 @@
+using System.Collections.Generic;
 using ButHowDoItComputer.DataTypes;
 using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Gates.Interfaces;
 using ButHowDoItComputer.Parts.Interfaces;
+using ButHowDoItComputer.Utils;
+using ButHowDoItComputer.Utils.Interfaces;
 
 namespace ButHowDoItComputer.Parts
 {
@@ -17,9 +20,9 @@ namespace ButHowDoItComputer.Parts
             
             Enable = new Bit(false);
             Set = new Bit(false);
-            Data = new Caez();
-            Input = new Caez();
-            Output = new Caez();
+            Data = new Caez { C = false.ToBit(), A = false.ToBit(), E = false.ToBit(), Z = false.ToBit()};
+            Input = new Caez { C = false.ToBit(), A = false.ToBit(), E = false.ToBit(), Z = false.ToBit()};
+            Output = new Caez { C = false.ToBit(), A = false.ToBit(), E = false.ToBit(), Z = false.ToBit()};
         }
         
         public void Apply()
@@ -30,10 +33,14 @@ namespace ButHowDoItComputer.Parts
 
         public IBit Enable { get; set; }
         public IBit Set { get; set; }
-        public Caez Data { get; private set; }
+        public Caez Data { get; set; }
         public Caez Input { get; set; }
         public Caez Output { get; private set; }
         
+        public List<IBusInputSubscriber<Caez>> Subscribers { get; } = new List<IBusInputSubscriber<Caez>>();
+        
+        public string Name { get; set; }
+
         public Caez ApplyOnce(Caez input, bool enable = false)
         {
             Enable.State = enable;
@@ -58,6 +65,13 @@ namespace ButHowDoItComputer.Parts
         private void ApplyOutput()
         {
             Output = _caezEnabler.Apply(Data, Enable);
+
+            foreach (var subscriber in Subscribers)
+            {
+                subscriber.Input = Output;
+            }
         }
+
+        Caez IBusInputSubscriber<Caez>.Input { get; set; }
     }
 }

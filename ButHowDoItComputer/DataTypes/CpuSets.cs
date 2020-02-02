@@ -26,13 +26,13 @@ namespace ButHowDoItComputer.DataTypes
         public IEnumerator<ICpuSubscriberNotifier<IBit>> GetEnumerator()
         {
             yield return Mar;
-            yield return Acc;
             yield return Ram;
             yield return Tmp;
             yield return R0;
             yield return R1;
             yield return R2;
             yield return R3;
+            yield return Acc;
             yield return Ir;
             yield return Iar;
             yield return IoClk;

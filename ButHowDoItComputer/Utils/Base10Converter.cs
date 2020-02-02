@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using ButHowDoItComputer.DataTypes.Factories;
 using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Utils.Interfaces;
 
@@ -46,6 +47,34 @@ namespace ButHowDoItComputer.Utils
             }
 
             return (uint) total;
+        }
+
+        public IEnumerable<IBit> Pad(List<IBit> bits, int amount)
+        {
+            var toAdd = amount - bits.Count;
+            bits.AddRange(_bitFactory.Create(toAdd));
+            return bits;
+        }
+    }
+
+    public static class Base10ConverterExtensions
+    {
+        public static IEnumerable<IBit> ToBit(this uint input)
+        {
+            var b10C = new Base10Converter(new BitFactory());
+            return b10C.ToBit(input);
+        }
+
+        public static uint ToInt(this IList<IBit> bits)
+        {
+            var b10C = new Base10Converter(new BitFactory());
+            return b10C.ToInt(bits.ToList());
+        }
+
+        public static IEnumerable<IBit> Pad(this IEnumerable<IBit> bits, int amount)
+        {
+            var b10C = new Base10Converter(new BitFactory());
+            return b10C.Pad(bits.ToList(), amount);
         }
     }
 }

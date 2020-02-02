@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Gates.Interfaces;
 using ButHowDoItComputer.Parts.Interfaces;
@@ -16,9 +17,11 @@ namespace ButHowDoItComputer.Parts
 
         public IByte Input { get; set; }
 
-        public IByte Data { get; private set; }
+        public IByte Data { get; set; }
         
         public IByte Output { get; private set; }
+        public List<IBusInputSubscriber<IByte>> Subscribers { get; } =  new List<IBusInputSubscriber<IByte>>();
+        public string Name { get; set; }
 
         public ByteRegister(IByteMemoryGate byteMemoryGate, IByteEnabler byteEnabler, IByteFactory byteFactory, IBitFactory bitFactory)
         {
@@ -62,6 +65,11 @@ namespace ButHowDoItComputer.Parts
         private void ApplyOutput()
         {
             Output = _byteEnabler.Apply(Data, Enable);
+
+            foreach (var sub in Subscribers)
+            {
+                sub.Input = Output;
+            }
         }
     }
 }

@@ -63,21 +63,21 @@ namespace ButHowDoItComputer.Parts
             var orCaez = _or.Apply(caezOuput.C, caezOuput.A, caezOuput.E, caezOuput.Z);
             var threeXEightStep6OrCaez = _and.Apply(threeXEightOutput[5], _stepperOutput[5], orCaez);
             
-            var andIr123 = _and.Apply(_cpuInput.Ir.Output[1], _cpuInput.Ir.Output[2], _cpuInput.Ir.Output[3]);
+            var andIr123 = _and.Apply(_cpuInput.Ir[1], _cpuInput.Ir[2], _cpuInput.Ir[3]);
             var notAndIr123 = _not.Apply(andIr123);
 
             var threeXEight2AndStep6 = _and.Apply(threeXEightOutput[2], _stepperOutput[5]);
 
-            var naIr123AndStep6AndStep0 = _and.Apply(notAndIr123, _cpuInput.Ir.Output[0], _stepperOutput[5]);
+            var naIr123AndStep6AndStep0 = _and.Apply(notAndIr123, _cpuInput.Ir[0], _stepperOutput[5]);
 
-            var step4AndIr0 = _and.Apply(_cpuInput.Ir.Output[0], _stepperOutput[3]);
-            var step5AndIr0 = _and.Apply(_cpuInput.Ir.Output[0], _stepperOutput[4]);
+            var step4AndIr0 = _and.Apply(_cpuInput.Ir[0], _stepperOutput[3]);
+            var step5AndIr0 = _and.Apply(_cpuInput.Ir[0], _stepperOutput[4]);
 
             var step5AndThreeXEight7NotIr4 =
-                _and.Apply(_stepperOutput[4], threeXEightOutput[7], _not.Apply(_cpuInput.Ir.Output[4]));
+                _and.Apply(_stepperOutput[4], threeXEightOutput[7], _not.Apply(_cpuInput.Ir[4]));
 
             var step4AndThreeXEight7AndIr4 =
-                _and.Apply(_stepperOutput[3], threeXEightOutput[7], _cpuInput.Ir.Output[4]);
+                _and.Apply(_stepperOutput[3], threeXEightOutput[7], _cpuInput.Ir[4]);
 
             UpdateAluOpCode();
             
@@ -128,20 +128,23 @@ namespace ButHowDoItComputer.Parts
             
             UpdateRamSet(threeXEightOutputAndStep5NotIr4[1]);
             UpdateTmpSet(step4AndIr0);
-            UpdateFlagsSet(threeXEightOutputAndStep4Ir4[6], _and.Apply(_cpuInput.Ir.Output[0], _stepperOutput[4]));
+            UpdateFlagsSet(threeXEightOutputAndStep4Ir4[6], _and.Apply(_cpuInput.Ir[0], _stepperOutput[4]));
             UpdateIoClkSet(step4AndThreeXEight7AndIr4);
             
-            _cpuEnables.InputOutput.Update(_cpuInput.Ir.Output[4]);
-            _cpuEnables.DataAddress.Update(_cpuInput.Ir.Output[5]);
-
+            _cpuEnables.InputOutput.Update(_cpuInput.Ir[4]);
+            _cpuEnables.DataAddress.Update(_cpuInput.Ir[5]);
+            
             ApplyEnables();
             ApplySets();
+            _bus1Sub.Apply();
+            _aluOpSub.Apply();
+            _cpuEnables.Acc.Apply();
         }
 
         private IBit[] ThreeXEightOutput()
         {
-            var decoderOut = _decoder.Apply(_cpuInput.Ir.Output[1], _cpuInput.Ir.Output[2], _cpuInput.Ir.Output[3]);
-            var result = decoderOut.Select(decoderBit => _and.Apply(decoderBit, _not.Apply(_cpuInput.Ir.Output[0]))).ToArray();
+            var decoderOut = _decoder.Apply(_cpuInput.Ir[1], _cpuInput.Ir[2], _cpuInput.Ir[3]);
+            var result = decoderOut.Select(decoderBit => _and.Apply(decoderBit, _not.Apply(_cpuInput.Ir[0]))).ToArray();
             return result;
         }
 
@@ -152,7 +155,7 @@ namespace ButHowDoItComputer.Parts
             {
                 if (i == 7)
                 {
-                    output[i] = _and.Apply(_stepperOutput[3], threeXEightOutput[i], _cpuInput.Ir.Output[4]);
+                    output[i] = _and.Apply(_stepperOutput[3], threeXEightOutput[i], _cpuInput.Ir[4]);
                 }
                 else
                 {
@@ -170,7 +173,7 @@ namespace ButHowDoItComputer.Parts
             {
                 if (i == 7)
                 {
-                    output[i] = _and.Apply(_stepperOutput[4], threeXEightOutput[i], _not.Apply(_cpuInput.Ir.Output[4]));
+                    output[i] = _and.Apply(_stepperOutput[4], threeXEightOutput[i], _not.Apply(_cpuInput.Ir[4]));
                 }
                 else
                 {
@@ -185,10 +188,10 @@ namespace ButHowDoItComputer.Parts
         {
             return new Caez
             {
-                C = _and.Apply(_cpuInput.Caez.C, _cpuInput.Ir.Output[4]),
-                A = _and.Apply(_cpuInput.Caez.A, _cpuInput.Ir.Output[5]),
-                E = _and.Apply(_cpuInput.Caez.E, _cpuInput.Ir.Output[6]),
-                Z = _and.Apply(_cpuInput.Caez.Z, _cpuInput.Ir.Output[7]),
+                C = _and.Apply(_cpuInput.Caez.C, _cpuInput.Ir[4]),
+                A = _and.Apply(_cpuInput.Caez.A, _cpuInput.Ir[5]),
+                E = _and.Apply(_cpuInput.Caez.E, _cpuInput.Ir[6]),
+                Z = _and.Apply(_cpuInput.Caez.Z, _cpuInput.Ir[7]),
             };
         }
         
@@ -239,9 +242,9 @@ namespace ButHowDoItComputer.Parts
 
         private void UpdateRegisters(IBit regAEnable, IBit regBEnable, IBit regBSet)
         {
-            var setDecoder = _decoder.Apply(_cpuInput.Ir.Output[6], _cpuInput.Ir.Output[7]).ToArray();
-            var enableDecoder1 = _decoder.Apply(_cpuInput.Ir.Output[6], _cpuInput.Ir.Output[7]).ToArray();
-            var enableDecoder2 = _decoder.Apply(_cpuInput.Ir.Output[4], _cpuInput.Ir.Output[5]).ToArray();
+            var setDecoder = _decoder.Apply(_cpuInput.Ir[6], _cpuInput.Ir[7]).ToArray();
+            var enableDecoder1 = _decoder.Apply(_cpuInput.Ir[6], _cpuInput.Ir[7]).ToArray();
+            var enableDecoder2 = _decoder.Apply(_cpuInput.Ir[4], _cpuInput.Ir[5]).ToArray();
 
             var e0 = CreateEnableUpdate(enableDecoder1[0], regBEnable);
             var e1 = CreateEnableUpdate(enableDecoder1[1], regBEnable);
@@ -276,9 +279,9 @@ namespace ButHowDoItComputer.Parts
 
         private void UpdateAluOpCode()
         {
-            var one = _and.Apply( _cpuInput.Ir.Output[0], _stepperOutput[4], _cpuInput.Ir.Output[1]);
-            var two = _and.Apply( _cpuInput.Ir.Output[0], _stepperOutput[4], _cpuInput.Ir.Output[2]);
-            var three = _and.Apply( _cpuInput.Ir.Output[0], _stepperOutput[4], _cpuInput.Ir.Output[3]);
+            var one = _and.Apply( _cpuInput.Ir[0], _stepperOutput[4], _cpuInput.Ir[1]);
+            var two = _and.Apply( _cpuInput.Ir[0], _stepperOutput[4], _cpuInput.Ir[2]);
+            var three = _and.Apply( _cpuInput.Ir[0], _stepperOutput[4], _cpuInput.Ir[3]);
 
             _aluOpSub.Update(new Op {One = one, Two = two, Three = three});
         }

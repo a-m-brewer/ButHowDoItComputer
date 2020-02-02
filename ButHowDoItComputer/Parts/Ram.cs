@@ -9,7 +9,6 @@ namespace ButHowDoItComputer.Parts
 {
     public class Ram : IRam, IApplicable, IEnablable, ISettable
     {
-        public IBus MemoryAddressBus { get; }
         private readonly IByteRegisterFactory _byteRegisterFactory;
         private readonly IBitFactory _bitFactory;
         private readonly IDecoder _decoder;
@@ -23,12 +22,11 @@ namespace ButHowDoItComputer.Parts
 
         public IBus Io { get; }
 
-        private List<List<IRegister<IByte>>> _internalRegisters = new List<List<IRegister<IByte>>>();
+        public List<List<IRegister<IByte>>> InternalRegisters { get; private set; } = new List<List<IRegister<IByte>>>();
 
-        public Ram(IBus memoryAddressBus, IBus outputBus, IByteRegisterFactory byteRegisterFactory, IBitFactory bitFactory,
+        public Ram(IBus outputBus, IByteRegisterFactory byteRegisterFactory, IBitFactory bitFactory,
             IDecoder decoder, IAnd and)
         {
-            MemoryAddressBus = memoryAddressBus;
             Io = outputBus;
             _byteRegisterFactory = byteRegisterFactory;
             _bitFactory = bitFactory;
@@ -47,15 +45,21 @@ namespace ButHowDoItComputer.Parts
             MemoryAddressRegister = _byteRegisterFactory.Create();
             // never need to hide input registers value
             MemoryAddressRegister.Enable.State = true;
-            MemoryAddressBus.Add(MemoryAddressRegister);
+            MemoryAddressRegister.Name = "MAR";
+            Io.BusSubscribers.Add(MemoryAddressRegister);
         }
 
         private void SetupInternalRegisters()
         {
-            _internalRegisters = Enumerable.Range(0, 16)
-                .Select(s => Enumerable.Range(0, 16).Select(y => _byteRegisterFactory.Create()).ToList()).ToList();
+            InternalRegisters = Enumerable.Range(0, 16)
+                .Select(s => Enumerable.Range(0, 16).Select(y =>
+                {
+                    var reg = _byteRegisterFactory.Create();
+                    reg.Name = $@"RamInternalRegister{y}";
+                    return reg;
+                }).ToList()).ToList();
 
-            foreach (var register in _internalRegisters.SelectMany(row => row))
+            foreach (var register in InternalRegisters.SelectMany(row => row))
             {
                 Io.Add(register);
             }
@@ -86,8 +90,8 @@ namespace ButHowDoItComputer.Parts
                     var s = _and.Apply(xAndY, Set);
                     var e = _and.Apply(xAndY, Enable);
 
-                    _internalRegisters[y][x].Set = s;
-                    _internalRegisters[y][x].Enable = e;
+                    InternalRegisters[y][x].Set = s;
+                    InternalRegisters[y][x].Enable = e;
                 }
             }
         }

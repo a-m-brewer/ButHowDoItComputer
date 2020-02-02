@@ -1,4 +1,5 @@
-﻿using ButHowDoItComputer.Components.Interfaces;
+﻿using System.Collections.Generic;
+using ButHowDoItComputer.Components.Interfaces;
 using ButHowDoItComputer.DataTypes;
 using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Parts.Interfaces;
@@ -6,7 +7,7 @@ using ButHowDoItComputer.Utils.Interfaces;
 
 namespace ButHowDoItComputer.Parts
 {
-    class RegisterArithmeticLogicUnit : ICpuSubscriberNotifier<Op>
+    class RegisterArithmeticLogicUnit : IRegisterArithmeticLogicUnit
     {
         private readonly IArithmeticLogicUnit _arithmeticLogicUnit;
 
@@ -14,7 +15,18 @@ namespace ButHowDoItComputer.Parts
         {
             InputA = byteRegisterFactory.Create();
             InputB = byteRegisterFactory.Create();
+            InputA.Name = $"{nameof(RegisterArithmeticLogicUnit)}.{InputA}";
+            InputB.Name = $"{nameof(RegisterArithmeticLogicUnit)}.{InputB}";
+            InputA.Set.State = true;
+            InputA.Enable.State = true;
+            InputB.Set.State = true;
+            InputB.Enable.State = true;
+            
             OutputRegister = byteRegisterFactory.Create();
+            OutputRegister.Name = $"{nameof(RegisterArithmeticLogicUnit)}.{OutputRegister}";
+            OutputRegister.Set.State = true;
+            OutputRegister.Enable.State = true;
+            
             OpInstruction = new Op();
             CarryIn = new Bit(false);
             Output = new AluOutput();
@@ -44,6 +56,8 @@ namespace ButHowDoItComputer.Parts
             return Output;
         }
 
+        public List<IBusInputSubscriber<IByte>> Subscribers { get; } = new List<IBusInputSubscriber<IByte>>();
+
         public void Update(Op newState)
         {
             OpInstruction = newState;
@@ -54,6 +68,11 @@ namespace ButHowDoItComputer.Parts
             InputA.Apply();
             InputB.Apply();
             Output = _arithmeticLogicUnit.Apply(InputA.Output, InputB.Output, CarryIn, OpInstruction);
+
+            foreach (var subscriber in Subscribers)
+            {
+                subscriber.Input = Output.Output;
+            }
         }
 
         public AluOutput Output { get; set; }

@@ -1,6 +1,8 @@
-﻿using ButHowDoItComputer.DataTypes.Interfaces;
+﻿using System.Collections.Generic;
+using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Gates.Interfaces;
 using System.Linq;
+using ButHowDoItComputer.Utils.Interfaces;
 
 namespace ButHowDoItComputer.Gates
 {
@@ -21,6 +23,8 @@ namespace ButHowDoItComputer.Gates
 
         public IByte Apply(IByte input, IBit bus1)
         {
+            Input = input;
+            Set = bus1;
             var one = input[0];
             var rest = input.Skip(1).ToArray();
             var notBus1 = _not.Apply(bus1);
@@ -31,5 +35,18 @@ namespace ButHowDoItComputer.Gates
 
             return _byteFactory.Create(output);
         }
+
+        public void Apply()
+        {
+            var result = Apply(Input, Set);
+            foreach (var subscriber in BusSubscribers)
+            {
+                subscriber.Input = result;
+            }
+        }
+
+        public IByte Input { get; set; }
+        public List<IBusInputSubscriber<IByte>> BusSubscribers { get; } = new List<IBusInputSubscriber<IByte>>();
+        public IBit Set { get; set; }
     }
 }

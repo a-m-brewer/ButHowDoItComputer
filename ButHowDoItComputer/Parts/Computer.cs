@@ -13,17 +13,16 @@ using ButHowDoItComputer.Gates.Interfaces;
 using ButHowDoItComputer.Parts.Factories;
 using ButHowDoItComputer.Parts.Interfaces;
 using ButHowDoItComputer.Utils;
+using ButHowDoItComputer.Utils.Interfaces;
 
 namespace ButHowDoItComputer.Parts
 {
     public class Computer
     {
-        private CentralProcessingUnit _cpu;
         private BitSubscriberNotifier _dataAddress;
         private BitSubscriberNotifier _inputOutput;
-        private Bus _bus;
 
-        public Computer(IObjectCreationFactory<IArithmeticLogicUnit> aluFactory)
+        public Computer(IArithmeticLogicUnit alu)
         {
             var bitFactory = new BitFactory();
             var byteFactory = new ByteFactory(bitFactory, new Base10Converter(bitFactory));
@@ -43,83 +42,122 @@ namespace ButHowDoItComputer.Parts
             var registerFactory = new ByteRegisterFactory(byteMemoryGateFactory, byteEnabler, byteFactory, bitFactory);
             var decoder = new Decoder(not, and, bitFactory);
             
-            var acc = registerFactory.Create();
-            var iar = registerFactory.Create();
-            var r0 = registerFactory.Create();
-            var r1 = registerFactory.Create();
-            var r2 = registerFactory.Create();
-            var r3 = registerFactory.Create();
-            var ir = registerFactory.Create();
-            var tmp = registerFactory.Create();
+            Acc = registerFactory.Create();
+            Acc.Name = nameof(Acc);
+            InstructionAddressRegister = registerFactory.Create();
+            InstructionAddressRegister.Name = nameof(InstructionAddressRegister);
+            R0 = registerFactory.Create();
+            R0.Name = nameof(R0);
+            R1 = registerFactory.Create();
+            R1.Name = nameof(R1);
+            R2 = registerFactory.Create();
+            R2.Name = nameof(R2);
+            R3 = registerFactory.Create();
+            R3.Name = nameof(R3);
+            InstructionRegister = registerFactory.Create();
+            InstructionRegister.Name = nameof(InstructionRegister);
+            Temp = registerFactory.Create();
+            Temp.Name = nameof(Temp);
             
-            tmp.Enable = bitFactory.Create(true);
-            ir.Enable = bitFactory.Create(true);
-            
-            _bus = new Bus(new List<IRegister<IByte>> {r0, r1, r2, r3, ir, iar, acc, tmp}, byteFactory);
-            
-            var ram = new Ram(_bus, _bus, registerFactory, bitFactory, decoder, and);
+            Temp.Enable = bitFactory.Create(true);
+            InstructionRegister.Enable = bitFactory.Create(true);
 
             _dataAddress = new BitSubscriberNotifier();
             _inputOutput = new BitSubscriberNotifier();
             
-            var ioClk = new Clock(clockStateFactory, and, or, bitFactory);
+            IoClock = new Clock(clockStateFactory, and, or, bitFactory);
+            
+            CaezRegister = new CaezRegisterFactory(memoryGateFactory, and).Create();
+            CaezRegister.Enable = bitFactory.Create(true);
+            CaezRegister.Name = nameof(CaezRegister);
 
+            Bus1 = new Bus1(and, not, or, byteFactory);;
+            Temp.Subscribers.Add(Bus1);
+
+            var bus1Set = new SetSubscriberNotifier(Bus1);
+
+            Bus = new Bus(new List<IRegister<IByte>> {R0, R1, R2, R3, InstructionAddressRegister}, byteFactory);
+            Bus.BusSubscribers.Add(Temp);
+            Bus.BusSubscribers.Add(InstructionRegister);
+            Acc.Subscribers.Add(Bus);
+
+            Ram = new Ram(Bus, registerFactory, bitFactory, decoder, and);
+            
+            ArithmeticLogicUnit = new RegisterArithmeticLogicUnit(alu, registerFactory);
+            ArithmeticLogicUnit.Subscribers.Add(Acc);
+            
+            Bus.BusSubscribers.Add(ArithmeticLogicUnit.InputA);
+            Bus1.BusSubscribers.Add(ArithmeticLogicUnit.InputB);
+            
             var cpuEnables = new CpuEnables
             {
-                Acc = new EnableSubscriberNotifier(acc),
+                Acc = new EnableSubscriberNotifier(Acc),
                 DataAddress = _dataAddress,
-                Iar = new EnableSubscriberNotifier(iar),
+                Iar = new EnableSubscriberNotifier(InstructionAddressRegister),
                 InputOutput = _inputOutput,
-                IoClk = new EnableSubscriberNotifier(ioClk),
-                R0 = new EnableSubscriberNotifier(r0),
-                R1 = new EnableSubscriberNotifier(r1),
-                R2 = new EnableSubscriberNotifier(r2),
-                R3 = new EnableSubscriberNotifier(r3),
-                Ram = new EnableSubscriberNotifier(ram)
+                IoClk = new EnableSubscriberNotifier(IoClock),
+                R0 = new EnableSubscriberNotifier(R0),
+                R1 = new EnableSubscriberNotifier(R1),
+                R2 = new EnableSubscriberNotifier(R2),
+                R3 = new EnableSubscriberNotifier(R3),
+                Ram = new EnableSubscriberNotifier(Ram)
             };
             
             var cpuSets = new CpuSets
             {
-                Acc = new SetSubscriberNotifier(acc),
-                Flags = null,
-                Iar = new SetSubscriberNotifier(iar),
-                IoClk = new SetSubscriberNotifier(ioClk),
-                Ir = new SetSubscriberNotifier(ir),
-                Mar = new SetSubscriberNotifier(ram.MemoryAddressRegister),
-                R0 = new SetSubscriberNotifier(r0),
-                R1 = new SetSubscriberNotifier(r0),
-                R2 = new SetSubscriberNotifier(r0),
-                R3 = new SetSubscriberNotifier(r0),
-                Ram = new SetSubscriberNotifier(ram)
+                Acc = new SetSubscriberNotifier(Acc),
+                Flags = new SetSubscriberNotifier(CaezRegister),
+                Iar = new SetSubscriberNotifier(InstructionAddressRegister),
+                IoClk = new SetSubscriberNotifier(IoClock),
+                Ir = new SetSubscriberNotifier(InstructionRegister),
+                Mar = new SetSubscriberNotifier(Ram.MemoryAddressRegister),
+                R0 = new SetSubscriberNotifier(R0),
+                R1 = new SetSubscriberNotifier(R1),
+                R2 = new SetSubscriberNotifier(R2),
+                R3 = new SetSubscriberNotifier(R3),
+                Ram = new SetSubscriberNotifier(Ram),
+                Tmp = new SetSubscriberNotifier(Temp)
             };
             
             var cpuInput = new CpuInput
             {
-                Caez = new Caez
-                {
-                    C = null,
-                    A = null,
-                    E = null,
-                    Z = null
-                }
+                Caez = CaezRegister.Output,
+                Ir = InstructionRegister.Output
             };
-            
-            var bus1 = new Bus1(and, not, or, byteFactory);
 
-            var registerBus1 = new RegisterBus1(registerListGateFactory, bus1, byteGateListFactory, registerFactory);
-            
-            var bus1Set = new SetSubscriberNotifier(registerBus1);
-            
-            var alu = aluFactory.Create();
-            var registerAlu = new RegisterArithmeticLogicUnit(alu, registerFactory);
-
-            _cpu = new CentralProcessingUnit(clock, stepper, cpuEnables, cpuSets, cpuInput, bus1Set, registerAlu, and, or, not, decoder);  
+            CentralProcessingUnit = new CentralProcessingUnit(clock, stepper, cpuEnables, cpuSets, cpuInput, bus1Set, ArithmeticLogicUnit, and, or, not, decoder);  
         }   
         
         public void Step()
         {
-            _bus.Apply();
-            _cpu.Step();
+            CentralProcessingUnit.Step();
+            Bus.Apply();
         }
+
+        public ICentralProcessingUnit CentralProcessingUnit { get; }
+        
+        // Main Bus Loop for the Computer
+        public IBus Bus { get; }
+
+        // Four main registers for the CPU
+        public IRegister<IByte> R0 { get; }
+        public IRegister<IByte> R1 { get; }
+        public IRegister<IByte> R2 { get; }
+        public IRegister<IByte> R3 { get; }
+
+        public IRegister<IByte> InstructionRegister { get; }
+        public IRegister<IByte> InstructionAddressRegister { get; }
+
+        public Ram Ram { get; }
+        
+        // ALU related registers
+        public IRegister<IByte> Temp { get; }
+        public IBus1 Bus1 { get; }
+        public IRegister<IByte> Acc { get; }
+        public IRegisterArithmeticLogicUnit ArithmeticLogicUnit { get; }
+        public IRegister<Caez> CaezRegister { get; }
+        
+        // IO
+        public IClock IoClock { get; }
     }
 }

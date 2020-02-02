@@ -47,7 +47,7 @@ namespace ButHowDoItComputer.Tests
             
             _inputBus = new Bus(new List<IRegister<IByte>>(), _byteFactory);
             _outputBus = new Bus(new List<IRegister<IByte>>(), _byteFactory);
-            _ram = new Ram(_inputBus, _outputBus, _byteRegisterFactory, _bitFactory, new Decoder(_not, _and, _bitFactory), _and);
+            _ram = new Ram(_outputBus, _byteRegisterFactory, _bitFactory, new Decoder(_not, _and, _bitFactory), _and);
         }
         
         [Test]

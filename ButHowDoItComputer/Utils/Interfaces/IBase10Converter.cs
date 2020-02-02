@@ -7,5 +7,6 @@ namespace ButHowDoItComputer.Utils.Interfaces
     {
         IEnumerable<IBit> ToBit(uint input);
         uint ToInt(IList<IBit> bits);
+        IEnumerable<IBit> Pad(List<IBit> bits, int amount);
     }
 }

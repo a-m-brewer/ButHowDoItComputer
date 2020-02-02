@@ -1,8 +1,10 @@
-﻿using ButHowDoItComputer.Adapters.Interfaces;
+﻿using System.Collections.Generic;
+using ButHowDoItComputer.Adapters.Interfaces;
 using ButHowDoItComputer.Components.Interfaces;
 using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Gates.Interfaces;
 using ButHowDoItComputer.Parts.Interfaces;
+using ButHowDoItComputer.Utils.Interfaces;
 
 namespace ButHowDoItComputer.Components
 {
@@ -29,6 +31,7 @@ namespace ButHowDoItComputer.Components
         public void Apply(IRegister<IByte> inputRegister, IBit set, IRegister<IByte> outputRegister)
         {
             InputRegister = inputRegister;
+            Input = InputRegister.Input;
             OutputRegister = outputRegister;
             Set = set;
             Apply();
@@ -36,9 +39,18 @@ namespace ButHowDoItComputer.Components
 
         public void Apply()
         {
+            InputRegister.Input = Input;
             var byteGate = _byteGateToListFactory.Convert(_bus1, Set);
             var registerGate = _registerListGateFactory.Create(byteGate);
             registerGate.Apply(new[] { InputRegister }, OutputRegister);
+
+            foreach (var subscriber in Subscribers)
+            {
+                subscriber.Input = OutputRegister.Output;
+            }
         }
+
+        public List<IBusInputSubscriber<IByte>> Subscribers { get; set; } = new List<IBusInputSubscriber<IByte>>();
+        public IByte Input { get; set; }
     }
 }

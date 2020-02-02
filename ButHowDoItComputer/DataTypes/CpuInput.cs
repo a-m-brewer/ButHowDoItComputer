@@ -5,7 +5,7 @@ namespace ButHowDoItComputer.DataTypes
 {
     public class CpuInput
     {
-        public ICpuInput<IByte> Ir { get; set; }
+        public IByte Ir { get; set; }
         public Caez Caez { get; set; }
     }
 }
