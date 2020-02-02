@@ -121,6 +121,26 @@ namespace ButHowDoItComputer.Tests
         }
 
         [Test]
+        public void AfterStep2ByteInRamIsPutIntoTheIr()
+        {
+            var sut = CreateSut();
+            sut.InstructionAddressRegister.ApplyOnce(_byteFactory.Create(0));
+            sut.Ram.InternalRegisters[0][0].ApplyOnce(_byteFactory.Create(255));
+            
+            sut.Step();
+            sut.Step();
+            sut.Step();
+            sut.Step();
+            sut.Step();
+            sut.Step();
+
+            var irResult = sut.InstructionRegister.Data;
+            var irResultAllTrue = irResult.All(a => a.State);
+            
+            Assert.IsTrue(irResultAllTrue);
+        }
+
+        [Test]
         public void DuringStepOneTheAccSetPinIsEnabled()
         {
             var sut = CreateSut();
