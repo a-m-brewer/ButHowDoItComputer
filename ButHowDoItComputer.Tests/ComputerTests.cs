@@ -184,6 +184,67 @@ namespace ButHowDoItComputer.Tests
             Assert.IsTrue(irResultAllTrue);
         }
 
+        [Test]
+        public void CorrectRegistersAreSelectedForAluAction()
+        {
+            var sut = CreateSut();
+
+            var instructionBits = new[]
+            {
+                true.ToBit(), false.ToBit(), false.ToBit(), false.ToBit(), false.ToBit(), false.ToBit(), false.ToBit(),
+                true.ToBit()
+            };
+            var instructionByte = _byteFactory.Create(instructionBits);
+            
+            sut.InstructionAddressRegister.ApplyOnce(_byteFactory.Create(0));
+            sut.Ram.InternalRegisters[0][0].ApplyOnce(instructionByte);
+
+            Step(sut, 3);
+            sut.Step();
+            var regBEnableState = sut.R1.Enable.State;
+            Assert.IsTrue(regBEnableState);
+            
+            Step(sut, 1);
+
+            var regAEnableState = sut.R0.Enable.State;
+            Assert.IsTrue(regAEnableState);
+            
+            Step(sut, 1);
+            sut.Step();
+
+            var regBSet = sut.R1.Set.State;
+            Assert.IsTrue(regBSet);
+        }
+
+        [Test]
+        public void AddOperationPutsResultIntoRegisterB()
+        {
+            var sut = CreateSut();
+
+            var expected = _byteFactory.Create(15U);
+            
+            var instructionBits = new[]
+            {
+                true.ToBit(), false.ToBit(), false.ToBit(), false.ToBit(), false.ToBit(), false.ToBit(), false.ToBit(),
+                true.ToBit()
+            };
+            var instructionByte = _byteFactory.Create(instructionBits);
+            
+            sut.InstructionAddressRegister.ApplyOnce(_byteFactory.Create(0));
+            sut.Ram.InternalRegisters[0][0].ApplyOnce(instructionByte);
+            sut.R0.ApplyOnce(_byteFactory.Create(10U));
+            sut.R1.ApplyOnce(_byteFactory.Create(5U));
+
+            Step(sut, 6);
+
+            var result = sut.R1.Data;
+
+            for (var i = 0; i < expected.Count; i++)
+            {
+                Assert.AreEqual(expected[i].State, result[i].State);
+            }
+        }
+
         private void Step(Computer sut, int times)
         {
             for (int i = 0; i < times; i++)

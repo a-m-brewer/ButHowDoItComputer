@@ -121,8 +121,8 @@ namespace ButHowDoItComputer.Parts
             
             var cpuInput = new CpuInput
             {
-                Caez = CaezRegister.Output,
-                Ir = InstructionRegister.Output
+                Caez = () => CaezRegister.Output,
+                Ir = () => InstructionRegister.Output
             };
 
             CentralProcessingUnit = new CentralProcessingUnit(clock, stepper, cpuEnables, cpuSets, cpuInput, bus1Set, ArithmeticLogicUnit, and, or, not, decoder);  
