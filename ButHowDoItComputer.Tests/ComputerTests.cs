@@ -133,6 +133,8 @@ namespace ButHowDoItComputer.Tests
             sut.Step();
             sut.Step();
             sut.Step();
+            sut.Step();
+            sut.Step();
 
             var irResult = sut.InstructionRegister.Data;
             var irResultAllTrue = irResult.All(a => a.State);
@@ -154,34 +156,43 @@ namespace ButHowDoItComputer.Tests
             Assert.IsTrue(result);
         }
         
-        //[Test]
-        
-        // public void CorrectRegistersAreSelectedBaseUponAluIr(uint ra, uint rb)
-        // {
-        //     var registerA = ra.ToBit().Pad(2).ToArray();
-        //     var registerB = rb.ToBit().Pad(2).ToArray();
-        //     var instructionBits = new[]
-        //     {
-        //         registerB[0], registerB[1], registerA[0], registerA[1], false.ToBit(), false.ToBit(), false.ToBit(),
-        //         true.ToBit()
-        //     };
-        //     var instruction = _byteFactory.Create(instructionBits);
-        //     
-        //     
-        // }
-
-        private void SkipToStartOfStep4(Computer sut)
+        [Test]
+        public void AfterStep3TheIncrementedAccIsPutIntoTheIar()
         {
-            sut.Step();
-            sut.Step();
-            sut.Step();
-            sut.Step();
-            sut.Step();
-            sut.Step();
-            sut.Step();
-            sut.Step();
-            sut.Step();
-            sut.Step();
+            var sut = CreateSut();
+            sut.InstructionAddressRegister.ApplyOnce(_byteFactory.Create(0));
+            
+            Step(sut, 3);
+
+            var result = sut.InstructionAddressRegister.Data;
+            
+            Assert.IsTrue(result[0].State);
+        }
+
+        [Test]
+        public void BeforeStep4TheInstructionInRamIsInTheIr()
+        {
+            var sut = CreateSut();
+            sut.InstructionAddressRegister.ApplyOnce(_byteFactory.Create(0));
+            sut.Ram.InternalRegisters[0][0].ApplyOnce(_byteFactory.Create(255));
+            
+            Step(sut, 3);
+            
+            var irResult = sut.InstructionRegister.Data;
+            var irResultAllTrue = irResult.All(a => a.State);
+            
+            Assert.IsTrue(irResultAllTrue);
+        }
+
+        private void Step(Computer sut, int times)
+        {
+            for (int i = 0; i < times; i++)
+            {
+                sut.Step();
+                sut.Step();
+                sut.Step();
+                sut.Step();
+            }
         }
 
         private static Computer CreateSut() => new Computer(TestUtils.CreateArithmeticLogicUnit());
