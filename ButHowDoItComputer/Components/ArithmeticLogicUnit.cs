@@ -83,7 +83,7 @@ namespace ButHowDoItComputer.Components
             var carryOutShiftLeft = _and.Apply(shiftLeft.ShiftOut, opDecoder[2]);
             var carryOut = _or.Apply(carryOutAdd, carryOutShiftRight, carryOutShiftLeft);
 
-            var output = _wire.Apply(enabledAdd, enabledShiftRight, enabledShiftLeft, enabledNot, enabledAnd, enabledOr, enabledXOr, enabledComparator);
+            var output = _wire.Apply(enabledAdd, enabledShiftLeft, enabledShiftRight, enabledNot, enabledAnd, enabledOr, enabledXOr, enabledComparator);
             var zero = _isZeroGate.IsZero(output);
 
             return new AluOutput

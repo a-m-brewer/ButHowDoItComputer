@@ -217,7 +217,7 @@ namespace ButHowDoItComputer.Tests
         }
 
         [Test]
-        public void AddOperationPutsResultIntoRegisterB()
+        public void CanAddTwoItemsTogether()
         {
             var sut = CreateSut();
 
@@ -243,6 +243,50 @@ namespace ButHowDoItComputer.Tests
             {
                 Assert.AreEqual(expected[i].State, result[i].State);
             }
+        }
+
+        [Test]
+        public void CanShiftLeft()
+        {
+            var sut = CreateSut();
+
+            var instructionBits = new[]
+            {
+                true.ToBit(), false.ToBit(), false.ToBit(), true.ToBit(), false.ToBit(), false.ToBit(), false.ToBit(), true.ToBit()
+            };
+            var instructionByte = _byteFactory.Create(instructionBits);
+            
+            sut.InstructionAddressRegister.ApplyOnce(_byteFactory.Create(0));
+            sut.Ram.InternalRegisters[0][0].ApplyOnce(instructionByte);
+            sut.R0.ApplyOnce(_byteFactory.Create(128));
+
+            Step(sut, 6);
+
+            var result = sut.R1.Data;
+
+            Assert.IsTrue(result[6].State);
+        }
+        
+        [Test]
+        public void CanShiftRight()
+        {
+            var sut = CreateSut();
+
+            var instructionBits = new[]
+            {
+                true.ToBit(), false.ToBit(), true.ToBit(), false.ToBit(), false.ToBit(), false.ToBit(), false.ToBit(), true.ToBit()
+            };
+            var instructionByte = _byteFactory.Create(instructionBits);
+            
+            sut.InstructionAddressRegister.ApplyOnce(_byteFactory.Create(0));
+            sut.Ram.InternalRegisters[0][0].ApplyOnce(instructionByte);
+            sut.R0.ApplyOnce(_byteFactory.Create(1));
+
+            Step(sut, 6);
+
+            var result = sut.R1.Data;
+
+            Assert.IsTrue(result[1].State);
         }
 
         private void Step(Computer sut, int times)

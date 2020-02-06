@@ -44,7 +44,7 @@ namespace ButHowDoItComputer.Tests
         public void CanShiftRight()
         {
             var input = new[] { false.ToBit(), true.ToBit(), false.ToBit(), false.ToBit(), false.ToBit(), false.ToBit(), false.ToBit(), false.ToBit() };
-            var expected = new[] { true.ToBit(), false.ToBit(), false.ToBit(), false.ToBit(), false.ToBit(), false.ToBit(), false.ToBit(), false.ToBit() };
+            var expected = new[] { false.ToBit(), false.ToBit(), true.ToBit(), false.ToBit(), false.ToBit(), false.ToBit(), false.ToBit(), false.ToBit() };
             
             var opCode = OpCodes.Shr;
 
@@ -60,7 +60,7 @@ namespace ButHowDoItComputer.Tests
         public void CanShiftLeft()
         {
             var input = new[] { false.ToBit(), true.ToBit(), false.ToBit(), false.ToBit(), false.ToBit(), false.ToBit(), false.ToBit(), false.ToBit() };
-            var expected = new[] { false.ToBit(), false.ToBit(), true.ToBit(), false.ToBit(), false.ToBit(), false.ToBit(), false.ToBit(), false.ToBit() };
+            var expected = new[] { true.ToBit(), false.ToBit(), false.ToBit(), false.ToBit(), false.ToBit(), false.ToBit(), false.ToBit(), false.ToBit() };
 
             var opCode = OpCodes.Shl;
 
