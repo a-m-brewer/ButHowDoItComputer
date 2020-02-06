@@ -1,6 +1,9 @@
+using System.Collections.Generic;
 using System.Linq;
 using ButHowDoItComputer.DataTypes.Factories;
+using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Parts;
+using ButHowDoItComputer.Parts.Interfaces;
 using ButHowDoItComputer.Utils;
 using NUnit.Framework;
 
@@ -11,12 +14,14 @@ namespace ButHowDoItComputer.Tests
     {
         private ByteFactory _byteFactory;
         private ByteToBase10Converter _byteToBase10;
+        private Base10Converter _binaryConverter;
 
         [SetUp]
         public void Setup()
         {
             _byteFactory = TestUtils.CreateByteFactory();
             _byteToBase10 = TestUtils.CreateByteToBase10Converter();
+            _binaryConverter = new Base10Converter(new BitFactory());
         }
 
         [Test]
@@ -244,6 +249,35 @@ namespace ButHowDoItComputer.Tests
                 Assert.AreEqual(expected[i].State, result[i].State);
             }
         }
+        
+        [Test]
+        public void CanAddTwoItemsTogetherFromDifferentRegisters()
+        {
+            var sut = CreateSut();
+
+            var expected = _byteFactory.Create(15U);
+            
+            var instructionBits = new[]
+            {
+                true.ToBit(), false.ToBit(), false.ToBit(), false.ToBit(), true.ToBit(), false.ToBit(), true.ToBit(),
+                true.ToBit()
+            };
+            var instructionByte = _byteFactory.Create(instructionBits);
+            
+            sut.InstructionAddressRegister.ApplyOnce(_byteFactory.Create(0));
+            sut.Ram.InternalRegisters[0][0].ApplyOnce(instructionByte);
+            sut.R2.ApplyOnce(_byteFactory.Create(10U));
+            sut.R3.ApplyOnce(_byteFactory.Create(5U));
+
+            Step(sut, 6);
+
+            var result = sut.R3.Data;
+
+            for (var i = 0; i < expected.Count; i++)
+            {
+                Assert.AreEqual(expected[i].State, result[i].State);
+            }
+        }
 
         [Test]
         public void CanShiftLeft()
@@ -287,6 +321,155 @@ namespace ButHowDoItComputer.Tests
             var result = sut.R1.Data;
 
             Assert.IsTrue(result[1].State);
+        }
+        
+        [Test]
+        public void CpuCanNotByte()
+        {
+            var sut = CreateSut();
+
+            var instructionBits = new[]
+            {
+                true.ToBit(), false.ToBit(), true.ToBit(), true.ToBit(), false.ToBit(), false.ToBit(), false.ToBit(), true.ToBit()
+            };
+            var instructionByte = _byteFactory.Create(instructionBits);
+            
+            sut.InstructionAddressRegister.ApplyOnce(_byteFactory.Create(0));
+            sut.Ram.InternalRegisters[0][0].ApplyOnce(instructionByte);
+            sut.R0.ApplyOnce(_byteFactory.Create(0));
+
+            Step(sut, 6);
+
+            var result = sut.R1.Data;
+
+            Assert.IsTrue(result.All(a => a.State));
+        }
+        
+        [Test]
+        public void CpuCanAndByte()
+        {
+            var sut = CreateSut();
+
+            var instructionBits = new[]
+            {
+                true.ToBit(), true.ToBit(), false.ToBit(), false.ToBit(), false.ToBit(), false.ToBit(), false.ToBit(), true.ToBit()
+            };
+            var instructionByte = _byteFactory.Create(instructionBits);
+            
+            sut.InstructionAddressRegister.ApplyOnce(_byteFactory.Create(0));
+            sut.Ram.InternalRegisters[0][0].ApplyOnce(instructionByte);
+            sut.R0.ApplyOnce(_byteFactory.Create(0));
+            sut.R1.ApplyOnce(_byteFactory.Create(255));
+
+            Step(sut, 6);
+
+            var result = sut.R1.Data;
+
+            Assert.IsTrue(result.All(a => !a.State));
+        }
+        
+        [Test]
+        public void CpuCanOrByte()
+        {
+            var sut = CreateSut();
+
+            var instructionBits = new[]
+            {
+                true.ToBit(), true.ToBit(), false.ToBit(), true.ToBit(), false.ToBit(), false.ToBit(), false.ToBit(), true.ToBit()
+            };
+            var instructionByte = _byteFactory.Create(instructionBits);
+            
+            sut.InstructionAddressRegister.ApplyOnce(_byteFactory.Create(0));
+            sut.Ram.InternalRegisters[0][0].ApplyOnce(instructionByte);
+            sut.R0.ApplyOnce(_byteFactory.Create(255));
+            sut.R1.ApplyOnce(_byteFactory.Create(0));
+
+            Step(sut, 6);
+
+            var result = sut.R1.Data;
+
+            Assert.IsTrue(result.All(a => a.State));
+        }
+        
+        [Test]
+        public void CpuCanXOrByte()
+        {
+            var sut = CreateSut();
+
+            var instructionBits = new[]
+            {
+                true.ToBit(), true.ToBit(), true.ToBit(), false.ToBit(), false.ToBit(), false.ToBit(), false.ToBit(), true.ToBit()
+            };
+            var instructionByte = _byteFactory.Create(instructionBits);
+            
+            sut.InstructionAddressRegister.ApplyOnce(_byteFactory.Create(0));
+            sut.Ram.InternalRegisters[0][0].ApplyOnce(instructionByte);
+            sut.R0.ApplyOnce(_byteFactory.Create(255));
+            sut.R1.ApplyOnce(_byteFactory.Create(255));
+
+            Step(sut, 6);
+
+            var result = sut.R1.Data;
+
+            Assert.IsTrue(result.All(a => !a.State));
+        }
+        
+        [Test]
+        public void CpuCanCompareByteEqual()
+        {
+            var sut = CreateSut();
+
+            var instructionBits = new[]
+            {
+                true.ToBit(), true.ToBit(), true.ToBit(), true.ToBit(), false.ToBit(), false.ToBit(), false.ToBit(), true.ToBit()
+            };
+            var instructionByte = _byteFactory.Create(instructionBits);
+            
+            sut.InstructionAddressRegister.ApplyOnce(_byteFactory.Create(0));
+            sut.Ram.InternalRegisters[0][0].ApplyOnce(instructionByte);
+            sut.R0.ApplyOnce(_byteFactory.Create(255));
+            sut.R1.ApplyOnce(_byteFactory.Create(255));
+
+            Step(sut, 6);
+
+            Assert.IsTrue(sut.ArithmeticLogicUnit.Output.Equal.State);
+            Assert.IsFalse(sut.ArithmeticLogicUnit.Output.ALarger.State);
+            Assert.IsFalse(sut.ArithmeticLogicUnit.Output.Output.All(a => a.State));
+        }
+        
+        [Test]
+        public void CpuCanCompareByteUnEqual()
+        {
+            var sut = CreateSut();
+
+            var instructionBits = new[]
+            {
+                true.ToBit(), true.ToBit(), true.ToBit(), true.ToBit(), false.ToBit(), false.ToBit(), false.ToBit(), true.ToBit()
+            };
+            var instructionByte = _byteFactory.Create(instructionBits);
+            
+            sut.InstructionAddressRegister.ApplyOnce(_byteFactory.Create(0));
+            sut.Ram.InternalRegisters[0][0].ApplyOnce(instructionByte);
+            sut.R0.ApplyOnce(_byteFactory.Create(255));
+            sut.R1.ApplyOnce(_byteFactory.Create(0));
+
+            Step(sut, 6);
+
+            Assert.IsFalse(sut.ArithmeticLogicUnit.Output.Equal.State);
+            Assert.IsTrue(sut.ArithmeticLogicUnit.Output.ALarger.State);
+            Assert.IsTrue(sut.ArithmeticLogicUnit.Output.Output.Any(a => a.State));
+        }
+
+        private IRegister<IByte> GetRegister(Computer computer, uint reg)
+        {
+            return reg switch
+            {
+                0U => computer.R0,
+                1U => computer.R1,
+                2U => computer.R2,
+                3U => computer.R3,
+                _ => null
+            };
         }
 
         private void Step(Computer sut, int times)
