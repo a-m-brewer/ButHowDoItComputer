@@ -18,6 +18,9 @@ TestResults
 .idea/*
 .vscode/*
 .vscode
+.vs
+.vs/*
+.DS_Store
 
 # Build results
 [Dd]ebug/
