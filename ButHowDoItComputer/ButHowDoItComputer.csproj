@@ -2,6 +2,7 @@
 
     <PropertyGroup>
         <OutputType>Exe</OutputType>
+        <DebugType>portable</DebugType>
         <TargetFramework>netcoreapp3.0</TargetFramework>
     </PropertyGroup>
 

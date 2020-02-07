@@ -52,10 +52,10 @@ namespace ButHowDoItComputer.Parts
         private void SetupInternalRegisters()
         {
             InternalRegisters = Enumerable.Range(0, 16)
-                .Select(s => Enumerable.Range(0, 16).Select(y =>
+                .Select(x => Enumerable.Range(0, 16).Select(y =>
                 {
                     var reg = _byteRegisterFactory.Create();
-                    reg.Name = $@"RamInternalRegister{y}";
+                    reg.Name = $@"RamInternalRegister{x}{y}";
                     return reg;
                 }).ToList()).ToList();
 
@@ -70,15 +70,17 @@ namespace ButHowDoItComputer.Parts
             MemoryAddressRegister.Set.State = true;
             MemoryAddressRegister.Apply(address);
             MemoryAddressRegister.Set.State = false;
+            Apply();
         }
 
         public void Apply()
         {
             var inputData = MemoryAddressRegister.Data;
-            var yInput = new [] {inputData.One, inputData.Two, inputData.Three, inputData.Four};
+            
+            var yInput = new [] {inputData.Eight, inputData.Seven, inputData.Six, inputData.Five};
             var yDecoder = _decoder.Apply(yInput).ToList();
 
-            var xInput = new [] {inputData.Five, inputData.Six, inputData.Seven, inputData.Eight};
+            var xInput = new [] {inputData.Four, inputData.Three, inputData.Two, inputData.One};
             var xDecoder = _decoder.Apply(xInput).ToList();
 
             for (var y = 0; y < yDecoder.Count; y++)

@@ -66,55 +66,17 @@ namespace ButHowDoItComputer.Tests
         [Test]
         public void CanPutDataIntoARegister()
         {
+            _ram.Set.State = true;
+            
             var writeRegister = _byteRegisterFactory.Create();
-            var readRegister = _byteRegisterFactory.Create();
-            _outputBus.Add(writeRegister); 
-            _outputBus.Add(readRegister); 
-            
-            // set address register to first register of ram
-            var address = _byteConverter.ToByte(0);
-            _ram.SetMemoryAddress(address);
+            _outputBus.Add(writeRegister);
+            writeRegister.ApplyOnce(_byteFactory.Create(255), true);
 
-            // byte where all bits are true
-            var data = _byteConverter.ToByte(255);
-            
-            // store that data in the write register and place on bus
-            writeRegister.ApplyOnce(data, true);
+            _ram.SetMemoryAddress(_byteFactory.Create(0));
+
             _outputBus.Apply();
             
-            // bus should be the data byte defined above
-            Assert.IsTrue(_outputBus.State.All(a => a.State));
-            
-            // move whats in the Io bus into the currently selected ram register
-            _ram.ApplyState();
-
-            // make a different byte
-            var expected = _byteConverter.ToByte(100);
-            
-            // save it to the write register
-            writeRegister.ApplyOnce(expected, true);
-
-            // move the value in write register to read register so that it is different from what the ram is.
-            readRegister.Set.State = true;
-            _outputBus.Apply();
-            readRegister.Set.State = false;
-
-            // make sure that happend
-            for (var i = 0; i < readRegister.Data.Count; i++)
-            {
-                Assert.AreEqual(expected[i].State, readRegister.Data[i].State);
-            }
-
-            // disable the write register so that its value does not go on the bus.
-            writeRegister.Enable.State = false; 
-            
-            // move what is in ram to read register
-            readRegister.Set.State = true;
-            _ram.ApplyEnable();
-            readRegister.Set.State = false;
-            
-            // check the read register is now what was in ram.
-            Assert.IsTrue(readRegister.Data.All(a => a.State));
+            Assert.IsTrue(_ram.InternalRegisters[0][0].Data.All(a => a.State));
         }
     }
 }

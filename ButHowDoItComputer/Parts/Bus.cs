@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using ButHowDoItComputer.Components.CpuSubscribers;
 using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Parts.Interfaces;
@@ -19,6 +20,7 @@ namespace ButHowDoItComputer.Parts
         {
             _registers = registers;
             State = byteFactory.Create();
+            BusSubscribers.AddRange(_registers);
         }
         
         public IEnumerator<IRegister<IByte>> GetEnumerator()
@@ -34,6 +36,7 @@ namespace ButHowDoItComputer.Parts
         public void Add(IRegister<IByte> item)
         {
             _registers.Add(item);
+            BusSubscribers.Add(item);
         }
 
         public void Clear()
@@ -53,6 +56,7 @@ namespace ButHowDoItComputer.Parts
 
         public bool Remove(IRegister<IByte> item)
         {
+            BusSubscribers.Remove(item);
             return _registers.Remove(item);
         }
 
@@ -68,6 +72,7 @@ namespace ButHowDoItComputer.Parts
         public void Insert(int index, IRegister<IByte> item)
         {
             _registers.Insert(index, item);
+            BusSubscribers.Add(_registers[index]);
         }
 
         public void RemoveAt(int index)
@@ -78,7 +83,11 @@ namespace ButHowDoItComputer.Parts
         public IRegister<IByte> this[int index]
         {
             get => _registers[index];
-            set => _registers[index] = value;
+            set
+            {
+                _registers[index] = value;
+                BusSubscribers.Add(value);
+            }
         }
 
         public void Apply()
@@ -86,14 +95,14 @@ namespace ButHowDoItComputer.Parts
             foreach (var register in _registers)
             {
                 var result = register.Apply(State);
-                if (register.Enable.State)
-                {
-                    State = result;
+                if (!register.Enable.State) continue;
+                
+                State = result;
 
-                    foreach (var busSubscriber in BusSubscribers)
-                    {
-                        busSubscriber.Input = State;
-                    }
+                foreach (var busSubscriber in BusSubscribers.Where(sub => register != sub))
+                {
+                    busSubscriber.Input = State;
+                    busSubscriber.Apply();
                 }
             }
         }

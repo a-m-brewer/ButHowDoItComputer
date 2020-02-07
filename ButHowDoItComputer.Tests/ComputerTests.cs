@@ -460,16 +460,61 @@ namespace ButHowDoItComputer.Tests
             Assert.IsTrue(sut.ArithmeticLogicUnit.Output.Output.Any(a => a.State));
         }
 
-        private IRegister<IByte> GetRegister(Computer computer, uint reg)
+        [Test]
+        public void CanStoreARegisterByteInRam()
         {
-            return reg switch
+            var sut = CreateSut();
+
+            var instructionBits = new[]
             {
-                0U => computer.R0,
-                1U => computer.R1,
-                2U => computer.R2,
-                3U => computer.R3,
-                _ => null
+                false.ToBit(), false.ToBit(), false.ToBit(), false.ToBit(), false.ToBit(), false.ToBit(), false.ToBit(),
+                true.ToBit()
             };
+            var instructionByte = _byteFactory.Create(instructionBits);
+            
+            // store the actual instruction in ram 0
+            sut.InstructionAddressRegister.ApplyOnce(_byteFactory.Create(0));
+            sut.Ram.InternalRegisters[0][0].ApplyOnce(instructionByte);
+            
+            // the value we want to load
+            sut.Ram.InternalRegisters[0][1].ApplyOnce(_byteFactory.Create(255));
+            
+            // point ra to ram address 1
+            sut.R0.ApplyOnce(_byteFactory.Create(1));
+            
+            Step(sut, 6);
+
+            var result = sut.R1.Data;
+            
+            Assert.IsTrue(result.All(a => a.State));
+        }
+
+        [Test]
+        public void CanStoreByteInRam()
+        {
+            var sut = CreateSut();
+
+            var instructionBits = new[]
+            {
+                false.ToBit(), false.ToBit(), false.ToBit(), true.ToBit(), false.ToBit(), false.ToBit(), false.ToBit(),
+                true.ToBit()
+            };
+            var instructionByte = _byteFactory.Create(instructionBits);
+            
+            // store the actual instruction in ram 0
+            sut.InstructionAddressRegister.ApplyOnce(_byteFactory.Create(0));
+            sut.Ram.InternalRegisters[0][0].ApplyOnce(instructionByte);
+
+            // ram address
+            sut.R0.ApplyOnce(_byteFactory.Create(1));
+            // data to store in ram
+            sut.R1.ApplyOnce(_byteFactory.Create(255));
+            
+            Step(sut, 6);
+
+            var result = sut.Ram.InternalRegisters[0][1].Data;
+            
+            Assert.IsTrue(result.All(a => a.State));
         }
 
         private void Step(Computer sut, int times)
