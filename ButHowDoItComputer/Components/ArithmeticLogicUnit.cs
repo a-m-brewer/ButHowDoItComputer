@@ -56,7 +56,7 @@ namespace ButHowDoItComputer.Components
             _byteComparator = byteComparator;
         }
 
-        public AluOutput Apply(IByte a, IByte b, IBit carryIn, Op op)
+        public AluOutput Apply(IByte a, IByte b, bool carryIn, Op op)
         {
             var opDecoder = _byteDecoder.Decode(op.One, op.Two, op.Three);
 
@@ -67,7 +67,7 @@ namespace ButHowDoItComputer.Components
             var shiftLeft = _leftByteShifter.Shift(a, carryIn);
             var shiftRight = _rightByteShifter.Shift(a, carryIn);
             var adder = _byteAdder.Add(a, b, carryIn);
-            var comparatorResult = _byteComparator.AreEqual(a, b, true.ToBit(), false.ToBit());
+            var comparatorResult = _byteComparator.AreEqual(a, b, true, false);
 
             var enabledAdd = _byteEnabler.Apply(adder.Sum, opDecoder[0]);
             var enabledShiftRight = _byteEnabler.Apply(shiftRight.Ouput, opDecoder[1]);

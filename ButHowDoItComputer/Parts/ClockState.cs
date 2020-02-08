@@ -5,19 +5,16 @@ namespace ButHowDoItComputer.Parts
 {
     public class ClockState : IClockState
     {
-        private readonly IBitFactory _bitFactory;
-
-        public ClockState(IBitFactory bitFactory)
+        public ClockState()
         {
-            _bitFactory = bitFactory;
-            Bit = _bitFactory.Create(false);
+            Bit = false;
         }
 
-        public IBit Bit { get; private set; }
+        public bool Bit { get; private set; }
 
-        public IBit Cycle()
+        public bool Cycle()
         {
-            Bit = _bitFactory.Create(!Bit.State);
+            Bit = !Bit;
             return Bit;
         }
     }

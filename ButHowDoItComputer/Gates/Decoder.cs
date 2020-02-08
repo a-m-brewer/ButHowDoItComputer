@@ -11,16 +11,14 @@ namespace ButHowDoItComputer.Gates
     {
         private readonly INot _not;
         private readonly IAnd _and;
-        private readonly IBitFactory _bitFactory;
 
-        public Decoder(INot not, IAnd and, IBitFactory bitFactory)
+        public Decoder(INot not, IAnd and)
         {
             _not = not;
             _and = and;
-            _bitFactory = bitFactory;
         }
 
-        public IEnumerable<IBit> Apply(params IBit[] inputs)
+        public IEnumerable<bool> Apply(params bool[] inputs)
         {
             var inputList = inputs.ToList();
             // get a truth table based on the length of the input
@@ -43,14 +41,14 @@ namespace ButHowDoItComputer.Gates
         /// <param name="combinations"></param>
         /// <param name="inputList"></param>
         /// <returns></returns>
-        private IEnumerable<List<IBit>> CreateGatesInputs(IEnumerable<BitList> combinations, IEnumerable<IBit> inputList)
+        private IEnumerable<List<bool>> CreateGatesInputs(IEnumerable<BitList> combinations, IEnumerable<bool> inputList)
         {
             var input = inputList.Reverse().ToList();
             return combinations.Select(
                 combination => 
                     combination.Select(
                         (bit, bitIndex) => 
-                            bit.State 
+                            bit 
                                 ? input[bitIndex] 
                                 : _not.Apply(input[bitIndex])).ToList()
                     )
@@ -76,7 +74,8 @@ namespace ButHowDoItComputer.Gates
             {
                 if (bitList.Count != length)
                 {
-                    bitList.AddRange(_bitFactory.Create(length - bitList.Count));
+                    var paddingNeeded = length - bitList.Count;
+                    bitList.AddRange(paddingNeeded.BitListOfLength());
                 }
 
                 output.Add(bitList);

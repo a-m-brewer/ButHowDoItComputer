@@ -12,20 +12,18 @@ namespace ButHowDoItComputer.Parts
         private readonly IAnd _and;
         private readonly INot _not;
         private readonly IOr _or;
-        private readonly IBitFactory _bitFactory;
         private List<IMemoryGate> _memoryGates;
-        private IBit _step7;
+        private bool _step7;
 
-        public Stepper(IMemoryGateFactory memoryGateFactory, IAnd and, INot not, IOr or, IBitFactory bitFactory)
+        public Stepper(IMemoryGateFactory memoryGateFactory, IAnd and, INot not, IOr or)
         {
             _and = and;
             _not = not;
             _or = or;
-            _bitFactory = bitFactory;
             _memoryGates = Enumerable.Range(0, 12).Select(_ => memoryGateFactory.Create()).ToList();
         }
 
-        public StepperOutput Step(IBit clk, IBit reset)
+        public StepperOutput Step(bool clk, bool reset)
         {
             var notReset = _not.Apply(reset);
             var notClk = _not.Apply(clk);
@@ -63,16 +61,11 @@ namespace ButHowDoItComputer.Parts
 
             var stepperArray = new[] {step1, step2, step3, step4, step5, step6, _step7};
             
-            return new StepperOutput(stepperArray, _bitFactory);
+            return new StepperOutput(stepperArray);
         }
 
-        public StepperOutput Step(IBit clk)
+        public StepperOutput Step(bool clk)
         {
-            if (_step7 == null)
-            {
-                _step7 = _bitFactory.Create(false);
-            }
-
             return Step(clk, _step7);
         }
     }

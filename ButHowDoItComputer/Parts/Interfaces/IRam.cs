@@ -9,8 +9,8 @@ namespace ButHowDoItComputer.Parts.Interfaces
     {
         IRegister<IByte> MemoryAddressRegister { get; }
         List<List<IRegister<IByte>>> InternalRegisters { get; }
-        IBit Set { get; set; }
-        IBit Enable { get; set; }
+        bool Set { get; set; }
+        bool Enable { get; set; }
         IBus Io { get; }
         void SetMemoryAddress(IByte address);
         void Apply();

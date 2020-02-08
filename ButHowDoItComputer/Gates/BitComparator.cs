@@ -18,7 +18,7 @@ namespace ButHowDoItComputer.Gates
             _not = not;
         }
         
-        public (IBit equal, IBit ALarger, IBit output) AreEqual(IBit a, IBit b, IBit aboveBitIsEqual, IBit aboveBitALarger)
+        public (bool equal, bool ALarger, bool output) AreEqual(bool a, bool b, bool aboveBitIsEqual, bool aboveBitALarger)
         {
             var one = _xOr.Apply(a, b);
             var two = _not.Apply(one);

@@ -16,7 +16,7 @@ namespace ButHowDoItComputer.Parts
 
         public IByte Apply(params IByte[] input)
         {
-            return input.Where(w => w.Any(a => a.State)).LastOrDefault() ?? _byteFactory.Create(0);
+            return input.LastOrDefault(w => w.Any(a => a)) ?? _byteFactory.Create(0);
         }
     }
 }

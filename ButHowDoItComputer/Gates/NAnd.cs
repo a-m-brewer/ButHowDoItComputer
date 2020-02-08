@@ -16,7 +16,7 @@ namespace ButHowDoItComputer.Gates
             _and = and;
         }
         
-        public IBit Apply(params IBit[] bits)
+        public bool Apply(params bool[] bits)
         {
             return _not.Apply(_and.Apply(bits));
         }

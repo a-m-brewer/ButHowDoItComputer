@@ -5,8 +5,8 @@ namespace ButHowDoItComputer.Components.Interfaces
 {
     public interface IShifter : IRegisterTransfer
     {
-        IBit ShiftIn { get; set; }
-        IBit ShiftOut { get; set; }
+        bool ShiftIn { get; set; }
+        bool ShiftOut { get; set; }
     }
 
     public interface IRightShifter : IShifter { }

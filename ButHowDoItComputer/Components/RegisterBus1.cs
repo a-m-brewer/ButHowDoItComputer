@@ -17,7 +17,7 @@ namespace ButHowDoItComputer.Components
         public IRegister<IByte> InputRegister { get; private set; }
         public IRegister<IByte> OutputRegister { get; private set; }
         
-        public IBit Set { get; set; }
+        public bool Set { get; set; }
 
         public RegisterBus1(IRegisterListGateFactory registerListGateFactory, IBus1 bus1, IByteGateToListFactory byteGateToListFactory, IByteRegisterFactory byteRegisterFactory)
         {
@@ -28,7 +28,7 @@ namespace ButHowDoItComputer.Components
             OutputRegister = byteRegisterFactory.Create();
         }
 
-        public void Apply(IRegister<IByte> inputRegister, IBit set, IRegister<IByte> outputRegister)
+        public void Apply(IRegister<IByte> inputRegister, bool set, IRegister<IByte> outputRegister)
         {
             InputRegister = inputRegister;
             Input = InputRegister.Input;

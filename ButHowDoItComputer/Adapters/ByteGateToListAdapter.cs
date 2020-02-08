@@ -6,9 +6,9 @@ namespace ButHowDoItComputer.Adapters
     class ByteGateToListAdapter : IByteListGate
     {
         private readonly IByteGate _byteGate;
-        private readonly IBit _set;
+        private readonly bool _set;
 
-        public ByteGateToListAdapter(IByteGate byteGate, IBit set)
+        public ByteGateToListAdapter(IByteGate byteGate, bool set)
         {
             _byteGate = byteGate;
             _set = set;

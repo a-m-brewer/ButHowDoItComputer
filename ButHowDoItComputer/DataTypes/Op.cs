@@ -5,8 +5,8 @@ namespace ButHowDoItComputer.DataTypes
 {
     public class Op
     {
-        public IBit One { get; set; } = false.ToBit();
-        public IBit Two { get; set; } = false.ToBit();
-        public IBit Three { get; set; } = false.ToBit();
+        public bool One { get; set; }
+        public bool Two { get; set; }
+        public bool Three { get; set; }
     }
 }

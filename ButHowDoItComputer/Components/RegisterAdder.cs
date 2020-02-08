@@ -14,7 +14,7 @@ namespace ButHowDoItComputer.Components
             _byteAdder = byteAdder;
         }
         
-        public IBit Apply(IRegister<IByte> inputRegisterA, IRegister<IByte> inputRegisterB, IBit carryIn, IRegister<IByte> outputRegister)
+        public bool Apply(IRegister<IByte> inputRegisterA, IRegister<IByte> inputRegisterB, bool carryIn, IRegister<IByte> outputRegister)
         {
             inputRegisterA.Apply();
             inputRegisterB.Apply();

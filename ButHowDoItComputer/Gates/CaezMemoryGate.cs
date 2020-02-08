@@ -15,9 +15,9 @@ namespace ButHowDoItComputer.Gates
             _memoryGates = Enumerable.Range(0, 8).Select(_ => memoryGateFactory.Create()).ToList();
         }
         
-        public Caez Apply(Caez input, IBit set)
+        public Caez Apply(Caez input, bool set)
         {
-            var newState = new IBit[4];
+            var newState = new bool[4];
             var listCaez = input.ToList();
             for (var i = 0; i < listCaez.Count; i++)
             {

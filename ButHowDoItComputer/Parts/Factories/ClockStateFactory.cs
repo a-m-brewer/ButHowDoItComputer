@@ -7,7 +7,7 @@ namespace ButHowDoItComputer.Parts.Factories
     {
         public IClockState Create()
         {
-            return new ClockState(new BitFactory());
+            return new ClockState();
         }
     }
 }

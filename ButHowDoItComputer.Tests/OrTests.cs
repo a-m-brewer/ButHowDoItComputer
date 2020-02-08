@@ -10,18 +10,18 @@ namespace ButHowDoItComputer.Tests
     public class OrTests
     {
         private static readonly object[] OrData = {
-            new object[] {false, new IBit[] {new Bit(false), new Bit(false)}},
-            new object[] {true, new IBit[] {new Bit(false), new Bit(true)}},
-            new object[] {true, new IBit[] {new Bit(true), new Bit(false)}},
-            new object[] {true, new IBit[] {new Bit(true), new Bit(true)}}
+            new object[] {false, new bool[] {false, false}},
+            new object[] {true, new bool[] {false, true}},
+            new object[] {true, new bool[] {true, false}},
+            new object[] {true, new bool[] {true, true}}
         };
 
 
         [Test, TestCaseSource(nameof(OrData))]
-        public void ReturnsCorrectNewBit(bool expected, IBit[] bits)
+        public void ReturnsCorrectNewBit(bool expected, bool[] bits)
         {
-            var sut = new Or(new Not(new BitFactory()), new NAnd(new Not(new BitFactory()), new And(new BitFactory())));
-            Assert.AreEqual(expected, sut.Apply(bits).State);
+            var sut = new Or(new Not(), new NAnd(new Not(), new And()));
+            Assert.AreEqual(expected, sut.Apply(bits));
         }
     }
 }

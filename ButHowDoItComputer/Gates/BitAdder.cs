@@ -16,7 +16,7 @@ namespace ButHowDoItComputer.Gates
             _and = and;
         }
         
-        public (IBit Sum, IBit CarryOut) Add(IBit a, IBit b, IBit carryIn)
+        public (bool Sum, bool CarryOut) Add(bool a, bool b, bool carryIn)
         {
             var aXorB = _xOr.Apply(new[] {a, b});
             var sum = _xOr.Apply(new[] {aXorB, carryIn});

@@ -3,7 +3,7 @@ using ButHowDoItComputer.Utils.Interfaces;
 
 namespace ButHowDoItComputer.Components.CpuSubscribers
 {
-    public class EnableSubscriberNotifier : ICpuSubscriberNotifier<IBit>
+    public class EnableSubscriberNotifier : ICpuSubscriberNotifier<bool>
     {
         private readonly ICpuEnableSubscriber[] _cpuEnableSubscriber;
 
@@ -12,7 +12,7 @@ namespace ButHowDoItComputer.Components.CpuSubscribers
             _cpuEnableSubscriber = cpuEnableSubscriber;
         }
         
-        public void Update(IBit newState)
+        public void Update(bool newState)
         {
             foreach (var cpuEnableSubscriber in _cpuEnableSubscriber)
             {

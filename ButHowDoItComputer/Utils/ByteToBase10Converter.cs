@@ -8,13 +8,11 @@ namespace ButHowDoItComputer.Utils
 {
     public class ByteToBase10Converter : IByteToBase10Converter
     {
-        private readonly IBitFactory _bitFactory;
         private readonly IByteFactory _byteFactory;
         private readonly IBase10Converter _base10Converter;
 
-        public ByteToBase10Converter(IBitFactory bitFactory, IByteFactory byteFactory, IBase10Converter base10Converter)
+        public ByteToBase10Converter(IByteFactory byteFactory, IBase10Converter base10Converter)
         {
-            _bitFactory = bitFactory;
             _byteFactory = byteFactory;
             _base10Converter = base10Converter;
         }
@@ -36,7 +34,7 @@ namespace ButHowDoItComputer.Utils
             if (result.Count == 8) return _byteFactory.Create(result.ToArray());
             
             var toAdd = 8 - result.Count;
-            result.AddRange(_bitFactory.Create(toAdd));
+            result.AddRange(toAdd.BitListOfLength());
 
             return _byteFactory.Create(result.ToArray());
         }

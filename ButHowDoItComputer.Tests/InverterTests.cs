@@ -12,8 +12,8 @@ namespace ButHowDoItComputer.Tests
         [Test]
         public void InvertsAllInputs()
         {
-            var byteFactory = new ByteFactory(new BitFactory(), new Base10Converter(new BitFactory()));
-            var sut = new Inverter(new Not(new BitFactory()), byteFactory);
+            var byteFactory = new ByteFactory(new Base10Converter());
+            var sut = new Inverter(new Not(), byteFactory);
             var input = byteFactory.Create(255);
             var expectedOutput = byteFactory.Create(0);
             
@@ -21,7 +21,7 @@ namespace ButHowDoItComputer.Tests
 
             for (var i = 0; i < expectedOutput.Count; i++)
             {
-                Assert.AreEqual(expectedOutput[i].State, result[i].State);
+                Assert.AreEqual(expectedOutput[i], result[i]);
             }
         }
     }

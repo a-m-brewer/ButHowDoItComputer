@@ -9,30 +9,23 @@ namespace ButHowDoItComputer.Utils
 {
     public class Base10Converter : IBase10Converter
     {
-        private readonly IBitFactory _bitFactory;
-
-        public Base10Converter(IBitFactory bitFactory)
-        {
-            _bitFactory = bitFactory;
-        }
-        
-        public IEnumerable<IBit> ToBit(uint input)
+        public IEnumerable<bool> ToBit(uint input)
         {
             var quotient = (int)input;
             
-            var result = new List<IBit>();
+            var result = new List<bool>();
             
             while (quotient != 0)
             {
                 quotient = Math.DivRem(quotient, 2, out var remainder);
                 var state = remainder == 1;
-                result.Add(_bitFactory.Create(state));
+                result.Add(state);
             }
 
             return result;
         }
 
-        public uint ToInt(IList<IBit> bits)
+        public uint ToInt(IList<bool> bits)
         {
             if (!bits.Any())
             {
@@ -42,38 +35,38 @@ namespace ButHowDoItComputer.Utils
             var total = 0;
             for (var i = 0; i < bits.Count; i++)
             {
-                if(!bits[i].State) continue;
+                if(!bits[i]) continue;
                 total += (int) Math.Pow(2, i);
             }
 
             return (uint) total;
         }
 
-        public IEnumerable<IBit> Pad(List<IBit> bits, int amount)
+        public IEnumerable<bool> Pad(List<bool> bits, int amount)
         {
             var toAdd = amount - bits.Count;
-            bits.AddRange(_bitFactory.Create(toAdd));
+            bits.AddRange(toAdd.BitListOfLength());
             return bits;
         }
     }
 
     public static class Base10ConverterExtensions
     {
-        public static IEnumerable<IBit> ToBit(this uint input)
+        public static IEnumerable<bool> ToBit(this uint input)
         {
-            var b10C = new Base10Converter(new BitFactory());
+            var b10C = new Base10Converter();
             return b10C.ToBit(input);
         }
 
-        public static uint ToInt(this IList<IBit> bits)
+        public static uint ToInt(this IList<bool> bits)
         {
-            var b10C = new Base10Converter(new BitFactory());
+            var b10C = new Base10Converter();
             return b10C.ToInt(bits.ToList());
         }
 
-        public static IEnumerable<IBit> Pad(this IEnumerable<IBit> bits, int amount)
+        public static IEnumerable<bool> Pad(this IEnumerable<bool> bits, int amount)
         {
-            var b10C = new Base10Converter(new BitFactory());
+            var b10C = new Base10Converter();
             return b10C.Pad(bits.ToList(), amount);
         }
     }

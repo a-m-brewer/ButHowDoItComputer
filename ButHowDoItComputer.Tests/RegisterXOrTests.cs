@@ -16,9 +16,9 @@ namespace ButHowDoItComputer.Tests
         [Test]
         public void RegisterXOrRunsAsExpected()
         {
-            var byteFactory = new ByteFactory(new BitFactory(), new Base10Converter(new BitFactory()));
+            var byteFactory = new ByteFactory(new Base10Converter());
             var sut = new RegisterXOr(new ByteXOr(
-                new XOr(new Not(new BitFactory()), new NAnd(new Not(new BitFactory()), new And(new BitFactory()))),
+                new XOr(new Not(), new NAnd(new Not(), new And())),
                 byteFactory));
             
             var on = byteFactory.Create(255);
@@ -31,7 +31,7 @@ namespace ButHowDoItComputer.Tests
             inputRegister2.Input = off;
             sut.Apply(new List<IRegister<IByte>> {inputRegister1, inputRegister2}, outputRegister);
 
-            Assert.IsFalse(outputRegister.Output.Any(a => a.State));
+            Assert.IsFalse(outputRegister.Output.Any(a => a));
         }
     }
 }

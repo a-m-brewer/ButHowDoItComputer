@@ -13,7 +13,7 @@ namespace ButHowDoItComputer.Tests
         [TestCase(false, true)]
         public void CanNegateAState(bool before, bool after)
         {
-            Assert.AreEqual(after, new Not(new BitFactory()).Apply(new Bit(before)).State);
+            Assert.AreEqual(after, new Not().Apply(before));
         }
     }
 }

@@ -4,6 +4,6 @@ namespace ButHowDoItComputer.Gates.Interfaces
 {
     public interface IGenericMemoryGate<TData>
     {
-        TData Apply(TData input, IBit set);
+        TData Apply(TData input, bool set);
     }
 }

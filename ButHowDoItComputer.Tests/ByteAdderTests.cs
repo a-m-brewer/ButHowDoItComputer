@@ -10,7 +10,6 @@ namespace ButHowDoItComputer.Tests
     [TestFixture]
     public class ByteAdderTests
     {
-        private BitFactory _bitFactory;
         private ByteFactory _byteFactory;
         private ByteAdder _sut;
         private Base10Converter _b10Converter;
@@ -18,9 +17,8 @@ namespace ButHowDoItComputer.Tests
         [SetUp]
         public void Setup()
         {
-            _bitFactory = new BitFactory();
-            _b10Converter = new Base10Converter(_bitFactory);
-            _byteFactory = new ByteFactory(_bitFactory, _b10Converter);
+            _b10Converter = new Base10Converter();
+            _byteFactory = new ByteFactory(_b10Converter);
             _sut = new ByteAdder(Create(), _byteFactory);
         }
         
@@ -31,14 +29,14 @@ namespace ButHowDoItComputer.Tests
             var b = _byteFactory.Create(50);
             var expected = _byteFactory.Create(150);
 
-            var (sum, carry) = _sut.Add(a, b, new Bit(false));
+            var (sum, carry) = _sut.Add(a, b, false);
 
             for (var i = 0; i < expected.Count; i++)
             {
-                Assert.AreEqual(expected[i].State, sum[i].State);
+                Assert.AreEqual(expected[i], sum[i]);
             }
             
-            Assert.IsFalse(carry.State);
+            Assert.IsFalse(carry);
         }
 
         [Test]
@@ -47,17 +45,16 @@ namespace ButHowDoItComputer.Tests
             var a = _byteFactory.Create(255);
             var b = _byteFactory.Create(255);
 
-            var (sum, carry) = _sut.Add(a, b, new Bit(true));
+            var (sum, carry) = _sut.Add(a, b, true);
             
-            Assert.IsTrue(carry.State);
-            Assert.IsTrue(sum.All(s => s.State));
+            Assert.IsTrue(carry);
+            Assert.IsTrue(sum.All(s => s));
         }
         
         private static BitAdder Create()
         {
-            var bitFactory = new BitFactory();
-            var and = new And(bitFactory);
-            var not = new Not(bitFactory);
+            var and = new And();
+            var not = new Not();
             var nAnd = new NAnd(not, and);
             var or = new Or(not, nAnd);
             return new BitAdder(new XOr(not, nAnd), or, and);

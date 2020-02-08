@@ -14,10 +14,10 @@ namespace ButHowDoItComputer.Gates
             _byteFactory = byteFactory;
         }
 
-        public (IByte Sum, IBit CarryOut) Add(IByte a, IByte b, IBit carryIn)
+        public (IByte Sum, bool CarryOut) Add(IByte a, IByte b, bool carryIn)
         {
             var carryOut = carryIn;
-            var output = new IBit[8];
+            var output = new bool[8];
 
             for (var i = 0; i < a.Count; i++)
             {

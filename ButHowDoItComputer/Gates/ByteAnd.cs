@@ -18,7 +18,7 @@ namespace ButHowDoItComputer.Gates
         
         public IByte Apply(params IByte[] input)
         {
-            var groups = new List<List<IBit>>();
+            var groups = new List<List<bool>>();
             for (var i = 0; i < input[0].Count; i++)
             {
                 var tempList = input.Select(t => t[i]).ToList();

@@ -10,31 +10,29 @@ namespace ButHowDoItComputer.Parts
     public class Ram : IRam, IApplicable, IEnablable, ISettable
     {
         private readonly IByteRegisterFactory _byteRegisterFactory;
-        private readonly IBitFactory _bitFactory;
         private readonly IDecoder _decoder;
         private readonly IAnd _and;
 
         public IRegister<IByte> MemoryAddressRegister { get; private set; }
 
-        public IBit Set { get; set; }
-        public IBit Enable { get; set; }
+        public bool Set { get; set; }
+        public bool Enable { get; set; }
 
 
         public IBus Io { get; }
 
         public List<List<IRegister<IByte>>> InternalRegisters { get; private set; } = new List<List<IRegister<IByte>>>();
 
-        public Ram(IBus outputBus, IByteRegisterFactory byteRegisterFactory, IBitFactory bitFactory,
+        public Ram(IBus outputBus, IByteRegisterFactory byteRegisterFactory,
             IDecoder decoder, IAnd and)
         {
             Io = outputBus;
             _byteRegisterFactory = byteRegisterFactory;
-            _bitFactory = bitFactory;
             _decoder = decoder;
             _and = and;
 
-            Set = bitFactory.Create(false);
-            Enable = bitFactory.Create(false);
+            Set = false;
+            Enable = false;
 
             SetupInputRegister();
             SetupInternalRegisters();
@@ -44,7 +42,7 @@ namespace ButHowDoItComputer.Parts
         {
             MemoryAddressRegister = _byteRegisterFactory.Create();
             // never need to hide input registers value
-            MemoryAddressRegister.Enable.State = true;
+            MemoryAddressRegister.Enable = true;
             MemoryAddressRegister.Name = "MAR";
             Io.BusSubscribers.Add(MemoryAddressRegister);
         }
@@ -67,9 +65,9 @@ namespace ButHowDoItComputer.Parts
 
         public void SetMemoryAddress(IByte address)
         {
-            MemoryAddressRegister.Set.State = true;
+            MemoryAddressRegister.Set = true;
             MemoryAddressRegister.Apply(address);
-            MemoryAddressRegister.Set.State = false;
+            MemoryAddressRegister.Set = false;
             Apply();
         }
 
@@ -100,18 +98,18 @@ namespace ButHowDoItComputer.Parts
 
         public void ApplyState()
         {
-            Set.State = true;
+            Set = true;
             Apply();
             Io.Apply();
-            Set.State = false;
+            Set = false;
         }
 
         public void ApplyEnable()
         {
-            Enable.State = true;
+            Enable = true;
             Apply();
             Io.Apply();
-            Enable.State = false;
+            Enable = false;
         }
     }
 }

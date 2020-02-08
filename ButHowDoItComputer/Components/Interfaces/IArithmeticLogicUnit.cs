@@ -5,6 +5,6 @@ namespace ButHowDoItComputer.Components.Interfaces
 {
     public interface IArithmeticLogicUnit
     {
-        AluOutput Apply(IByte a, IByte b, IBit carryIn, Op op);
+        AluOutput Apply(IByte a, IByte b, bool carryIn, Op op);
     }
 }

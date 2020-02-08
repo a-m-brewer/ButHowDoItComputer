@@ -10,10 +10,9 @@ namespace ButHowDoItComputer.Parts
     {
         private readonly IByteMemoryGate _byteMemoryGate;
         private readonly IByteEnabler _byteEnabler;
-        private readonly IBitFactory _bitFactory;
 
-        public IBit Enable { get; set; }
-        public IBit Set { get; set; }
+        public bool Enable { get; set; }
+        public bool Set { get; set; }
 
         public IByte Input { get; set; }
 
@@ -23,24 +22,23 @@ namespace ButHowDoItComputer.Parts
         public List<IBusInputSubscriber<IByte>> Subscribers { get; } =  new List<IBusInputSubscriber<IByte>>();
         public string Name { get; set; }
 
-        public ByteRegister(IByteMemoryGate byteMemoryGate, IByteEnabler byteEnabler, IByteFactory byteFactory, IBitFactory bitFactory)
+        public ByteRegister(IByteMemoryGate byteMemoryGate, IByteEnabler byteEnabler, IByteFactory byteFactory)
         {
             _byteMemoryGate = byteMemoryGate;
             _byteEnabler = byteEnabler;
-            _bitFactory = bitFactory;
             Input = byteFactory.Create();
             Output = byteFactory.Create();
             Data = byteFactory.Create();
-            Set = bitFactory.Create(false);
-            Enable = bitFactory.Create(false);
+            Set = false;
+            Enable = false;
         }
         
         public IByte ApplyOnce(IByte input, bool enable = false)
         {
-            Enable.State = enable;
-            Set = _bitFactory.Create(true);
+            Enable = enable;
+            Set = true;
             var applied = Apply(input);
-            Set = _bitFactory.Create(false);
+            Set = false;
             return applied;
         }
 

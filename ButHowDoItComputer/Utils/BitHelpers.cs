@@ -8,23 +8,23 @@ namespace ButHowDoItComputer.Utils
 {
     public static class BitHelpers
     {
-        public static IList<IBit> Increment(this IList<IBit> bits, uint amount)
+        public static IList<bool> Increment(this IList<bool> bits, uint amount)
         {
-            var base10Converter = new Base10Converter(new BitFactory());
+            var base10Converter = new Base10Converter();
             var asInt = base10Converter.ToInt(bits) + amount;
             var asBits = base10Converter.ToBit(asInt).ToList();
 
             return asBits;
         }
 
-        public static IList<IBit> Increment(this IBit bit, uint amount)
+        public static IList<bool> Increment(this bool bit, uint amount)
         {
-            return Increment(new List<IBit> {bit}, amount);
+            return Increment(new List<bool> {bit}, amount);
         }
-        
-        public static IBit ToBit(this bool input)
+
+        public static bool[] BitListOfLength(this int size)
         {
-            return new Bit(input);
+            return Enumerable.Range(0, size).Select(s => false).ToArray();
         }
     }
 }

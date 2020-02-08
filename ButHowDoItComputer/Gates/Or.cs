@@ -16,7 +16,7 @@ namespace ButHowDoItComputer.Gates
             _nAnd = nAnd;
         }
 
-        public IBit Apply(params IBit[] bits)
+        public bool Apply(params bool[] bits)
         {
             var negatedBits = bits.Select(s => _not.Apply(s)).ToArray();
             return _nAnd.Apply(negatedBits);

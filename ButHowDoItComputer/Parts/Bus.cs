@@ -95,7 +95,7 @@ namespace ButHowDoItComputer.Parts
             foreach (var register in _registers)
             {
                 var result = register.Apply(State);
-                if (!register.Enable.State) continue;
+                if (!register.Enable) continue;
                 
                 State = result;
 

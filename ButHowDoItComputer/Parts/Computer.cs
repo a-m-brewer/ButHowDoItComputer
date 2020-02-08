@@ -24,23 +24,22 @@ namespace ButHowDoItComputer.Parts
 
         public Computer(IArithmeticLogicUnit alu)
         {
-            var bitFactory = new BitFactory();
-            var byteFactory = new ByteFactory(bitFactory, new Base10Converter(bitFactory));
-            var and = new And(bitFactory);
-            var not = new Not(bitFactory);
+            var byteFactory = new ByteFactory(new Base10Converter());
+            var and = new And();
+            var not = new Not();
             var nAnd = new NAnd(not, and);
             var or = new Or(not, nAnd);
             var clockStateFactory = new ClockStateFactory();
-            var clock = new Clock(clockStateFactory, and, or, bitFactory);
-            var memoryGateFactory = new MemoryGateFactory(nAnd, bitFactory);
-            var stepper = new Stepper(memoryGateFactory, and, not, or, bitFactory);
+            var clock = new Clock(clockStateFactory, and, or);
+            var memoryGateFactory = new MemoryGateFactory(nAnd);
+            var stepper = new Stepper(memoryGateFactory, and, not, or);
             
             var registerListGateFactory = new RegisterListGateFactory();
             var byteGateListFactory = new ByteGateToListFactory();
             var byteMemoryGateFactory = new ByteMemoryGateFactory(memoryGateFactory, byteFactory);
             var byteEnabler = new ByteEnabler(and, byteFactory);
-            var registerFactory = new ByteRegisterFactory(byteMemoryGateFactory, byteEnabler, byteFactory, bitFactory);
-            var decoder = new Decoder(not, and, bitFactory);
+            var registerFactory = new ByteRegisterFactory(byteMemoryGateFactory, byteEnabler, byteFactory);
+            var decoder = new Decoder(not, and);
             
             Acc = registerFactory.Create();
             Acc.Name = nameof(Acc);
@@ -58,17 +57,17 @@ namespace ButHowDoItComputer.Parts
             InstructionRegister.Name = nameof(InstructionRegister);
             Temp = registerFactory.Create();
             Temp.Name = nameof(Temp);
-            
-            Temp.Enable = bitFactory.Create(true);
-            InstructionRegister.Enable = bitFactory.Create(true);
+
+            Temp.Enable = true;
+            InstructionRegister.Enable = true;
 
             _dataAddress = new BitSubscriberNotifier();
             _inputOutput = new BitSubscriberNotifier();
             
-            IoClock = new Clock(clockStateFactory, and, or, bitFactory);
+            IoClock = new Clock(clockStateFactory, and, or);
             
             CaezRegister = new CaezRegisterFactory(memoryGateFactory, and).Create();
-            CaezRegister.Enable = bitFactory.Create(true);
+            CaezRegister.Enable = true;
             CaezRegister.Name = nameof(CaezRegister);
 
             Bus1 = new Bus1(and, not, or, byteFactory);;
@@ -81,7 +80,7 @@ namespace ButHowDoItComputer.Parts
             Bus.BusSubscribers.Add(InstructionRegister);
             Acc.Subscribers.Add(Bus);
 
-            Ram = new Ram(Bus, registerFactory, bitFactory, decoder, and);
+            Ram = new Ram(Bus, registerFactory, decoder, and);
             
             ArithmeticLogicUnit = new RegisterArithmeticLogicUnit(alu, registerFactory);
             ArithmeticLogicUnit.Subscribers.Add(Acc);

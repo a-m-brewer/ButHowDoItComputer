@@ -5,16 +5,9 @@ namespace ButHowDoItComputer.Gates
 {
     public class Not : INot
     {
-        private readonly IBitFactory _bitFactory;
-
-        public Not(IBitFactory bitFactory)
+        public bool Apply(bool bit)
         {
-            _bitFactory = bitFactory;
-        }
-        
-        public IBit Apply(IBit bit)
-        {
-            return _bitFactory.Create(!bit.State);
+            return !bit;
         }
     }
 }

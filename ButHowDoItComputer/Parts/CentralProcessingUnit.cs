@@ -16,7 +16,7 @@ namespace ButHowDoItComputer.Parts
         private readonly CpuEnables _cpuEnables;
         private readonly CpuSets _cpuSets;
         private readonly CpuInput _cpuInput;
-        private readonly ICpuSubscriberNotifier<IBit> _bus1Sub;
+        private readonly ICpuSubscriberNotifier<bool> _bus1Sub;
         private readonly ICpuSubscriberNotifier<Op> _aluOpSub;
         private readonly IAnd _and;
         private readonly IOr _or;
@@ -30,7 +30,7 @@ namespace ButHowDoItComputer.Parts
             CpuEnables cpuEnables, 
             CpuSets cpuSets,
             CpuInput cpuInput,
-            ICpuSubscriberNotifier<IBit> bus1Sub,
+            ICpuSubscriberNotifier<bool> bus1Sub,
             ICpuSubscriberNotifier<Op> aluOpSub,
             IAnd and,
             IOr or,
@@ -141,16 +141,16 @@ namespace ButHowDoItComputer.Parts
             _cpuEnables.Acc.Apply();
         }
 
-        private IBit[] ThreeXEightOutput()
+        private bool[] ThreeXEightOutput()
         {
             var decoderOut = _decoder.Apply(_cpuInput.Ir()[1], _cpuInput.Ir()[2], _cpuInput.Ir()[3]);
             var result = decoderOut.Select(decoderBit => _and.Apply(decoderBit, _not.Apply(_cpuInput.Ir()[0]))).ToArray();
             return result;
         }
 
-        private IBit[] ThreeXEightOutputAndStep4Ir4(IReadOnlyList<IBit> threeXEightOutput)
+        private bool[] ThreeXEightOutputAndStep4Ir4(IReadOnlyList<bool> threeXEightOutput)
         {
-            var output = new IBit[8];
+            var output = new bool[8];
             for (var i = 0; i < threeXEightOutput.Count; i++)
             {
                 if (i == 7)
@@ -166,9 +166,9 @@ namespace ButHowDoItComputer.Parts
             return output;
         }
 
-        private IBit[] ThreeXEightOutputAndStep5NotIr4(IReadOnlyList<IBit> threeXEightOutput)
+        private bool[] ThreeXEightOutputAndStep5NotIr4(IReadOnlyList<bool> threeXEightOutput)
         {
-            var output = new IBit[8];
+            var output = new bool[8];
             for (var i = 0; i < threeXEightOutput.Count; i++)
             {
                 if (i == 7)
@@ -195,52 +195,52 @@ namespace ButHowDoItComputer.Parts
             };
         }
         
-        private void UpdateBus1(IBit step1, IBit two, IBit three, IBit four)
+        private void UpdateBus1(bool step1, bool two, bool three, bool four)
         {
             _bus1Sub.Update(_or.Apply(step1, two, three, four));
         }
 
-        private void UpdateIarEnable(IBit step1, IBit two, IBit three, IBit four)
+        private void UpdateIarEnable(bool step1, bool two, bool three, bool four)
         {
             _cpuEnables.Iar.Update(CreateEnableUpdate(_or.Apply(step1, two, three, four)));
         }
 
-        private void UpdateRamEnable(IBit step2, IBit one, IBit two, IBit three, IBit four)
+        private void UpdateRamEnable(bool step2, bool one, bool two, bool three, bool four)
         {
             _cpuEnables.Ram.Update(CreateEnableUpdate(_or.Apply(step2, one, two, three, four)));
         }
 
-        private void UpdateAccEnable(IBit step3, IBit two, IBit three, IBit four)
+        private void UpdateAccEnable(bool step3, bool two, bool three, bool four)
         {
             _cpuEnables.Acc.Update(CreateEnableUpdate(_or.Apply(step3, two, three, four)));
         }
 
-        private void UpdateIoClkEnable(IBit bit)
+        private void UpdateIoClkEnable(bool bit)
         {
             _cpuEnables.IoClk.Update(CreateEnableUpdate(bit));
         }
 
-        private IBit RegisterAEnable(IBit one, IBit two, IBit three)
+        private bool RegisterAEnable(bool one, bool two, bool three)
         {
             return _or.Apply(one, two, three);
         }
         
-        private IBit RegisterBEnable(IBit one, IBit two, IBit three, IBit four)
+        private bool RegisterBEnable(bool one, bool two, bool three, bool four)
         {
             return _or.Apply(one, two, three, four);
         }
 
-        private void UpdateIrSet(IBit step2)
+        private void UpdateIrSet(bool step2)
         {
             _cpuSets.Ir.Update(CreateSetUpdate(step2));
         }
 
-        private void UpdateIoClkSet(IBit one)
+        private void UpdateIoClkSet(bool one)
         {
             _cpuSets.IoClk.Update(CreateSetUpdate(one));
         }
 
-        private void UpdateRegisters(IBit regAEnable, IBit regBEnable, IBit regBSet)
+        private void UpdateRegisters(bool regAEnable, bool regBEnable, bool regBSet)
         {
             var setDecoder = _decoder.Apply(_cpuInput.Ir()[6], _cpuInput.Ir()[7]).ToArray();
             var enableDecoder1 = _decoder.Apply(_cpuInput.Ir()[6], _cpuInput.Ir()[7]).ToArray();
@@ -286,37 +286,37 @@ namespace ButHowDoItComputer.Parts
             _aluOpSub.Update(new Op {One = one, Two = two, Three = three});
         }
 
-        private void UpdateMarSet(IBit one, IBit two, IBit three, IBit four, IBit five, IBit six)
+        private void UpdateMarSet(bool one, bool two, bool three, bool four, bool five, bool six)
         {
             _cpuSets.Mar.Update(CreateSetUpdate(_or.Apply(one, two, three, four, five, six)));
         }
         
-        private void UpdateIarSet(IBit one, IBit two, IBit three, IBit four, IBit five, IBit six)
+        private void UpdateIarSet(bool one, bool two, bool three, bool four, bool five, bool six)
         {
             _cpuSets.Iar.Update(CreateSetUpdate(_or.Apply(one, two, three, four, five, six)));
         }
 
-        private void UpdateAccSet(IBit one, IBit two, IBit three, IBit four)
+        private void UpdateAccSet(bool one, bool two, bool three, bool four)
         {
             _cpuSets.Acc.Update(CreateSetUpdate(_or.Apply(one, two, three, four)));
         }
 
-        private void UpdateRamSet(IBit one)
+        private void UpdateRamSet(bool one)
         {
             _cpuSets.Ram.Update(CreateSetUpdate(one));
         }
 
-        private void UpdateTmpSet(IBit one)
+        private void UpdateTmpSet(bool one)
         {
             _cpuSets.Tmp.Update(CreateSetUpdate(one));
         }
 
-        private void UpdateFlagsSet(IBit one, IBit two)
+        private void UpdateFlagsSet(bool one, bool two)
         {
             _cpuSets.Flags.Update(CreateSetUpdate(_or.Apply(one, two)));
         }
 
-        private IBit RegisterBSet(IBit one, IBit two, IBit three, IBit four)
+        private bool RegisterBSet(bool one, bool two, bool three, bool four)
         {
             return _or.Apply(one, two, three, four);
         }
@@ -337,18 +337,18 @@ namespace ButHowDoItComputer.Parts
             }
         }
 
-        private IBit CreateEnableUpdate(params IBit[] other)
+        private bool CreateEnableUpdate(params bool[] other)
         {
-            var tmpList = new List<IBit> {_clock.ClkE};
+            var tmpList = new List<bool> {_clock.ClkE};
             tmpList.AddRange(other);
             var tmpArray = tmpList.ToArray();
             
             return _and.Apply(tmpArray);
         }
 
-        private IBit CreateSetUpdate(params IBit[] other)
+        private bool CreateSetUpdate(params bool[] other)
         {
-            var tmpList = new List<IBit> {_clock.ClkS};
+            var tmpList = new List<bool> {_clock.ClkS};
             tmpList.AddRange(other);
             var tmpArray = tmpList.ToArray();
             

@@ -16,9 +16,9 @@ namespace ButHowDoItComputer.Tests
         [Test]
         public void RegisterAndRunsAsExpected()
         {
-            var byteFactory = new ByteFactory(new BitFactory(), new Base10Converter(new BitFactory()));
-            var sut = new RegisterAnd(new ByteAnd(new And(new BitFactory()),
-                new ByteFactory(new BitFactory(), new Base10Converter(new BitFactory()))));
+            var byteFactory = new ByteFactory(new Base10Converter());
+            var sut = new RegisterAnd(new ByteAnd(new And(),
+                new ByteFactory(new Base10Converter())));
             
             var on = byteFactory.Create(255);
             var off = byteFactory.Create(0);
@@ -30,7 +30,7 @@ namespace ButHowDoItComputer.Tests
             inputRegister2.Input = off;
             sut.Apply(new List<IRegister<IByte>> {inputRegister1, inputRegister2}, outputRegister);
 
-            Assert.IsFalse(outputRegister.Output.Any(a => a.State));
+            Assert.IsFalse(outputRegister.Output.Any(a => a));
         }
     }
 }

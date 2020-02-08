@@ -5,7 +5,7 @@ namespace ButHowDoItComputer.Components.Interfaces
 {
     public interface IRegisterComparator
     {
-        (IBit equal, IBit aLarger) AreEqual(IRegister<IByte> registerA, IRegister<IByte> registerB, IBit equal, IBit aLarger,
+        (bool equal, bool aLarger) AreEqual(IRegister<IByte> registerA, IRegister<IByte> registerB, bool equal, bool aLarger,
             IRegister<IByte> outputRegister);
     }
 }

@@ -16,13 +16,13 @@ namespace ButHowDoItComputer.Gates
             _nAnd = nAnd;
         }
 
-        public IBit Apply(params IBit[] bits)
+        public bool Apply(params bool[] bits)
         {
             var bitList = bits.ToList();
 
             if (bitList.Count < 2)
             {
-                return new Bit(false);
+                return false;
             }
 
             var lastResult = ApplyXor(bitList[0], bitList[1]);
@@ -35,7 +35,7 @@ namespace ButHowDoItComputer.Gates
             return lastResult;
         }
 
-        private IBit ApplyXor(IBit a, IBit b)
+        private bool ApplyXor(bool a, bool b)
         {
             var notA = _not.Apply(a);
             var notB = _not.Apply(b);

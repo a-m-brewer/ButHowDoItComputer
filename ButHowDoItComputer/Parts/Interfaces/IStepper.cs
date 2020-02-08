@@ -5,7 +5,7 @@ namespace ButHowDoItComputer.Parts.Interfaces
 {
     public interface IStepper
     {
-        StepperOutput Step(IBit clk, IBit reset);
-        StepperOutput Step(IBit clk);
+        StepperOutput Step(bool clk, bool reset);
+        StepperOutput Step(bool clk);
     }
 }

@@ -13,7 +13,7 @@ namespace ButHowDoItComputer.Adapters.Factories
             _byteEnabler = byteEnabler;
         }
 
-        public IByteEnablerListGateAdapter Create(IBit set)
+        public IByteEnablerListGateAdapter Create(bool set)
         {
             return new ByteEnablerListGateAdapter(_byteEnabler, set);
         }

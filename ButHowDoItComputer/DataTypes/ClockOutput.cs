@@ -4,9 +4,9 @@ namespace ButHowDoItComputer.DataTypes
 {
     public class ClockOutput
     {
-        public IBit Clk { get; set; }
-        public IBit ClkD { get; set; }
-        public IBit ClkS { get; set; }
-        public IBit ClkE { get; set; }
+        public bool Clk { get; set; }
+        public bool ClkD { get; set; }
+        public bool ClkS { get; set; }
+        public bool ClkE { get; set; }
     }
 }

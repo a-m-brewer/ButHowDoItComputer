@@ -3,12 +3,12 @@ using ButHowDoItComputer.Utils.Interfaces;
 
 namespace ButHowDoItComputer.Components.CpuSubscribers
 {
-    public class BitSubscriberNotifier : ICpuSubscriberNotifier<IBit>
+    public class BitSubscriberNotifier : ICpuSubscriberNotifier<bool>
     {
 
-        public IBit Bit { get; set; }
+        public bool Bit { get; set; }
         
-        public void Update(IBit newState)
+        public void Update(bool newState)
         {
             Bit = newState;
         }

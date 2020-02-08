@@ -4,7 +4,7 @@ namespace ButHowDoItComputer.Gates.Interfaces
 {
     public interface IByteShifter
     {
-        (IByte Ouput, IBit ShiftOut) Shift(IByte input, IBit shiftIn);
+        (IByte Ouput, bool ShiftOut) Shift(IByte input, bool shiftIn);
     }
 
     public interface IRightByteShifter : IByteShifter { }

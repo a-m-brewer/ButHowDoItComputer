@@ -15,7 +15,7 @@ namespace ButHowDoItComputer.Gates
             _byteFactory = byteFactory;
         }
 
-        public IByte Decode(IBit a, IBit b, IBit c)
+        public IByte Decode(bool a, bool b, bool c)
         {
             return _byteFactory.Create(_decoder.Apply(a, b, c).ToArray());
         }

@@ -15,7 +15,7 @@ namespace ButHowDoItComputer.Gates
             _not = not;
         }
         
-        public IBit IsZero(IByte input)
+        public bool IsZero(IByte input)
         {
             var orRes = _or.Apply(input.ToArray());
 

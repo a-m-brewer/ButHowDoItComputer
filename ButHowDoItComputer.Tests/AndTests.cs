@@ -11,17 +11,17 @@ namespace ButHowDoItComputer.Tests
     public class AndTests
     {
         private static readonly object[] AndData = {
-            new object[] {true, new[] {new Bit(true), new Bit(true)}},
-            new object[] {false, new[] {new Bit(true), new Bit(false)}},
-            new object[] {false, new[] {new Bit(false), new Bit(false)}}
+            new object[] {true, new[] {true, true}},
+            new object[] {false, new[] {true, false}},
+            new object[] {false, new[] {false, false}}
         };
 
 
         [Test, TestCaseSource(nameof(AndData))]
-        public void ReturnsCorrectNewBit(bool expected, IBit[] bits)
+        public void ReturnsCorrectNewBit(bool expected, bool[] bits)
         {
-            var sut = new And(new BitFactory());
-            Assert.AreEqual(expected, sut.Apply(bits).State);
+            var sut = new And();
+            Assert.AreEqual(expected, sut.Apply(bits));
         }
     }
 }

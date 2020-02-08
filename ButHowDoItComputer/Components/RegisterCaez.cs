@@ -19,6 +19,6 @@ namespace ButHowDoItComputer.Components
             
         }
 
-        public IBit Set { get; set; }
+        public bool Set { get; set; }
     }
 }

@@ -10,10 +10,10 @@ namespace ButHowDoItComputer.Tests
         {
             var clock = TestUtils.CreateClock();
             
-            Assert.IsFalse(clock.Clk.State);
-            Assert.IsFalse(clock.ClkD.State);
-            Assert.IsFalse(clock.ClkE.State);
-            Assert.IsFalse(clock.ClkS.State);
+            Assert.IsFalse(clock.Clk);
+            Assert.IsFalse(clock.ClkD);
+            Assert.IsFalse(clock.ClkE);
+            Assert.IsFalse(clock.ClkS);
         }
 
         [Test]
@@ -22,15 +22,15 @@ namespace ButHowDoItComputer.Tests
             var clock = TestUtils.CreateClock();
             var cycle1 = clock.Cycle();
             
-            Assert.IsTrue(clock.Clk.State);
-            Assert.IsFalse(clock.ClkD.State);
-            Assert.IsTrue(clock.ClkE.State);
-            Assert.IsFalse(clock.ClkS.State);
+            Assert.IsTrue(clock.Clk);
+            Assert.IsFalse(clock.ClkD);
+            Assert.IsTrue(clock.ClkE);
+            Assert.IsFalse(clock.ClkS);
             
-            Assert.IsTrue(cycle1.Clk.State);
-            Assert.IsFalse(cycle1.ClkD.State);
-            Assert.IsTrue(cycle1.ClkE.State);
-            Assert.IsFalse(cycle1.ClkS.State);
+            Assert.IsTrue(cycle1.Clk);
+            Assert.IsFalse(cycle1.ClkD);
+            Assert.IsTrue(cycle1.ClkE);
+            Assert.IsFalse(cycle1.ClkS);
         }
 
         [Test]
@@ -40,15 +40,15 @@ namespace ButHowDoItComputer.Tests
             clock.Cycle();
             var cycle2 = clock.Cycle();
             
-            Assert.IsTrue(clock.Clk.State);
-            Assert.IsTrue(clock.ClkD.State);
-            Assert.IsTrue(clock.ClkE.State);
-            Assert.IsTrue(clock.ClkS.State);
+            Assert.IsTrue(clock.Clk);
+            Assert.IsTrue(clock.ClkD);
+            Assert.IsTrue(clock.ClkE);
+            Assert.IsTrue(clock.ClkS);
             
-            Assert.IsTrue(cycle2.Clk.State);
-            Assert.IsTrue(cycle2.ClkD.State);
-            Assert.IsTrue(cycle2.ClkE.State);
-            Assert.IsTrue(cycle2.ClkS.State);
+            Assert.IsTrue(cycle2.Clk);
+            Assert.IsTrue(cycle2.ClkD);
+            Assert.IsTrue(cycle2.ClkE);
+            Assert.IsTrue(cycle2.ClkS);
         }
         
         [Test]
@@ -59,15 +59,15 @@ namespace ButHowDoItComputer.Tests
             clock.Cycle();
             var cycle3 = clock.Cycle();
             
-            Assert.IsFalse(clock.Clk.State);
-            Assert.IsTrue(clock.ClkD.State);
-            Assert.IsTrue(clock.ClkE.State);
-            Assert.IsFalse(clock.ClkS.State);
+            Assert.IsFalse(clock.Clk);
+            Assert.IsTrue(clock.ClkD);
+            Assert.IsTrue(clock.ClkE);
+            Assert.IsFalse(clock.ClkS);
             
-            Assert.IsFalse(cycle3.Clk.State);
-            Assert.IsTrue(cycle3.ClkD.State);
-            Assert.IsTrue(cycle3.ClkE.State);
-            Assert.IsFalse(cycle3.ClkS.State);
+            Assert.IsFalse(cycle3.Clk);
+            Assert.IsTrue(cycle3.ClkD);
+            Assert.IsTrue(cycle3.ClkE);
+            Assert.IsFalse(cycle3.ClkS);
         }
         
         [Test]
@@ -79,15 +79,15 @@ namespace ButHowDoItComputer.Tests
             clock.Cycle();
             var cycle4 = clock.Cycle();
             
-            Assert.IsFalse(clock.Clk.State);
-            Assert.IsFalse(clock.ClkD.State);
-            Assert.IsFalse(clock.ClkE.State);
-            Assert.IsFalse(clock.ClkS.State);
+            Assert.IsFalse(clock.Clk);
+            Assert.IsFalse(clock.ClkD);
+            Assert.IsFalse(clock.ClkE);
+            Assert.IsFalse(clock.ClkS);
             
-            Assert.IsFalse(cycle4.Clk.State);
-            Assert.IsFalse(cycle4.ClkD.State);
-            Assert.IsFalse(cycle4.ClkE.State);
-            Assert.IsFalse(cycle4.ClkS.State);
+            Assert.IsFalse(cycle4.Clk);
+            Assert.IsFalse(cycle4.ClkD);
+            Assert.IsFalse(cycle4.ClkE);
+            Assert.IsFalse(cycle4.ClkS);
         }
     }
 }

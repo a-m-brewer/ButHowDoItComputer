@@ -12,7 +12,6 @@ namespace ButHowDoItComputer.Tests
     [TestFixture]
     public class RegisterTests
     {
-        private BitFactory _bitFactory;
         private ByteFactory _byteFactory;
         private MemoryGateFactory _memoryGateFactory;
         private ByteMemoryGate _byteMemoryGate;
@@ -23,13 +22,12 @@ namespace ButHowDoItComputer.Tests
         [SetUp]
         public void Setup()
         {
-            _bitFactory = new BitFactory();
-            _byteFactory = new ByteFactory(_bitFactory, new Base10Converter(_bitFactory));
-            _and = new And(_bitFactory);
-            _memoryGateFactory = new MemoryGateFactory(new NAnd(new Not(_bitFactory), _and), _bitFactory); 
+            _byteFactory = new ByteFactory(new Base10Converter());
+            _and = new And();
+            _memoryGateFactory = new MemoryGateFactory(new NAnd(new Not(), _and)); 
             _byteMemoryGate = new ByteMemoryGate(_memoryGateFactory, _byteFactory);
             _byteEnabler = new ByteEnabler(_and, _byteFactory);
-            _sut = new ByteRegister(_byteMemoryGate, _byteEnabler, _byteFactory, _bitFactory);
+            _sut = new ByteRegister(_byteMemoryGate, _byteEnabler, _byteFactory);
         }
 
         [Test]
@@ -44,11 +42,11 @@ namespace ButHowDoItComputer.Tests
         public void TestGateWorksAsIntended(bool input, bool set, bool enable)
         {
             var expected = input && set && enable;
-            var bits = Enumerable.Range(0, 8).Select(s => _bitFactory.Create(input)).ToArray();
-            _sut.Set = new Bit(set);
-            _sut.Enable = new Bit(enable);
-            var result = _sut.Apply(new Byte(bits, _bitFactory));
-            Assert.AreEqual(expected, result.All(a => a.State));
+            var bits = Enumerable.Range(0, 8).Select(s => input).ToArray();
+            _sut.Set = set;
+            _sut.Enable = enable;
+            var result = _sut.Apply(new Byte(bits));
+            Assert.AreEqual(expected, result.All(a => a));
         }
     }
 }

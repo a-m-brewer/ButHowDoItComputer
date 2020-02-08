@@ -32,143 +32,143 @@ namespace ButHowDoItComputer.Tests
 
             var opCode = OpCodes.Add;
 
-            var actual = _sut.Apply(byteOne, byteTwo, new Bit(false), opCode);
+            var actual = _sut.Apply(byteOne, byteTwo, false, opCode);
 
             for (var i = 0; i < expected.Count; i++)
             {
-                Assert.AreEqual(expected[i].State, actual.Output[i].State);
+                Assert.AreEqual(expected[i], actual.Output[i]);
             }
         }
 
         [Test]
         public void CanShiftRight()
         {
-            var input = new[] { false.ToBit(), true.ToBit(), false.ToBit(), false.ToBit(), false.ToBit(), false.ToBit(), false.ToBit(), false.ToBit() };
-            var expected = new[] { false.ToBit(), false.ToBit(), true.ToBit(), false.ToBit(), false.ToBit(), false.ToBit(), false.ToBit(), false.ToBit() };
+            var input = new[] { false, true, false, false, false, false, false, false };
+            var expected = new[] { false, false, true, false, false, false, false, false };
             
             var opCode = OpCodes.Shr;
 
-            var actual = _sut.Apply(_byteFactory.Create(input), _byteFactory.Create(0), new Bit(false), opCode);
+            var actual = _sut.Apply(_byteFactory.Create(input), _byteFactory.Create(0), false, opCode);
 
             for (var i = 0; i < expected.Length; i++)
             {
-                Assert.AreEqual(expected[i].State, actual.Output[i].State);
+                Assert.AreEqual(expected[i], actual.Output[i]);
             }
         }
 
         [Test]
         public void CanShiftLeft()
         {
-            var input = new[] { false.ToBit(), true.ToBit(), false.ToBit(), false.ToBit(), false.ToBit(), false.ToBit(), false.ToBit(), false.ToBit() };
-            var expected = new[] { true.ToBit(), false.ToBit(), false.ToBit(), false.ToBit(), false.ToBit(), false.ToBit(), false.ToBit(), false.ToBit() };
+            var input = new[] { false, true, false, false, false, false, false, false };
+            var expected = new[] { true, false, false, false, false, false, false, false };
 
             var opCode = OpCodes.Shl;
 
-            var actual = _sut.Apply(_byteFactory.Create(input), _byteFactory.Create(0), new Bit(false), opCode);
+            var actual = _sut.Apply(_byteFactory.Create(input), _byteFactory.Create(0), false, opCode);
 
             for (var i = 0; i < expected.Length; i++)
             {
-                Assert.AreEqual(expected[i].State, actual.Output[i].State);
+                Assert.AreEqual(expected[i], actual.Output[i]);
             }
         }
 
         [Test]
         public void CanInvertByte()
         {
-            var input = new[] { false.ToBit(), false.ToBit(), false.ToBit(), false.ToBit(), false.ToBit(), false.ToBit(), false.ToBit(), false.ToBit() };
-            var expected = input.Select(s => (!s.State).ToBit()).ToArray();
+            var input = new[] { false, false, false, false, false, false, false, false };
+            var expected = input.Select(s => (!s)).ToArray();
 
             var opCode = OpCodes.Not;
 
-            var actual = _sut.Apply(_byteFactory.Create(input), _byteFactory.Create(0), new Bit(false), opCode);
+            var actual = _sut.Apply(_byteFactory.Create(input), _byteFactory.Create(0), false, opCode);
 
             for (var i = 0; i < expected.Length; i++)
             {
-                Assert.AreEqual(expected[i].State, actual.Output[i].State);
+                Assert.AreEqual(expected[i], actual.Output[i]);
             }
         }
 
         [Test]
         public void CanAndByte()
         {
-            var a = new[] { true.ToBit(), true.ToBit(), true.ToBit(), true.ToBit(), true.ToBit(), true.ToBit(), true.ToBit(), true.ToBit() };
-            var b = a.Select(s => (!s.State).ToBit()).ToArray();
+            var a = new[] { true, true, true, true, true, true, true, true };
+            var b = a.Select(s => (!s)).ToArray();
             var expected = b;
 
             var opCode = OpCodes.And;
 
-            var actual = _sut.Apply(_byteFactory.Create(a), _byteFactory.Create(b), new Bit(false), opCode);
+            var actual = _sut.Apply(_byteFactory.Create(a), _byteFactory.Create(b), false, opCode);
 
             for (var i = 0; i < expected.Length; i++)
             {
-                Assert.AreEqual(expected[i].State, actual.Output[i].State);
+                Assert.AreEqual(expected[i], actual.Output[i]);
             }
         }
 
         [Test]
         public void CanOrByte()
         {
-            var a = new[] { true.ToBit(), true.ToBit(), true.ToBit(), true.ToBit(), true.ToBit(), true.ToBit(), true.ToBit(), true.ToBit() };
-            var b = a.Select(s => (!s.State).ToBit()).ToArray();
+            var a = new[] { true, true, true, true, true, true, true, true };
+            var b = a.Select(s => (!s)).ToArray();
             var expected = a;
 
             var opCode = OpCodes.Or;
 
-            var actual = _sut.Apply(_byteFactory.Create(a), _byteFactory.Create(b), new Bit(false), opCode);
+            var actual = _sut.Apply(_byteFactory.Create(a), _byteFactory.Create(b), false, opCode);
 
             for (var i = 0; i < expected.Length; i++)
             {
-                Assert.AreEqual(expected[i].State, actual.Output[i].State);
+                Assert.AreEqual(expected[i], actual.Output[i]);
             }
         }
 
         [Test]
         public void CanXOrByte()
         {
-            var a = new[] { true.ToBit(), true.ToBit(), true.ToBit(), true.ToBit(), true.ToBit(), true.ToBit(), true.ToBit(), true.ToBit() };
+            var a = new[] { true, true, true, true, true, true, true, true };
             var b = a;
-            var expected = a.Select(s => (!s.State).ToBit()).ToArray();
+            var expected = a.Select(s => (!s)).ToArray();
 
             var opCode = OpCodes.XOr;
 
-            var actual = _sut.Apply(_byteFactory.Create(a), _byteFactory.Create(b), new Bit(false), opCode);
+            var actual = _sut.Apply(_byteFactory.Create(a), _byteFactory.Create(b), false, opCode);
 
             for (var i = 0; i < expected.Length; i++)
             {
-                Assert.AreEqual(expected[i].State, actual.Output[i].State);
+                Assert.AreEqual(expected[i], actual.Output[i]);
             }
         }
 
         [Test]
         public void CanCompareByteEqual()
         {
-            var a = new[] { true.ToBit(), true.ToBit(), true.ToBit(), true.ToBit(), true.ToBit(), true.ToBit(), true.ToBit(), true.ToBit() };
+            var a = new[] { true, true, true, true, true, true, true, true };
             var b = a;
             var expected = true;
 
             var opCode = OpCodes.Cmp;
 
-            var actual = _sut.Apply(_byteFactory.Create(a), _byteFactory.Create(b), new Bit(false), opCode);
+            var actual = _sut.Apply(_byteFactory.Create(a), _byteFactory.Create(b), false, opCode);
 
-            Assert.AreEqual(expected, actual.Equal.State);
-            Assert.AreEqual(!expected, actual.ALarger.State);
-            Assert.AreEqual(!expected, actual.Output.All(a => a.State));
+            Assert.AreEqual(expected, actual.Equal);
+            Assert.AreEqual(!expected, actual.ALarger);
+            Assert.AreEqual(!expected, actual.Output.All(a => a));
         }
 
         [Test]
         public void CanCompareByteUnEqual()
         {
-            var a = new[] { true.ToBit(), true.ToBit(), true.ToBit(), true.ToBit(), true.ToBit(), true.ToBit(), true.ToBit(), true.ToBit() };
-            var b = a.Select(s => (!s.State).ToBit()).ToArray(); ;
+            var a = new[] { true, true, true, true, true, true, true, true };
+            var b = a.Select(s => (!s)).ToArray(); ;
             var expected = true;
 
             var opCode = OpCodes.Cmp;
 
-            var actual = _sut.Apply(_byteFactory.Create(a), _byteFactory.Create(b), new Bit(false), opCode);
+            var actual = _sut.Apply(_byteFactory.Create(a), _byteFactory.Create(b), false, opCode);
 
-            Assert.AreEqual(!expected, actual.Equal.State);
-            Assert.AreEqual(expected, actual.ALarger.State);
-            Assert.True(actual.Output.Any(a => a.State));
+            Assert.AreEqual(!expected, actual.Equal);
+            Assert.AreEqual(expected, actual.ALarger);
+            Assert.True(actual.Output.Any(a => a));
         }
     }
 }

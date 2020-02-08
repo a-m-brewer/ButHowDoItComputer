@@ -4,6 +4,6 @@ namespace ButHowDoItComputer.Gates.Interfaces
 {
     public interface IBitAdder
     {
-        (IBit Sum, IBit CarryOut) Add(IBit a, IBit b, IBit carryIn);
+        (bool Sum, bool CarryOut) Add(bool a, bool b, bool carryIn);
     }
 }

@@ -24,7 +24,7 @@ namespace ButHowDoItComputer.Tests
         {
             var testValue = _base10ToByte.ToByte(tVal);
             var actual = _sut.IsZero(testValue);
-            Assert.AreEqual(expected, actual.State);
+            Assert.AreEqual(expected, actual);
         }
     }
 }

@@ -14,23 +14,23 @@ namespace ButHowDoItComputer.Parts
         private IClockState _clk;
         private IClockState _clkD;
 
-        public Clock(IClockStateFactory clockStateFactory, IAnd and, IOr or, IBitFactory bitFactory)
+        public Clock(IClockStateFactory clockStateFactory, IAnd and, IOr or)
         {
             _and = and;
             _or = or;
             _clk = clockStateFactory.Create();
             _clkD = clockStateFactory.Create();
-            ClkE = bitFactory.Create(false);
-            ClkS = bitFactory.Create(false);
+            ClkE = false;
+            ClkS = false;
         }
 
-        public IBit ClkS { get; private set; }
+        public bool ClkS { get; private set; }
 
-        public IBit ClkE { get; private set; }
+        public bool ClkE { get; private set; }
 
-        public IBit ClkD => _clkD.Bit;
+        public bool ClkD => _clkD.Bit;
 
-        public IBit Clk => _clk.Bit;
+        public bool Clk => _clk.Bit;
 
         public ClockOutput Cycle()
         {
@@ -76,13 +76,13 @@ namespace ButHowDoItComputer.Parts
             Cycle();
         }
 
-        public IBit Set
+        public bool Set
         {
             get => ClkS;
             set => ClkS = value;
         }
 
-        public IBit Enable
+        public bool Enable
         {
             get => ClkE; 
             set => ClkE = value;

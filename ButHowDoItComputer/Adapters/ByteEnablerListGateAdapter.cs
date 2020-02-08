@@ -7,9 +7,9 @@ namespace ButHowDoItComputer.Adapters
     public class ByteEnablerListGateAdapter : IByteEnablerListGateAdapter
     {
         private readonly IByteEnabler _byteEnabler;
-        private readonly IBit _set;
+        private readonly bool _set;
 
-        public ByteEnablerListGateAdapter(IByteEnabler byteEnabler, IBit set)
+        public ByteEnablerListGateAdapter(IByteEnabler byteEnabler, bool set)
         {
             _byteEnabler = byteEnabler;
             _set = set;

@@ -11,18 +11,18 @@ namespace ButHowDoItComputer.Tests
     public class NAndTests
     {
         private static readonly object[] NAndData = {
-            new object[] {false, new IBit[] {new Bit(true), new Bit(true)}},
-            new object[] {true, new IBit[] {new Bit(true), new Bit(false)}},
-            new object[] {true, new IBit[] {new Bit(false), new Bit(true)}},
-            new object[] {true, new IBit[] {new Bit(false), new Bit(false)}}
+            new object[] {false, new bool[] {true, true}},
+            new object[] {true, new bool[] {true, false}},
+            new object[] {true, new bool[] {false, true}},
+            new object[] {true, new bool[] {false, false}}
         };
 
 
         [Test, TestCaseSource(nameof(NAndData))]
-        public void ReturnsCorrectNewBit(bool expected, IBit[] bits)
+        public void ReturnsCorrectNewBit(bool expected, bool[] bits)
         {
-            var sut = new NAnd(new Not(new BitFactory()), new And(new BitFactory()));
-            Assert.AreEqual(expected, sut.Apply(bits).State);
+            var sut = new NAnd(new Not(), new And());
+            Assert.AreEqual(expected, sut.Apply(bits));
         }
     }
 }

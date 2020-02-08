@@ -25,10 +25,10 @@ namespace ButHowDoItComputer.Tests
             var b = b2.CreateRegister();
             var output = TestUtils.CreateRegister();
 
-            var (eq, al) = _sut.AreEqual(a, b, new Bit(true), new Bit(false), output);
+            var (eq, al) = _sut.AreEqual(a, b, true, false, output);
             
-            Assert.AreEqual(aLarger, al.State);
-            Assert.AreEqual(equal, eq.State);
+            Assert.AreEqual(aLarger, al);
+            Assert.AreEqual(equal, eq);
         }
     }
 }

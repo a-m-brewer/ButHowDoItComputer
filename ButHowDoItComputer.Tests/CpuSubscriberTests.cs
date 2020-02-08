@@ -15,11 +15,11 @@ namespace ButHowDoItComputer.Tests
             var enableSubNotifier = new EnableSubscriberNotifier(register);
             var setSubNotifier = new SetSubscriberNotifier(register);
             
-            enableSubNotifier.Update(new Bit(true));
-            setSubNotifier.Update(new Bit(true));
+            enableSubNotifier.Update(true);
+            setSubNotifier.Update(true);
             
-            Assert.True(register.Enable.State);
-            Assert.True(register.Set.State);
+            Assert.True(register.Enable);
+            Assert.True(register.Set);
         }
 
         // same here
@@ -32,11 +32,11 @@ namespace ButHowDoItComputer.Tests
 
             var cpuEnables = new CpuEnables {R0 = enableSubNotifier};
             var cpuSets = new CpuSets {R0 = setSubNotifier};
-            cpuEnables.R0.Update(new Bit(true));
-            cpuSets.R0.Update(new Bit(true));
+            cpuEnables.R0.Update(true);
+            cpuSets.R0.Update(true);
             
-            Assert.True(register.Enable.State);
-            Assert.True(register.Set.State);
+            Assert.True(register.Enable);
+            Assert.True(register.Set);
         }
     }
 }

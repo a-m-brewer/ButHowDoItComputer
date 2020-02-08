@@ -17,12 +17,12 @@ namespace ButHowDoItComputer.Parts
         {
             _caezMemoryGate = caezMemoryGate;
             _caezEnabler = caezEnabler;
-            
-            Enable = new Bit(false);
-            Set = new Bit(false);
-            Data = new Caez { C = false.ToBit(), A = false.ToBit(), E = false.ToBit(), Z = false.ToBit()};
-            Input = new Caez { C = false.ToBit(), A = false.ToBit(), E = false.ToBit(), Z = false.ToBit()};
-            Output = new Caez { C = false.ToBit(), A = false.ToBit(), E = false.ToBit(), Z = false.ToBit()};
+
+            Enable = false;
+            Set = false;
+            Data = new Caez { C = false, A = false, E = false, Z = false};
+            Input = new Caez { C = false, A = false, E = false, Z = false};
+            Output = new Caez { C = false, A = false, E = false, Z = false};
         }
         
         public void Apply()
@@ -31,8 +31,8 @@ namespace ButHowDoItComputer.Parts
             ApplyOutput();
         }
 
-        public IBit Enable { get; set; }
-        public IBit Set { get; set; }
+        public bool Enable { get; set; }
+        public bool Set { get; set; }
         public Caez Data { get; set; }
         public Caez Input { get; set; }
         public Caez Output { get; private set; }
@@ -43,10 +43,10 @@ namespace ButHowDoItComputer.Parts
 
         public Caez ApplyOnce(Caez input, bool enable = false)
         {
-            Enable.State = enable;
-            Set.State = true;
+            Enable = enable;
+            Set = true;
             var applied = Apply(input);
-            Set.State = false;
+            Set = false;
             return applied;
         }
 

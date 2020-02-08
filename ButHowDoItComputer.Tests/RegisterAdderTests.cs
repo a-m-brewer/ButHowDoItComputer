@@ -11,7 +11,6 @@ namespace ButHowDoItComputer.Tests
     [TestFixture]
     public class RegisterAdderTests
     {
-        private BitFactory _bitFactory;
         private Base10Converter _b10Converter;
         private ByteFactory _byteFactory;
         private IByteAdder _byteAdder;
@@ -38,29 +37,27 @@ namespace ButHowDoItComputer.Tests
             registerA.Input = a;
             registerB.Input = b;
 
-            var carry = _sut.Apply(registerA, registerB, new Bit(false), outputRegister);
+            var carry = _sut.Apply(registerA, registerB, false, outputRegister);
 
             for (var i = 0; i < expected.Count; i++)
             {
-                Assert.AreEqual(expected[i].State, outputRegister.Output[i].State);
+                Assert.AreEqual(expected[i], outputRegister.Output[i]);
             }
             
-            Assert.IsFalse(carry.State);
+            Assert.IsFalse(carry);
         }
 
         private IByteAdder CreateByteAdder()
         {
-            _bitFactory = new BitFactory();
-            _b10Converter = new Base10Converter(_bitFactory);
-            _byteFactory = new ByteFactory(_bitFactory, _b10Converter);
+            _b10Converter = new Base10Converter();
+            _byteFactory = new ByteFactory(_b10Converter);
             return new ByteAdder(CreateBitAdder(), _byteFactory);
         }
         
         private static BitAdder CreateBitAdder()
         {
-            var bitFactory = new BitFactory();
-            var and = new And(bitFactory);
-            var not = new Not(bitFactory);
+            var and = new And();
+            var not = new Not();
             var nAnd = new NAnd(not, and);
             var or = new Or(not, nAnd);
             return new BitAdder(new XOr(not, nAnd), or, and);

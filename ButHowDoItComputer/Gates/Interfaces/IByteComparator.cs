@@ -4,6 +4,6 @@ namespace ButHowDoItComputer.Gates.Interfaces
 {
     public interface IByteComparator
     {
-        (IBit equal, IBit ALarger, IByte output) AreEqual(IByte a, IByte b, IBit aboveBitIsEqual, IBit aboveBitALarger);
+        (bool equal, bool ALarger, IByte output) AreEqual(IByte a, IByte b, bool aboveBitIsEqual, bool aboveBitALarger);
     }
 }

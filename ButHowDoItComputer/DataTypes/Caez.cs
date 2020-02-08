@@ -4,14 +4,14 @@ using ButHowDoItComputer.DataTypes.Interfaces;
 
 namespace ButHowDoItComputer.DataTypes
 {
-    public class Caez : IEnumerable<IBit>
+    public class Caez : IEnumerable<bool>
     {
-        public IBit C { get; set; }
-        public IBit A { get; set; }
-        public IBit E { get; set; }
-        public IBit Z { get; set; }
+        public bool C { get; set; }
+        public bool A { get; set; }
+        public bool E { get; set; }
+        public bool Z { get; set; }
         
-        public IEnumerator<IBit> GetEnumerator()
+        public IEnumerator<bool> GetEnumerator()
         {
             yield return C;
             yield return A;

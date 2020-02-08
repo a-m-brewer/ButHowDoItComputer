@@ -6,10 +6,10 @@ namespace ButHowDoItComputer.Parts.Interfaces
 {
     public interface IClock : ICpuSettableSubscriber, ICpuEnableSubscriber
     {
-        IBit ClkS { get; }
-        IBit ClkE { get; }
-        IBit ClkD { get; }
-        IBit Clk { get; }
+        bool ClkS { get; }
+        bool ClkE { get; }
+        bool ClkD { get; }
+        bool Clk { get; }
         ClockOutput Cycle();
     }
 }

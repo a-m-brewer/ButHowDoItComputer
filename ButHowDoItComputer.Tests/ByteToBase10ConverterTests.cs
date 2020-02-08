@@ -12,7 +12,7 @@ namespace ButHowDoItComputer.Tests
 {
     public class ByteToBase10ConverterTests
     {
-        private List<IBit> _twentyInBits;
+        private List<bool> _twentyInBits;
         private uint _twenty;
         private ByteToBase10Converter _sut;
         private Byte _twentyByte;
@@ -20,23 +20,23 @@ namespace ButHowDoItComputer.Tests
         [SetUp]
         public void Setup()
         {
-            _twentyInBits = new List<IBit>
+            _twentyInBits = new List<bool>
             {
-                new Bit(false),
-                new Bit(false),
-                new Bit(true),
-                new Bit(false),
-                new Bit(true),
-                new Bit(false),
-                new Bit(false),
-                new Bit(false)
+                false,
+                false,
+                true,
+                false,
+                true,
+                false,
+                false,
+                false
             };
             
             _twenty = 20;
-            _twentyByte = new Byte(_twentyInBits.ToArray(), new BitFactory());
+            _twentyByte = new Byte(_twentyInBits.ToArray());
 
-            _sut = new ByteToBase10Converter(new BitFactory(), new ByteFactory(new BitFactory(), new Base10Converter(new BitFactory())),
-                new Base10Converter(new BitFactory()));
+            _sut = new ByteToBase10Converter(new ByteFactory(new Base10Converter()),
+                new Base10Converter());
         }
         
         [Test]
@@ -51,7 +51,7 @@ namespace ButHowDoItComputer.Tests
             var result = _sut.ToByte(_twenty);
             for (var i = 0; i < _twentyInBits.Count; i++)
             {
-                Assert.AreEqual(_twentyInBits[i].State, result[i].State);
+                Assert.AreEqual(_twentyInBits[i], result[i]);
             }
         }
 

@@ -9,7 +9,6 @@ namespace ButHowDoItComputer.Tests
     public class BitComparatorTests
     {
         private BitComparator _bitComparator;
-        private BitFactory _bitFactory;
         private And _and;
         private Not _not;
         private NAnd _nAnd;
@@ -19,9 +18,8 @@ namespace ButHowDoItComputer.Tests
         [SetUp]
         public void Setup()
         {
-            _bitFactory = new BitFactory();
-            _and = new And(_bitFactory);
-            _not = new Not(_bitFactory);
+            _and = new And();
+            _not = new Not();
             _nAnd = new NAnd(_not, _and);
             _or = new Or(_not, _nAnd);
             _xOr = new XOr(_not, _nAnd);
@@ -35,21 +33,21 @@ namespace ButHowDoItComputer.Tests
         [TestCase(true, true, true, false, false)]
         public void CanCompareTwoBits(bool a, bool b, bool equal, bool aLarger, bool output)
         {
-            var (eq, lg, op) = _bitComparator.AreEqual(new Bit(a), new Bit(b), new Bit(true), new Bit(false));
+            var (eq, lg, op) = _bitComparator.AreEqual(a, b, true, false);
             
-            Assert.AreEqual(equal, eq.State);
-            Assert.AreEqual(aLarger, lg.State);
-            Assert.AreEqual(output, op.State);
+            Assert.AreEqual(equal, eq);
+            Assert.AreEqual(aLarger, lg);
+            Assert.AreEqual(output, op);
         }
 
         [Test]
         public void WillReportALargerIfItIsPassedIn()
         {
-            var (eq, lg, op) = _bitComparator.AreEqual(new Bit(false), new Bit(false), new Bit(false), new Bit(true));
+            var (eq, lg, op) = _bitComparator.AreEqual(false, false, false, true);
             
-            Assert.AreEqual(false, eq.State);
-            Assert.AreEqual(true, lg.State);
-            Assert.AreEqual(false, op.State);
+            Assert.AreEqual(false, eq);
+            Assert.AreEqual(true, lg);
+            Assert.AreEqual(false, op);
         }
     }
 }

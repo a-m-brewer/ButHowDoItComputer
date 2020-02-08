@@ -12,7 +12,7 @@ namespace ButHowDoItComputer.Gates
             _byteFactory = byteFactory;
         }
 
-        public (IByte Ouput, IBit ShiftOut) Shift(IByte input, IBit shiftIn)
+        public (IByte Ouput, bool ShiftOut) Shift(IByte input, bool shiftIn)
         {
             var shift = new[] 
             {

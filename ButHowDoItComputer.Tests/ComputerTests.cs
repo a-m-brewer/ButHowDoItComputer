@@ -21,7 +21,7 @@ namespace ButHowDoItComputer.Tests
         {
             _byteFactory = TestUtils.CreateByteFactory();
             _byteToBase10 = TestUtils.CreateByteToBase10Converter();
-            _binaryConverter = new Base10Converter(new BitFactory());
+            _binaryConverter = new Base10Converter();
         }
 
         [Test]
@@ -31,16 +31,16 @@ namespace ButHowDoItComputer.Tests
 
             sut.Step();
 
-            var bus1State = sut.Bus1.Set.State;
-            var iarEnable = sut.InstructionAddressRegister.Enable.State;
+            var bus1State = sut.Bus1.Set;
+            var iarEnable = sut.InstructionAddressRegister.Enable;
 
             Assert.True(bus1State);
             Assert.True(iarEnable);
             
             sut.Step();
             
-            var mar1Set = sut.Ram.MemoryAddressRegister.Set.State;
-            var accSet = sut.Acc.Set.State;           
+            var mar1Set = sut.Ram.MemoryAddressRegister.Set;
+            var accSet = sut.Acc.Set;           
             
             Assert.True(mar1Set);
             Assert.True(accSet);
@@ -58,13 +58,13 @@ namespace ButHowDoItComputer.Tests
             
             sut.Step();
             
-            var ramEnable = sut.Ram.Enable.State;
+            var ramEnable = sut.Ram.Enable;
 
             Assert.True(ramEnable);
 
             sut.Step();
             
-            var irSet = sut.InstructionRegister.Set.State;
+            var irSet = sut.InstructionRegister.Set;
 
             Assert.True(irSet);
         }
@@ -85,13 +85,13 @@ namespace ButHowDoItComputer.Tests
             
             sut.Step();
             
-            var accEnable = sut.Acc.Enable.State;
+            var accEnable = sut.Acc.Enable;
 
             Assert.True(accEnable);
 
             sut.Step();
             
-            var iarSet = sut.InstructionAddressRegister.Set.State;
+            var iarSet = sut.InstructionAddressRegister.Set;
 
             Assert.True(iarSet);
         }
@@ -108,7 +108,7 @@ namespace ButHowDoItComputer.Tests
 
             var result = sut.Ram.MemoryAddressRegister.Data;
 
-            Assert.IsTrue(result.All(a => a.State));
+            Assert.IsTrue(result.All(a => a));
         }
 
         [Test]
@@ -122,7 +122,7 @@ namespace ButHowDoItComputer.Tests
 
             var result = sut.Acc.Data;
             
-            Assert.IsTrue(result[0].State);
+            Assert.IsTrue(result[0]);
         }
 
         [Test]
@@ -142,7 +142,7 @@ namespace ButHowDoItComputer.Tests
             sut.Step();
 
             var irResult = sut.InstructionRegister.Data;
-            var irResultAllTrue = irResult.All(a => a.State);
+            var irResultAllTrue = irResult.All(a => a);
             
             Assert.IsTrue(irResultAllTrue);
         }
@@ -156,7 +156,7 @@ namespace ButHowDoItComputer.Tests
             sut.Step();
             sut.Step();
 
-            var result = sut.Acc.Set.State;
+            var result = sut.Acc.Set;
             
             Assert.IsTrue(result);
         }
@@ -171,7 +171,7 @@ namespace ButHowDoItComputer.Tests
 
             var result = sut.InstructionAddressRegister.Data;
             
-            Assert.IsTrue(result[0].State);
+            Assert.IsTrue(result[0]);
         }
 
         [Test]
@@ -184,7 +184,7 @@ namespace ButHowDoItComputer.Tests
             Step(sut, 3);
             
             var irResult = sut.InstructionRegister.Data;
-            var irResultAllTrue = irResult.All(a => a.State);
+            var irResultAllTrue = irResult.All(a => a);
             
             Assert.IsTrue(irResultAllTrue);
         }
@@ -196,8 +196,8 @@ namespace ButHowDoItComputer.Tests
 
             var instructionBits = new[]
             {
-                true.ToBit(), false.ToBit(), false.ToBit(), false.ToBit(), false.ToBit(), false.ToBit(), false.ToBit(),
-                true.ToBit()
+                true, false, false, false, false, false, false,
+                true
             };
             var instructionByte = _byteFactory.Create(instructionBits);
             
@@ -206,18 +206,18 @@ namespace ButHowDoItComputer.Tests
 
             Step(sut, 3);
             sut.Step();
-            var regBEnableState = sut.R1.Enable.State;
+            var regBEnableState = sut.R1.Enable;
             Assert.IsTrue(regBEnableState);
             
             Step(sut, 1);
 
-            var regAEnableState = sut.R0.Enable.State;
+            var regAEnableState = sut.R0.Enable;
             Assert.IsTrue(regAEnableState);
             
             Step(sut, 1);
             sut.Step();
 
-            var regBSet = sut.R1.Set.State;
+            var regBSet = sut.R1.Set;
             Assert.IsTrue(regBSet);
         }
 
@@ -230,8 +230,8 @@ namespace ButHowDoItComputer.Tests
             
             var instructionBits = new[]
             {
-                true.ToBit(), false.ToBit(), false.ToBit(), false.ToBit(), false.ToBit(), false.ToBit(), false.ToBit(),
-                true.ToBit()
+                true, false, false, false, false, false, false,
+                true
             };
             var instructionByte = _byteFactory.Create(instructionBits);
             
@@ -246,7 +246,7 @@ namespace ButHowDoItComputer.Tests
 
             for (var i = 0; i < expected.Count; i++)
             {
-                Assert.AreEqual(expected[i].State, result[i].State);
+                Assert.AreEqual(expected[i], result[i]);
             }
         }
         
@@ -259,8 +259,8 @@ namespace ButHowDoItComputer.Tests
             
             var instructionBits = new[]
             {
-                true.ToBit(), false.ToBit(), false.ToBit(), false.ToBit(), true.ToBit(), false.ToBit(), true.ToBit(),
-                true.ToBit()
+                true, false, false, false, true, false, true,
+                true
             };
             var instructionByte = _byteFactory.Create(instructionBits);
             
@@ -275,7 +275,7 @@ namespace ButHowDoItComputer.Tests
 
             for (var i = 0; i < expected.Count; i++)
             {
-                Assert.AreEqual(expected[i].State, result[i].State);
+                Assert.AreEqual(expected[i], result[i]);
             }
         }
 
@@ -286,7 +286,7 @@ namespace ButHowDoItComputer.Tests
 
             var instructionBits = new[]
             {
-                true.ToBit(), false.ToBit(), false.ToBit(), true.ToBit(), false.ToBit(), false.ToBit(), false.ToBit(), true.ToBit()
+                true, false, false, true, false, false, false, true
             };
             var instructionByte = _byteFactory.Create(instructionBits);
             
@@ -298,7 +298,7 @@ namespace ButHowDoItComputer.Tests
 
             var result = sut.R1.Data;
 
-            Assert.IsTrue(result[6].State);
+            Assert.IsTrue(result[6]);
         }
         
         [Test]
@@ -308,7 +308,7 @@ namespace ButHowDoItComputer.Tests
 
             var instructionBits = new[]
             {
-                true.ToBit(), false.ToBit(), true.ToBit(), false.ToBit(), false.ToBit(), false.ToBit(), false.ToBit(), true.ToBit()
+                true, false, true, false, false, false, false, true
             };
             var instructionByte = _byteFactory.Create(instructionBits);
             
@@ -320,7 +320,7 @@ namespace ButHowDoItComputer.Tests
 
             var result = sut.R1.Data;
 
-            Assert.IsTrue(result[1].State);
+            Assert.IsTrue(result[1]);
         }
         
         [Test]
@@ -330,7 +330,7 @@ namespace ButHowDoItComputer.Tests
 
             var instructionBits = new[]
             {
-                true.ToBit(), false.ToBit(), true.ToBit(), true.ToBit(), false.ToBit(), false.ToBit(), false.ToBit(), true.ToBit()
+                true, false, true, true, false, false, false, true
             };
             var instructionByte = _byteFactory.Create(instructionBits);
             
@@ -342,7 +342,7 @@ namespace ButHowDoItComputer.Tests
 
             var result = sut.R1.Data;
 
-            Assert.IsTrue(result.All(a => a.State));
+            Assert.IsTrue(result.All(a => a));
         }
         
         [Test]
@@ -352,7 +352,7 @@ namespace ButHowDoItComputer.Tests
 
             var instructionBits = new[]
             {
-                true.ToBit(), true.ToBit(), false.ToBit(), false.ToBit(), false.ToBit(), false.ToBit(), false.ToBit(), true.ToBit()
+                true, true, false, false, false, false, false, true
             };
             var instructionByte = _byteFactory.Create(instructionBits);
             
@@ -365,7 +365,7 @@ namespace ButHowDoItComputer.Tests
 
             var result = sut.R1.Data;
 
-            Assert.IsTrue(result.All(a => !a.State));
+            Assert.IsTrue(result.All(a => !a));
         }
         
         [Test]
@@ -375,7 +375,7 @@ namespace ButHowDoItComputer.Tests
 
             var instructionBits = new[]
             {
-                true.ToBit(), true.ToBit(), false.ToBit(), true.ToBit(), false.ToBit(), false.ToBit(), false.ToBit(), true.ToBit()
+                true, true, false, true, false, false, false, true
             };
             var instructionByte = _byteFactory.Create(instructionBits);
             
@@ -388,7 +388,7 @@ namespace ButHowDoItComputer.Tests
 
             var result = sut.R1.Data;
 
-            Assert.IsTrue(result.All(a => a.State));
+            Assert.IsTrue(result.All(a => a));
         }
         
         [Test]
@@ -398,7 +398,7 @@ namespace ButHowDoItComputer.Tests
 
             var instructionBits = new[]
             {
-                true.ToBit(), true.ToBit(), true.ToBit(), false.ToBit(), false.ToBit(), false.ToBit(), false.ToBit(), true.ToBit()
+                true, true, true, false, false, false, false, true
             };
             var instructionByte = _byteFactory.Create(instructionBits);
             
@@ -411,7 +411,7 @@ namespace ButHowDoItComputer.Tests
 
             var result = sut.R1.Data;
 
-            Assert.IsTrue(result.All(a => !a.State));
+            Assert.IsTrue(result.All(a => !a));
         }
         
         [Test]
@@ -421,7 +421,7 @@ namespace ButHowDoItComputer.Tests
 
             var instructionBits = new[]
             {
-                true.ToBit(), true.ToBit(), true.ToBit(), true.ToBit(), false.ToBit(), false.ToBit(), false.ToBit(), true.ToBit()
+                true, true, true, true, false, false, false, true
             };
             var instructionByte = _byteFactory.Create(instructionBits);
             
@@ -432,9 +432,9 @@ namespace ButHowDoItComputer.Tests
 
             Step(sut, 6);
 
-            Assert.IsTrue(sut.ArithmeticLogicUnit.Output.Equal.State);
-            Assert.IsFalse(sut.ArithmeticLogicUnit.Output.ALarger.State);
-            Assert.IsFalse(sut.ArithmeticLogicUnit.Output.Output.All(a => a.State));
+            Assert.IsTrue(sut.ArithmeticLogicUnit.Output.Equal);
+            Assert.IsFalse(sut.ArithmeticLogicUnit.Output.ALarger);
+            Assert.IsFalse(sut.ArithmeticLogicUnit.Output.Output.All(a => a));
         }
         
         [Test]
@@ -444,7 +444,7 @@ namespace ButHowDoItComputer.Tests
 
             var instructionBits = new[]
             {
-                true.ToBit(), true.ToBit(), true.ToBit(), true.ToBit(), false.ToBit(), false.ToBit(), false.ToBit(), true.ToBit()
+                true, true, true, true, false, false, false, true
             };
             var instructionByte = _byteFactory.Create(instructionBits);
             
@@ -455,9 +455,9 @@ namespace ButHowDoItComputer.Tests
 
             Step(sut, 6);
 
-            Assert.IsFalse(sut.ArithmeticLogicUnit.Output.Equal.State);
-            Assert.IsTrue(sut.ArithmeticLogicUnit.Output.ALarger.State);
-            Assert.IsTrue(sut.ArithmeticLogicUnit.Output.Output.Any(a => a.State));
+            Assert.IsFalse(sut.ArithmeticLogicUnit.Output.Equal);
+            Assert.IsTrue(sut.ArithmeticLogicUnit.Output.ALarger);
+            Assert.IsTrue(sut.ArithmeticLogicUnit.Output.Output.Any(a => a));
         }
 
         [Test]
@@ -467,8 +467,8 @@ namespace ButHowDoItComputer.Tests
 
             var instructionBits = new[]
             {
-                false.ToBit(), false.ToBit(), false.ToBit(), false.ToBit(), false.ToBit(), false.ToBit(), false.ToBit(),
-                true.ToBit()
+                false, false, false, false, false, false, false,
+                true
             };
             var instructionByte = _byteFactory.Create(instructionBits);
             
@@ -486,7 +486,7 @@ namespace ButHowDoItComputer.Tests
 
             var result = sut.R1.Data;
             
-            Assert.IsTrue(result.All(a => a.State));
+            Assert.IsTrue(result.All(a => a));
         }
 
         [Test]
@@ -496,8 +496,8 @@ namespace ButHowDoItComputer.Tests
 
             var instructionBits = new[]
             {
-                false.ToBit(), false.ToBit(), false.ToBit(), true.ToBit(), false.ToBit(), false.ToBit(), false.ToBit(),
-                true.ToBit()
+                false, false, false, true, false, false, false,
+                true
             };
             var instructionByte = _byteFactory.Create(instructionBits);
             
@@ -514,7 +514,7 @@ namespace ButHowDoItComputer.Tests
 
             var result = sut.Ram.InternalRegisters[0][1].Data;
             
-            Assert.IsTrue(result.All(a => a.State));
+            Assert.IsTrue(result.All(a => a));
         }
 
         private void Step(Computer sut, int times)

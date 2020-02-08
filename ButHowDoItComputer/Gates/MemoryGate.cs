@@ -7,18 +7,17 @@ namespace ButHowDoItComputer.Gates
     public class MemoryGate : IMemoryGate
     {
         private readonly INAnd _nAnd;
-        private IBit _o;
-        private IBit _c;
+        private bool _o;
+        private bool _c;
 
-        public MemoryGate(INAnd nAnd, IBitFactory bitFactory)
+        public MemoryGate(INAnd nAnd)
         {
             _nAnd = nAnd;
-            var bitFactory1 = bitFactory;
-            _o = bitFactory1.Create(false);
-            _c = bitFactory1.Create(false);
+            _o = false;
+            _c = false;
         }
         
-        public IBit Apply(IBit input, IBit set)
+        public bool Apply(bool input, bool set)
         {
             var a = _nAnd.Apply(input, set);
             var b = _nAnd.Apply(a, set);

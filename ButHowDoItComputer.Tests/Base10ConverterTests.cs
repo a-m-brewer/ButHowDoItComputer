@@ -11,25 +11,25 @@ namespace ButHowDoItComputer.Tests
     public class Base10ConverterTests
     {
         
-        private List<IBit> _twentyInBits;
+        private List<bool> _twentyInBits;
         private uint _twenty;
         private Base10Converter _sut;
 
         [SetUp]
         public void Setup()
         {
-            _twentyInBits = new List<IBit>
+            _twentyInBits = new List<bool>
             {
-                new Bit(false),
-                new Bit(false),
-                new Bit(true),
-                new Bit(false),
-                new Bit(true)
+                false,
+                false,
+                true,
+                false,
+                true
             };
             
             _twenty = 20;
             
-            _sut = new Base10Converter(new BitFactory());
+            _sut = new Base10Converter();
         }
         
         [Test]
@@ -44,7 +44,7 @@ namespace ButHowDoItComputer.Tests
             var result = _sut.ToBit(_twenty).ToList();
             for (var i = 0; i < _twentyInBits.Count; i++)
             {
-                Assert.AreEqual(_twentyInBits[i].State, result[i].State);
+                Assert.AreEqual(_twentyInBits[i], result[i]);
             }
         }
     }

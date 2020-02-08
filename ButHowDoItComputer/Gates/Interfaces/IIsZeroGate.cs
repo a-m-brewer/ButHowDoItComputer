@@ -4,6 +4,6 @@ namespace ButHowDoItComputer.Gates.Interfaces
 {
     public interface IIsZeroGate
     {
-        IBit IsZero(IByte input);
+        bool IsZero(IByte input);
     }
 }

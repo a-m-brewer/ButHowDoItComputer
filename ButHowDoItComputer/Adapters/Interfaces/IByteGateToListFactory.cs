@@ -5,6 +5,6 @@ namespace ButHowDoItComputer.Adapters.Interfaces
 {
     public interface IByteGateToListFactory
     {
-        IByteListGate Convert(IByteGate byteGate, IBit set);
+        IByteListGate Convert(IByteGate byteGate, bool set);
     }
 }

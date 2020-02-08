@@ -16,7 +16,6 @@ namespace ButHowDoItComputer.Tests
     [TestFixture]
     public class BusTests
     {
-        private BitFactory _bitFactory;
         private ByteFactory _byteFactory;
         private MemoryGateFactory _memoryGateFactory;
         private And _and;
@@ -24,10 +23,9 @@ namespace ButHowDoItComputer.Tests
         [SetUp]
         public void Setup()
         {
-            _bitFactory = new BitFactory();
-            _byteFactory = new ByteFactory(_bitFactory, new Base10Converter(_bitFactory));
-            _and = new And(_bitFactory);
-            _memoryGateFactory = new MemoryGateFactory(new NAnd(new Not(_bitFactory), _and), _bitFactory);
+            _byteFactory = new ByteFactory(new Base10Converter());
+            _and = new And();
+            _memoryGateFactory = new MemoryGateFactory(new NAnd(new Not(), _and));
         }
         
         [Test]
@@ -36,32 +34,33 @@ namespace ButHowDoItComputer.Tests
             var registerOne = CreateRegister();
             var registerTwo = CreateRegister();
 
-            registerOne.Set.State = true;
+            registerOne.Set = true;
             registerOne.Apply(CreateByte(true));
-            registerOne.Set.State = false;
-            
-            var bus = new Bus(new List<IRegister<IByte>> {registerOne, registerTwo}, _byteFactory);
+            registerOne.Set = false;
 
-            bus[0].Enable.State = true;
-            bus[1].Set.State = true;
+            var bus = new Bus(new List<IRegister<IByte>> {registerOne, registerTwo}, _byteFactory)
+            {
+                [0] = {Enable = true}, [1] = {Set = true}
+            };
+
 
             bus.Apply();
             
             foreach (var bit in bus[1].Data)
             {
-                Assert.AreEqual(true, bit.State);
+                Assert.AreEqual(true, bit);
             }
         }
 
         private ByteRegister CreateRegister()
         {
             return new ByteRegister(new ByteMemoryGate(_memoryGateFactory, _byteFactory),
-                                   new ByteEnabler(_and, _byteFactory), _byteFactory, _bitFactory);
+                                   new ByteEnabler(_and, _byteFactory), _byteFactory);
         }
 
-        private IByte CreateByte(bool state)
+        private static IByte CreateByte(bool state)
         {
-            return new Byte(Enumerable.Range(0, 8).Select(s => _bitFactory.Create(state)).ToArray(), _bitFactory);
+            return new Byte(Enumerable.Range(0, 8).Select(s => state).ToArray());
         }
     }
 }

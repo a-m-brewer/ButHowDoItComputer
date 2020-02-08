@@ -11,13 +11,12 @@ namespace ButHowDoItComputer.Components.Factories
     {
         public IArithmeticLogicUnit Create()
         {
-            var bitFactory = new BitFactory();
-            var not = new Not(bitFactory);
-            var and = new And(bitFactory);
+            var not = new Not();
+            var and = new And();
             var nAnd = new NAnd(not, and);
             var or = new Or(not, nAnd);
             var xOr = new XOr(not, nAnd);
-            var byteFactory = new ByteFactory(bitFactory, new Base10Converter(bitFactory));
+            var byteFactory = new ByteFactory(new Base10Converter());
             return new ArithmeticLogicUnit(
                 new ByteXOr(xOr, byteFactory),
                 new ByteOr(or, byteFactory),
@@ -27,7 +26,7 @@ namespace ButHowDoItComputer.Components.Factories
                 new ByteEnabler(and, byteFactory),
                 and,
                 new IsZeroGate(or, not),
-                new ByteDecoder(new Decoder(not, and, bitFactory), byteFactory),
+                new ByteDecoder(new Decoder(not, and), byteFactory),
                 new ByteRightShifter(byteFactory),
                 new ByteLeftShifter(byteFactory),
                 or,

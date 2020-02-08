@@ -7,16 +7,9 @@ namespace ButHowDoItComputer.Gates
 {
     public class And : IAnd
     {
-        private readonly IBitFactory _bitFactory;
-
-        public And(IBitFactory bitFactory)
+        public bool Apply(params bool[] bits)
         {
-            _bitFactory = bitFactory;
-        }
-
-        public IBit Apply(params IBit[] bits)
-        {
-            return _bitFactory.Create(bits.All(a => a.State));
+            return bits.All(a => a);
         }
     }
 }

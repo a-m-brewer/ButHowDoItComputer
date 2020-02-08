@@ -4,6 +4,6 @@ namespace ButHowDoItComputer.Gates.Interfaces
 {
     public interface IByteDecoder
     {
-        IByte Decode(IBit a, IBit b, IBit c);
+        IByte Decode(bool a, bool b, bool c);
     }
 }

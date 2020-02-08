@@ -5,25 +5,25 @@ using ButHowDoItComputer.Utils.Interfaces;
 
 namespace ButHowDoItComputer.DataTypes
 {
-    public class CpuSets: IEnumerable<ICpuSubscriberNotifier<IBit>>
+    public class CpuSets: IEnumerable<ICpuSubscriberNotifier<bool>>
     {
-        public ICpuSubscriberNotifier<IBit> Mar { get; set; }
+        public ICpuSubscriberNotifier<bool> Mar { get; set; }
         // From what I can tell ACC is just a register to store the result of ALU pg. 91
-        public ICpuSubscriberNotifier<IBit> Acc { get; set; }
-        public ICpuSubscriberNotifier<IBit> Ram { get; set; }
+        public ICpuSubscriberNotifier<bool> Acc { get; set; }
+        public ICpuSubscriberNotifier<bool> Ram { get; set; }
         // From what I can tell this is just a register with enable on that sets bus1 pg. 91
-        public ICpuSubscriberNotifier<IBit> Tmp { get; set; }
-        public ICpuSubscriberNotifier<IBit> R0 { get; set; }
-        public ICpuSubscriberNotifier<IBit> R1 { get; set; }
-        public ICpuSubscriberNotifier<IBit> R2 { get; set; }
-        public ICpuSubscriberNotifier<IBit> R3 { get; set; }
+        public ICpuSubscriberNotifier<bool> Tmp { get; set; }
+        public ICpuSubscriberNotifier<bool> R0 { get; set; }
+        public ICpuSubscriberNotifier<bool> R1 { get; set; }
+        public ICpuSubscriberNotifier<bool> R2 { get; set; }
+        public ICpuSubscriberNotifier<bool> R3 { get; set; }
 
-        public ICpuSubscriberNotifier<IBit> Ir { get; set; }
-        public ICpuSubscriberNotifier<IBit> Iar { get; set; }
-        public ICpuSubscriberNotifier<IBit> IoClk { get; set; }
-        public ICpuSubscriberNotifier<IBit> Flags { get; set; }
+        public ICpuSubscriberNotifier<bool> Ir { get; set; }
+        public ICpuSubscriberNotifier<bool> Iar { get; set; }
+        public ICpuSubscriberNotifier<bool> IoClk { get; set; }
+        public ICpuSubscriberNotifier<bool> Flags { get; set; }
         
-        public IEnumerator<ICpuSubscriberNotifier<IBit>> GetEnumerator()
+        public IEnumerator<ICpuSubscriberNotifier<bool>> GetEnumerator()
         {
             yield return Mar;
             yield return Ram;

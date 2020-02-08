@@ -6,6 +6,6 @@ namespace ButHowDoItComputer.Gates.Interfaces
 {
     public interface IGate
     {
-        IBit Apply(params IBit[] bits);
+        bool Apply(params bool[] bits);
     }
 }

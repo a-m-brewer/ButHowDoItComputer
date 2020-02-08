@@ -18,8 +18,8 @@ namespace ButHowDoItComputer.Tests
             .Select(s =>
                 new object[]
                 {
-                    new ByteToBase10Converter(new BitFactory(), new ByteFactory(new BitFactory(), new Base10Converter(new BitFactory())),
-                        new Base10Converter(new BitFactory())).ToByte((uint) s),
+                    new ByteToBase10Converter(new ByteFactory( new Base10Converter()),
+                        new Base10Converter()).ToByte((uint) s),
                     Convert.ToChar((char) s).ToString()
                 })
             .ToArray();
@@ -27,8 +27,8 @@ namespace ButHowDoItComputer.Tests
         [Test, TestCaseSource(nameof(TestData))]
         public void CanConvertFromByteToAscii(IByte inputByte, string expectedChar)
         {
-            var result = new ByteToAsciiConverter(new ByteToBase10Converter(new BitFactory(),
-                new ByteFactory(new BitFactory(), new Base10Converter(new BitFactory())), new Base10Converter(new BitFactory()))).ToAscii(inputByte);
+            var result = new ByteToAsciiConverter(new ByteToBase10Converter(
+                new ByteFactory( new Base10Converter()), new Base10Converter())).ToAscii(inputByte);
             Assert.AreEqual(expectedChar, result);
         }
         
@@ -36,13 +36,13 @@ namespace ButHowDoItComputer.Tests
         public void CanConvertFromAsciiToByte(IByte outputByte, string inputChar)
         {
             var result =
-                new ByteToAsciiConverter(new ByteToBase10Converter(new BitFactory(), new ByteFactory(new BitFactory(), new Base10Converter(new BitFactory())),
-                        new Base10Converter(new BitFactory())))
+                new ByteToAsciiConverter(new ByteToBase10Converter( new ByteFactory( new Base10Converter()),
+                        new Base10Converter()))
                     .ToByte(inputChar);
 
             for (var i = 0; i < outputByte.Count; i++)
             {
-                Assert.AreEqual(outputByte[i].State, result[i].State);
+                Assert.AreEqual(outputByte[i], result[i]);
             }
         }
     }

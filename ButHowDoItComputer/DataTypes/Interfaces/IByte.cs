@@ -2,15 +2,15 @@ using System.Collections.Generic;
 
 namespace ButHowDoItComputer.DataTypes.Interfaces
 {
-    public interface IByte : IList<IBit>
+    public interface IByte : IList<bool>
     {
-        IBit One { get; set; }
-        IBit Two { get; set; }
-        IBit Three { get; set; }
-        IBit Four { get; set; }
-        IBit Five { get; set; }
-        IBit Six { get; set; }
-        IBit Seven { get; set; }
-        IBit Eight { get; set; }
+        bool One { get; set; }
+        bool Two { get; set; }
+        bool Three { get; set; }
+        bool Four { get; set; }
+        bool Five { get; set; }
+        bool Six { get; set; }
+        bool Seven { get; set; }
+        bool Eight { get; set; }
     }
 }

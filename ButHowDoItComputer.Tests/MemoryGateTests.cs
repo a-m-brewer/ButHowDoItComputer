@@ -13,63 +13,47 @@ namespace ButHowDoItComputer.Tests
         [TestCase(true)]
         public void CanStoreABit(bool expected)
         {
-            var sut = new MemoryGate(new NAnd(new Not(new BitFactory()), new And(new BitFactory())), new BitFactory());
-            
-            var input = new Bit(expected);
-            var set = new Bit(true);
+            var sut = new MemoryGate(new NAnd(new Not(), new And()));
 
-            var result = sut.Apply(input, set);
+            var result = sut.Apply(expected, true);
             
-            Assert.AreEqual(input.State, result.State);
+            Assert.AreEqual(expected, result);
         }
 
         [Test]
         public void CanKeepTheValueOfABit()
         {
-            var sut = new MemoryGate(new NAnd(new Not(new BitFactory()), new And(new BitFactory())), new BitFactory());
+            var sut = new MemoryGate(new NAnd(new Not(), new And()));
             
             // set the initial state of the memory to on
-            var input = new Bit(true);
-            var set = new Bit(true);
-            var result = sut.Apply(input, set);
+            var result = sut.Apply(true, true);
             
             // assert that the bit is set
-            Assert.AreEqual(input.State, result.State);
+            Assert.AreEqual(true, result);
             
             // turn off set mode and try and set the input bit to off
-            input = new Bit(false);
-            set = new Bit(false);
-
-            result = sut.Apply(input, set);
-            Assert.AreEqual(true, result.State);
+            result = sut.Apply(false, false);
+            Assert.AreEqual(true, result);
         }
         
         // this test might be a bit pointless but it gives me piece of mind
         [Test]
         public void CanSetTheBitAgain()
         {
-            var sut = new MemoryGate(new NAnd(new Not(new BitFactory()), new And(new BitFactory())), new BitFactory());
+            var sut = new MemoryGate(new NAnd(new Not(), new And()));
             
             // set the initial state of the memory to on
-            var input = new Bit(true);
-            var set = new Bit(true);
-            var result = sut.Apply(input, set);
+            var result = sut.Apply(true, true);
             
             // assert that the bit is set
-            Assert.AreEqual(input.State, result.State);
+            Assert.AreEqual(true, result);
             
             // turn off set mode and try and set the input bit to off
-            input = new Bit(false);
-            set = new Bit(false);
-            result = sut.Apply(input, set);
+            result = sut.Apply(false, false);
             
-            Assert.AreEqual(true, result.State);
-            
-            input = new Bit(false);
-            set = new Bit(true);
-            result = sut.Apply(input, set);
-            
-            Assert.AreEqual(false, result.State);
+            Assert.AreEqual(true, result);
+            result = sut.Apply(false, true);
+            Assert.AreEqual(false, result);
         }
     }
 }

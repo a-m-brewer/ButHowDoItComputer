@@ -14,7 +14,7 @@ namespace ButHowDoItComputer.Components
             _byteComparator = byteComparator;
         }
         
-        public (IBit equal, IBit aLarger) AreEqual(IRegister<IByte> registerA, IRegister<IByte> registerB, IBit equal, IBit aLarger,
+        public (bool equal, bool aLarger) AreEqual(IRegister<IByte> registerA, IRegister<IByte> registerB, bool equal, bool aLarger,
             IRegister<IByte> outputRegister)
         {
             registerA.Apply();

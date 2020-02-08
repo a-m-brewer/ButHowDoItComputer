@@ -21,7 +21,7 @@ namespace ButHowDoItComputer.Gates
             _byteFactory = byteFactory;
         }
 
-        public IByte Apply(IByte input, IBit bus1)
+        public IByte Apply(IByte input, bool bus1)
         {
             Input = input;
             Set = bus1;
@@ -47,6 +47,6 @@ namespace ButHowDoItComputer.Gates
 
         public IByte Input { get; set; }
         public List<IBusInputSubscriber<IByte>> BusSubscribers { get; } = new List<IBusInputSubscriber<IByte>>();
-        public IBit Set { get; set; }
+        public bool Set { get; set; }
     }
 }

@@ -16,42 +16,39 @@ namespace ButHowDoItComputer.Tests
         [TestCase(true)]
         public void CanStoreAByte(bool expected)
         {
-            var sut = new ByteMemoryGate(new MemoryGateFactory(new NAnd(new Not(new BitFactory()), new And(new BitFactory())), new BitFactory()), new ByteFactory(new BitFactory(), new Base10Converter(new BitFactory())));
+            var sut = new ByteMemoryGate(new MemoryGateFactory(new NAnd(new Not(), new And())), new ByteFactory(new Base10Converter()));
 
-            var input = new Byte(Enumerable.Range(0, 8).Select(s => new Bit(expected)).ToArray(), new BitFactory());
-            var set = new Bit(true);
+            var input = new Byte(Enumerable.Range(0, 8).Select(s => expected).ToArray());
 
-            var result = sut.Apply(input, set);
+            var result = sut.Apply(input, true);
 
             for (var i = 0; i < input.Count; i++)
             {
-                Assert.AreEqual(input[i].State, result[i].State);
+                Assert.AreEqual(input[i], result[i]);
             }
         }
 
         [Test]
         public void CanKeepTheValueOfAByte()
         {
-            var sut = new ByteMemoryGate(new MemoryGateFactory(new NAnd(new Not(new BitFactory()), new And(new BitFactory())), new BitFactory()), new ByteFactory(new BitFactory(), new Base10Converter(new BitFactory())));
+            var sut = new ByteMemoryGate(new MemoryGateFactory(new NAnd(new Not(), new And())), new ByteFactory(new Base10Converter()));
 
-            var input = new Byte(Enumerable.Range(0, 8).Select(s => new Bit(true)).ToArray(), new BitFactory());
-            var set = new Bit(true);
+            var input = new Byte(Enumerable.Range(0, 8).Select(s => true).ToArray());
 
-            var result = sut.Apply(input, set);
+            var result = sut.Apply(input, true);
 
             for (var i = 0; i < input.Count; i++)
             {
-                Assert.AreEqual(input[i].State, result[i].State);
+                Assert.AreEqual(input[i], result[i]);
             }
             
-            input = new Byte(Enumerable.Range(0, 8).Select(s => new Bit(false)).ToArray(), new BitFactory());
-            set = new Bit(false);
+            input = new Byte(Enumerable.Range(0, 8).Select(s => false).ToArray());
 
-            result = sut.Apply(input, set);
+            result = sut.Apply(input, false);
             
             for (var i = 0; i < input.Count; i++)
             {
-                Assert.AreEqual(true, result[i].State);
+                Assert.AreEqual(true, result[i]);
             }
         }
     }

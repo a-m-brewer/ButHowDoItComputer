@@ -13,7 +13,7 @@ namespace ButHowDoItComputer.Gates
             _and = and;
         }
         
-        public Caez Apply(Caez input, IBit set)
+        public Caez Apply(Caez input, bool set)
         {
             return new Caez
             {

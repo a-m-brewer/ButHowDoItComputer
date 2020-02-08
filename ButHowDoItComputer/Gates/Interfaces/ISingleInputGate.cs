@@ -4,6 +4,6 @@ namespace ButHowDoItComputer.Gates.Interfaces
 {
     public interface ISingleInputGate
     {
-        IBit Apply(IBit bit);
+        bool Apply(bool bit);
     }
 }

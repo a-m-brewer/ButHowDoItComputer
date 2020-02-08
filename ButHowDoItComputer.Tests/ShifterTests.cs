@@ -13,7 +13,6 @@ namespace ButHowDoItComputer.Tests
     [TestFixture]
     public class ShifterTests
     {
-        private BitFactory _bitFactory;
         private ByteFactory _byteFactory;
         private And _and;
         private MemoryGateFactory _memoryGateFactory;
@@ -21,59 +20,58 @@ namespace ButHowDoItComputer.Tests
         [SetUp]
         public void Setup()
         {
-            _bitFactory = new BitFactory();
-            _byteFactory = new ByteFactory(_bitFactory, new Base10Converter(_bitFactory));
-            _and = new And(_bitFactory);
-            _memoryGateFactory = new MemoryGateFactory(new NAnd(new Not(_bitFactory), _and), _bitFactory);
+            _byteFactory = new ByteFactory(new Base10Converter());
+            _and = new And();
+            _memoryGateFactory = new MemoryGateFactory(new NAnd(new Not(), _and));
         }
         
         [Test]
         public void TestRightShifter()
         {
             var inputRegister = TestUtils.CreateRegister();
-            inputRegister.Set = new Bit(true);
-            inputRegister.Enable = new Bit(true);
+            inputRegister.Set = true;
+            inputRegister.Enable = true;
             var outputRegister = TestUtils.CreateRegister();
-            outputRegister.Set = new Bit(true);
-            outputRegister.Enable = new Bit(true);
+            outputRegister.Set = true;
+            outputRegister.Enable = true;
             
-            var beforeByte = new Byte(new IBit[]
+            var beforeByte = new Byte(new bool[]
             {
-                new Bit(false), 
-                new Bit(true), 
-                new Bit(false), 
-                new Bit(false), 
+                false, 
+                true, 
+                false, 
+                false, 
                 
-                new Bit(false), 
-                new Bit(false), 
-                new Bit(true), 
-                new Bit(false)
+                false, 
+                false, 
+                true, 
+                false
                 
-            },new BitFactory());
+            });
             
-            var afterByte = new Byte(new IBit[]
+            var afterByte = new Byte(new bool[]
             {
-                new Bit(true), 
-                new Bit(false), 
-                new Bit(false), 
-                new Bit(false), 
+                true, 
+                false, 
+                false, 
+                false, 
                 
-                new Bit(false), 
-                new Bit(true), 
-                new Bit(false), 
-                new Bit(false)
+                false, 
+                true, 
+                false, 
+                false
                 
-            },new BitFactory());
+            });
 
             inputRegister.Input = beforeByte;
             
-            var sut = new RightShifter(_byteFactory, _bitFactory, new ByteRightShifter(_byteFactory));
+            var sut = new RightShifter(_byteFactory, new ByteRightShifter(_byteFactory));
             
             sut.Apply(inputRegister, outputRegister);
 
             for (var i = 0; i < afterByte.Count; i++)
             {
-                Assert.AreEqual(afterByte[i].State, outputRegister.Output[i].State);
+                Assert.AreEqual(afterByte[i], outputRegister.Output[i]);
             }
         }
         
@@ -81,49 +79,49 @@ namespace ButHowDoItComputer.Tests
         public void TestLeftShifter()
         {
             var inputRegister = TestUtils.CreateRegister();
-            inputRegister.Set = new Bit(true);
-            inputRegister.Enable = new Bit(true);
+            inputRegister.Set = true;
+            inputRegister.Enable = true;
             var outputRegister = TestUtils.CreateRegister();
-            outputRegister.Set = new Bit(true);
-            outputRegister.Enable = new Bit(true);
+            outputRegister.Set = true;
+            outputRegister.Enable = true;
             
-            var beforeByte = new Byte(new IBit[]
+            var beforeByte = new Byte(new bool[]
             {
-                new Bit(false), 
-                new Bit(true), 
-                new Bit(false), 
-                new Bit(false), 
+                false, 
+                true, 
+                false, 
+                false, 
                 
-                new Bit(false), 
-                new Bit(false), 
-                new Bit(true), 
-                new Bit(false)
+                false, 
+                false, 
+                true, 
+                false
                 
-            },new BitFactory());
+            });
             
-            var afterByte = new Byte(new IBit[]
+            var afterByte = new Byte(new bool[]
             {
-                new Bit(false), 
-                new Bit(false), 
-                new Bit(true), 
-                new Bit(false), 
+                false, 
+                false, 
+                true, 
+                false, 
                 
-                new Bit(false), 
-                new Bit(false), 
-                new Bit(false), 
-                new Bit(true)
+                false, 
+                false, 
+                false, 
+                true
                 
-            },new BitFactory());
+            });
 
             inputRegister.Input = beforeByte;
             
-            var sut = new LeftShifter(_byteFactory, _bitFactory, new ByteLeftShifter(_byteFactory));
+            var sut = new LeftShifter(_byteFactory, new ByteLeftShifter(_byteFactory));
             
             sut.Apply(inputRegister, outputRegister);
 
             for (var i = 0; i < afterByte.Count; i++)
             {
-                Assert.AreEqual(afterByte[i].State, outputRegister.Output[i].State);
+                Assert.AreEqual(afterByte[i], outputRegister.Output[i]);
             }
         }
     }

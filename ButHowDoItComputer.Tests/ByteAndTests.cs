@@ -14,12 +14,12 @@ namespace ButHowDoItComputer.Tests
         [Test]
         public void ByteAndRunsAsExpected()
         {
-            var byteFactory = new ByteFactory(new BitFactory(), new Base10Converter(new BitFactory()));
-            var sut = new ByteAnd(new And(new BitFactory()), new ByteFactory(new BitFactory(), new Base10Converter(new BitFactory())));
+            var byteFactory = new ByteFactory( new Base10Converter());
+            var sut = new ByteAnd(new And(), new ByteFactory( new Base10Converter()));
 
             var result = sut.Apply(new [] {byteFactory.Create(0), byteFactory.Create(255)});
 
-            Assert.IsFalse(result.Any(a => a.State));
+            Assert.IsFalse(result.Any(a => a));
         }
     }
 }

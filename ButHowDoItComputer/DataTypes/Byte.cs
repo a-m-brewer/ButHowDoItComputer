@@ -8,10 +8,9 @@ namespace ButHowDoItComputer.DataTypes
 {
     public class Byte : IByte
     {
-        private IBit[] _bits;
-        private readonly IBitFactory _bitFactory;
+        private bool[] _bits;
 
-        public Byte(IBit[] bits, IBitFactory bitFactory)
+        public Byte(bool[] bits)
         {
             if (bits.Length != 8)
             {
@@ -19,64 +18,62 @@ namespace ButHowDoItComputer.DataTypes
             }
 
             _bits = bits;
-            _bitFactory = bitFactory;
         }
 
-        public Byte(IBitFactory bitFactory)
+        public Byte()
         {
-            _bitFactory = bitFactory;
-            _bits = Enumerable.Range(0, 8).Select(s => _bitFactory.Create(false)).ToArray();
+            _bits = Enumerable.Range(0, 8).Select(s => false).ToArray();
         }
 
-        public IBit One
+        public bool One
         {
             get => _bits[0];
             set => _bits[0] = value;
         }
         
-        public IBit Two
+        public bool Two
         {
             get => _bits[1];
             set => _bits[1] = value;
         }
         
-        public IBit Three
+        public bool Three
         {
             get => _bits[2];
             set => _bits[2] = value;
         }
         
-        public IBit Four
+        public bool Four
         {
             get => _bits[3];
             set => _bits[3] = value;
         }
         
-        public IBit Five
+        public bool Five
         {
             get => _bits[4];
             set => _bits[4] = value;
         }
         
-        public IBit Six
+        public bool Six
         {
             get => _bits[5];
             set => _bits[5] = value;
         }
         
-        public IBit Seven
+        public bool Seven
         {
             get => _bits[6];
             set => _bits[6] = value;
         }
         
-        public IBit Eight
+        public bool Eight
         {
             get => _bits[7];
             set => _bits[7] = value;
         }
 
-        public IEnumerator<IBit> GetEnumerator()
+        public IEnumerator<bool> GetEnumerator()
         {
             yield return One;
             yield return Two;
@@ -93,7 +90,7 @@ namespace ButHowDoItComputer.DataTypes
             return GetEnumerator();
         }
 
-        public void Add(IBit item)
+        public void Add(bool item)
         {
             throw new NotSupportedException();
         }
@@ -101,20 +98,20 @@ namespace ButHowDoItComputer.DataTypes
         public void Clear()
         {
             var falseArray = new bool[8];
-            _bits = falseArray.Select(s => _bitFactory.Create(s)).ToArray();
+            _bits = falseArray.Select(s => false).ToArray();
         }
 
-        public bool Contains(IBit item)
+        public bool Contains(bool item)
         {
             return _bits.Contains(item);
         }
 
-        public void CopyTo(IBit[] array, int arrayIndex)
+        public void CopyTo(bool[] array, int arrayIndex)
         {
             _bits.CopyTo(array, arrayIndex);
         }
 
-        public bool Remove(IBit item)
+        public bool Remove(bool item)
         {
             throw new NotSupportedException();
         }
@@ -123,12 +120,12 @@ namespace ButHowDoItComputer.DataTypes
 
         public bool IsReadOnly { get; } = false;
         
-        public int IndexOf(IBit item)
+        public int IndexOf(bool item)
         {
             throw new NotSupportedException();
         }
 
-        public void Insert(int index, IBit item)
+        public void Insert(int index, bool item)
         {
             throw new NotSupportedException();
         }
@@ -138,7 +135,7 @@ namespace ButHowDoItComputer.DataTypes
             throw new NotSupportedException();
         }
 
-        public IBit this[int index]
+        public bool this[int index]
         {
             get => _bits[index];
             set => _bits[index] = value;

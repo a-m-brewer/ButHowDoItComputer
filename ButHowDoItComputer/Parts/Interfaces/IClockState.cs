@@ -4,7 +4,7 @@ namespace ButHowDoItComputer.Parts.Interfaces
 {
     public interface IClockState
     {
-        IBit Bit { get; }
-        IBit Cycle();
+        bool Bit { get; }
+        bool Cycle();
     }
 }

@@ -21,17 +21,16 @@ namespace ButHowDoItComputer.Tests
         {
             var sut = Create();
 
-            var (result, carry) = sut.Add(new Bit(a), new Bit(b), new Bit(carryIn));
+            var (result, carry) = sut.Add(a, b, carryIn);
             
-            Assert.AreEqual(sum, result.State);
-            Assert.AreEqual(carryOut, carry.State);
+            Assert.AreEqual(sum, result);
+            Assert.AreEqual(carryOut, carry);
         }
 
         public BitAdder Create()
         {
-            var bitFactory = new BitFactory();
-            var and = new And(bitFactory);
-            var not = new Not(bitFactory);
+            var and = new And();
+            var not = new Not();
             var nAnd = new NAnd(not, and);
             var or = new Or(not, nAnd);
             return new BitAdder(new XOr(not, nAnd), or, and);

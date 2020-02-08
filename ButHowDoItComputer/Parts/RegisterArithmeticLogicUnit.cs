@@ -17,23 +17,23 @@ namespace ButHowDoItComputer.Parts
             InputB = byteRegisterFactory.Create();
             InputA.Name = $"{nameof(RegisterArithmeticLogicUnit)}.{InputA}";
             InputB.Name = $"{nameof(RegisterArithmeticLogicUnit)}.{InputB}";
-            InputA.Set.State = true;
-            InputA.Enable.State = true;
-            InputB.Set.State = true;
-            InputB.Enable.State = true;
+            InputA.Set = true;
+            InputA.Enable = true;
+            InputB.Set = true;
+            InputB.Enable = true;
             
             OutputRegister = byteRegisterFactory.Create();
             OutputRegister.Name = $"{nameof(RegisterArithmeticLogicUnit)}.{OutputRegister}";
-            OutputRegister.Set.State = true;
-            OutputRegister.Enable.State = true;
+            OutputRegister.Set = true;
+            OutputRegister.Enable = true;
             
             OpInstruction = new Op();
-            CarryIn = new Bit(false);
+            CarryIn = false;
             Output = new AluOutput();
             _arithmeticLogicUnit = arithmeticLogicUnit;
         }
 
-        public IBit CarryIn { get; set; }
+        public bool CarryIn { get; set; }
 
         public Op OpInstruction { get; set; }
 
@@ -43,7 +43,7 @@ namespace ButHowDoItComputer.Parts
 
         public IRegister<IByte> InputA { get; set; }
 
-        public AluOutput Apply(IRegister<IByte> a, IRegister<IByte> b, IBit carryIn, Op op, IRegister<IByte> outputRegister)
+        public AluOutput Apply(IRegister<IByte> a, IRegister<IByte> b, bool carryIn, Op op, IRegister<IByte> outputRegister)
         {
             InputA = a;
             InputB = b;

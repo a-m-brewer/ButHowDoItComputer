@@ -11,12 +11,12 @@ namespace ButHowDoItComputer.Components
     {
         private readonly ILeftByteShifter _leftByteShifter;
 
-        public LeftShifter(ByteFactory byteFactory, IBitFactory bitFactory, ILeftByteShifter leftByteShifter) : base(byteFactory, bitFactory)
+        public LeftShifter(ByteFactory byteFactory, ILeftByteShifter leftByteShifter) : base(byteFactory)
         {
             _leftByteShifter = leftByteShifter;
         }
 
-        protected override IBit[] GetShifter(IRegister<IByte> inputRegister)
+        protected override bool[] GetShifter(IRegister<IByte> inputRegister)
         {
             var (ouput, shiftOut) = _leftByteShifter.Shift(inputRegister.Output, ShiftIn);
             ShiftOut = shiftOut;

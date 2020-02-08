@@ -6,20 +6,17 @@ using ButHowDoItComputer.DataTypes.Interfaces;
 
 namespace ButHowDoItComputer.DataTypes
 {
-    public class StepperOutput : IList<IBit>
+    public class StepperOutput : IList<bool>
     {
-        private readonly IBitFactory _bitFactory;
-        private IBit[] _bits;
+        private bool[] _bits;
 
-        public StepperOutput(IBitFactory bitFactory)
+        public StepperOutput()
         {
-            _bitFactory = bitFactory;
-            _bits = Enumerable.Range(0, 7).Select(_ => _bitFactory.Create(false)).ToArray();
+            _bits = Enumerable.Range(0, 7).Select(_ => false).ToArray();
         }
 
-        public StepperOutput(IBit[] bits, IBitFactory bitFactory)
+        public StepperOutput(bool[] bits)
         {
-            _bitFactory = bitFactory;
             if (bits.Length != 7)
             {
                 throw new ArgumentException($"A stepper has 7 inputs. input array way {bits.Length} long");
@@ -28,9 +25,9 @@ namespace ButHowDoItComputer.DataTypes
             _bits = bits;
         }
 
-        public IEnumerator<IBit> GetEnumerator()
+        public IEnumerator<bool> GetEnumerator()
         {
-            return ((IEnumerable<IBit>) _bits).GetEnumerator();
+            return ((IEnumerable<bool>) _bits).GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
@@ -38,7 +35,7 @@ namespace ButHowDoItComputer.DataTypes
             return GetEnumerator();
         }
 
-        public void Add(IBit item)
+        public void Add(bool item)
         {
             throw new NotSupportedException();
         }
@@ -46,20 +43,20 @@ namespace ButHowDoItComputer.DataTypes
         public void Clear()
         {
             var falseArray = new bool[8];
-            _bits = falseArray.Select(s => _bitFactory.Create(s)).ToArray();
+            _bits = falseArray.Select(s => false).ToArray();
         }
 
-        public bool Contains(IBit item)
+        public bool Contains(bool item)
         {
             return _bits.Contains(item);
         }
 
-        public void CopyTo(IBit[] array, int arrayIndex)
+        public void CopyTo(bool[] array, int arrayIndex)
         {
             _bits.CopyTo(array, arrayIndex);
         }
 
-        public bool Remove(IBit item)
+        public bool Remove(bool item)
         {
             throw new NotSupportedException();
         }
@@ -67,12 +64,12 @@ namespace ButHowDoItComputer.DataTypes
         public int Count => _bits.Length;
         public bool IsReadOnly => false;
         
-        public int IndexOf(IBit item)
+        public int IndexOf(bool item)
         {
             return _bits.ToList().IndexOf(item);
         }
 
-        public void Insert(int index, IBit item)
+        public void Insert(int index, bool item)
         {
             throw new NotSupportedException();
         }
@@ -82,7 +79,7 @@ namespace ButHowDoItComputer.DataTypes
             throw new NotSupportedException();
         }
 
-        public IBit this[int index]
+        public bool this[int index]
         {
             get => _bits[index];
             set => _bits[index] = value;

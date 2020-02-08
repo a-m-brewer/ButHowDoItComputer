@@ -26,11 +26,11 @@ namespace ButHowDoItComputer.Tests
 
             var input = _base10ToByte.ToByte(255);
 
-            var result = _sut.Apply(input, bus1.ToBit());
+            var result = _sut.Apply(input, bus1);
 
             for (var i = 0; i < expected.Count; i++)
             {
-                Assert.AreEqual(expected[i].State, result[i].State);
+                Assert.AreEqual(expected[i], result[i]);
             }
         }
     }
