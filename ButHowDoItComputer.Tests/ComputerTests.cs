@@ -539,7 +539,7 @@ namespace ButHowDoItComputer.Tests
         }
 
         [Test]
-        public void CanPerformAJumpInstruction()
+        public void CanPerformAJumpRegisterInstruction()
         {
             var sut = CreateSut();
 
@@ -557,6 +557,27 @@ namespace ButHowDoItComputer.Tests
             
             Assert.IsTrue(result.All(a => a));
         }
+
+        [Test]
+        public void CanPerformJumpInstruction()
+        {
+            var sut = CreateSut();
+
+            var instruction = _byteFactory.Create(false, true, false, false, false, false, false, false);
+            
+            // store the actual instruction in ram 0
+            sut.InstructionAddressRegister.ApplyOnce(_byteFactory.Create(0));
+            sut.Ram.InternalRegisters[0][0].ApplyOnce(instruction);
+            sut.Ram.InternalRegisters[0][1].ApplyOnce(_byteFactory.Create(255));
+            
+            Step(sut, 6);
+
+            var result = sut.InstructionAddressRegister.Data;
+            
+            Assert.IsTrue(result.All(a => a));
+        }
+        
+        
 
         private void Step(Computer sut, int times)
         {
