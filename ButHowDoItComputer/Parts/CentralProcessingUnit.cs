@@ -89,7 +89,7 @@ namespace ButHowDoItComputer.Parts
             var registerBEnable = RegisterBEnable(
                 step4AndIr0,
                 threeXEightOutputAndStep5NotIr4[1], 
-                threeXEightOutputAndStep4Ir4[4],
+                threeXEightOutputAndStep4Ir4[3],
                 step4AndThreeXEight7AndIr4);
 
             var registerBSet = RegisterBSet(naIr123AndStep6AndStep0, threeXEightOutputAndStep5NotIr4[0],
@@ -121,7 +121,7 @@ namespace ButHowDoItComputer.Parts
             UpdateIarSet(
                 _stepperOutput[2], 
                 threeXEight2AndStep6, 
-                threeXEightOutputAndStep4Ir4[4], 
+                threeXEightOutputAndStep4Ir4[3], 
                 threeXEightOutputAndStep5NotIr4[4], 
                 threeXEightOutputAndStep5NotIr4[5], 
                 threeXEightStep6OrCaez);

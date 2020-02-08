@@ -517,6 +517,47 @@ namespace ButHowDoItComputer.Tests
             Assert.IsTrue(result.All(a => a));
         }
 
+        
+        [Test]
+        public void CanPerformTheDataInstruction()
+        {
+            var sut = CreateSut();
+
+            var instruction = _byteFactory.Create(false, false, true, false, false, false, false, false);
+            
+            // store the actual instruction in ram 0
+            sut.InstructionAddressRegister.ApplyOnce(_byteFactory.Create(0));
+            sut.Ram.InternalRegisters[0][0].ApplyOnce(instruction);
+
+            sut.Ram.InternalRegisters[0][1].ApplyOnce(_byteFactory.Create(255));
+            
+            Step(sut, 6);
+
+            var result = sut.R0.Data;
+            
+            Assert.IsTrue(result.All(a => a));
+        }
+
+        [Test]
+        public void CanPerformAJumpInstruction()
+        {
+            var sut = CreateSut();
+
+            var instruction = _byteFactory.Create(false, false, true, true, false, false, false, false);
+            
+            // store the actual instruction in ram 0
+            sut.InstructionAddressRegister.ApplyOnce(_byteFactory.Create(0));
+            sut.Ram.InternalRegisters[0][0].ApplyOnce(instruction);
+            
+            sut.R0.ApplyOnce(_byteFactory.Create(255));
+            
+            Step(sut, 6);
+
+            var result = sut.InstructionAddressRegister.Data;
+            
+            Assert.IsTrue(result.All(a => a));
+        }
+
         private void Step(Computer sut, int times)
         {
             for (int i = 0; i < times; i++)
