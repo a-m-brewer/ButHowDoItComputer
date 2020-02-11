@@ -19,6 +19,7 @@ namespace ButHowDoItComputer.Gates
             _not = not;
             _or = or;
             _byteFactory = byteFactory;
+            Input = _byteFactory.Create(0);
         }
 
         public IByte Apply(IByte input, bool bus1)

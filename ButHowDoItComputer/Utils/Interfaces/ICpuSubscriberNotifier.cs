@@ -1,8 +1,7 @@
 ﻿namespace ButHowDoItComputer.Utils.Interfaces
 {
-    public interface ICpuSubscriberNotifier<in TData>
+    public interface ICpuSubscriberNotifier<in TData> : IApplicable
     {
         public void Update(TData newState);
-        public void Apply();
     }
 }

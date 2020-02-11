@@ -6,7 +6,7 @@ using ButHowDoItComputer.Utils.Interfaces;
 
 namespace ButHowDoItComputer.Parts
 {
-    public interface IRegisterArithmeticLogicUnit : ICpuSubscriberNotifier<Op>
+    public interface IRegisterArithmeticLogicUnit : ICpuSubscriberNotifier<Op>, IBusInputSubscriber<Caez>
     {
         bool CarryIn { get; set; }
         Op OpInstruction { get; set; }
@@ -16,5 +16,6 @@ namespace ButHowDoItComputer.Parts
         AluOutput Output { get; set; }
         AluOutput Apply(IRegister<IByte> a, IRegister<IByte> b, bool carryIn, Op op, IRegister<IByte> outputRegister);
         List<IBusInputSubscriber<IByte>> Subscribers { get; } 
+        List<IBusInputSubscriber<Caez>> CaezSubscribers { get; }
     }
 }

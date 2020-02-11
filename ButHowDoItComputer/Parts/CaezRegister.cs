@@ -71,7 +71,5 @@ namespace ButHowDoItComputer.Parts
                 subscriber.Input = Output;
             }
         }
-
-        Caez IBusInputSubscriber<Caez>.Input { get; set; }
     }
 }

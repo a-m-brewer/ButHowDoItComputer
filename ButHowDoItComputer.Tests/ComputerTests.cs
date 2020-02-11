@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Diagnostics.SymbolStore;
 using System.Linq;
 using ButHowDoItComputer.DataTypes.Factories;
 using ButHowDoItComputer.DataTypes.Interfaces;
@@ -577,7 +578,117 @@ namespace ButHowDoItComputer.Tests
             Assert.IsTrue(result.All(a => a));
         }
         
-        
+        // TODO: Make tests for the third great invention pg. 132
+
+        [Test]
+        public void WillJumpIfCarryIsSetOnPreviousInstruction()
+        {
+            var sut = CreateSut();
+
+            var expected = _byteFactory.Create(255U);
+            
+            var instructionBits = new[]
+            {
+                true, false, false, false, false, false, false, true
+            };
+            var instructionByte = _byteFactory.Create(instructionBits);
+            
+            sut.InstructionAddressRegister.ApplyOnce(_byteFactory.Create(0));
+            sut.Ram.InternalRegisters[0][0].ApplyOnce(instructionByte);
+            sut.R0.ApplyOnce(_byteFactory.Create(true, true, true, true, true, true, true, true));
+            sut.R1.ApplyOnce(_byteFactory.Create(true, true, true, true, true, true, true, true));
+            
+            // setup for the jump if
+            var jumpIfCarryOnInstruction = _byteFactory.Create(false, true, false, true, true, false, false, false);
+            sut.Ram.InternalRegisters[0][1].ApplyOnce(jumpIfCarryOnInstruction);
+            sut.Ram.InternalRegisters[0][2].ApplyOnce(_byteFactory.Create(255));
+
+            Step(sut, 6);
+
+            var addrRes = sut.R1.Data;
+
+            for (var i = 0; i < expected.Count; i++)
+            {
+                Assert.AreEqual(expected[i], addrRes[i]);
+            }
+
+            Assert.IsTrue(sut.CaezRegister.Data.C);
+            Assert.IsFalse(sut.CaezRegister.Data.A);
+            Assert.IsTrue(sut.CaezRegister.Data.E);
+            Assert.IsFalse(sut.CaezRegister.Data.Z);
+     
+            Step(sut, 3);
+            sut.Step();
+            
+            Assert.IsTrue(sut.Bus1.Set);
+            Assert.IsTrue(sut.InstructionAddressRegister.Enable);
+            
+            sut.Step();
+
+            Assert.IsTrue(sut.Ram.MemoryAddressRegister.Set);
+            Assert.IsTrue(sut.Acc.Set);
+            
+            sut.Step();
+            sut.Step();
+            
+            sut.Step();
+            
+            Assert.IsTrue(sut.Acc.Enable);
+            
+            sut.Step(); 
+            
+            Assert.IsTrue(sut.InstructionAddressRegister.Set);
+            
+            sut.Step();
+            sut.Step();
+            
+            sut.Step();
+            
+            // Seems that the CAEZ is false false true false
+            Assert.IsTrue(sut.Ram.Enable);
+            
+            sut.Step();
+            
+            Assert.IsTrue(sut.InstructionAddressRegister.Set);
+
+            sut.Step();
+            sut.Step();
+            
+            sut.Step();
+            
+            // TODO: appears to be jumping to ram reg 129?
+            // TODO: 129 appears to be the add instruction in binary
+
+            var result = sut.InstructionAddressRegister.Data;
+            //
+            Assert.IsTrue(result.All(a => a));
+        }
+
+        [Test]
+        public void CanClearAllFlags()
+        {
+            var sut = CreateSut();
+            
+            var addInstruction = _byteFactory.Create(true, false, false, false, false, false, false, true);
+            
+            // setup for add instruction that will make a carry on bit be set
+            sut.InstructionAddressRegister.ApplyOnce(_byteFactory.Create(0));
+            sut.Ram.InternalRegisters[0][0].ApplyOnce(addInstruction);
+            sut.R0.ApplyOnce(_byteFactory.Create(200U));
+            sut.R1.ApplyOnce(_byteFactory.Create(56U));
+            
+            var clearFlagsInstruction = _byteFactory.Create(false, true, true, false, false, false, false, false);
+            sut.Ram.InternalRegisters[0][1].ApplyOnce(clearFlagsInstruction);
+            
+            Step(sut, 6);
+            sut.Step();
+            Step(sut, 6);
+
+            Assert.IsFalse(sut.CaezRegister.Data.C);
+            Assert.IsFalse(sut.CaezRegister.Data.A);
+            Assert.IsFalse(sut.CaezRegister.Data.E);
+            Assert.IsFalse(sut.CaezRegister.Data.Z);
+        }        
 
         private void Step(Computer sut, int times)
         {

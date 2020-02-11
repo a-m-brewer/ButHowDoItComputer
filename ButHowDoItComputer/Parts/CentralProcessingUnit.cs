@@ -114,7 +114,12 @@ namespace ButHowDoItComputer.Parts
                 threeXEightOutputAndStep4Ir4[2], 
                 threeXEightOutputAndStep4Ir4[5]);
             
-            UpdateRamEnable(_stepperOutput[1], threeXEightOutputAndStep5NotIr4[0], threeXEightOutputAndStep5NotIr4[2], threeXEightOutputAndStep5NotIr4[4], threeXEightStep6OrCaez);
+            UpdateRamEnable(
+                _stepperOutput[1], 
+                threeXEightOutputAndStep5NotIr4[0], 
+                threeXEightOutputAndStep5NotIr4[2], 
+                threeXEightOutputAndStep5NotIr4[4], 
+                threeXEightStep6OrCaez);
             UpdateIrSet(_stepperOutput[1]);
             
             UpdateAccEnable(_stepperOutput[2], naIr123AndStep6AndStep0, threeXEight2AndStep6, threeXEightOutputAndStep5NotIr4[5]);

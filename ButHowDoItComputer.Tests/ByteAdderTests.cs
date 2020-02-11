@@ -50,7 +50,7 @@ namespace ButHowDoItComputer.Tests
             Assert.IsTrue(carry);
             Assert.IsTrue(sum.All(s => s));
         }
-        
+
         private static BitAdder Create()
         {
             var and = new And();

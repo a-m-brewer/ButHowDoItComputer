@@ -57,6 +57,8 @@ namespace ButHowDoItComputer.Parts
         }
 
         public List<IBusInputSubscriber<IByte>> Subscribers { get; } = new List<IBusInputSubscriber<IByte>>();
+        
+        public List<IBusInputSubscriber<Caez>> CaezSubscribers { get; } = new List<IBusInputSubscriber<Caez>>();
 
         public void Update(Op newState)
         {
@@ -73,8 +75,32 @@ namespace ButHowDoItComputer.Parts
             {
                 subscriber.Input = Output.Output;
             }
+
+            var caez = new Caez
+            {
+                C = Output.CarryOut,
+                A = Output.ALarger,
+                E = Output.Equal,
+                Z = Output.Zero
+            };
+            
+            foreach (var caezSubscriber in CaezSubscribers)
+            {
+                caezSubscriber.Input = caez;
+            }
         }
 
         public AluOutput Output { get; set; }
+
+        private Caez _caez;
+        public Caez Input
+        {
+            get => _caez;
+            set
+            {
+                _caez = value;
+                CarryIn = value.C;
+            }
+        }
     }
 }

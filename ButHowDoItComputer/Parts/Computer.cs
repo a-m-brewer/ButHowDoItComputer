@@ -85,6 +85,9 @@ namespace ButHowDoItComputer.Parts
             ArithmeticLogicUnit = new RegisterArithmeticLogicUnit(alu, registerFactory);
             ArithmeticLogicUnit.Subscribers.Add(Acc);
             
+            CaezRegister.Subscribers.Add(ArithmeticLogicUnit);
+            ArithmeticLogicUnit.CaezSubscribers.Add(CaezRegister);
+            
             Bus.BusSubscribers.Add(ArithmeticLogicUnit.InputA);
             Bus1.BusSubscribers.Add(ArithmeticLogicUnit.InputB);
             
