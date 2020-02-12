@@ -128,5 +128,10 @@ namespace ButHowDoItComputer.Tests
         {
             return new Stepper(CreateMemoryGateFactory(), CreateAnd(), CreateNot(), CreateOr());
         }
+
+        public static Decoder CreateDecoder()
+        {
+            return new Decoder(CreateNot(), CreateAnd());
+        }
     }
 }
