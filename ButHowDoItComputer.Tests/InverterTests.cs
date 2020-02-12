@@ -1,4 +1,3 @@
-using ButHowDoItComputer.DataTypes;
 using ButHowDoItComputer.DataTypes.Factories;
 using ButHowDoItComputer.Gates;
 using ButHowDoItComputer.Utils;
@@ -16,13 +15,10 @@ namespace ButHowDoItComputer.Tests
             var sut = new Inverter(new Not(), byteFactory);
             var input = byteFactory.Create(255);
             var expectedOutput = byteFactory.Create(0);
-            
+
             var result = sut.Invert(input);
 
-            for (var i = 0; i < expectedOutput.Count; i++)
-            {
-                Assert.AreEqual(expectedOutput[i], result[i]);
-            }
+            for (var i = 0; i < expectedOutput.Count; i++) Assert.AreEqual(expectedOutput[i], result[i]);
         }
     }
 }

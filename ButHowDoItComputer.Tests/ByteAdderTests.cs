@@ -1,5 +1,4 @@
 using System.Linq;
-using ButHowDoItComputer.DataTypes;
 using ButHowDoItComputer.DataTypes.Factories;
 using ButHowDoItComputer.Gates;
 using ButHowDoItComputer.Utils;
@@ -10,10 +9,6 @@ namespace ButHowDoItComputer.Tests
     [TestFixture]
     public class ByteAdderTests
     {
-        private ByteFactory _byteFactory;
-        private ByteAdder _sut;
-        private Base10Converter _b10Converter;
-
         [SetUp]
         public void Setup()
         {
@@ -21,7 +16,20 @@ namespace ButHowDoItComputer.Tests
             _byteFactory = new ByteFactory(_b10Converter);
             _sut = new ByteAdder(Create(), _byteFactory);
         }
-        
+
+        private ByteFactory _byteFactory;
+        private ByteAdder _sut;
+        private Base10Converter _b10Converter;
+
+        private static BitAdder Create()
+        {
+            var and = new And();
+            var not = new Not();
+            var nAnd = new NAnd(not, and);
+            var or = new Or(not, nAnd);
+            return new BitAdder(new XOr(not, nAnd), or, and);
+        }
+
         [Test]
         public void CanAddTwoNumbers()
         {
@@ -31,11 +39,8 @@ namespace ButHowDoItComputer.Tests
 
             var (sum, carry) = _sut.Add(a, b, false);
 
-            for (var i = 0; i < expected.Count; i++)
-            {
-                Assert.AreEqual(expected[i], sum[i]);
-            }
-            
+            for (var i = 0; i < expected.Count; i++) Assert.AreEqual(expected[i], sum[i]);
+
             Assert.IsFalse(carry);
         }
 
@@ -46,18 +51,9 @@ namespace ButHowDoItComputer.Tests
             var b = _byteFactory.Create(255);
 
             var (sum, carry) = _sut.Add(a, b, true);
-            
+
             Assert.IsTrue(carry);
             Assert.IsTrue(sum.All(s => s));
-        }
-
-        private static BitAdder Create()
-        {
-            var and = new And();
-            var not = new Not();
-            var nAnd = new NAnd(not, and);
-            var or = new Or(not, nAnd);
-            return new BitAdder(new XOr(not, nAnd), or, and);
         }
     }
 }

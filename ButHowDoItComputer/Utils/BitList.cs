@@ -1,8 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
-using ButHowDoItComputer.DataTypes.Factories;
-using ButHowDoItComputer.DataTypes.Interfaces;
-using ButHowDoItComputer.Gates;
 
 namespace ButHowDoItComputer.Utils
 {
@@ -27,6 +23,5 @@ namespace ButHowDoItComputer.Utils
             var converter = new Base10Converter();
             return converter.ToInt(list) > value;
         }
-
     }
 }

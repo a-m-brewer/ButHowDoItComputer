@@ -1,14 +1,12 @@
-using System.Collections.Generic;
 using System.Linq;
-using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Gates.Interfaces;
 
 namespace ButHowDoItComputer.Gates
 {
     public class Or : IOr
     {
-        private readonly INot _not;
         private readonly INAnd _nAnd;
+        private readonly INot _not;
 
         public Or(INot not, INAnd nAnd)
         {

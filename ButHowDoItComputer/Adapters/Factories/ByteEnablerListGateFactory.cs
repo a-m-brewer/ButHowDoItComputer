@@ -1,5 +1,4 @@
 ﻿using ButHowDoItComputer.Adapters.Interfaces;
-using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Gates.Interfaces;
 
 namespace ButHowDoItComputer.Adapters.Factories

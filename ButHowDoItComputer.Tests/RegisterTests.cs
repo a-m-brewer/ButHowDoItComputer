@@ -12,23 +12,23 @@ namespace ButHowDoItComputer.Tests
     [TestFixture]
     public class RegisterTests
     {
+        [SetUp]
+        public void Setup()
+        {
+            _byteFactory = new ByteFactory(new Base10Converter());
+            _and = new And();
+            _memoryGateFactory = new MemoryGateFactory(new NAnd(new Not(), _and));
+            _byteMemoryGate = new ByteMemoryGate(_memoryGateFactory, _byteFactory);
+            _byteEnabler = new ByteEnabler(_and, _byteFactory);
+            _sut = new ByteRegister(_byteMemoryGate, _byteEnabler, _byteFactory);
+        }
+
         private ByteFactory _byteFactory;
         private MemoryGateFactory _memoryGateFactory;
         private ByteMemoryGate _byteMemoryGate;
         private And _and;
         private ByteEnabler _byteEnabler;
         private ByteRegister _sut;
-
-        [SetUp]
-        public void Setup()
-        {
-            _byteFactory = new ByteFactory(new Base10Converter());
-            _and = new And();
-            _memoryGateFactory = new MemoryGateFactory(new NAnd(new Not(), _and)); 
-            _byteMemoryGate = new ByteMemoryGate(_memoryGateFactory, _byteFactory);
-            _byteEnabler = new ByteEnabler(_and, _byteFactory);
-            _sut = new ByteRegister(_byteMemoryGate, _byteEnabler, _byteFactory);
-        }
 
         [Test]
         [TestCase(false, false, false)]

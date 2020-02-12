@@ -8,19 +8,8 @@ namespace ButHowDoItComputer.Parts
 {
     public class ByteRegister : IRegister<IByte>
     {
-        private readonly IByteMemoryGate _byteMemoryGate;
         private readonly IByteEnabler _byteEnabler;
-
-        public bool Enable { get; set; }
-        public bool Set { get; set; }
-
-        public IByte Input { get; set; }
-
-        public IByte Data { get; set; }
-        
-        public IByte Output { get; private set; }
-        public List<IBusInputSubscriber<IByte>> Subscribers { get; } =  new List<IBusInputSubscriber<IByte>>();
-        public string Name { get; set; }
+        private readonly IByteMemoryGate _byteMemoryGate;
 
         public ByteRegister(IByteMemoryGate byteMemoryGate, IByteEnabler byteEnabler, IByteFactory byteFactory)
         {
@@ -32,7 +21,18 @@ namespace ButHowDoItComputer.Parts
             Set = false;
             Enable = false;
         }
-        
+
+        public bool Enable { get; set; }
+        public bool Set { get; set; }
+
+        public IByte Input { get; set; }
+
+        public IByte Data { get; set; }
+
+        public IByte Output { get; private set; }
+        public List<IBusInputSubscriber<IByte>> Subscribers { get; } = new List<IBusInputSubscriber<IByte>>();
+        public string Name { get; set; }
+
         public IByte ApplyOnce(IByte input, bool enable = false)
         {
             Enable = enable;
@@ -64,10 +64,7 @@ namespace ButHowDoItComputer.Parts
         {
             Output = _byteEnabler.Apply(Data, Enable);
 
-            foreach (var sub in Subscribers)
-            {
-                sub.Input = Output;
-            }
+            foreach (var sub in Subscribers) sub.Input = Output;
         }
     }
 }

@@ -13,8 +13,9 @@ namespace ButHowDoItComputer.Gates
             _bitComparator = bitComparator;
             _byteFactory = byteFactory;
         }
-        
-        public (bool equal, bool ALarger, IByte output) AreEqual(IByte a, IByte b, bool aboveBitIsEqual, bool aboveBitALarger)
+
+        public (bool equal, bool ALarger, IByte output) AreEqual(IByte a, IByte b, bool aboveBitIsEqual,
+            bool aboveBitALarger)
         {
             var output = new bool[8];
             for (var i = a.Count - 1; i >= 0; i--)

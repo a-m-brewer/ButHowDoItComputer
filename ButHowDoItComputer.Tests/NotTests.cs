@@ -1,5 +1,3 @@
-using ButHowDoItComputer.DataTypes;
-using ButHowDoItComputer.DataTypes.Factories;
 using ButHowDoItComputer.Gates;
 using NUnit.Framework;
 

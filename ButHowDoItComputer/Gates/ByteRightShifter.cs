@@ -14,7 +14,7 @@ namespace ButHowDoItComputer.Gates
 
         public (IByte Ouput, bool ShiftOut) Shift(IByte input, bool shiftIn)
         {
-            var shift = new[] 
+            var shift = new[]
             {
                 input[1],
                 input[2],

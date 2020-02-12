@@ -1,6 +1,4 @@
-﻿using ButHowDoItComputer.DataTypes.Interfaces;
-
-namespace ButHowDoItComputer.Utils.Interfaces
+﻿namespace ButHowDoItComputer.Utils.Interfaces
 {
     public interface IEnablable
     {

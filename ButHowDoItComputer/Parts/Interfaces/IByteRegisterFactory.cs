@@ -5,6 +5,5 @@ namespace ButHowDoItComputer.Parts.Interfaces
 {
     public interface IByteRegisterFactory : IObjectCreationFactory<IRegister<IByte>>
     {
-        
     }
 }

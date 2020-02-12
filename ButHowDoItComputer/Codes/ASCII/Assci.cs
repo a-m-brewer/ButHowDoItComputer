@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 namespace ButHowDoItComputer.Codes.ASCII
@@ -134,7 +133,7 @@ namespace ButHowDoItComputer.Codes.ASCII
             {124, "|"},
             {125, "}"},
             {126, "~"},
-            {127, Delete},
+            {127, Delete}
         };
 
         public static string Null => "\0";

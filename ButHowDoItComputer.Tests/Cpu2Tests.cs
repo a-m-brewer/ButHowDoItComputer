@@ -1,7 +1,6 @@
 using ButHowDoItComputer.DataTypes;
 using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Gates;
-using ButHowDoItComputer.Gates.Factories;
 using ButHowDoItComputer.Parts;
 using NUnit.Framework;
 
@@ -9,9 +8,9 @@ namespace ButHowDoItComputer.Tests
 {
     public class Cpu2Tests
     {
-        private Cpu2 _sut;
-        private Stepper _stepper;
         private Clock _clock;
+        private Stepper _stepper;
+        private Cpu2 _sut;
         private IByte Instruction { get; set; }
         private Caez Caez { get; set; }
 
@@ -22,11 +21,12 @@ namespace ButHowDoItComputer.Tests
             _stepper = TestUtils.CreateStepper();
             Instruction = new Byte();
             Caez = new Caez();
-            _sut = new Cpu2(_clock, _stepper, Instruction, Caez, new And(), TestUtils.CreateOr(), TestUtils.CreateNot(), TestUtils.CreateDecoder(), TestUtils.CreateByteFactory());
+            _sut = new Cpu2(_clock, _stepper, Instruction, Caez, new And(), TestUtils.CreateOr(), TestUtils.CreateNot(),
+                TestUtils.CreateDecoder(), TestUtils.CreateByteFactory());
         }
 
         // STEP 1
-        
+
         // ENABLE
 
         [Test]
@@ -35,37 +35,37 @@ namespace ButHowDoItComputer.Tests
             var result = _sut.Step();
             Assert.IsTrue(result.ClockOutput.ClkE);
         }
-        
+
         [Test]
         public void AfterOneStepStepperIsOnStep1()
         {
             var result = _sut.Step();
             Assert.IsTrue(result.StepperOutput[0]);
         }
-        
+
         [Test]
         public void DuringStep1EnableBus1SetIsUpdatedToTrue()
         {
             var result = _sut.Step();
             Assert.IsTrue(result.Bus1);
         }
-        
+
         [Test]
         public void DuringStep1EnableIarEnableIsTrue()
         {
             var result = _sut.Step();
             Assert.IsTrue(result.Iar.Enable);
         }
-        
+
         // Sets
-        
+
         [Test]
         public void AfterOneSetStepEnableIsOn()
         {
             var result = Step(2);
             Assert.IsTrue(result.ClockOutput.ClkS);
         }
-        
+
         [Test]
         public void AfterOneSetStepStepperIsOnStep1()
         {
@@ -86,11 +86,11 @@ namespace ButHowDoItComputer.Tests
             var result = Step(2);
             Assert.IsTrue(result.Acc.Set);
         }
-        
+
         // Step 2
-        
+
         // Enables
-        
+
         [Test]
         public void AfterTwoStepEnableIsOn()
         {
@@ -98,7 +98,7 @@ namespace ButHowDoItComputer.Tests
             var result = Step(1);
             Assert.IsTrue(result.ClockOutput.ClkE);
         }
-        
+
         [Test]
         public void AfterTwoStepStepperIsOnStep2()
         {
@@ -114,9 +114,9 @@ namespace ButHowDoItComputer.Tests
             var result = Step(1);
             Assert.IsTrue(result.Ram.Enable);
         }
-        
+
         // Sets
-        
+
         [Test]
         public void AfterTwoStepSetIsOn()
         {
@@ -124,7 +124,7 @@ namespace ButHowDoItComputer.Tests
             var result = Step(2);
             Assert.IsTrue(result.ClockOutput.ClkS);
         }
-        
+
         [Test]
         public void AfterTwoStepSetStepperIsOnStep2()
         {
@@ -140,11 +140,11 @@ namespace ButHowDoItComputer.Tests
             var result = Step(2);
             Assert.IsTrue(result.Ir.Set);
         }
-        
+
         // Step 3
-        
+
         // Enables
-        
+
         [Test]
         public void AfterThreeStepEnableIsOn()
         {
@@ -152,7 +152,7 @@ namespace ButHowDoItComputer.Tests
             var result = Step(1);
             Assert.IsTrue(result.ClockOutput.ClkE);
         }
-        
+
         [Test]
         public void AfterThreeStepEnableStepperIsOnStep3()
         {
@@ -168,9 +168,9 @@ namespace ButHowDoItComputer.Tests
             var result = Step(1);
             Assert.IsTrue(result.Acc.Enable);
         }
-        
+
         // Sets
-        
+
         [Test]
         public void AfterThreeStepSetIsOn()
         {
@@ -178,7 +178,7 @@ namespace ButHowDoItComputer.Tests
             var result = Step(2);
             Assert.IsTrue(result.ClockOutput.ClkS);
         }
-        
+
         [Test]
         public void AfterThreeStepSetStepperIsOnStep3()
         {
@@ -194,11 +194,11 @@ namespace ButHowDoItComputer.Tests
             var result = Step(2);
             Assert.IsTrue(result.Iar.Set);
         }
-        
+
         // Step 4
-        
+
         // Enable
-        
+
         [Test]
         public void AfterFourStepEnableIsOn()
         {
@@ -206,7 +206,7 @@ namespace ButHowDoItComputer.Tests
             var result = Step(1);
             Assert.IsTrue(result.ClockOutput.ClkE);
         }
-        
+
         [Test]
         public void AfterFourStepEnableStepperIsOnStep4()
         {
@@ -225,7 +225,7 @@ namespace ButHowDoItComputer.Tests
             var result = Step(1);
             Assert.AreEqual(aluFlag, result.RegB.Enable);
         }
-        
+
         [Test]
         [TestCase(false, false)]
         [TestCase(false, true)]
@@ -235,10 +235,10 @@ namespace ButHowDoItComputer.Tests
         {
             Instruction[0] = aluFlag;
             Instruction[3] = decoder;
-            
+
             StepFull(3);
             var result = Step(1);
-            
+
             Assert.AreEqual(!aluFlag, result.RegA.Enable);
         }
 
@@ -246,13 +246,13 @@ namespace ButHowDoItComputer.Tests
         public void AfterStep4EnableDataInstructionBus1IsSet()
         {
             Instruction[2] = true;
-            
+
             StepFull(3);
             var result = Step(1);
-            
+
             Assert.IsTrue(result.Bus1);
         }
-        
+
         [Test]
         public void AfterStep4EnableDataInstructionIarIsTrue()
         {
@@ -260,7 +260,7 @@ namespace ButHowDoItComputer.Tests
 
             StepFull(3);
             var result = Step(1);
-            
+
             Assert.IsTrue(result.Iar.Enable);
         }
 
@@ -269,10 +269,10 @@ namespace ButHowDoItComputer.Tests
         {
             Instruction[2] = true;
             Instruction[3] = true;
-            
+
             StepFull(3);
             var result = Step(1);
-            
+
             Assert.IsTrue(result.RegB.Enable);
         }
 
@@ -280,10 +280,10 @@ namespace ButHowDoItComputer.Tests
         public void AfterStep4EnableJumpIarIsTrue()
         {
             Instruction[1] = true;
-            
+
             StepFull(3);
             var result = Step(1);
-            
+
             Assert.IsTrue(result.Iar.Enable);
         }
 
@@ -292,27 +292,27 @@ namespace ButHowDoItComputer.Tests
         {
             Instruction[1] = true;
             Instruction[3] = true;
-            
+
             StepFull(3);
             var result = Step(1);
-            
+
             Assert.IsTrue(result.Bus1);
         }
-        
+
         [Test]
         public void AfterStep4EnableJumpIfIarIsTrue()
         {
             Instruction[1] = true;
             Instruction[3] = true;
-            
+
             StepFull(3);
             var result = Step(1);
-            
+
             Assert.IsTrue(result.Iar.Enable);
         }
-        
+
         // Sets
-        
+
         [Test]
         [TestCase(true)]
         [TestCase(false)]
@@ -323,7 +323,7 @@ namespace ButHowDoItComputer.Tests
             var result = Step(2);
             Assert.AreEqual(aluFlag, result.Tmp.Set);
         }
-        
+
         [Test]
         [TestCase(false, false)]
         [TestCase(false, true)]
@@ -333,13 +333,13 @@ namespace ButHowDoItComputer.Tests
         {
             Instruction[0] = aluFlag;
             Instruction[3] = decoder;
-            
+
             StepFull(3);
             var result = Step(2);
-            
+
             Assert.AreEqual(!aluFlag, result.Mar.Set);
         }
-        
+
         [Test]
         public void AfterStep4SetDataInstructionMarIsTrue()
         {
@@ -347,10 +347,10 @@ namespace ButHowDoItComputer.Tests
 
             StepFull(3);
             var result = Step(2);
-            
+
             Assert.IsTrue(result.Mar.Set);
         }
-        
+
         [Test]
         public void AfterStep4SetDataInstructionAccIsTrue()
         {
@@ -358,61 +358,61 @@ namespace ButHowDoItComputer.Tests
 
             StepFull(3);
             var result = Step(2);
-            
+
             Assert.IsTrue(result.Acc.Set);
         }
-        
+
         [Test]
         public void AfterStep4SetJumpRegisterInstructionIarIsTrue()
         {
             Instruction[2] = true;
             Instruction[3] = true;
-            
+
             StepFull(3);
             var result = Step(2);
-            
+
             Assert.IsTrue(result.Iar.Set);
         }
-        
+
         [Test]
         public void AfterStep4SetJumpMarIsTrue()
         {
             Instruction[1] = true;
-            
+
             StepFull(3);
             var result = Step(2);
-            
+
             Assert.IsTrue(result.Mar.Set);
         }
-        
+
         [Test]
         public void AfterStep4SetJumpIfMarIsTrue()
         {
             Instruction[1] = true;
             Instruction[3] = true;
-            
+
             StepFull(3);
             var result = Step(2);
-            
+
             Assert.IsTrue(result.Mar.Set);
         }
-        
+
         [Test]
         public void AfterStep4SetJumpIfAccIsTrue()
         {
             Instruction[1] = true;
             Instruction[3] = true;
-            
+
             StepFull(3);
             var result = Step(2);
-            
+
             Assert.IsTrue(result.Acc.Set);
         }
 
         // Step 5
-        
+
         // enable
-        
+
         [Test]
         [TestCase(true)]
         [TestCase(false)]
@@ -423,7 +423,7 @@ namespace ButHowDoItComputer.Tests
             var result = Step(1);
             Assert.AreEqual(aluFlag, result.RegA.Enable);
         }
-        
+
         [Test]
         [TestCase(false, false, true, false)]
         [TestCase(false, true, false, true)]
@@ -433,14 +433,14 @@ namespace ButHowDoItComputer.Tests
         {
             Instruction[0] = aluFlag;
             Instruction[3] = decoder;
-            
+
             StepFull(4);
             var result = Step(1);
 
             Assert.AreEqual(ramSet, result.Ram.Enable);
             Assert.AreEqual(rbSet, result.RegB.Enable);
         }
-        
+
         [Test]
         public void AfterStep5EnableDataInstructionRamIsTrue()
         {
@@ -448,18 +448,18 @@ namespace ButHowDoItComputer.Tests
 
             StepFull(4);
             var result = Step(1);
-            
+
             Assert.IsTrue(result.Ram.Enable);
         }
-        
+
         [Test]
         public void AfterStep5EnableJumpRamIsTrue()
         {
             Instruction[1] = true;
-            
+
             StepFull(4);
             var result = Step(1);
-            
+
             Assert.IsTrue(result.Ram.Enable);
         }
 
@@ -468,15 +468,15 @@ namespace ButHowDoItComputer.Tests
         {
             Instruction[1] = true;
             Instruction[3] = true;
-            
+
             StepFull(4);
             var result = Step(1);
-            
+
             Assert.IsTrue(result.Acc.Enable);
         }
-        
+
         // set
-        
+
         [Test]
         [TestCase(true)]
         [TestCase(false)]
@@ -487,7 +487,7 @@ namespace ButHowDoItComputer.Tests
             var result = Step(2);
             Assert.AreEqual(aluFlag, result.Acc.Set);
         }
-        
+
         [Test]
         [TestCase(false, false, false, true)]
         [TestCase(false, true, true, false)]
@@ -497,14 +497,14 @@ namespace ButHowDoItComputer.Tests
         {
             Instruction[0] = aluFlag;
             Instruction[3] = decoder;
-            
+
             StepFull(4);
             var result = Step(2);
 
             Assert.AreEqual(ramSet, result.Ram.Set);
             Assert.AreEqual(rbSet, result.RegB.Set);
         }
-        
+
         [Test]
         public void AfterStep5SetDataInstructionRegBIsTrue()
         {
@@ -512,33 +512,33 @@ namespace ButHowDoItComputer.Tests
 
             StepFull(4);
             var result = Step(2);
-            
+
             Assert.IsTrue(result.RegB.Set);
         }
-        
+
         [Test]
         public void AfterStep5SetJumpIarIsTrue()
         {
             Instruction[1] = true;
-            
+
             StepFull(4);
             var result = Step(2);
-            
+
             Assert.IsTrue(result.Iar.Set);
         }
-        
+
         [Test]
         public void AfterStep5JumpIfSetIarIsTrue()
         {
             Instruction[1] = true;
             Instruction[3] = true;
-            
+
             StepFull(4);
             var result = Step(2);
-            
+
             Assert.IsTrue(result.Iar.Set);
         }
-        
+
         // ALU Op
 
         [Test]
@@ -558,23 +558,24 @@ namespace ButHowDoItComputer.Tests
         [TestCase(true, true, false, true, true, false, true)]
         [TestCase(true, true, true, false, true, true, false)]
         [TestCase(true, true, true, true, true, true, true)]
-        public void CorrectOpCodeIsSetOnStep5(bool aluFlag, bool ir1, bool ir2, bool ir3, bool expected1, bool expected2, bool expected3)
+        public void CorrectOpCodeIsSetOnStep5(bool aluFlag, bool ir1, bool ir2, bool ir3, bool expected1,
+            bool expected2, bool expected3)
         {
             Instruction[0] = aluFlag;
             Instruction[1] = ir1;
             Instruction[2] = ir2;
             Instruction[3] = ir3;
-            
+
             StepFull(4);
             var result = Step(1);
-            
+
             Assert.AreEqual(expected1, result.Op.One);
             Assert.AreEqual(expected2, result.Op.Two);
             Assert.AreEqual(expected3, result.Op.Three);
         }
-        
+
         // Step 6
-        
+
         // enable
 
         [Test]
@@ -601,12 +602,12 @@ namespace ButHowDoItComputer.Tests
             Instruction[1] = ir1;
             Instruction[2] = ir2;
             Instruction[3] = ir3;
-            
+
             StepFull(5);
             var result = Step(1);
             Assert.AreEqual(expected, result.Acc.Enable);
         }
-        
+
         [Test]
         public void AfterStep6EnableDataInstructionAccIsTrue()
         {
@@ -614,7 +615,7 @@ namespace ButHowDoItComputer.Tests
 
             StepFull(5);
             var result = Step(1);
-            
+
             Assert.IsTrue(result.Acc.Enable);
         }
 
@@ -623,22 +624,20 @@ namespace ButHowDoItComputer.Tests
         [TestCase(false, false, false, false, false, false, false, true, false)]
         [TestCase(false, false, false, true, false, false, false, false, false)]
         [TestCase(false, false, false, true, false, false, false, true, true)]
-        
         [TestCase(false, false, false, false, false, false, false, false, false)]
         [TestCase(false, false, false, false, false, false, true, false, false)]
         [TestCase(false, false, true, false, false, false, false, false, false)]
         [TestCase(false, false, true, false, false, false, true, false, true)]
-        
         [TestCase(false, false, false, false, false, false, false, false, false)]
         [TestCase(false, false, false, false, false, true, false, false, false)]
         [TestCase(false, true, false, false, false, false, false, false, false)]
         [TestCase(false, true, false, false, false, true, false, false, true)]
-        
         [TestCase(false, false, false, false, false, false, false, false, false)]
         [TestCase(false, false, false, false, true, false, false, false, false)]
         [TestCase(true, false, false, false, false, false, false, false, false)]
         [TestCase(true, false, false, false, true, false, false, false, true)]
-        public void AfterStep6EnableJumpIfRamIsTrue(bool c, bool a, bool e, bool z, bool cCheck, bool aCheck, bool eCheck, bool zCheck, bool expected)
+        public void AfterStep6EnableJumpIfRamIsTrue(bool c, bool a, bool e, bool z, bool cCheck, bool aCheck,
+            bool eCheck, bool zCheck, bool expected)
         {
             Instruction[1] = true;
             Instruction[3] = true;
@@ -652,15 +651,15 @@ namespace ButHowDoItComputer.Tests
             Caez.A = a;
             Caez.E = e;
             Caez.Z = z;
-            
+
             StepFull(5);
             var result = Step(1);
-            
+
             Assert.AreEqual(expected, result.Ram.Enable);
         }
-        
+
         // set
-        
+
         [Test]
         [TestCase(false, false, false, false, false)]
         [TestCase(false, false, false, true, false)]
@@ -684,12 +683,12 @@ namespace ButHowDoItComputer.Tests
             Instruction[1] = ir1;
             Instruction[2] = ir2;
             Instruction[3] = ir3;
-            
+
             StepFull(5);
             var result = Step(2);
             Assert.AreEqual(expected, result.RegB.Set);
         }
-        
+
         [Test]
         public void AfterStep6SetDataInstructionIarIsTrue()
         {
@@ -697,31 +696,29 @@ namespace ButHowDoItComputer.Tests
 
             StepFull(5);
             var result = Step(2);
-            
+
             Assert.IsTrue(result.Iar.Set);
         }
-        
+
         [Test]
         [TestCase(false, false, false, false, false, false, false, false, false)]
         [TestCase(false, false, false, false, false, false, false, true, false)]
         [TestCase(false, false, false, true, false, false, false, false, false)]
         [TestCase(false, false, false, true, false, false, false, true, true)]
-        
         [TestCase(false, false, false, false, false, false, false, false, false)]
         [TestCase(false, false, false, false, false, false, true, false, false)]
         [TestCase(false, false, true, false, false, false, false, false, false)]
         [TestCase(false, false, true, false, false, false, true, false, true)]
-        
         [TestCase(false, false, false, false, false, false, false, false, false)]
         [TestCase(false, false, false, false, false, true, false, false, false)]
         [TestCase(false, true, false, false, false, false, false, false, false)]
         [TestCase(false, true, false, false, false, true, false, false, true)]
-        
         [TestCase(false, false, false, false, false, false, false, false, false)]
         [TestCase(false, false, false, false, true, false, false, false, false)]
         [TestCase(true, false, false, false, false, false, false, false, false)]
         [TestCase(true, false, false, false, true, false, false, false, true)]
-        public void AfterStep6SetJumpIfIarIsTrue(bool c, bool a, bool e, bool z, bool cCheck, bool aCheck, bool eCheck, bool zCheck, bool expected)
+        public void AfterStep6SetJumpIfIarIsTrue(bool c, bool a, bool e, bool z, bool cCheck, bool aCheck, bool eCheck,
+            bool zCheck, bool expected)
         {
             Instruction[1] = true;
             Instruction[3] = true;
@@ -735,15 +732,15 @@ namespace ButHowDoItComputer.Tests
             Caez.A = a;
             Caez.E = e;
             Caez.Z = z;
-            
+
             StepFull(5);
             var result = Step(2);
-            
+
             Assert.AreEqual(expected, result.Iar.Set);
         }
 
         // Other
-        
+
         // Reg select
 
         [Test]
@@ -763,30 +760,28 @@ namespace ButHowDoItComputer.Tests
         [TestCase(true, true, false, true, 3, 1)]
         [TestCase(true, true, true, false, 3, 2)]
         [TestCase(true, true, true, true, 3, 3)]
-        public void CanUpdateEnableFlagForGeneralPurposeRegisters(bool ir4, bool ir5, bool ir6, bool ir7, int eReg, int sReg)
+        public void CanUpdateEnableFlagForGeneralPurposeRegisters(bool ir4, bool ir5, bool ir6, bool ir7, int eReg,
+            int sReg)
         {
             Instruction[4] = ir4;
             Instruction[5] = ir5;
 
             Instruction[6] = ir6;
             Instruction[7] = ir7;
-            
+
             var result = Step(1);
             _sut.UpdateGeneralPurposeRegisters(true, true, true);
             Assert.IsTrue(result.GeneralPurposeRegisters[eReg].Enable);
-            
+
             result = Step(1);
             _sut.UpdateGeneralPurposeRegisters(true, true, true);
             Assert.IsTrue(result.GeneralPurposeRegisters[sReg].Set);
         }
-        
+
         private PinStates Step(int times)
         {
             var ps = new PinStates();
-            for (var i = 0; i < times; i++)
-            {
-                ps = _sut.Step();
-            }
+            for (var i = 0; i < times; i++) ps = _sut.Step();
 
             return ps;
         }

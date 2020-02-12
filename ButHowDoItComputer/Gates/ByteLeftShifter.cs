@@ -5,7 +5,7 @@ namespace ButHowDoItComputer.Gates
 {
     public class ByteLeftShifter : ILeftByteShifter
     {
-        private IByteFactory _byteFactory;
+        private readonly IByteFactory _byteFactory;
 
         public ByteLeftShifter(IByteFactory byteFactory)
         {

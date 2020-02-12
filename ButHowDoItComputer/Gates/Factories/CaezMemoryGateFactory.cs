@@ -10,7 +10,7 @@ namespace ButHowDoItComputer.Gates.Factories
         {
             _memoryGateFactory = memoryGateFactory;
         }
-        
+
         public ICaezMemoryGate Create()
         {
             return new CaezMemoryGate(_memoryGateFactory);

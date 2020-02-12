@@ -30,7 +30,7 @@ namespace ButHowDoItComputer.Components.Factories
                 new ByteRightShifter(byteFactory),
                 new ByteLeftShifter(byteFactory),
                 or,
-                new Wire(byteFactory),
+                new AluWire(byteFactory),
                 new ByteComparator(new BitComparator(xOr, and, or, not), byteFactory));
         }
     }

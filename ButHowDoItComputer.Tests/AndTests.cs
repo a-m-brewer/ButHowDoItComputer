@@ -1,7 +1,3 @@
-using System.Collections.Generic;
-using ButHowDoItComputer.DataTypes;
-using ButHowDoItComputer.DataTypes.Factories;
-using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Gates;
 using NUnit.Framework;
 
@@ -10,14 +6,16 @@ namespace ButHowDoItComputer.Tests
     [TestFixture]
     public class AndTests
     {
-        private static readonly object[] AndData = {
+        private static readonly object[] AndData =
+        {
             new object[] {true, new[] {true, true}},
             new object[] {false, new[] {true, false}},
             new object[] {false, new[] {false, false}}
         };
 
 
-        [Test, TestCaseSource(nameof(AndData))]
+        [Test]
+        [TestCaseSource(nameof(AndData))]
         public void ReturnsCorrectNewBit(bool expected, bool[] bits)
         {
             var sut = new And();

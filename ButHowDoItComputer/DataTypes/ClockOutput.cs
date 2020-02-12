@@ -1,6 +1,4 @@
-﻿using ButHowDoItComputer.DataTypes.Interfaces;
-
-namespace ButHowDoItComputer.DataTypes
+﻿namespace ButHowDoItComputer.DataTypes
 {
     public class ClockOutput
     {

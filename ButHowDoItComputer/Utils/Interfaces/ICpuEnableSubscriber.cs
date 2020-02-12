@@ -2,6 +2,5 @@
 {
     public interface ICpuEnableSubscriber : IApplicable, IEnablable
     {
-        
     }
 }

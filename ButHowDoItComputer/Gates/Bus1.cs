@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Gates.Interfaces;
-using System.Linq;
 using ButHowDoItComputer.Utils.Interfaces;
 
 namespace ButHowDoItComputer.Gates
@@ -9,9 +9,9 @@ namespace ButHowDoItComputer.Gates
     public class Bus1 : IBus1
     {
         private readonly IAnd _and;
+        private readonly IByteFactory _byteFactory;
         private readonly INot _not;
         private readonly IOr _or;
-        private readonly IByteFactory _byteFactory;
 
         public Bus1(IAnd and, INot not, IOr or, IByteFactory byteFactory)
         {
@@ -40,10 +40,7 @@ namespace ButHowDoItComputer.Gates
         public void Apply()
         {
             var result = Apply(Input, Set);
-            foreach (var subscriber in BusSubscribers)
-            {
-                subscriber.Input = result;
-            }
+            foreach (var subscriber in BusSubscribers) subscriber.Input = result;
         }
 
         public IByte Input { get; set; }

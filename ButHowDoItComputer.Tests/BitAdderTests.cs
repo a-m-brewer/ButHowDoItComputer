@@ -1,5 +1,3 @@
-using ButHowDoItComputer.DataTypes;
-using ButHowDoItComputer.DataTypes.Factories;
 using ButHowDoItComputer.Gates;
 using NUnit.Framework;
 
@@ -8,6 +6,15 @@ namespace ButHowDoItComputer.Tests
     [TestFixture]
     public class BitAdderTests
     {
+        public BitAdder Create()
+        {
+            var and = new And();
+            var not = new Not();
+            var nAnd = new NAnd(not, and);
+            var or = new Or(not, nAnd);
+            return new BitAdder(new XOr(not, nAnd), or, and);
+        }
+
         [Test]
         [TestCase(false, false, false, false, false)]
         [TestCase(false, false, true, false, true)]
@@ -22,18 +29,9 @@ namespace ButHowDoItComputer.Tests
             var sut = Create();
 
             var (result, carry) = sut.Add(a, b, carryIn);
-            
+
             Assert.AreEqual(sum, result);
             Assert.AreEqual(carryOut, carry);
-        }
-
-        public BitAdder Create()
-        {
-            var and = new And();
-            var not = new Not();
-            var nAnd = new NAnd(not, and);
-            var or = new Or(not, nAnd);
-            return new BitAdder(new XOr(not, nAnd), or, and);
         }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using ButHowDoItComputer.DataTypes;
-using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Gates.Interfaces;
 using ButHowDoItComputer.Parts.Interfaces;
 
@@ -9,10 +8,10 @@ namespace ButHowDoItComputer.Parts
     {
         private readonly IAnd _and;
         private readonly IOr _or;
+        private readonly IClockState _clk;
 
-        private bool _clkCycledLast = false;
-        private IClockState _clk;
-        private IClockState _clkD;
+        private bool _clkCycledLast;
+        private readonly IClockState _clkD;
 
         public Clock(IClockStateFactory clockStateFactory, IAnd and, IOr or)
         {
@@ -37,7 +36,7 @@ namespace ButHowDoItComputer.Parts
             ApplyClkAndClkD();
             ApplyCycleE();
             ApplyCycleS();
-            
+
             return new ClockOutput
             {
                 Clk = Clk,
@@ -45,30 +44,6 @@ namespace ButHowDoItComputer.Parts
                 ClkE = ClkE,
                 ClkS = ClkS
             };
-        }
-
-        private void ApplyClkAndClkD()
-        {
-            if (_clkCycledLast)
-            {
-                _clkD.Cycle();
-            }
-            else
-            {
-                _clk.Cycle();
-            }
-
-            _clkCycledLast = !_clkCycledLast;
-        }
-
-        private void ApplyCycleE()
-        {
-            ClkE = _or.Apply(Clk, ClkD);
-        }
-
-        private void ApplyCycleS()
-        {
-            ClkS = _and.Apply(Clk, ClkD);
         }
 
         public void Apply()
@@ -84,8 +59,28 @@ namespace ButHowDoItComputer.Parts
 
         public bool Enable
         {
-            get => ClkE; 
+            get => ClkE;
             set => ClkE = value;
+        }
+
+        private void ApplyClkAndClkD()
+        {
+            if (_clkCycledLast)
+                _clkD.Cycle();
+            else
+                _clk.Cycle();
+
+            _clkCycledLast = !_clkCycledLast;
+        }
+
+        private void ApplyCycleE()
+        {
+            ClkE = _or.Apply(Clk, ClkD);
+        }
+
+        private void ApplyCycleS()
+        {
+            ClkS = _and.Apply(Clk, ClkD);
         }
     }
 }

@@ -1,5 +1,3 @@
-using ButHowDoItComputer.DataTypes;
-using ButHowDoItComputer.DataTypes.Factories;
 using ButHowDoItComputer.Gates;
 using NUnit.Framework;
 
@@ -8,13 +6,6 @@ namespace ButHowDoItComputer.Tests
     [TestFixture]
     public class BitComparatorTests
     {
-        private BitComparator _bitComparator;
-        private And _and;
-        private Not _not;
-        private NAnd _nAnd;
-        private Or _or;
-        private XOr _xOr;
-
         [SetUp]
         public void Setup()
         {
@@ -26,6 +17,13 @@ namespace ButHowDoItComputer.Tests
             _bitComparator = new BitComparator(_xOr, _and, _or, _not);
         }
 
+        private BitComparator _bitComparator;
+        private And _and;
+        private Not _not;
+        private NAnd _nAnd;
+        private Or _or;
+        private XOr _xOr;
+
         [Test]
         [TestCase(false, false, true, false, false)]
         [TestCase(false, true, false, false, true)]
@@ -34,7 +32,7 @@ namespace ButHowDoItComputer.Tests
         public void CanCompareTwoBits(bool a, bool b, bool equal, bool aLarger, bool output)
         {
             var (eq, lg, op) = _bitComparator.AreEqual(a, b, true, false);
-            
+
             Assert.AreEqual(equal, eq);
             Assert.AreEqual(aLarger, lg);
             Assert.AreEqual(output, op);
@@ -44,7 +42,7 @@ namespace ButHowDoItComputer.Tests
         public void WillReportALargerIfItIsPassedIn()
         {
             var (eq, lg, op) = _bitComparator.AreEqual(false, false, false, true);
-            
+
             Assert.AreEqual(false, eq);
             Assert.AreEqual(true, lg);
             Assert.AreEqual(false, op);

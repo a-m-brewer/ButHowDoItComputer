@@ -7,15 +7,15 @@ namespace ButHowDoItComputer.Tests
     [TestFixture]
     public class Bus1Tests
     {
-        private Bus1 _sut;
-        private ByteToBase10Converter _base10ToByte;
-
         [SetUp]
         public void Setup()
         {
             _sut = TestUtils.CreateBus1();
             _base10ToByte = TestUtils.CreateByteToBase10Converter();
         }
+
+        private Bus1 _sut;
+        private ByteToBase10Converter _base10ToByte;
 
         [Test]
         [TestCase(true)]
@@ -28,10 +28,7 @@ namespace ButHowDoItComputer.Tests
 
             var result = _sut.Apply(input, bus1);
 
-            for (var i = 0; i < expected.Count; i++)
-            {
-                Assert.AreEqual(expected[i], result[i]);
-            }
+            for (var i = 0; i < expected.Count; i++) Assert.AreEqual(expected[i], result[i]);
         }
     }
 }

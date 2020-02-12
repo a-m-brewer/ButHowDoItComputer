@@ -1,7 +1,5 @@
-using System.Collections.Generic;
 using System.Linq;
 using ButHowDoItComputer.DataTypes.Factories;
-using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Gates;
 using ButHowDoItComputer.Utils;
 using NUnit.Framework;
@@ -18,7 +16,7 @@ namespace ButHowDoItComputer.Tests
                 new XOr(new Not(), new NAnd(new Not(), new And())),
                 byteFactory);
 
-            var result = sut.Apply(new [] {byteFactory.Create(255), byteFactory.Create(255)});
+            var result = sut.Apply(byteFactory.Create(255), byteFactory.Create(255));
 
             Assert.IsFalse(result.Any(a => a));
         }

@@ -1,5 +1,4 @@
 using ButHowDoItComputer.Components;
-using ButHowDoItComputer.DataTypes;
 using ButHowDoItComputer.DataTypes.Factories;
 using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Gates;
@@ -31,7 +30,7 @@ namespace ButHowDoItComputer.Tests
             register.Input = b10ToByte.ToByte(input);
             return register;
         }
-        
+
         public static ByteRegister CreateRegister(this IByte input, bool set = true, bool enable = true)
         {
             var register = CreateRegister(set, enable);
@@ -100,8 +99,9 @@ namespace ButHowDoItComputer.Tests
                 new ByteRightShifter(CreateByteFactory()),
                 new ByteLeftShifter(CreateByteFactory()),
                 CreateOr(),
-                new Wire(CreateByteFactory()),
-                new ByteComparator(new BitComparator(CreateXOr(), CreateAnd(), CreateOr(), CreateNot()), CreateByteFactory()));
+                new AluWire(CreateByteFactory()),
+                new ByteComparator(new BitComparator(CreateXOr(), CreateAnd(), CreateOr(), CreateNot()),
+                    CreateByteFactory()));
         }
 
         public static Bus1 CreateBus1()
@@ -123,7 +123,7 @@ namespace ButHowDoItComputer.Tests
         {
             return new MemoryGateFactory(CreateNAnd());
         }
-        
+
         public static Stepper CreateStepper()
         {
             return new Stepper(CreateMemoryGateFactory(), CreateAnd(), CreateNot(), CreateOr());

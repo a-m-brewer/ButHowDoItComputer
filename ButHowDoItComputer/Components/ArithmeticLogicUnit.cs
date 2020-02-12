@@ -3,26 +3,25 @@ using ButHowDoItComputer.DataTypes;
 using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Gates.Interfaces;
 using ButHowDoItComputer.Parts.Interfaces;
-using ButHowDoItComputer.Utils;
 
 namespace ButHowDoItComputer.Components
 {
     public class ArithmeticLogicUnit : IArithmeticLogicUnit
     {
-        private readonly IByteXOr _byteXOr;
-        private readonly IByteOr _byteOr;
-        private readonly IByteAnd _byteAnd;
-        private readonly IInverter _inverter;
-        private readonly IByteAdder _byteAdder;
-        private readonly IByteEnabler _byteEnabler;
+        private readonly IAluWire _aluWire;
         private readonly IAnd _and;
-        private readonly IIsZeroGate _isZeroGate;
+        private readonly IByteAdder _byteAdder;
+        private readonly IByteAnd _byteAnd;
+        private readonly IByteComparator _byteComparator;
         private readonly IByteDecoder _byteDecoder;
-        private readonly IRightByteShifter _rightByteShifter;
+        private readonly IByteEnabler _byteEnabler;
+        private readonly IByteOr _byteOr;
+        private readonly IByteXOr _byteXOr;
+        private readonly IInverter _inverter;
+        private readonly IIsZeroGate _isZeroGate;
         private readonly ILeftByteShifter _leftByteShifter;
         private readonly IOr _or;
-        private readonly IWire _wire;
-        private readonly IByteComparator _byteComparator;
+        private readonly IRightByteShifter _rightByteShifter;
 
         public ArithmeticLogicUnit(
             IByteXOr byteXOr,
@@ -37,7 +36,7 @@ namespace ButHowDoItComputer.Components
             IRightByteShifter rightByteShifter,
             ILeftByteShifter leftByteShifter,
             IOr or,
-            IWire wire,
+            IAluWire aluWire,
             IByteComparator byteComparator)
         {
             _byteXOr = byteXOr;
@@ -52,7 +51,7 @@ namespace ButHowDoItComputer.Components
             _rightByteShifter = rightByteShifter;
             _leftByteShifter = leftByteShifter;
             _or = or;
-            _wire = wire;
+            _aluWire = aluWire;
             _byteComparator = byteComparator;
         }
 
@@ -83,7 +82,8 @@ namespace ButHowDoItComputer.Components
             var carryOutShiftLeft = _and.Apply(shiftLeft.ShiftOut, opDecoder[2]);
             var carryOut = _or.Apply(carryOutAdd, carryOutShiftRight, carryOutShiftLeft);
 
-            var output = _wire.Apply(enabledAdd, enabledShiftLeft, enabledShiftRight, enabledNot, enabledAnd, enabledOr, enabledXOr, enabledComparator);
+            var output = _aluWire.Apply(enabledAdd, enabledShiftLeft, enabledShiftRight, enabledNot, enabledAnd,
+                enabledOr, enabledXOr, enabledComparator);
             var zero = _isZeroGate.IsZero(output);
 
             return new AluOutput

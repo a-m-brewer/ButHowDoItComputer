@@ -7,15 +7,15 @@ namespace ButHowDoItComputer.Gates
 {
     public class ByteXOr : IByteXOr
     {
-        private readonly IXOr _xOr;
         private readonly IByteFactory _byteFactory;
+        private readonly IXOr _xOr;
 
         public ByteXOr(IXOr xOr, IByteFactory byteFactory)
         {
             _xOr = xOr;
             _byteFactory = byteFactory;
         }
-        
+
         public IByte Apply(params IByte[] input)
         {
             var groups = new List<List<bool>>();

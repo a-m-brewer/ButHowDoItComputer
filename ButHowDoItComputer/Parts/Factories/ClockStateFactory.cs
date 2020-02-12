@@ -1,5 +1,4 @@
-﻿using ButHowDoItComputer.DataTypes.Factories;
-using ButHowDoItComputer.Parts.Interfaces;
+﻿using ButHowDoItComputer.Parts.Interfaces;
 
 namespace ButHowDoItComputer.Parts.Factories
 {

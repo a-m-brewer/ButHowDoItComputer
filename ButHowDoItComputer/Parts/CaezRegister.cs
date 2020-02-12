@@ -1,17 +1,15 @@
 using System.Collections.Generic;
 using ButHowDoItComputer.DataTypes;
-using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Gates.Interfaces;
 using ButHowDoItComputer.Parts.Interfaces;
-using ButHowDoItComputer.Utils;
 using ButHowDoItComputer.Utils.Interfaces;
 
 namespace ButHowDoItComputer.Parts
 {
     public class CaezRegister : IRegister<Caez>
     {
-        private readonly ICaezMemoryGate _caezMemoryGate;
         private readonly ICaezEnabler _caezEnabler;
+        private readonly ICaezMemoryGate _caezMemoryGate;
 
         public CaezRegister(ICaezMemoryGate caezMemoryGate, ICaezEnabler caezEnabler)
         {
@@ -20,11 +18,11 @@ namespace ButHowDoItComputer.Parts
 
             Enable = false;
             Set = false;
-            Data = new Caez { C = false, A = false, E = false, Z = false};
-            Input = new Caez { C = false, A = false, E = false, Z = false};
-            Output = new Caez { C = false, A = false, E = false, Z = false};
+            Data = new Caez {C = false, A = false, E = false, Z = false};
+            Input = new Caez {C = false, A = false, E = false, Z = false};
+            Output = new Caez {C = false, A = false, E = false, Z = false};
         }
-        
+
         public void Apply()
         {
             ApplyPrivate(Input);
@@ -36,9 +34,9 @@ namespace ButHowDoItComputer.Parts
         public Caez Data { get; set; }
         public Caez Input { get; set; }
         public Caez Output { get; private set; }
-        
+
         public List<IBusInputSubscriber<Caez>> Subscribers { get; } = new List<IBusInputSubscriber<Caez>>();
-        
+
         public string Name { get; set; }
 
         public Caez ApplyOnce(Caez input, bool enable = false)
@@ -56,20 +54,17 @@ namespace ButHowDoItComputer.Parts
             ApplyOutput();
             return Output;
         }
-        
+
         private void ApplyPrivate(Caez input)
         {
             Data = _caezMemoryGate.Apply(input, Set);
         }
-        
+
         private void ApplyOutput()
         {
             Output = _caezEnabler.Apply(Data, Enable);
 
-            foreach (var subscriber in Subscribers)
-            {
-                subscriber.Input = Output;
-            }
+            foreach (var subscriber in Subscribers) subscriber.Input = Output;
         }
     }
 }

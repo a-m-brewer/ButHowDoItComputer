@@ -1,16 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Utils.Interfaces;
 
 namespace ButHowDoItComputer.DataTypes
 {
-    public class CpuSets: IEnumerable<ICpuSubscriberNotifier<bool>>
+    public class CpuSets : IEnumerable<ICpuSubscriberNotifier<bool>>
     {
         public ICpuSubscriberNotifier<bool> Mar { get; set; }
+
         // From what I can tell ACC is just a register to store the result of ALU pg. 91
         public ICpuSubscriberNotifier<bool> Acc { get; set; }
+
         public ICpuSubscriberNotifier<bool> Ram { get; set; }
+
         // From what I can tell this is just a register with enable on that sets bus1 pg. 91
         public ICpuSubscriberNotifier<bool> Tmp { get; set; }
         public ICpuSubscriberNotifier<bool> R0 { get; set; }
@@ -22,7 +24,7 @@ namespace ButHowDoItComputer.DataTypes
         public ICpuSubscriberNotifier<bool> Iar { get; set; }
         public ICpuSubscriberNotifier<bool> IoClk { get; set; }
         public ICpuSubscriberNotifier<bool> Flags { get; set; }
-        
+
         public IEnumerator<ICpuSubscriberNotifier<bool>> GetEnumerator()
         {
             yield return Mar;

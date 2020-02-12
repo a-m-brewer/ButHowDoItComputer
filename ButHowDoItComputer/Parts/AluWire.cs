@@ -1,15 +1,14 @@
-﻿using ButHowDoItComputer.DataTypes.Interfaces;
+﻿using System.Linq;
+using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Parts.Interfaces;
-using System.Linq;
 
 namespace ButHowDoItComputer.Parts
 {
-
-    public class Wire : IWire
+    public class AluWire : IAluWire
     {
         private readonly IByteFactory _byteFactory;
 
-        public Wire(IByteFactory byteFactory)
+        public AluWire(IByteFactory byteFactory)
         {
             _byteFactory = byteFactory;
         }

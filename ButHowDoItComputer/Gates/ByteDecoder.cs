@@ -1,13 +1,13 @@
-﻿using ButHowDoItComputer.DataTypes.Interfaces;
+﻿using System.Linq;
+using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Gates.Interfaces;
-using System.Linq;
 
 namespace ButHowDoItComputer.Gates
 {
     public class ByteDecoder : IByteDecoder
     {
-        private readonly IDecoder _decoder;
         private readonly IByteFactory _byteFactory;
+        private readonly IDecoder _decoder;
 
         public ByteDecoder(IDecoder decoder, IByteFactory byteFactory)
         {

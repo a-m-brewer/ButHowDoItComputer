@@ -13,14 +13,11 @@ namespace ButHowDoItComputer.Gates
             _andGate = andGate;
             _byteFactory = byteFactory;
         }
-        
+
         public IByte Apply(IByte input, bool set)
         {
             var bits = new bool[8];
-            for (var i = 0; i < input.Count; i++)
-            {
-                bits[i] = _andGate.Apply(input[i], set);
-            }
+            for (var i = 0; i < input.Count; i++) bits[i] = _andGate.Apply(input[i], set);
 
             return _byteFactory.Create(bits);
         }
