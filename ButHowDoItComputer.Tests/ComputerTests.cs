@@ -296,7 +296,23 @@ namespace ButHowDoItComputer.Tests
             var result = _sut.ComputerState.GeneralPurposeRegisters[0].Data;
             
             Assert.IsTrue(result.All(a => a));
+        }
+        
+        // JMPR RB
+        // Jump to address in RB
+        [Test]
+        public void CanPerformJumpRegisterInstruction()
+        {
+            var instruction = _byteFactory.Create(false, false, true, true, false, false, false, false);
+            _sut.ComputerState.Ram.InternalRegisters[0][0].ApplyOnce(instruction);
+
+            _sut.ComputerState.GeneralPurposeRegisters[0].ApplyOnce(_fullByte);
             
+            StepFull(6);
+
+            var result = _sut.ComputerState.Iar.Data;
+            
+            Assert.IsTrue(result.All(a => a));
         }
 
         private void StepFull(int times)
