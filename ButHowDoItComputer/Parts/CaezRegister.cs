@@ -54,8 +54,8 @@ namespace ButHowDoItComputer.Parts
 
         public Caez Apply(Caez input)
         {
-            ApplyPrivate(input);
-            ApplyOutput();
+            Input = input;
+            Apply();
             return Output;
         }
 

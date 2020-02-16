@@ -4,6 +4,7 @@ using ButHowDoItComputer.DataTypes;
 using ButHowDoItComputer.DataTypes.Factories;
 using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Parts;
+using ButHowDoItComputer.Parts.Factories;
 using NUnit.Framework;
 
 namespace ButHowDoItComputer.Tests
@@ -32,7 +33,7 @@ namespace ButHowDoItComputer.Tests
             var byteRegisterFactory = TestUtils.CreateByteRegisterFactory();
             var ram = TestUtils.CreateRam(bus);
             var computerState = new ComputerState(byteRegisterFactory, ram, TestUtils.CreateBus1Factory(),
-                new ArithmeticLogicUnitFactory(), TestUtils.CreateCaezRegisterFactory(), bus);
+                new ArithmeticLogicUnitFactory(), TestUtils.CreateCaezRegisterFactory(), new BitRegisterFactory(TestUtils.CreateMemoryGateFactory()), bus);
 
             _sut = new Computer(cpuPinStates, computerState);
         }
@@ -325,6 +326,60 @@ namespace ButHowDoItComputer.Tests
             
             _sut.ComputerState.Ram.InternalRegisters[0][1].ApplyOnce(_fullByte);
             
+            StepFull(6);
+
+            var result = _sut.ComputerState.Iar.Data;
+            
+            Assert.IsTrue(result.All(a => a));
+        }
+        
+        // JC Addr
+        // Jump if Equal is on
+        [Test]
+        public void CanPerformJumpIfEqualIsOn()
+        {
+            var addInstruction = _byteFactory.Create(true, false, false, false, false, false, false, true);
+
+            _sut.ComputerState.Ram.InternalRegisters[0][0].ApplyOnce(addInstruction);
+            var instruction = _byteFactory.Create(false, true, false, true, false, false, true, false);
+            _sut.ComputerState.Ram.InternalRegisters[0][1].ApplyOnce(instruction);
+            _sut.ComputerState.Ram.InternalRegisters[0][2].ApplyOnce(_fullByte);
+            
+            _sut.ComputerState.GeneralPurposeRegisters[0].ApplyOnce(_byteFactory.Create(200));
+            _sut.ComputerState.GeneralPurposeRegisters[1].ApplyOnce(_byteFactory.Create(200));
+            
+            StepFull(6);
+
+            Step(1);
+
+            StepFull(6);
+
+            var result = _sut.ComputerState.Iar.Data;
+            
+            Assert.IsTrue(result.All(a => a));
+        }
+        
+        // JC Addr
+        // Jump if Carry is on
+        [Test]
+        public void CanPerformJumpIfCarryIsOn()
+        {
+            var addInstruction = _byteFactory.Create(true, false, false, false, false, false, false, true);
+
+            _sut.ComputerState.Ram.InternalRegisters[0][0].ApplyOnce(addInstruction);
+            var instruction = _byteFactory.Create(false, true, false, true, true, false, false, false);
+            _sut.ComputerState.Ram.InternalRegisters[0][1].ApplyOnce(instruction);
+            _sut.ComputerState.Ram.InternalRegisters[0][2].ApplyOnce(_fullByte);
+            
+            _sut.ComputerState.GeneralPurposeRegisters[0].ApplyOnce(_byteFactory.Create(200));
+            _sut.ComputerState.GeneralPurposeRegisters[1].ApplyOnce(_byteFactory.Create(200));
+            
+            StepFull(6);
+            
+            Assert.IsTrue(_sut.ComputerState.Flags.Data.C);
+            
+            Step(1);
+
             StepFull(6);
 
             var result = _sut.ComputerState.Iar.Data;

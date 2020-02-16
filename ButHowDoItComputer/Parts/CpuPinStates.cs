@@ -149,6 +149,7 @@ namespace ButHowDoItComputer.Parts
 
             // sets
             PinStates.Tmp.Set = NewPinState(PinStates.Tmp.Set, ClkSAnd(step4AndIr0));
+            PinStates.CarryInTmp = NewPinState(PinStates.CarryInTmp, ClkSAnd(step4AndIr0));
         }
 
         private void UpdateLoadStep4()
@@ -452,6 +453,8 @@ namespace ButHowDoItComputer.Parts
         public bool Flags { get; set; }
 
         public IByte ThreeXEight { get; set; } = new Byte();
+        
+        public bool CarryInTmp { get; set; }
     }
 
     public class SetEnable

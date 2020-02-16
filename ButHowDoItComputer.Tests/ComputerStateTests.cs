@@ -4,6 +4,7 @@ using ButHowDoItComputer.DataTypes;
 using ButHowDoItComputer.DataTypes.Factories;
 using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Parts;
+using ButHowDoItComputer.Parts.Factories;
 using ButHowDoItComputer.Utils;
 using NUnit.Framework;
 
@@ -27,7 +28,7 @@ namespace ButHowDoItComputer.Tests
             var ram = TestUtils.CreateRam(bus);
             _pinStates = new PinStates();
             _sut = new ComputerState(byteRegisterFactory, ram, TestUtils.CreateBus1Factory(),
-                new ArithmeticLogicUnitFactory(), TestUtils.CreateCaezRegisterFactory(), bus);
+                new ArithmeticLogicUnitFactory(), TestUtils.CreateCaezRegisterFactory(), new BitRegisterFactory(TestUtils.CreateMemoryGateFactory()), bus);
         }
 
         [Test]
@@ -113,6 +114,17 @@ namespace ButHowDoItComputer.Tests
             
             Assert.IsTrue(_sut.Tmp.Set);
             Assert.IsTrue(_sut.Tmp.Enable);
+        }
+
+        [Test]
+        public void PinStatesMapForCarryInTmp()
+        {
+            _pinStates.CarryInTmp = true;
+            
+            _sut.UpdatePins(_pinStates);
+            
+            Assert.IsTrue(_sut.CarryInTmp.Set);
+            Assert.IsTrue(_sut.CarryInTmp.Enable);
         }
 
         [Test]
@@ -340,9 +352,24 @@ namespace ButHowDoItComputer.Tests
         [Test]
         public void FlagsRegisterUpdatesCarryIn()
         {
-            _sut.Flags.Input = new Caez {C = true};
-            _sut.Flags.Set = true;
-            _sut.Flags.Apply();
+            _sut.CarryInTmp.Set = true;
+            _sut.Flags.ApplyOnce(new Caez {C = true}, true);
+            Assert.IsTrue(_sut.Alu.CarryIn);
+        }
+
+        [Test]
+        public void FlagsRegisterUpdatesCarryInTmp()
+        {
+            _sut.CarryInTmp.Set = true;
+            _sut.Flags.ApplyOnce(new Caez {C = true}, true);
+            
+            Assert.IsTrue(_sut.CarryInTmp.Data);
+        }
+
+        [Test]
+        public void CarryInTmpUpdatesCarryInAlu()
+        {
+            _sut.CarryInTmp.ApplyOnce(true, true);
             Assert.IsTrue(_sut.Alu.CarryIn);
         }
     }

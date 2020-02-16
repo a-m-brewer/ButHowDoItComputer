@@ -335,6 +335,17 @@ namespace ButHowDoItComputer.Tests
             var result = Step(2);
             Assert.AreEqual(aluFlag, result.Tmp.Set);
         }
+        
+        [Test]
+        [TestCase(true)]
+        [TestCase(false)]
+        public void AfterFourSetStepCarryInTmpSetIsTrue(bool aluFlag)
+        {
+            Instruction[0] = aluFlag;
+            StepFull(3);
+            var result = Step(2);
+            Assert.AreEqual(aluFlag, result.CarryInTmp);
+        }
 
         [Test]
         [TestCase(false, false)]

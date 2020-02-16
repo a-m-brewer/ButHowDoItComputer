@@ -18,6 +18,7 @@ namespace ButHowDoItComputer.Parts
             IBus1Factory bus1, 
             IArithmeticLogicUnitFactory aluFactory, 
             ICaezRegisterFactory caezRegisterFactory,
+            IRegisterFactory<bool> bitRegisterFactory,
             IBus<IByte> bus)
         {
             Bus = bus;
@@ -57,6 +58,9 @@ namespace ButHowDoItComputer.Parts
                 Flags.Apply();
             });
 
+            CarryInTmp = bitRegisterFactory.Create(output => { Alu.CarryIn = output; }, nameof(CarryInTmp));
+            CarryInTmp.Enable = true;
+
             Bus1 = bus1.Create(updateAlu =>
             {
                 Alu.InputB = updateAlu;
@@ -72,7 +76,8 @@ namespace ButHowDoItComputer.Parts
             
             Flags = caezRegisterFactory.Create(data =>
             {
-                Alu.CarryIn = data.C;
+                CarryInTmp.Input = data.C;
+                CarryInTmp.Apply();
             }, nameof(Flags));
             Flags.Enable = true;
             
@@ -97,6 +102,7 @@ namespace ButHowDoItComputer.Parts
         public IBus1 Bus1 { get; }
         public IArithmeticLogicUnit Alu { get; }
         public IBus<IByte> Bus { get; }
+        public IRegister<bool> CarryInTmp { get; set; }
 
         public void UpdatePins(PinStates pinStates)
         {
@@ -110,6 +116,7 @@ namespace ButHowDoItComputer.Parts
             Bus1.Set = pinStates.Bus1;
             Alu.Op = pinStates.Op;
             Flags.Set = pinStates.Flags;
+            CarryInTmp.Set = pinStates.CarryInTmp;
         }
         private void UpdatePins(IReadOnlyList<IRegister<IByte>> parts, IReadOnlyList<SetEnable> states)
         {
