@@ -314,6 +314,23 @@ namespace ButHowDoItComputer.Tests
             
             Assert.IsTrue(result.All(a => a));
         }
+        
+        // JMP Addr
+        // Jump to location in next Ram Register
+        [Test]
+        public void CanPerformJumpInstruction()
+        {
+            var instruction = _byteFactory.Create(false, true, false, false, false, false, false, false);
+            _sut.ComputerState.Ram.InternalRegisters[0][0].ApplyOnce(instruction);
+            
+            _sut.ComputerState.Ram.InternalRegisters[0][1].ApplyOnce(_fullByte);
+            
+            StepFull(6);
+
+            var result = _sut.ComputerState.Iar.Data;
+            
+            Assert.IsTrue(result.All(a => a));
+        }
 
         private void StepFull(int times)
         {
