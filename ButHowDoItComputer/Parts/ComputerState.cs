@@ -102,6 +102,14 @@ namespace ButHowDoItComputer.Parts
         public IBus1 Bus1 { get; }
         public IArithmeticLogicUnit Alu { get; }
         public IBus<IByte> Bus { get; }
+        // This register does not exist in the book but is required to make this work
+        // Going to steal the comment from simple-computer github
+        // -----------
+        // We will add a new memory bit called
+        // "Carry Temp" that goes between the Carry Flag and the enabler
+        // we just added above. It will be set in step 4, the same time that the TMP register gets
+        // set. Thus, the ALU instruction will have a carry input that cannot change during step 5.
+        // -----------
         public IRegister<bool> CarryInTmp { get; set; }
 
         public void UpdatePins(PinStates pinStates)
