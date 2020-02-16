@@ -323,6 +323,21 @@ namespace ButHowDoItComputer.Tests
         }
 
         [Test]
+        public void BusCanUpdateRamIo()
+        {
+            _sut.Ram.SetMemoryAddress(_byteFactory.Create(0));
+            _sut.Ram.Set = true;
+            _sut.Ram.Apply();
+            
+            _sut.Bus.UpdateData(new BusMessage<IByte> {Data = _fullByte, Name = "fromBus"});
+            _sut.Bus.UpdateSubs();
+
+            var result = _sut.Ram.InternalRegisters[0][0].Data;
+            
+            Assert.IsTrue(result.All(a => a));
+        }
+
+        [Test]
         public void FlagsRegisterUpdatesCarryIn()
         {
             _sut.Flags.Input = new Caez {C = true};

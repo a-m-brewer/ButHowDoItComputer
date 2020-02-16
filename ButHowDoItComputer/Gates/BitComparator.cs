@@ -20,13 +20,13 @@ namespace ButHowDoItComputer.Gates
         public (bool equal, bool ALarger, bool output) AreEqual(bool a, bool b, bool aboveBitIsEqual,
             bool aboveBitALarger)
         {
-            var one = _xOr.Apply(a, b);
-            var two = _not.Apply(one);
-            var three = _and.Apply(two, aboveBitIsEqual);
-            var four = _and.Apply(aboveBitIsEqual, one, a);
-            var five = _or.Apply(four, aboveBitALarger);
+            var unequal = _xOr.Apply(a, b);
+            var equal = _not.Apply(unequal);
+            var equalAndAboveBitEqual = _and.Apply(equal, aboveBitIsEqual);
+            var aLarger = _and.Apply(aboveBitIsEqual, unequal, a);
+            var aLargerOrAboveALarger = _or.Apply(aLarger, aboveBitALarger);
 
-            return (three, five, one);
+            return (equalAndAboveBitEqual, aLargerOrAboveALarger, unequal);
         }
     }
 }

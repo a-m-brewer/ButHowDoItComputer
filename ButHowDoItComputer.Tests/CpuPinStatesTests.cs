@@ -563,6 +563,16 @@ namespace ButHowDoItComputer.Tests
             Assert.IsTrue(result.Iar.Set);
         }
 
+        [Test]
+        public void AfterStep5IfAluOpFlagsSetIsTrue()
+        {
+            Instruction[0] = true;
+            StepFull(4);
+            var result = Step(2);
+            
+            Assert.IsTrue(result.Flags);
+        }
+
         // ALU Op
 
         [Test]

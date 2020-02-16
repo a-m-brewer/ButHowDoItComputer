@@ -106,6 +106,11 @@ namespace ButHowDoItComputer.Parts
                     }, $@"RamInternalRegister{x}{y}");
                     return reg;
                 }).ToList()).ToList();
+
+            foreach (var register in InternalRegisters.SelectMany(internalRegisterRow => internalRegisterRow))
+            {
+                Io.AddRegister(register);
+            }
         }
     }
 }

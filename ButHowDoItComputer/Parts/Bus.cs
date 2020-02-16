@@ -64,6 +64,7 @@ namespace ButHowDoItComputer.Parts
         void UpdateData(BusMessage<T> input);
         void UpdateSubs();
         void AddRegister(IRegister<T> updateFunc);
+        
         void AddByte(Action<T> updateByte);
     }
 }

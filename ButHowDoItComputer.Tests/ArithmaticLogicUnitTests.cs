@@ -60,9 +60,9 @@ namespace ButHowDoItComputer.Tests
 
             var actual = _sut.Apply(_byteFactory.Create(a), _byteFactory.Create(b), false, opCode);
 
-            Assert.AreEqual(expected, actual.Equal);
-            Assert.AreEqual(!expected, actual.ALarger);
-            Assert.AreEqual(!expected, actual.Output.All(a => a));
+            Assert.IsTrue(actual.Equal);
+            Assert.IsFalse(actual.ALarger);
+            Assert.IsFalse(actual.Output.All(bb => bb));
         }
 
         [Test]

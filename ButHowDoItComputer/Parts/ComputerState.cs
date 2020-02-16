@@ -43,6 +43,7 @@ namespace ButHowDoItComputer.Parts
             
             Acc = byteRegisterFactory.Create(b =>
             {
+                // for some reason updating subs here blows up, this is being updated in Computer
                 bus.UpdateData(new BusMessage<IByte> {Data = b, Name = nameof(Acc)});
             }, nameof(Acc));
             
@@ -67,6 +68,7 @@ namespace ButHowDoItComputer.Parts
                 Bus1.Input = wire;
                 Bus1.Apply();
             }, nameof(Tmp));
+            bus.AddRegister(Tmp);
             
             Flags = caezRegisterFactory.Create(data =>
             {

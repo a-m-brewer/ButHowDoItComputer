@@ -11,10 +11,10 @@ namespace ButHowDoItComputer.Parts
     {
         private readonly IAnd _and;
         private readonly IByteFactory _byteFactory;
-        private readonly Caez _caez;
+        private Caez _caez;
         private readonly IClock _clock;
         private readonly IDecoder _decoder;
-        private readonly IByte _instruction;
+        private IByte _instruction;
         private readonly INot _not;
         private readonly IOr _or;
         private readonly IStepper _stepper;
@@ -70,6 +70,13 @@ namespace ButHowDoItComputer.Parts
 
         private bool Step7 => PinStates.StepperOutput[6];
 
+        public PinStates Step(IByte instruction, Caez flags)
+        {
+            _instruction = instruction;
+            _caez = flags;
+            return Step();
+        }
+        
         public PinStates Step()
         {
             // reset the pin states so nothing is from previous state
@@ -242,6 +249,7 @@ namespace ButHowDoItComputer.Parts
 
             // sets
             PinStates.Acc.Set = NewPinState(PinStates.Acc.Set, ClkSAnd(step5AndIr0));
+            PinStates.Flags = NewPinState(PinStates.Flags, ClkSAnd(step5AndIr0));
 
             UpdateOpCode();
         }
