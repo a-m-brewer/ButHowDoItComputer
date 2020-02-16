@@ -280,6 +280,24 @@ namespace ButHowDoItComputer.Tests
             
             Assert.IsTrue(result.All(a => a));
         }
+        
+        // DATA RB, xxxx xxxx
+        // Load next ram byte into RB
+        [Test]
+        public void CanPerformDataInstruction()
+        {
+            var instruction = _byteFactory.Create(false, false, true, false, false, false, false, false);
+            _sut.ComputerState.Ram.InternalRegisters[0][0].ApplyOnce(instruction);
+            
+            _sut.ComputerState.Ram.InternalRegisters[0][1].ApplyOnce(_byteFactory.Create(255));
+            
+            StepFull(6);
+
+            var result = _sut.ComputerState.GeneralPurposeRegisters[0].Data;
+            
+            Assert.IsTrue(result.All(a => a));
+            
+        }
 
         private void StepFull(int times)
         {
