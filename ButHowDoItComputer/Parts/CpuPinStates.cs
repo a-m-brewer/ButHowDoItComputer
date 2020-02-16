@@ -7,7 +7,7 @@ using ButHowDoItComputer.Parts.Interfaces;
 
 namespace ButHowDoItComputer.Parts
 {
-    public class Cpu2
+    public class CpuPinStates : ICpuPinStates
     {
         private readonly IAnd _and;
         private readonly IByteFactory _byteFactory;
@@ -19,7 +19,7 @@ namespace ButHowDoItComputer.Parts
         private readonly IOr _or;
         private readonly IStepper _stepper;
 
-        public Cpu2(
+        public CpuPinStates(
             IClock clock,
             IStepper stepper,
             IByte instruction,
@@ -99,7 +99,7 @@ namespace ButHowDoItComputer.Parts
             PinStates.Iar.Enable = NewPinState(PinStates.Iar.Enable, Step1E);
 
             // set
-            PinStates.Mar.Set = NewPinState(PinStates.Mar.Set, Step1S);
+            PinStates.Mar = NewPinState(PinStates.Mar, Step1S);
             PinStates.Acc.Set = NewPinState(PinStates.Acc.Set, Step1S);
         }
 
@@ -129,6 +129,7 @@ namespace ButHowDoItComputer.Parts
             UpdateJumpRegisterStep4();
             UpdateJumpStep4();
             UpdateJumpIfStep4();
+            UpdateClearStep4();
         }
 
         private void UpdateAluStep4()
@@ -155,7 +156,7 @@ namespace ButHowDoItComputer.Parts
             PinStates.RegA.Enable = NewPinState(PinStates.RegA.Enable, newState);
 
             // sets
-            PinStates.Mar.Set = NewPinState(PinStates.Mar.Set, ClkSAnd(newState));
+            PinStates.Mar = NewPinState(PinStates.Mar, ClkSAnd(newState));
         }
 
         private void UpdateDataStep4()
@@ -168,7 +169,7 @@ namespace ButHowDoItComputer.Parts
             PinStates.Iar.Enable = NewPinState(PinStates.Iar.Enable, ClkEAnd(step43X82));
 
             // sets
-            PinStates.Mar.Set = NewPinState(PinStates.Mar.Set, ClkSAnd(step43X82));
+            PinStates.Mar = NewPinState(PinStates.Mar, ClkSAnd(step43X82));
             PinStates.Acc.Set = NewPinState(PinStates.Acc.Set, ClkSAnd(step43X82));
         }
 
@@ -193,7 +194,7 @@ namespace ButHowDoItComputer.Parts
             PinStates.Iar.Enable = NewPinState(PinStates.Iar.Enable, ClkEAnd(step43X84));
 
             // sets
-            PinStates.Mar.Set = NewPinState(PinStates.Mar.Set, ClkSAnd(step43X84));
+            PinStates.Mar = NewPinState(PinStates.Mar, ClkSAnd(step43X84));
         }
 
         private void UpdateJumpIfStep4()
@@ -206,8 +207,20 @@ namespace ButHowDoItComputer.Parts
             PinStates.Iar.Enable = NewPinState(PinStates.Iar.Enable, ClkEAnd(step43X85));
 
             // sets
-            PinStates.Mar.Set = NewPinState(PinStates.Mar.Set, ClkSAnd(step43X85));
+            PinStates.Mar = NewPinState(PinStates.Mar, ClkSAnd(step43X85));
             PinStates.Acc.Set = NewPinState(PinStates.Acc.Set, ClkSAnd(step43X85));
+        }
+
+        private void UpdateClearStep4()
+        {
+            // setup 
+            var step43X86 = _and.Apply(Step4, PinStates.ThreeXEight[6]);
+            
+            // enable
+            PinStates.Bus1 = NewPinState(PinStates.Bus1, step43X86);
+            
+            // set
+            PinStates.Flags = NewPinState(PinStates.Flags, ClkSAnd(step43X86));
         }
 
         private void UpdateStep5Pins()
@@ -417,7 +430,7 @@ namespace ButHowDoItComputer.Parts
         public StepperOutput StepperOutput { get; set; } = new StepperOutput();
         public ClockOutput ClockOutput { get; set; } = new ClockOutput();
         public SetEnable Iar { get; set; } = new SetEnable();
-        public SetEnable Mar { get; set; } = new SetEnable();
+        public bool Mar { get; set; }
         public SetEnable Acc { get; set; } = new SetEnable();
         public SetEnable Ram { get; set; } = new SetEnable();
         public SetEnable Ir { get; set; } = new SetEnable {Enable = true};
@@ -425,9 +438,10 @@ namespace ButHowDoItComputer.Parts
         public SetEnable RegA { get; set; } = new SetEnable();
         public SetEnable RegB { get; set; } = new SetEnable();
 
-        public SetEnable Tmp { get; set; } = new SetEnable();
+        public SetEnable Tmp { get; set; } = new SetEnable {Enable = true};
 
         public Op Op { get; set; } = new Op();
+        public bool Flags { get; set; }
 
         public IByte ThreeXEight { get; set; } = new Byte();
     }

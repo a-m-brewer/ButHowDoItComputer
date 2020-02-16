@@ -1,3 +1,4 @@
+using System;
 using ButHowDoItComputer.DataTypes;
 using ButHowDoItComputer.Gates;
 using ButHowDoItComputer.Gates.Interfaces;
@@ -18,7 +19,12 @@ namespace ButHowDoItComputer.Parts.Factories
 
         public IRegister<Caez> Create()
         {
-            return new CaezRegister(new CaezMemoryGate(_memoryGateFactory), new CaezEnabler(_and));
+            return Create(caez => {}, Guid.NewGuid().ToString());
+        }
+
+        public IRegister<Caez> Create(Action<Caez> dataToUpdate, string name)
+        {
+            return new CaezRegister(new CaezMemoryGate(_memoryGateFactory), new CaezEnabler(_and), dataToUpdate) {Name = name};
         }
     }
 }

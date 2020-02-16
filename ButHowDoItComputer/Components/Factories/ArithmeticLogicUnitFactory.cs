@@ -1,5 +1,8 @@
+using System;
 using ButHowDoItComputer.Components.Interfaces;
+using ButHowDoItComputer.DataTypes;
 using ButHowDoItComputer.DataTypes.Factories;
+using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Gates;
 using ButHowDoItComputer.Gates.Interfaces;
 using ButHowDoItComputer.Parts;
@@ -7,9 +10,14 @@ using ButHowDoItComputer.Utils;
 
 namespace ButHowDoItComputer.Components.Factories
 {
-    public class ArithmeticLogicUnitFactory : IObjectCreationFactory<IArithmeticLogicUnit>
+    public class ArithmeticLogicUnitFactory : IArithmeticLogicUnitFactory
     {
         public IArithmeticLogicUnit Create()
+        {
+            return Create(b => {}, caez => {});
+        }
+
+        public IArithmeticLogicUnit Create(Action<IByte> updateAcc, Action<Caez> updateFlags)
         {
             var not = new Not();
             var and = new And();
@@ -31,7 +39,13 @@ namespace ButHowDoItComputer.Components.Factories
                 new ByteLeftShifter(byteFactory),
                 or,
                 new AluWire(byteFactory),
-                new ByteComparator(new BitComparator(xOr, and, or, not), byteFactory));
+                new ByteComparator(new BitComparator(xOr, and, or, not), byteFactory), updateFlags,
+                updateAcc, byteFactory);
         }
+    }
+
+    public interface IArithmeticLogicUnitFactory : IObjectCreationFactory<IArithmeticLogicUnit>
+    {
+        IArithmeticLogicUnit Create(Action<IByte> updateAcc, Action<Caez> updateFlags);
     }
 }

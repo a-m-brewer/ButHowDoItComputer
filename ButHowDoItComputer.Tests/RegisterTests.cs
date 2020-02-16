@@ -1,6 +1,7 @@
 using System.Linq;
 using ButHowDoItComputer.DataTypes;
 using ButHowDoItComputer.DataTypes.Factories;
+using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Gates;
 using ButHowDoItComputer.Gates.Factories;
 using ButHowDoItComputer.Parts;
@@ -20,7 +21,7 @@ namespace ButHowDoItComputer.Tests
             _memoryGateFactory = new MemoryGateFactory(new NAnd(new Not(), _and));
             _byteMemoryGate = new ByteMemoryGate(_memoryGateFactory, _byteFactory);
             _byteEnabler = new ByteEnabler(_and, _byteFactory);
-            _sut = new ByteRegister(_byteMemoryGate, _byteEnabler, _byteFactory);
+            _sut = new ByteRegister(_byteMemoryGate, _byteEnabler, _byteFactory, wire => {});
         }
 
         private ByteFactory _byteFactory;

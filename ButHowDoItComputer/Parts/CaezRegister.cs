@@ -1,20 +1,21 @@
-using System.Collections.Generic;
+using System;
 using ButHowDoItComputer.DataTypes;
 using ButHowDoItComputer.Gates.Interfaces;
 using ButHowDoItComputer.Parts.Interfaces;
-using ButHowDoItComputer.Utils.Interfaces;
 
 namespace ButHowDoItComputer.Parts
 {
     public class CaezRegister : IRegister<Caez>
     {
         private readonly ICaezEnabler _caezEnabler;
+        private readonly Action<Caez> _updateWire;
         private readonly ICaezMemoryGate _caezMemoryGate;
 
-        public CaezRegister(ICaezMemoryGate caezMemoryGate, ICaezEnabler caezEnabler)
+        public CaezRegister(ICaezMemoryGate caezMemoryGate, ICaezEnabler caezEnabler, Action<Caez> updateWire)
         {
             _caezMemoryGate = caezMemoryGate;
             _caezEnabler = caezEnabler;
+            _updateWire = updateWire;
 
             Enable = false;
             Set = false;
@@ -27,6 +28,11 @@ namespace ButHowDoItComputer.Parts
         {
             ApplyPrivate(Input);
             ApplyOutput();
+
+            if (Enable)
+            {
+                _updateWire(Output);
+            }
         }
 
         public bool Enable { get; set; }
@@ -34,8 +40,6 @@ namespace ButHowDoItComputer.Parts
         public Caez Data { get; set; }
         public Caez Input { get; set; }
         public Caez Output { get; private set; }
-
-        public List<IBusInputSubscriber<Caez>> Subscribers { get; } = new List<IBusInputSubscriber<Caez>>();
 
         public string Name { get; set; }
 
@@ -63,8 +67,6 @@ namespace ButHowDoItComputer.Parts
         private void ApplyOutput()
         {
             Output = _caezEnabler.Apply(Data, Enable);
-
-            foreach (var subscriber in Subscribers) subscriber.Input = Output;
         }
     }
 }

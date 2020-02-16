@@ -4,6 +4,6 @@ namespace ButHowDoItComputer.Utils.Interfaces
 {
     public interface IBusInputNotifier<T>
     {
-        List<IBusInputSubscriber<T>> BusSubscribers { get; }
+        List<IInputable<T>> BusSubscribers { get; }
     }
 }

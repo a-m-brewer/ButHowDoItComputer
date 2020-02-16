@@ -1,6 +1,6 @@
 namespace ButHowDoItComputer.Utils.Interfaces
 {
-    public interface IBusInputSubscriber<T> : IApplicable
+    public interface IInputable<T>
     {
         T Input { get; set; }
     }

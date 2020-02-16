@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using ButHowDoItComputer.DataTypes;
 using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Gates.Interfaces;
 using ButHowDoItComputer.Parts.Interfaces;
@@ -13,7 +14,7 @@ namespace ButHowDoItComputer.Parts
         private readonly IByteRegisterFactory _byteRegisterFactory;
         private readonly IDecoder _decoder;
 
-        public Ram(IBus outputBus, IByteRegisterFactory byteRegisterFactory,
+        public Ram(IBus<IByte> outputBus, IByteRegisterFactory byteRegisterFactory,
             IDecoder decoder, IAnd and)
         {
             Io = outputBus;
@@ -34,7 +35,7 @@ namespace ButHowDoItComputer.Parts
         public bool Enable { get; set; }
 
 
-        public IBus Io { get; }
+        public IBus<IByte> Io { get; }
 
         public List<List<IRegister<IByte>>> InternalRegisters { get; private set; } =
             new List<List<IRegister<IByte>>>();
@@ -67,6 +68,8 @@ namespace ButHowDoItComputer.Parts
 
                 InternalRegisters[y][x].Set = s;
                 InternalRegisters[y][x].Enable = e;
+
+                InternalRegisters[y][x].Apply();
             }
         }
 
@@ -74,7 +77,6 @@ namespace ButHowDoItComputer.Parts
         {
             Set = true;
             Apply();
-            Io.Apply();
             Set = false;
         }
 
@@ -82,17 +84,14 @@ namespace ButHowDoItComputer.Parts
         {
             Enable = true;
             Apply();
-            Io.Apply();
             Enable = false;
         }
 
         private void SetupInputRegister()
         {
-            MemoryAddressRegister = _byteRegisterFactory.Create();
+            MemoryAddressRegister = _byteRegisterFactory.Create(update => {}, nameof(MemoryAddressRegister));
             // never need to hide input registers value
             MemoryAddressRegister.Enable = true;
-            MemoryAddressRegister.Name = "MAR";
-            Io.BusSubscribers.Add(MemoryAddressRegister);
         }
 
         private void SetupInternalRegisters()
@@ -100,12 +99,13 @@ namespace ButHowDoItComputer.Parts
             InternalRegisters = Enumerable.Range(0, 16)
                 .Select(x => Enumerable.Range(0, 16).Select(y =>
                 {
-                    var reg = _byteRegisterFactory.Create();
-                    reg.Name = $@"RamInternalRegister{x}{y}";
+                    var reg = _byteRegisterFactory.Create(updateWire =>
+                    {
+                        Io.UpdateData(new BusMessage<IByte> {Name = $@"RamInternalRegister{x}{y}", Data = updateWire});
+                        Io.UpdateSubs();
+                    }, $@"RamInternalRegister{x}{y}");
                     return reg;
                 }).ToList()).ToList();
-
-            foreach (var register in InternalRegisters.SelectMany(row => row)) Io.Add(register);
         }
     }
 }

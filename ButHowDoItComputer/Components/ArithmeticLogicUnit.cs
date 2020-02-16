@@ -1,4 +1,5 @@
-﻿using ButHowDoItComputer.Components.Interfaces;
+﻿using System;
+using ButHowDoItComputer.Components.Interfaces;
 using ButHowDoItComputer.DataTypes;
 using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Gates.Interfaces;
@@ -13,6 +14,8 @@ namespace ButHowDoItComputer.Components
         private readonly IByteAdder _byteAdder;
         private readonly IByteAnd _byteAnd;
         private readonly IByteComparator _byteComparator;
+        private readonly Action<Caez> _updateFlags;
+        private readonly Action<IByte> _updateAcc;
         private readonly IByteDecoder _byteDecoder;
         private readonly IByteEnabler _byteEnabler;
         private readonly IByteOr _byteOr;
@@ -37,7 +40,10 @@ namespace ButHowDoItComputer.Components
             ILeftByteShifter leftByteShifter,
             IOr or,
             IAluWire aluWire,
-            IByteComparator byteComparator)
+            IByteComparator byteComparator,
+            Action<Caez> updateFlags,
+            Action<IByte> updateAcc,
+            IByteFactory byteFactory)
         {
             _byteXOr = byteXOr;
             _byteOr = byteOr;
@@ -53,6 +59,12 @@ namespace ButHowDoItComputer.Components
             _or = or;
             _aluWire = aluWire;
             _byteComparator = byteComparator;
+            _updateFlags = updateFlags;
+            _updateAcc = updateAcc;
+
+            InputA = byteFactory.Create();
+            InputB = byteFactory.Create();
+            Op = new Op();
         }
 
         public AluOutput Apply(IByte a, IByte b, bool carryIn, Op op)
@@ -86,7 +98,7 @@ namespace ButHowDoItComputer.Components
                 enabledOr, enabledXOr, enabledComparator);
             var zero = _isZeroGate.IsZero(output);
 
-            return new AluOutput
+            var aluOutput = new AluOutput
             {
                 ALarger = comparatorResult.ALarger,
                 CarryOut = carryOut,
@@ -94,6 +106,20 @@ namespace ButHowDoItComputer.Components
                 Output = output,
                 Zero = zero
             };
+            
+            _updateFlags(new Caez {C = aluOutput.CarryOut, A = aluOutput.ALarger, E = aluOutput.Equal, Z = aluOutput.Zero});
+            _updateAcc(aluOutput.Output);
+            return aluOutput;
+        }
+
+        public Op Op { get; set; }
+        public IByte InputA { get; set; }
+        public IByte InputB { get; set; }
+        public bool CarryIn { get; set; }
+
+        public void Apply()
+        {
+            Apply(InputA, InputB, CarryIn, Op); ;
         }
     }
 }

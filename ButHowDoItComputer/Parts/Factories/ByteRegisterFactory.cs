@@ -1,3 +1,4 @@
+using System;
 using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Gates.Interfaces;
 using ButHowDoItComputer.Parts.Interfaces;
@@ -20,7 +21,16 @@ namespace ButHowDoItComputer.Parts.Factories
 
         public IRegister<IByte> Create()
         {
-            return new ByteRegister(_byteMemoryGateFactory.Create(), _byteEnabler, _byteFactory);
+            return Create(update => {}, Guid.NewGuid().ToString());
+        }
+
+        public IRegister<IByte> Create(Action<IByte> dataToUpdate, string name)
+        {
+            var reg = new ByteRegister(_byteMemoryGateFactory.Create(), _byteEnabler, _byteFactory, dataToUpdate)
+            {
+                Name = name
+            };
+            return reg;
         }
     }
 }

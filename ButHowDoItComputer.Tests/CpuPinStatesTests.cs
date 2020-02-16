@@ -6,11 +6,11 @@ using NUnit.Framework;
 
 namespace ButHowDoItComputer.Tests
 {
-    public class Cpu2Tests
+    public class CpuPinStatesTests
     {
         private Clock _clock;
         private Stepper _stepper;
-        private Cpu2 _sut;
+        private CpuPinStates _sut;
         private IByte Instruction { get; set; }
         private Caez Caez { get; set; }
 
@@ -21,7 +21,7 @@ namespace ButHowDoItComputer.Tests
             _stepper = TestUtils.CreateStepper();
             Instruction = new Byte();
             Caez = new Caez();
-            _sut = new Cpu2(_clock, _stepper, Instruction, Caez, new And(), TestUtils.CreateOr(), TestUtils.CreateNot(),
+            _sut = new CpuPinStates(_clock, _stepper, Instruction, Caez, new And(), TestUtils.CreateOr(), TestUtils.CreateNot(),
                 TestUtils.CreateDecoder(), TestUtils.CreateByteFactory());
         }
 
@@ -77,7 +77,7 @@ namespace ButHowDoItComputer.Tests
         public void AfterStepOneSetMarIsSet()
         {
             var result = Step(2);
-            Assert.IsTrue(result.Mar.Set);
+            Assert.IsTrue(result.Mar);
         }
 
         [Test]
@@ -311,6 +311,18 @@ namespace ButHowDoItComputer.Tests
             Assert.IsTrue(result.Iar.Enable);
         }
 
+        [Test]
+        public void AfterStep4EnableClearBus1IsTrue()
+        {
+            Instruction[1] = true;
+            Instruction[2] = true;
+
+            StepFull(3);
+            var result = Step(1);
+            
+            Assert.IsTrue(result.Bus1);
+        }
+
         // Sets
 
         [Test]
@@ -337,7 +349,7 @@ namespace ButHowDoItComputer.Tests
             StepFull(3);
             var result = Step(2);
 
-            Assert.AreEqual(!aluFlag, result.Mar.Set);
+            Assert.AreEqual(!aluFlag, result.Mar);
         }
 
         [Test]
@@ -348,7 +360,7 @@ namespace ButHowDoItComputer.Tests
             StepFull(3);
             var result = Step(2);
 
-            Assert.IsTrue(result.Mar.Set);
+            Assert.IsTrue(result.Mar);
         }
 
         [Test]
@@ -382,7 +394,7 @@ namespace ButHowDoItComputer.Tests
             StepFull(3);
             var result = Step(2);
 
-            Assert.IsTrue(result.Mar.Set);
+            Assert.IsTrue(result.Mar);
         }
 
         [Test]
@@ -394,7 +406,7 @@ namespace ButHowDoItComputer.Tests
             StepFull(3);
             var result = Step(2);
 
-            Assert.IsTrue(result.Mar.Set);
+            Assert.IsTrue(result.Mar);
         }
 
         [Test]
@@ -407,6 +419,18 @@ namespace ButHowDoItComputer.Tests
             var result = Step(2);
 
             Assert.IsTrue(result.Acc.Set);
+        }
+        
+        [Test]
+        public void AfterStep4SetClearCaezFlagsIsTrue()
+        {
+            Instruction[1] = true;
+            Instruction[2] = true;
+
+            StepFull(3);
+            var result = Step(2);
+            
+            Assert.IsTrue(result.Flags);
         }
 
         // Step 5

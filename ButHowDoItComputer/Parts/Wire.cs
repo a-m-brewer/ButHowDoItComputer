@@ -2,18 +2,18 @@ using ButHowDoItComputer.Parts.Interfaces;
 
 namespace ButHowDoItComputer.Parts
 {
-    public class BitWire<T> : IWire<T>
+    public class Wire<T> : IWire<T>
     {
-        private readonly IInputable<T> _output;
+        private T _output;
 
-        public BitWire(IInputable<T> output)
+        public Wire(T output)
         {
             _output = output;
         }
 
         public void Update(T input)
         {
-            _output.UpdateInput(input);
+            _output = input;
         }
     }
 }
