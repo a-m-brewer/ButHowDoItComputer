@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using ButHowDoItComputer.DataTypes;
-using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Gates.Interfaces;
 using ButHowDoItComputer.Parts.Interfaces;
 
@@ -12,7 +11,7 @@ namespace ButHowDoItComputer.Parts
         private readonly IAnd _and;
         private readonly INot _not;
         private readonly IOr _or;
-        private List<IMemoryGate> _memoryGates;
+        private readonly List<IMemoryGate> _memoryGates;
         private bool _step7;
 
         public Stepper(IMemoryGateFactory memoryGateFactory, IAnd and, INot not, IOr or)
@@ -27,7 +26,7 @@ namespace ButHowDoItComputer.Parts
         {
             var notReset = _not.Apply(reset);
             var notClk = _not.Apply(clk);
-            
+
             var resetOrNotClk = _or.Apply(notClk, reset);
             var clkOrReset = _or.Apply(clk, reset);
 
@@ -50,7 +49,7 @@ namespace ButHowDoItComputer.Parts
             var notM7 = _not.Apply(m7);
             var notM9 = _not.Apply(m9);
             var notM11 = _not.Apply(m11);
-            
+
             var step1 = _or.Apply(reset, notM1);
             var step2 = _and.Apply(m1, notM3);
             var step3 = _and.Apply(m3, notM5);
@@ -60,7 +59,7 @@ namespace ButHowDoItComputer.Parts
             _step7 = m11;
 
             var stepperArray = new[] {step1, step2, step3, step4, step5, step6, _step7};
-            
+
             return new StepperOutput(stepperArray);
         }
 

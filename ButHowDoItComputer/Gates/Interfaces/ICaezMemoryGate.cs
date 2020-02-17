@@ -4,6 +4,5 @@ namespace ButHowDoItComputer.Gates.Interfaces
 {
     public interface ICaezMemoryGate : IGenericMemoryGate<Caez>
     {
-        
     }
 }

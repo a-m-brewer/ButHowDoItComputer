@@ -1,22 +1,19 @@
-﻿using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Parts.Interfaces;
-using System.Linq;
 
 namespace ButHowDoItComputer.Parts
 {
-
-    public class Wire : IWire
+    public class Wire<T> : IWire<T>
     {
-        private readonly IByteFactory _byteFactory;
+        private T _output;
 
-        public Wire(IByteFactory byteFactory)
+        public Wire(T output)
         {
-            _byteFactory = byteFactory;
+            _output = output;
         }
 
-        public IByte Apply(params IByte[] input)
+        public void Update(T input)
         {
-            return input.LastOrDefault(w => w.Any(a => a)) ?? _byteFactory.Create(0);
+            _output = input;
         }
     }
 }

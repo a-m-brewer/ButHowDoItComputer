@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using ButHowDoItComputer.DataTypes.Interfaces;
 
 namespace ButHowDoItComputer.DataTypes
 {
@@ -10,7 +9,7 @@ namespace ButHowDoItComputer.DataTypes
         public bool A { get; set; }
         public bool E { get; set; }
         public bool Z { get; set; }
-        
+
         public IEnumerator<bool> GetEnumerator()
         {
             yield return C;

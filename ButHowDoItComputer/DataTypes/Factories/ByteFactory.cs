@@ -13,14 +13,12 @@ namespace ButHowDoItComputer.DataTypes.Factories
         {
             _base10Converter = base10Converter;
         }
-        
+
         public IByte Create(params bool[] bits)
         {
             if (bits.Length != 8)
-            {
                 throw new ArgumentException($"A byte must be 8 bits. input array way {bits.Length} long");
-            }
-            
+
             return new Byte(bits);
         }
 

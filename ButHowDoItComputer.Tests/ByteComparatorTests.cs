@@ -1,4 +1,3 @@
-using ButHowDoItComputer.DataTypes;
 using ButHowDoItComputer.DataTypes.Factories;
 using ButHowDoItComputer.Gates;
 using ButHowDoItComputer.Utils;
@@ -9,16 +8,6 @@ namespace ButHowDoItComputer.Tests
     [TestFixture]
     public class ByteComparatorTests
     {
-        private And _and;
-        private Not _not;
-        private NAnd _nAnd;
-        private Or _or;
-        private XOr _xOr;
-        private BitComparator _bitComparator;
-        private ByteComparator _sut;
-        private ByteFactory _byteFactory;
-        private ByteToBase10Converter _byteToBase10;
-
         [SetUp]
         public void Setup()
         {
@@ -32,7 +21,17 @@ namespace ButHowDoItComputer.Tests
             _byteToBase10 = new ByteToBase10Converter(_byteFactory, new Base10Converter());
             _sut = new ByteComparator(_bitComparator, _byteFactory);
         }
-        
+
+        private And _and;
+        private Not _not;
+        private NAnd _nAnd;
+        private Or _or;
+        private XOr _xOr;
+        private BitComparator _bitComparator;
+        private ByteComparator _sut;
+        private ByteFactory _byteFactory;
+        private ByteToBase10Converter _byteToBase10;
+
         [Test]
         [TestCase(0U, 0U, false, true)]
         [TestCase(0U, 1U, false, false)]
@@ -43,7 +42,7 @@ namespace ButHowDoItComputer.Tests
             var b = _byteToBase10.ToByte(b2);
 
             var (eq, al, o) = _sut.AreEqual(a, b, true, false);
-            
+
             Assert.AreEqual(aLarger, al);
             Assert.AreEqual(equal, eq);
         }

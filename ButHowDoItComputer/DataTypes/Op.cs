@@ -1,7 +1,4 @@
-﻿using ButHowDoItComputer.DataTypes.Interfaces;
-using ButHowDoItComputer.Utils;
-
-namespace ButHowDoItComputer.DataTypes
+﻿namespace ButHowDoItComputer.DataTypes
 {
     public class Op
     {

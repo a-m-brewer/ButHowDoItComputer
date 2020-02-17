@@ -1,6 +1,3 @@
-using ButHowDoItComputer.DataTypes.Interfaces;
-using ButHowDoItComputer.Parts.Interfaces;
-
 namespace ButHowDoItComputer.Components.Interfaces
 {
     public interface IShifter : IRegisterTransfer
@@ -9,6 +6,11 @@ namespace ButHowDoItComputer.Components.Interfaces
         bool ShiftOut { get; set; }
     }
 
-    public interface IRightShifter : IShifter { }
-    public interface ILeftShifter : IShifter { }
+    public interface IRightShifter : IShifter
+    {
+    }
+
+    public interface ILeftShifter : IShifter
+    {
+    }
 }

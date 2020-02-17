@@ -18,7 +18,7 @@ namespace ButHowDoItComputer.Tests
             var memoryGateFactory = new MemoryGateFactory(new NAnd(new Not(), new And()));
             var and = new And();
             return new ByteRegister(new ByteMemoryGate(memoryGateFactory, byteFactory),
-                new ByteEnabler(and, byteFactory), byteFactory)
+                new ByteEnabler(and, byteFactory), byteFactory, wire => {})
             {
                 Set = set, Enable = enable
             };
@@ -31,7 +31,7 @@ namespace ButHowDoItComputer.Tests
             register.Input = b10ToByte.ToByte(input);
             return register;
         }
-        
+
         public static ByteRegister CreateRegister(this IByte input, bool set = true, bool enable = true)
         {
             var register = CreateRegister(set, enable);
@@ -100,13 +100,20 @@ namespace ButHowDoItComputer.Tests
                 new ByteRightShifter(CreateByteFactory()),
                 new ByteLeftShifter(CreateByteFactory()),
                 CreateOr(),
-                new Wire(CreateByteFactory()),
-                new ByteComparator(new BitComparator(CreateXOr(), CreateAnd(), CreateOr(), CreateNot()), CreateByteFactory()));
+                new AluWire(CreateByteFactory()),
+                new ByteComparator(new BitComparator(CreateXOr(), CreateAnd(), CreateOr(), CreateNot()),
+                    CreateByteFactory()), caez => {}, input => {},
+                byteFactory);
         }
 
         public static Bus1 CreateBus1()
         {
-            return new Bus1(CreateAnd(), CreateNot(), CreateOr(), CreateByteFactory());
+            return new Bus1(CreateAnd(), CreateNot(), CreateOr(), CreateByteFactory(), wire => {});
+        }
+
+        public static Bus1Factory CreateBus1Factory()
+        {
+            return new Bus1Factory(CreateAnd(), CreateNot(), CreateOr(), CreateByteFactory());
         }
 
         public static Clock CreateClock()
@@ -123,10 +130,50 @@ namespace ButHowDoItComputer.Tests
         {
             return new MemoryGateFactory(CreateNAnd());
         }
-        
+
         public static Stepper CreateStepper()
         {
             return new Stepper(CreateMemoryGateFactory(), CreateAnd(), CreateNot(), CreateOr());
+        }
+
+        public static Decoder CreateDecoder()
+        {
+            return new Decoder(CreateNot(), CreateAnd());
+        }
+
+        public static ByteMemoryGateFactory CreateByteMemoryGateFactory()
+        {
+            return new ByteMemoryGateFactory(CreateMemoryGateFactory(), CreateByteFactory());
+        }
+
+        public static ByteEnabler CreateByteEnabler()
+        {
+            return new ByteEnabler(CreateAnd(), CreateByteFactory());
+        }
+
+        public static ByteRegisterFactory CreateByteRegisterFactory()
+        {
+            return new ByteRegisterFactory(CreateByteMemoryGateFactory(), CreateByteEnabler(), CreateByteFactory());
+        }
+
+        public static Ram CreateRam()
+        {
+            return CreateRam(new Bus<IByte>());
+        }
+
+        public static Ram CreateRam(IBus<IByte> bus)
+        {
+            return new Ram(bus, CreateByteRegisterFactory(), CreateDecoder(), CreateAnd());
+        }
+        
+        public static CaezRegister CreateCaezRegister()
+        {
+            return new CaezRegister(new CaezMemoryGate(CreateMemoryGateFactory()), new CaezEnabler(CreateAnd()), wire => {});
+        }
+
+        public static CaezRegisterFactory CreateCaezRegisterFactory()
+        {
+            return new CaezRegisterFactory(CreateMemoryGateFactory(), CreateAnd());
         }
     }
 }

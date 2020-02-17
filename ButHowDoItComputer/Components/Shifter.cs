@@ -8,8 +8,6 @@ namespace ButHowDoItComputer.Components
     public class Shifter : IShifter
     {
         private readonly ByteFactory _byteFactory;
-        public bool ShiftIn { get; set; }
-        public bool ShiftOut { get; set; }
 
         protected Shifter(ByteFactory byteFactory)
         {
@@ -17,7 +15,10 @@ namespace ButHowDoItComputer.Components
             ShiftIn = false;
             ShiftOut = false;
         }
-        
+
+        public bool ShiftIn { get; set; }
+        public bool ShiftOut { get; set; }
+
         public void Apply(IRegister<IByte> inputRegister, IRegister<IByte> outputRegister)
         {
             inputRegister.Apply();

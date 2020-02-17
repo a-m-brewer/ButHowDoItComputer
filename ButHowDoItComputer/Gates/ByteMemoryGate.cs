@@ -15,14 +15,11 @@ namespace ButHowDoItComputer.Gates
             _byteFactory = byteFactory;
             _memoryGates = Enumerable.Range(0, 8).Select(_ => memoryGateFactory.Create()).ToList();
         }
-        
+
         public IByte Apply(IByte input, bool set)
         {
             var newState = new bool[8];
-            for (var i = 0; i < input.Count; i++)
-            {
-                newState[i] = _memoryGates[i].Apply(input[i], set);
-            }
+            for (var i = 0; i < input.Count; i++) newState[i] = _memoryGates[i].Apply(input[i], set);
 
             return _byteFactory.Create(newState);
         }

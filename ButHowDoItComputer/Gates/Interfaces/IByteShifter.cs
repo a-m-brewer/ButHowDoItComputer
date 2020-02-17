@@ -7,6 +7,11 @@ namespace ButHowDoItComputer.Gates.Interfaces
         (IByte Ouput, bool ShiftOut) Shift(IByte input, bool shiftIn);
     }
 
-    public interface IRightByteShifter : IByteShifter { }
-    public interface ILeftByteShifter : IByteShifter { }
+    public interface IRightByteShifter : IByteShifter
+    {
+    }
+
+    public interface ILeftByteShifter : IByteShifter
+    {
+    }
 }

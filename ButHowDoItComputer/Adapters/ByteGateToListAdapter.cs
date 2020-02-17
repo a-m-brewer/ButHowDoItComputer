@@ -3,7 +3,7 @@ using ButHowDoItComputer.Gates.Interfaces;
 
 namespace ButHowDoItComputer.Adapters
 {
-    class ByteGateToListAdapter : IByteListGate
+    internal class ByteGateToListAdapter : IByteListGate
     {
         private readonly IByteGate _byteGate;
         private readonly bool _set;

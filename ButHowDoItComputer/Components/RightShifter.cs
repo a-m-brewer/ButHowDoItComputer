@@ -20,7 +20,7 @@ namespace ButHowDoItComputer.Components
         {
             var (secondRegisterInput, shiftOut) = _rightByteShifter.Shift(inputRegister.Output, ShiftIn);
             ShiftOut = shiftOut;
-            
+
             return secondRegisterInput.ToBits();
         }
     }

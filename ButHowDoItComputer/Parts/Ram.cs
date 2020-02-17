@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using ButHowDoItComputer.DataTypes;
 using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Gates.Interfaces;
 using ButHowDoItComputer.Parts.Interfaces;
@@ -9,21 +10,11 @@ namespace ButHowDoItComputer.Parts
 {
     public class Ram : IRam, IApplicable, IEnablable, ISettable
     {
+        private readonly IAnd _and;
         private readonly IByteRegisterFactory _byteRegisterFactory;
         private readonly IDecoder _decoder;
-        private readonly IAnd _and;
 
-        public IRegister<IByte> MemoryAddressRegister { get; private set; }
-
-        public bool Set { get; set; }
-        public bool Enable { get; set; }
-
-
-        public IBus Io { get; }
-
-        public List<List<IRegister<IByte>>> InternalRegisters { get; private set; } = new List<List<IRegister<IByte>>>();
-
-        public Ram(IBus outputBus, IByteRegisterFactory byteRegisterFactory,
+        public Ram(IBus<IByte> outputBus, IByteRegisterFactory byteRegisterFactory,
             IDecoder decoder, IAnd and)
         {
             Io = outputBus;
@@ -38,30 +29,16 @@ namespace ButHowDoItComputer.Parts
             SetupInternalRegisters();
         }
 
-        private void SetupInputRegister()
-        {
-            MemoryAddressRegister = _byteRegisterFactory.Create();
-            // never need to hide input registers value
-            MemoryAddressRegister.Enable = true;
-            MemoryAddressRegister.Name = "MAR";
-            Io.BusSubscribers.Add(MemoryAddressRegister);
-        }
+        public IRegister<IByte> MemoryAddressRegister { get; private set; }
 
-        private void SetupInternalRegisters()
-        {
-            InternalRegisters = Enumerable.Range(0, 16)
-                .Select(x => Enumerable.Range(0, 16).Select(y =>
-                {
-                    var reg = _byteRegisterFactory.Create();
-                    reg.Name = $@"RamInternalRegister{x}{y}";
-                    return reg;
-                }).ToList()).ToList();
+        public bool Set { get; set; }
+        public bool Enable { get; set; }
 
-            foreach (var register in InternalRegisters.SelectMany(row => row))
-            {
-                Io.Add(register);
-            }
-        }
+
+        public IBus<IByte> Io { get; }
+
+        public List<List<IRegister<IByte>>> InternalRegisters { get; private set; } =
+            new List<List<IRegister<IByte>>>();
 
         public void SetMemoryAddress(IByte address)
         {
@@ -74,25 +51,25 @@ namespace ButHowDoItComputer.Parts
         public void Apply()
         {
             var inputData = MemoryAddressRegister.Data;
-            
-            var yInput = new [] {inputData.Eight, inputData.Seven, inputData.Six, inputData.Five};
+
+            var yInput = new[] {inputData.Eight, inputData.Seven, inputData.Six, inputData.Five};
             var yDecoder = _decoder.Apply(yInput).ToList();
 
-            var xInput = new [] {inputData.Four, inputData.Three, inputData.Two, inputData.One};
+            var xInput = new[] {inputData.Four, inputData.Three, inputData.Two, inputData.One};
             var xDecoder = _decoder.Apply(xInput).ToList();
 
             for (var y = 0; y < yDecoder.Count; y++)
+            for (var x = 0; x < xDecoder.Count; x++)
             {
-                for (var x = 0; x < xDecoder.Count; x++)
-                {
-                    var xAndY = _and.Apply(xDecoder[x], yDecoder[y]);
+                var xAndY = _and.Apply(xDecoder[x], yDecoder[y]);
 
-                    var s = _and.Apply(xAndY, Set);
-                    var e = _and.Apply(xAndY, Enable);
+                var s = _and.Apply(xAndY, Set);
+                var e = _and.Apply(xAndY, Enable);
 
-                    InternalRegisters[y][x].Set = s;
-                    InternalRegisters[y][x].Enable = e;
-                }
+                InternalRegisters[y][x].Set = s;
+                InternalRegisters[y][x].Enable = e;
+
+                InternalRegisters[y][x].Apply();
             }
         }
 
@@ -100,7 +77,6 @@ namespace ButHowDoItComputer.Parts
         {
             Set = true;
             Apply();
-            Io.Apply();
             Set = false;
         }
 
@@ -108,8 +84,33 @@ namespace ButHowDoItComputer.Parts
         {
             Enable = true;
             Apply();
-            Io.Apply();
             Enable = false;
+        }
+
+        private void SetupInputRegister()
+        {
+            MemoryAddressRegister = _byteRegisterFactory.Create(update => {}, nameof(MemoryAddressRegister));
+            // never need to hide input registers value
+            MemoryAddressRegister.Enable = true;
+        }
+
+        private void SetupInternalRegisters()
+        {
+            InternalRegisters = Enumerable.Range(0, 16)
+                .Select(x => Enumerable.Range(0, 16).Select(y =>
+                {
+                    var reg = _byteRegisterFactory.Create(updateWire =>
+                    {
+                        Io.UpdateData(new BusMessage<IByte> {Name = $@"RamInternalRegister{x}{y}", Data = updateWire});
+                        Io.UpdateSubs();
+                    }, $@"RamInternalRegister{x}{y}");
+                    return reg;
+                }).ToList()).ToList();
+
+            foreach (var register in InternalRegisters.SelectMany(internalRegisterRow => internalRegisterRow))
+            {
+                Io.AddRegister(register);
+            }
         }
     }
 }

@@ -1,24 +1,27 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Linq;
 using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Gates.Interfaces;
-using System.Linq;
-using ButHowDoItComputer.Utils.Interfaces;
 
 namespace ButHowDoItComputer.Gates
 {
     public class Bus1 : IBus1
     {
         private readonly IAnd _and;
+        private readonly IByteFactory _byteFactory;
+        private readonly Action<IByte> _updateWire;
         private readonly INot _not;
         private readonly IOr _or;
-        private readonly IByteFactory _byteFactory;
 
-        public Bus1(IAnd and, INot not, IOr or, IByteFactory byteFactory)
+        public Bus1(IAnd and, INot not, IOr or, IByteFactory byteFactory, Action<IByte> updateWire)
         {
             _and = and;
             _not = not;
             _or = or;
             _byteFactory = byteFactory;
+            _updateWire = updateWire;
+            Input = _byteFactory.Create(0);
+            Output = _byteFactory.Create(0);
         }
 
         public IByte Apply(IByte input, bool bus1)
@@ -33,20 +36,18 @@ namespace ButHowDoItComputer.Gates
 
             var output = notAndRest.Prepend(orOneAndBus1).ToArray();
 
-            return _byteFactory.Create(output);
+            Output = _byteFactory.Create(output);
+            _updateWire(Output);
+            return Output;
         }
 
         public void Apply()
         {
-            var result = Apply(Input, Set);
-            foreach (var subscriber in BusSubscribers)
-            {
-                subscriber.Input = result;
-            }
+            Apply(Input, Set);
         }
 
         public IByte Input { get; set; }
-        public List<IBusInputSubscriber<IByte>> BusSubscribers { get; } = new List<IBusInputSubscriber<IByte>>();
         public bool Set { get; set; }
+        public IByte Output { get; set; }
     }
 }

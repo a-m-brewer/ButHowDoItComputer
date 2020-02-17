@@ -1,7 +1,5 @@
-using System.Collections.Generic;
 using System.Linq;
 using ButHowDoItComputer.DataTypes.Factories;
-using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Gates;
 using ButHowDoItComputer.Utils;
 using NUnit.Framework;

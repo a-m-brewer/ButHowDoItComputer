@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using ButHowDoItComputer.Codes.ASCII.Interfaces;
 using ButHowDoItComputer.DataTypes.Interfaces;
@@ -14,7 +13,7 @@ namespace ButHowDoItComputer.Codes.ASCII
         {
             _byteToBase10Converter = byteToBase10Converter;
         }
-        
+
         public string ToAscii(IByte input)
         {
             var intInput = _byteToBase10Converter.ToInt(input);

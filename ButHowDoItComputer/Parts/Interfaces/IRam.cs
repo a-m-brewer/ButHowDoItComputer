@@ -1,17 +1,16 @@
 using System.Collections.Generic;
 using ButHowDoItComputer.DataTypes.Interfaces;
-using ButHowDoItComputer.Gates.Interfaces;
 using ButHowDoItComputer.Utils.Interfaces;
 
 namespace ButHowDoItComputer.Parts.Interfaces
 {
-    public interface IRam : ICpuSettableSubscriber, ICpuEnableSubscriber
+    public interface IRam : ICpuSettableSubscriber, ICpuEnableSubscriber, IPinPart
     {
         IRegister<IByte> MemoryAddressRegister { get; }
         List<List<IRegister<IByte>>> InternalRegisters { get; }
         bool Set { get; set; }
         bool Enable { get; set; }
-        IBus Io { get; }
+        IBus<IByte> Io { get; }
         void SetMemoryAddress(IByte address);
         void Apply();
         void ApplyState();

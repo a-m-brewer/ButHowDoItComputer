@@ -1,10 +1,8 @@
 using System;
 using System.Linq;
-using System.Text;
 using ButHowDoItComputer.Codes.ASCII;
 using ButHowDoItComputer.DataTypes.Factories;
 using ButHowDoItComputer.DataTypes.Interfaces;
-using ButHowDoItComputer.Gates.Interfaces;
 using ButHowDoItComputer.Utils;
 using NUnit.Framework;
 
@@ -18,32 +16,31 @@ namespace ButHowDoItComputer.Tests
             .Select(s =>
                 new object[]
                 {
-                    new ByteToBase10Converter(new ByteFactory( new Base10Converter()),
+                    new ByteToBase10Converter(new ByteFactory(new Base10Converter()),
                         new Base10Converter()).ToByte((uint) s),
                     Convert.ToChar((char) s).ToString()
                 })
             .ToArray();
 
-        [Test, TestCaseSource(nameof(TestData))]
-        public void CanConvertFromByteToAscii(IByte inputByte, string expectedChar)
-        {
-            var result = new ByteToAsciiConverter(new ByteToBase10Converter(
-                new ByteFactory( new Base10Converter()), new Base10Converter())).ToAscii(inputByte);
-            Assert.AreEqual(expectedChar, result);
-        }
-        
-        [Test, TestCaseSource(nameof(TestData))]
+        [Test]
+        [TestCaseSource(nameof(TestData))]
         public void CanConvertFromAsciiToByte(IByte outputByte, string inputChar)
         {
             var result =
-                new ByteToAsciiConverter(new ByteToBase10Converter( new ByteFactory( new Base10Converter()),
+                new ByteToAsciiConverter(new ByteToBase10Converter(new ByteFactory(new Base10Converter()),
                         new Base10Converter()))
                     .ToByte(inputChar);
 
-            for (var i = 0; i < outputByte.Count; i++)
-            {
-                Assert.AreEqual(outputByte[i], result[i]);
-            }
+            for (var i = 0; i < outputByte.Count; i++) Assert.AreEqual(outputByte[i], result[i]);
+        }
+
+        [Test]
+        [TestCaseSource(nameof(TestData))]
+        public void CanConvertFromByteToAscii(IByte inputByte, string expectedChar)
+        {
+            var result = new ByteToAsciiConverter(new ByteToBase10Converter(
+                new ByteFactory(new Base10Converter()), new Base10Converter())).ToAscii(inputByte);
+            Assert.AreEqual(expectedChar, result);
         }
     }
 }

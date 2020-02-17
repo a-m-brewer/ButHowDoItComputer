@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Gates.Interfaces;
 
 namespace ButHowDoItComputer.Gates
@@ -7,8 +5,8 @@ namespace ButHowDoItComputer.Gates
     public class MemoryGate : IMemoryGate
     {
         private readonly INAnd _nAnd;
-        private bool _o;
         private bool _c;
+        private bool _o;
 
         public MemoryGate(INAnd nAnd)
         {
@@ -16,7 +14,7 @@ namespace ButHowDoItComputer.Gates
             _o = false;
             _c = false;
         }
-        
+
         public bool Apply(bool input, bool set)
         {
             var a = _nAnd.Apply(input, set);

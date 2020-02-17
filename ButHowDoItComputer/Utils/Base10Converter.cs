@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using ButHowDoItComputer.DataTypes.Factories;
-using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Utils.Interfaces;
 
 namespace ButHowDoItComputer.Utils
@@ -11,10 +9,10 @@ namespace ButHowDoItComputer.Utils
     {
         public IEnumerable<bool> ToBit(uint input)
         {
-            var quotient = (int)input;
-            
+            var quotient = (int) input;
+
             var result = new List<bool>();
-            
+
             while (quotient != 0)
             {
                 quotient = Math.DivRem(quotient, 2, out var remainder);
@@ -27,15 +25,12 @@ namespace ButHowDoItComputer.Utils
 
         public uint ToInt(IList<bool> bits)
         {
-            if (!bits.Any())
-            {
-                return 0;
-            }
-            
+            if (!bits.Any()) return 0;
+
             var total = 0;
             for (var i = 0; i < bits.Count; i++)
             {
-                if(!bits[i]) continue;
+                if (!bits[i]) continue;
                 total += (int) Math.Pow(2, i);
             }
 

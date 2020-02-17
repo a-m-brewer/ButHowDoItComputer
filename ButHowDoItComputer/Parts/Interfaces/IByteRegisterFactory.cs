@@ -3,8 +3,7 @@ using ButHowDoItComputer.Gates.Interfaces;
 
 namespace ButHowDoItComputer.Parts.Interfaces
 {
-    public interface IByteRegisterFactory : IObjectCreationFactory<IRegister<IByte>>
+    public interface IByteRegisterFactory : IRegisterFactory<IByte>
     {
-        
     }
 }

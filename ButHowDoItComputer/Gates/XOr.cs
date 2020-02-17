@@ -1,14 +1,12 @@
 using System.Linq;
-using ButHowDoItComputer.DataTypes;
-using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Gates.Interfaces;
 
 namespace ButHowDoItComputer.Gates
 {
     public class XOr : IXOr
     {
-        private readonly INot _not;
         private readonly INAnd _nAnd;
+        private readonly INot _not;
 
         public XOr(INot not, INAnd nAnd)
         {
@@ -20,17 +18,11 @@ namespace ButHowDoItComputer.Gates
         {
             var bitList = bits.ToList();
 
-            if (bitList.Count < 2)
-            {
-                return false;
-            }
+            if (bitList.Count < 2) return false;
 
             var lastResult = ApplyXor(bitList[0], bitList[1]);
 
-            for (var i = 2; i < bitList.Count; i++)
-            {
-                lastResult = ApplyXor(lastResult, bitList[i]);
-            }
+            for (var i = 2; i < bitList.Count; i++) lastResult = ApplyXor(lastResult, bitList[i]);
 
             return lastResult;
         }

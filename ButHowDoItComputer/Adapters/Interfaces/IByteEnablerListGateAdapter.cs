@@ -2,5 +2,7 @@
 
 namespace ButHowDoItComputer.Adapters.Interfaces
 {
-    public interface IByteEnablerListGateAdapter : IByteListGate { }
+    public interface IByteEnablerListGateAdapter : IByteListGate
+    {
+    }
 }

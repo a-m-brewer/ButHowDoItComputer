@@ -1,4 +1,6 @@
 namespace ButHowDoItComputer.Components.Interfaces
 {
-    public interface IRegisterAnd : IRegisterListGate {}
+    public interface IRegisterAnd : IRegisterListGate
+    {
+    }
 }

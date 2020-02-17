@@ -15,7 +15,7 @@ namespace ButHowDoItComputer.Gates
             _and = and;
             _byteFactory = byteFactory;
         }
-        
+
         public IByte Apply(params IByte[] input)
         {
             var groups = new List<List<bool>>();

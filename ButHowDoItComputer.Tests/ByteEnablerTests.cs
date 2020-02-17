@@ -1,7 +1,6 @@
 using System.Linq;
 using ButHowDoItComputer.DataTypes;
 using ButHowDoItComputer.DataTypes.Factories;
-using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Gates;
 using ButHowDoItComputer.Utils;
 using NUnit.Framework;
@@ -11,16 +10,16 @@ namespace ButHowDoItComputer.Tests
     [TestFixture]
     public class ByteEnablerTests
     {
-        private ByteEnabler _sut;
-        private ByteFactory _byteFactory;
-
         [SetUp]
         public void Setup()
         {
             _byteFactory = new ByteFactory(new Base10Converter());
-            
+
             _sut = new ByteEnabler(new And(), _byteFactory);
         }
+
+        private ByteEnabler _sut;
+        private ByteFactory _byteFactory;
 
         [Test]
         [TestCase(false, false)]

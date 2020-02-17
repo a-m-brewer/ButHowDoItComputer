@@ -1,6 +1,4 @@
-﻿using ButHowDoItComputer.DataTypes.Interfaces;
-
-namespace ButHowDoItComputer.DataTypes
+﻿namespace ButHowDoItComputer.DataTypes
 {
     public class ClockOutput
     {
@@ -8,5 +6,7 @@ namespace ButHowDoItComputer.DataTypes
         public bool ClkD { get; set; }
         public bool ClkS { get; set; }
         public bool ClkE { get; set; }
+
+        public bool AllOff => !Clk && !ClkD && !ClkS && !ClkE;
     }
 }

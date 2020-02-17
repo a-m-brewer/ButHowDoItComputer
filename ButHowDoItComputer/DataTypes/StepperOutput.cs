@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using ButHowDoItComputer.DataTypes.Interfaces;
 
 namespace ButHowDoItComputer.DataTypes
 {
@@ -18,9 +17,7 @@ namespace ButHowDoItComputer.DataTypes
         public StepperOutput(bool[] bits)
         {
             if (bits.Length != 7)
-            {
                 throw new ArgumentException($"A stepper has 7 inputs. input array way {bits.Length} long");
-            }
 
             _bits = bits;
         }
@@ -63,7 +60,7 @@ namespace ButHowDoItComputer.DataTypes
 
         public int Count => _bits.Length;
         public bool IsReadOnly => false;
-        
+
         public int IndexOf(bool item)
         {
             return _bits.ToList().IndexOf(item);

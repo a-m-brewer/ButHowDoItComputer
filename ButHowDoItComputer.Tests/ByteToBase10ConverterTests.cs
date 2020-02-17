@@ -1,9 +1,6 @@
 using System;
 using System.Collections.Generic;
-using ButHowDoItComputer.Codes.ASCII;
-using ButHowDoItComputer.DataTypes;
 using ButHowDoItComputer.DataTypes.Factories;
-using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Utils;
 using NUnit.Framework;
 using Byte = ButHowDoItComputer.DataTypes.Byte;
@@ -12,10 +9,10 @@ namespace ButHowDoItComputer.Tests
 {
     public class ByteToBase10ConverterTests
     {
-        private List<bool> _twentyInBits;
-        private uint _twenty;
         private ByteToBase10Converter _sut;
+        private uint _twenty;
         private Byte _twentyByte;
+        private List<bool> _twentyInBits;
 
         [SetUp]
         public void Setup()
@@ -31,14 +28,14 @@ namespace ButHowDoItComputer.Tests
                 false,
                 false
             };
-            
+
             _twenty = 20;
             _twentyByte = new Byte(_twentyInBits.ToArray());
 
             _sut = new ByteToBase10Converter(new ByteFactory(new Base10Converter()),
                 new Base10Converter());
         }
-        
+
         [Test]
         public void CanConvertByteToBase10()
         {
@@ -49,10 +46,7 @@ namespace ButHowDoItComputer.Tests
         public void CanConvertIntToByte()
         {
             var result = _sut.ToByte(_twenty);
-            for (var i = 0; i < _twentyInBits.Count; i++)
-            {
-                Assert.AreEqual(_twentyInBits[i], result[i]);
-            }
+            for (var i = 0; i < _twentyInBits.Count; i++) Assert.AreEqual(_twentyInBits[i], result[i]);
         }
 
         [Test]

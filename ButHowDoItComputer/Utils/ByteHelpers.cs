@@ -6,7 +6,8 @@ namespace ButHowDoItComputer.Utils
     {
         public static bool[] ToBits(this IByte input)
         {
-            return new[] { input.One, input.Two, input.Three, input.Four, input.Five, input.Six, input.Seven, input.Eight };
+            return new[]
+                {input.One, input.Two, input.Three, input.Four, input.Five, input.Six, input.Seven, input.Eight};
         }
     }
 }

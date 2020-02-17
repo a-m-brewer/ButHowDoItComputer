@@ -7,15 +7,15 @@ namespace ButHowDoItComputer.Tests
     [TestFixture]
     public class IsZeroGateTests
     {
-        private IsZeroGate _sut;
-        private ByteToBase10Converter _base10ToByte;
-
         [SetUp]
         public void Setup()
         {
             _sut = new IsZeroGate(TestUtils.CreateOr(), TestUtils.CreateNot());
             _base10ToByte = TestUtils.CreateByteToBase10Converter();
         }
+
+        private IsZeroGate _sut;
+        private ByteToBase10Converter _base10ToByte;
 
         [Test]
         [TestCase(0U, true)]

@@ -4,8 +4,8 @@ using ButHowDoItComputer.Utils.Interfaces;
 
 namespace ButHowDoItComputer.Components.Interfaces
 {
-    public interface IRegisterBus1 : IRegisterWithSet, ICpuSettableSubscriber, IBusInputSubscriber<IByte>
+    public interface IRegisterBus1 : IRegisterWithSet, ICpuSettableSubscriber, IInputable<IByte>
     {
-        List<IBusInputSubscriber<IByte>> Subscribers { get; set; } 
+        List<IInputable<IByte>> Subscribers { get; set; }
     }
 }

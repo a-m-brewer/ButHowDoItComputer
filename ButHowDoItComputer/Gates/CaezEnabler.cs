@@ -1,5 +1,4 @@
 using ButHowDoItComputer.DataTypes;
-using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Gates.Interfaces;
 
 namespace ButHowDoItComputer.Gates
@@ -12,7 +11,7 @@ namespace ButHowDoItComputer.Gates
         {
             _and = and;
         }
-        
+
         public Caez Apply(Caez input, bool set)
         {
             return new Caez

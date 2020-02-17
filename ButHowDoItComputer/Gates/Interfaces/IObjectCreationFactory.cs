@@ -1,6 +1,6 @@
 namespace ButHowDoItComputer.Gates.Interfaces
 {
-    public interface IObjectCreationFactory<out T>
+    public interface IObjectCreationFactory<T>
     {
         T Create();
     }
