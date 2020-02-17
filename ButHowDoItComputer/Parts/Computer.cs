@@ -1,3 +1,4 @@
+using ButHowDoItComputer.Components.Interfaces;
 using ButHowDoItComputer.DataTypes;
 using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Parts.Interfaces;

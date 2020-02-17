@@ -6,6 +6,7 @@ using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Gates;
 using ButHowDoItComputer.Gates.Interfaces;
 using ButHowDoItComputer.Parts;
+using ButHowDoItComputer.Parts.Interfaces;
 using ButHowDoItComputer.Utils;
 
 namespace ButHowDoItComputer.Components.Factories
