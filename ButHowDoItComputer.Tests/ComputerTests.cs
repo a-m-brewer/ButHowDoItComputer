@@ -387,6 +387,42 @@ namespace ButHowDoItComputer.Tests
             Assert.IsTrue(result.All(a => a));
         }
 
+        [Test]
+        public void CanClearFlags()
+        {
+            var addInstruction = _byteFactory.Create(true, false, false, false, false, false, false, true);
+            _sut.ComputerState.Ram.InternalRegisters[0][0].ApplyOnce(addInstruction);
+
+            var clearInstruction = _byteFactory.Create(false, true, true, false, false, false, false, false);
+            _sut.ComputerState.Ram.InternalRegisters[0][1].ApplyOnce(clearInstruction);
+            
+            _sut.ComputerState.GeneralPurposeRegisters[0].ApplyOnce(_byteFactory.Create(200));
+            _sut.ComputerState.GeneralPurposeRegisters[1].ApplyOnce(_byteFactory.Create(200));
+            
+            StepFull(6);
+
+            Assert.IsTrue(_sut.ComputerState.Flags.Data.C);
+            Assert.IsFalse(_sut.ComputerState.Flags.Data.A);
+            Assert.IsTrue(_sut.ComputerState.Flags.Data.E);
+            Assert.IsFalse(_sut.ComputerState.Flags.Data.Z);
+            
+            Step(1);
+
+            StepFull(3);
+            
+            Assert.IsTrue(_sut.ComputerState.Bus1.Set);
+            Step(1);
+            Assert.IsTrue(_sut.ComputerState.Flags.Set);
+            Step(2);
+            
+            StepFull(2);
+
+            Assert.IsFalse(_sut.ComputerState.Flags.Data.C);
+            Assert.IsFalse(_sut.ComputerState.Flags.Data.A);
+            Assert.IsFalse(_sut.ComputerState.Flags.Data.E);
+            Assert.IsFalse(_sut.ComputerState.Flags.Data.Z);
+        }
+
         private void StepFull(int times)
         {
             Step(times * 4);

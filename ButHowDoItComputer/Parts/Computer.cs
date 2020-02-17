@@ -22,6 +22,11 @@ namespace ButHowDoItComputer.Parts
             var pinStates = CpuPinStates.Step(ComputerState.Ir.Output, ComputerState.Flags.Output);
             ComputerState.UpdatePins(pinStates);
             Apply();
+            
+            if (pinStates.ClockOutput.AllOff)
+            {
+                ComputerState.Bus.UpdateData(new BusMessage<IByte> {Data = new Byte(), Name = "Bus"});
+            }
         }
 
         private void Apply()
