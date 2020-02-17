@@ -4,7 +4,7 @@ using ButHowDoItComputer.Utils.Interfaces;
 
 namespace ButHowDoItComputer.Parts.Interfaces
 {
-    public interface IRam : ICpuSettableSubscriber, ICpuEnableSubscriber, IPinPart
+    public interface IRam : IApplicable, IPinPart
     {
         IRegister<IByte> MemoryAddressRegister { get; }
         List<List<IRegister<IByte>>> InternalRegisters { get; }

@@ -3,7 +3,7 @@ using ButHowDoItComputer.Utils.Interfaces;
 
 namespace ButHowDoItComputer.Parts.Interfaces
 {
-    public interface IClock : ICpuSettableSubscriber, ICpuEnableSubscriber
+    public interface IClock : ISettable, IEnablable, IApplicable
     {
         bool ClkS { get; }
         bool ClkE { get; }
