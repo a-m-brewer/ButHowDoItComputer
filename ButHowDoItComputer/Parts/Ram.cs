@@ -8,7 +8,7 @@ using ButHowDoItComputer.Utils.Interfaces;
 
 namespace ButHowDoItComputer.Parts
 {
-    public class Ram : IRam, IApplicable, IEnablable, ISettable
+    public class Ram : IRam
     {
         private readonly IAnd _and;
         private readonly IByteRegisterFactory _byteRegisterFactory;
