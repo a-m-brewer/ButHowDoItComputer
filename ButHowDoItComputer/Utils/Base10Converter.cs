@@ -44,25 +44,4 @@ namespace ButHowDoItComputer.Utils
             return bits;
         }
     }
-
-    public static class Base10ConverterExtensions
-    {
-        public static IEnumerable<bool> ToBit(this uint input)
-        {
-            var b10C = new Base10Converter();
-            return b10C.ToBit(input);
-        }
-
-        public static uint ToInt(this IList<bool> bits)
-        {
-            var b10C = new Base10Converter();
-            return b10C.ToInt(bits.ToList());
-        }
-
-        public static IEnumerable<bool> Pad(this IEnumerable<bool> bits, int amount)
-        {
-            var b10C = new Base10Converter();
-            return b10C.Pad(bits.ToList(), amount);
-        }
-    }
 }
