@@ -1,7 +1,6 @@
 using System;
 using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Gates.Interfaces;
-using ButHowDoItComputer.Parts;
 
 namespace ButHowDoItComputer.Gates.Factories
 {
