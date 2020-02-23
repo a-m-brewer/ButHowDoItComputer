@@ -423,6 +423,8 @@ namespace ButHowDoItComputer.Tests.Parts
             Assert.IsFalse(_sut.ComputerState.Flags.Data.E);
             Assert.IsFalse(_sut.ComputerState.Flags.Data.Z);
         }
+        
+        // TODO: Create instructions for IOBus 
 
         private void StepFull(int times)
         {
