@@ -25,11 +25,12 @@ namespace ButHowDoItComputer.Tests.Components
             _byteFactory = TestUtils.CreateByteFactory();
             _fullByte = _byteFactory.Create(255);
             var bus = new Bus<IByte>(new BusMessage<IByte> {Data = new Byte(), Name = "Bus"});
+            var ioBus = new Bus<IByte>(new BusMessage<IByte> {Data = new Byte(), Name = "IoBus"});
             var byteRegisterFactory = TestUtils.CreateByteRegisterFactory();
             var ram = TestUtils.CreateRam(bus);
             _pinStates = new PinStates();
             _sut = new ComputerState(byteRegisterFactory, ram, TestUtils.CreateBus1Factory(),
-                new ArithmeticLogicUnitFactory(), TestUtils.CreateCaezRegisterFactory(), new BitRegisterFactory(TestUtils.CreateMemoryGateFactory()), bus);
+                new ArithmeticLogicUnitFactory(), TestUtils.CreateCaezRegisterFactory(), new BitRegisterFactory(TestUtils.CreateMemoryGateFactory()), bus, ioBus);
         }
 
         [Test]
@@ -373,7 +374,46 @@ namespace ButHowDoItComputer.Tests.Components
             _sut.CarryInTmp.ApplyOnce(true, true);
             Assert.IsTrue(_sut.Alu.CarryIn);
         }
+
+        [Test]
+        public void IoClkEMapsToClkE()
+        {
+            _pinStates.IoClk.Enable = true;
+            _sut.UpdatePins(_pinStates);
+            Assert.IsTrue(_sut.Io.Clk.Enable);
+        }
         
-        // TODO: Map updates for IO Bus
+        [Test]
+        public void IoClkSMapsToClkS()
+        {
+            _pinStates.IoClk.Set = true;
+            _sut.UpdatePins(_pinStates);
+            Assert.IsTrue(_sut.Io.Clk.Set);
+        }
+        
+        [Test]
+        public void IoDataAddressMapsToDataAddress()
+        {
+            _pinStates.IoDataAddress = true;
+            _sut.UpdatePins(_pinStates);
+            Assert.IsTrue(_sut.Io.DataAddress);
+        }
+        
+        [Test]
+        public void IoInputOutputMapsToInputOutput()
+        {
+            _pinStates.IoInputOutput = true;
+            _sut.UpdatePins(_pinStates);
+            Assert.IsTrue(_sut.Io.InputOutput);
+        }
+
+        [Test]
+        public void CpuBusUpdatesIoBus()
+        {
+            _sut.Bus.UpdateData(new BusMessage<IByte> {Name = "CpuBus", Data = _fullByte});
+            _sut.Bus.UpdateSubs();
+
+            Assert.IsTrue(_sut.Io.Bus.Data.Data.All(a => a));
+        }
     }
 }

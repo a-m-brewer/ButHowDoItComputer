@@ -31,10 +31,11 @@ namespace ButHowDoItComputer.Tests.Parts
                 _byteFactory);
             
             var bus = new Bus<IByte>(new BusMessage<IByte> {Data = new Byte(), Name = "Bus"});
+            var ioBus = new Bus<IByte>(new BusMessage<IByte> {Data = new Byte(), Name = "IoBus"});
             var byteRegisterFactory = TestUtils.CreateByteRegisterFactory();
             var ram = TestUtils.CreateRam(bus);
             var computerState = new ComputerState(byteRegisterFactory, ram, TestUtils.CreateBus1Factory(),
-                new ArithmeticLogicUnitFactory(), TestUtils.CreateCaezRegisterFactory(), new BitRegisterFactory(TestUtils.CreateMemoryGateFactory()), bus);
+                new ArithmeticLogicUnitFactory(), TestUtils.CreateCaezRegisterFactory(), new BitRegisterFactory(TestUtils.CreateMemoryGateFactory()), bus, ioBus);
 
             _sut = new Computer(cpuPinStates, computerState);
         }

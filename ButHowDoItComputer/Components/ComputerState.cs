@@ -20,9 +20,16 @@ namespace ButHowDoItComputer.Components
             IArithmeticLogicUnitFactory aluFactory, 
             ICaezRegisterFactory caezRegisterFactory,
             IRegisterFactory<bool> bitRegisterFactory,
-            IBus<IByte> bus)
+            IBus<IByte> bus,
+            IBus<IByte> ioBus)
         {
+            Io = new IoPinStates(ioBus);
             Bus = bus;
+            Bus.AddByte(input =>
+            {
+                Io.Bus.UpdateData(new BusMessage<IByte> {Name = nameof(Bus), Data = input});
+                Io.Bus.UpdateSubs();
+            });
             GeneralPurposeRegisters = Enumerable.Range(0, 4).Select(index =>
             {
                 var name = $"GeneralPurposeRegister_{index}";
@@ -112,6 +119,9 @@ namespace ButHowDoItComputer.Components
         // set. Thus, the ALU instruction will have a carry input that cannot change during step 5.
         // -----------
         public IRegister<bool> CarryInTmp { get; set; }
+        
+        // IO
+        public IoPinStates Io { get; set; }
 
         public void UpdatePins(PinStates pinStates)
         {
@@ -126,6 +136,7 @@ namespace ButHowDoItComputer.Components
             Alu.Op = pinStates.Op;
             Flags.Set = pinStates.Flags;
             CarryInTmp.Set = pinStates.CarryInTmp;
+            UpdateIo(pinStates);
         }
         private void UpdatePins(IReadOnlyList<IRegister<IByte>> parts, IReadOnlyList<SetEnable> states)
         {
@@ -139,6 +150,14 @@ namespace ButHowDoItComputer.Components
         {
             pinPart.Set = setEnable.Set;
             pinPart.Enable = setEnable.Enable;
+        }
+
+        private void UpdateIo(PinStates pinStates)
+        {
+            Io.Clk.Enable = pinStates.IoClk.Enable;
+            Io.Clk.Set = pinStates.IoClk.Set;
+            Io.DataAddress = pinStates.IoDataAddress;
+            Io.InputOutput = pinStates.IoInputOutput;
         }
     }
 }
