@@ -96,7 +96,8 @@ namespace ButHowDoItComputer.Components
             UpdateStep6Pins();
 
             UpdateGeneralPurposeRegisters(PinStates.RegA.Enable, PinStates.RegB.Enable, PinStates.RegB.Set);
-
+            UpdateIoAllSteps();
+            
             return PinStates;
         }
 
@@ -138,6 +139,7 @@ namespace ButHowDoItComputer.Components
             UpdateJumpStep4();
             UpdateJumpIfStep4();
             UpdateClearStep4();
+            UpdateIoStep4();
         }
 
         private void UpdateAluStep4()
@@ -232,6 +234,17 @@ namespace ButHowDoItComputer.Components
             PinStates.Flags = NewPinState(PinStates.Flags, ClkSAnd(step43X86));
         }
 
+        private void UpdateIoStep4()
+        {
+            // setup
+            var step43X87Ir4 = _and.Apply(Step4, PinStates.ThreeXEight[7], _instruction[4]);
+
+            PinStates.RegB.Enable = NewPinState(PinStates.RegB.Enable, step43X87Ir4);
+            
+            // sets
+            PinStates.IoClk.Set = NewPinState(PinStates.IoClk.Set, ClkSAnd(step43X87Ir4));
+        }
+
         private void UpdateStep5Pins()
         {
             UpdateAluStep5();
@@ -239,6 +252,7 @@ namespace ButHowDoItComputer.Components
             UpdateDataStep5();
             UpdateJumpStep5();
             UpdateJumpIfStep5();
+            UpdateIoStep5();
         }
 
         private void UpdateAluStep5()
@@ -305,6 +319,15 @@ namespace ButHowDoItComputer.Components
 
             // sets
             PinStates.Iar.Set = NewPinState(PinStates.Iar.Set, ClkSAnd(step53X85));
+        }
+
+        private void UpdateIoStep5()
+        {
+            var step53X87NotIr4 = _and.Apply(Step5, PinStates.ThreeXEight[7], _not.Apply(_instruction[4]));
+
+            // sets
+            PinStates.RegB.Set = NewPinState(PinStates.RegB.Set, step53X87NotIr4);
+            PinStates.IoClk.Enable = NewPinState(PinStates.IoClk.Enable, ClkEAnd(step53X87NotIr4));
         }
 
         private void UpdateOpCode()
@@ -410,6 +433,12 @@ namespace ButHowDoItComputer.Components
                 _byteFactory.Create(threeXEightDecoded.Select(bit => _and.Apply(notAluFlag, bit)).ToArray());
         }
 
+        private void UpdateIoAllSteps()
+        {
+            PinStates.IoInputOutput = NewPinState(PinStates.IoInputOutput, _instruction[4]);
+            PinStates.IoDataAddress = NewPinState(PinStates.IoDataAddress, _instruction[5]);
+        }
+
         private bool NewPinState(bool current, bool newData)
         {
             return _or.Apply(current, newData);
@@ -456,6 +485,11 @@ namespace ButHowDoItComputer.Components
         public IByte ThreeXEight { get; set; } = new Byte();
         
         public bool CarryInTmp { get; set; }
+
+        public SetEnable IoClk { get; set; } = new SetEnable();
+
+        public bool IoInputOutput { get; set; }
+        public bool IoDataAddress { get; set; }
     }
 
     public class SetEnable

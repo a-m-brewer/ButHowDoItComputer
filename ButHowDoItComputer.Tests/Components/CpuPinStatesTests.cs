@@ -324,6 +324,22 @@ namespace ButHowDoItComputer.Tests.Components
             Assert.IsTrue(result.Bus1);
         }
 
+        [Test]
+        [TestCase(false)]
+        [TestCase(true)]
+        public void AfterStep4EnableIoRegBIsTrue(bool output)
+        {
+            Instruction[1] = true;
+            Instruction[2] = true;
+            Instruction[3] = true;
+            Instruction[4] = output;
+
+            StepFull(3);
+            var result = Step(1);
+            
+            Assert.AreEqual(output, result.RegB.Enable);
+        }
+
         // Sets
 
         [Test]
@@ -445,6 +461,22 @@ namespace ButHowDoItComputer.Tests.Components
             Assert.IsTrue(result.Flags);
         }
 
+        [Test]
+        [TestCase(false)]
+        [TestCase(true)]
+        public void AfterStep4IoClkSIsTrue(bool output)
+        {
+            Instruction[1] = true;
+            Instruction[2] = true;
+            Instruction[3] = true;
+            Instruction[4] = output;
+
+            StepFull(3);
+            var result = Step(2);
+            
+            Assert.AreEqual(output, result.IoClk.Set);
+        }
+
         // Step 5
 
         // enable
@@ -509,6 +541,22 @@ namespace ButHowDoItComputer.Tests.Components
             var result = Step(1);
 
             Assert.IsTrue(result.Acc.Enable);
+        }
+        
+        [Test]
+        [TestCase(false)]
+        [TestCase(true)]
+        public void AfterStep5EnableIoClkEIsTrue(bool output)
+        {
+            Instruction[1] = true;
+            Instruction[2] = true;
+            Instruction[3] = true;
+            Instruction[4] = output;
+
+            StepFull(4);
+            var result = Step(1);
+            
+            Assert.AreEqual(!output, result.IoClk.Enable);
         }
 
         // set
@@ -583,6 +631,22 @@ namespace ButHowDoItComputer.Tests.Components
             var result = Step(2);
             
             Assert.IsTrue(result.Flags);
+        }
+
+        [Test]
+        [TestCase(false)]
+        [TestCase(true)]
+        public void AfterStep5SetIoRegBSetIsTrue(bool output)
+        {
+            Instruction[1] = true;
+            Instruction[2] = true;
+            Instruction[3] = true;
+            Instruction[4] = output;
+
+            StepFull(4);
+            var result = Step(2);
+            
+            Assert.AreEqual(!output, result.RegB.Set);
         }
 
         // ALU Op
@@ -822,6 +886,26 @@ namespace ButHowDoItComputer.Tests.Components
             result = Step(1);
             _sut.UpdateGeneralPurposeRegisters(true, true, true);
             Assert.IsTrue(result.GeneralPurposeRegisters[sReg].Set);
+        }
+
+        [Test]
+        public void IoInputOutputIsIr4()
+        {
+            Instruction[4] = true;
+
+            var result = Step(1);
+            
+            Assert.IsTrue(result.IoInputOutput);
+        }
+        
+        [Test]
+        public void IoDataAddressIsIr5()
+        {
+            Instruction[5] = true;
+
+            var result = Step(1);
+            
+            Assert.IsTrue(result.IoDataAddress);
         }
 
         private PinStates Step(int times)
