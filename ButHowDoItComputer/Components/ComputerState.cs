@@ -23,13 +23,19 @@ namespace ButHowDoItComputer.Components
             IBus<IByte> bus,
             IBus<IByte> ioBus)
         {
-            Io = new IoPinStates(ioBus);
+            Io = new IoPinStates();
             Bus = bus;
             Bus.AddByte(input =>
             {
                 Io.Bus.UpdateData(new BusMessage<IByte> {Name = nameof(Bus), Data = input});
                 Io.Bus.UpdateSubs();
             });
+            
+            Io.Bus.AddByte(input =>
+            {
+                Bus.UpdateData(new BusMessage<IByte> {Name = nameof(Io), Data = input});
+            });
+            
             GeneralPurposeRegisters = Enumerable.Range(0, 4).Select(index =>
             {
                 var name = $"GeneralPurposeRegister_{index}";

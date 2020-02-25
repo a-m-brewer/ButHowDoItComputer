@@ -6,9 +6,9 @@ namespace ButHowDoItComputer.DataTypes
 {
     public class IoPinStates
     {
-        public IoPinStates(IBus<IByte> bus)
+        public IoPinStates()
         {
-            Bus = bus;
+            Bus = new IoBus<IByte>(Clk, new BusMessage<IByte> {Data = new Byte(), Name = "IoBus"});
         }
         
         public SetEnable Clk { get; set; } = new SetEnable();

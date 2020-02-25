@@ -18,19 +18,14 @@ namespace ButHowDoItComputer.Parts
             _bytes = new List<Action<T>>();
         }
 
-        public Bus()
-        {
-            
-        }
-        
         public BusMessage<T> Data { get; set; }
 
-        public void UpdateData(BusMessage<T> input)
+        public virtual void UpdateData(BusMessage<T> input)
         {
             Data = input;
         }
 
-        public void UpdateSubs()
+        public virtual void UpdateSubs()
         {
             foreach (var register in _registers)
             {

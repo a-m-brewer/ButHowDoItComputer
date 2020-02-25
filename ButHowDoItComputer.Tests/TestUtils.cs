@@ -159,7 +159,7 @@ namespace ButHowDoItComputer.Tests
 
         public static Ram CreateRam()
         {
-            return CreateRam(new Bus<IByte>());
+            return CreateRam(new Bus<IByte>(new BusMessage<IByte> {Data = new Byte(), Name = "Ram"}));
         }
 
         public static Ram CreateRam(IBus<IByte> bus)

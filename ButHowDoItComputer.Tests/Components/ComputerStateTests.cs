@@ -410,6 +410,7 @@ namespace ButHowDoItComputer.Tests.Components
         [Test]
         public void CpuBusUpdatesIoBus()
         {
+            _sut.Io.Clk.Set = true;
             _sut.Bus.UpdateData(new BusMessage<IByte> {Name = "CpuBus", Data = _fullByte});
             _sut.Bus.UpdateSubs();
 

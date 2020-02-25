@@ -425,7 +425,21 @@ namespace ButHowDoItComputer.Tests.Parts
             Assert.IsFalse(_sut.ComputerState.Flags.Data.Z);
         }
         
-        // TODO: Create instructions for IOBus 
+        // TODO: Create instructions for IOBus pg. 149
+
+        [Test]
+        public void CanInputIoDataToRb()
+        {
+            _sut.ComputerState.Io.Bus.Data = new BusMessage<IByte> {Name = "FromIO", Data = _fullByte};
+            var instruction = _byteFactory.Create(false, true, true, true, false, false, false, false);
+            _sut.ComputerState.Ram.InternalRegisters[0][0].ApplyOnce(instruction);
+            
+            StepFull(6);
+
+            var result = _sut.ComputerState.GeneralPurposeRegisters[0].Data;
+            
+            Assert.IsTrue(result.All(a => a));
+        }
 
         private void StepFull(int times)
         {

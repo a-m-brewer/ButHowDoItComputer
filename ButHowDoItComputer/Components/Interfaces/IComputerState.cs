@@ -19,6 +19,7 @@ namespace ButHowDoItComputer.Components.Interfaces
         IBus1 Bus1 { get; }
         IArithmeticLogicUnit Alu { get; }
         IBus<IByte> Bus { get; }
+        IoPinStates Io { get; set; }
         void UpdatePins(PinStates pinStates);
     }
 }
