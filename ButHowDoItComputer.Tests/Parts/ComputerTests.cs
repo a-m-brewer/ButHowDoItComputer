@@ -441,6 +441,48 @@ namespace ButHowDoItComputer.Tests.Parts
             Assert.IsTrue(result.All(a => a));
         }
 
+        [Test]
+        public void CanInputIoAddressToRb()
+        {
+            _sut.ComputerState.Io.Bus.Data = new BusMessage<IByte> {Name = "FromIO", Data = _fullByte};
+            var instruction = _byteFactory.Create(false, true, true, true, false, true, false, false);
+            _sut.ComputerState.Ram.InternalRegisters[0][0].ApplyOnce(instruction);
+            
+            StepFull(6);
+
+            var result = _sut.ComputerState.GeneralPurposeRegisters[0].Data;
+            
+            Assert.IsTrue(result.All(a => a));
+        }
+
+        [Test]
+        public void CanOutputToIoAsData()
+        {
+            _sut.ComputerState.GeneralPurposeRegisters[0].ApplyOnce(_fullByte);
+            var instruction = _byteFactory.Create(false, true, true, true, true, false, false, false);
+            _sut.ComputerState.Ram.InternalRegisters[0][0].ApplyOnce(instruction);
+            
+            StepFull(6);
+
+            var result = _sut.ComputerState.Io.Bus.Data.Data;
+            
+            Assert.IsTrue(result.All(a => a));
+        }
+        
+        [Test]
+        public void CanOutputToIoAsAddress()
+        {
+            _sut.ComputerState.GeneralPurposeRegisters[0].ApplyOnce(_fullByte);
+            var instruction = _byteFactory.Create(false, true, true, true, true, true, false, false);
+            _sut.ComputerState.Ram.InternalRegisters[0][0].ApplyOnce(instruction);
+            
+            StepFull(6);
+
+            var result = _sut.ComputerState.Io.Bus.Data.Data;
+            
+            Assert.IsTrue(result.All(a => a));
+        }
+
         private void StepFull(int times)
         {
             Step(times * 4);
