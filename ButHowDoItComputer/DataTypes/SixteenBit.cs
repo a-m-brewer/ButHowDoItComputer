@@ -18,6 +18,11 @@ namespace ButHowDoItComputer.DataTypes
 
             _bits = bits;
         }
+
+        public SixteenBit()
+        {
+            Clear();
+        }
         
         public IEnumerator<bool> GetEnumerator()
         {
