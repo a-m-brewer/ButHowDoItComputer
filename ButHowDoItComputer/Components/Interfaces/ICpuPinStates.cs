@@ -3,10 +3,10 @@ using ButHowDoItComputer.DataTypes.Interfaces;
 
 namespace ButHowDoItComputer.Components.Interfaces
 {
-    public interface ICpuPinStates
+    public interface ICpuPinStates<TBusDataType> where TBusDataType : IBusDataType
     {
         PinStates Step();
-        PinStates Step(IByte instruction, Caez flags);
+        PinStates Step(TBusDataType instruction, Caez flags);
         void UpdateGeneralPurposeRegisters(bool regAEnable, bool regBEnable, bool regBSet);
     }
 }

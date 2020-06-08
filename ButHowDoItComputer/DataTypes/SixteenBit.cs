@@ -2,11 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using ButHowDoItComputer.DataTypes.Interfaces;
 
 namespace ButHowDoItComputer.DataTypes
 {
-    public interface ISixteenBit : IList<bool> {}
-    
     public class SixteenBit : ISixteenBit
     {
         private bool[] _bits;

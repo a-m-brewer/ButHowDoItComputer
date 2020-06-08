@@ -5,17 +5,19 @@ using ButHowDoItComputer.Parts.Interfaces;
 
 namespace ButHowDoItComputer.Parts
 {
-    public class Computer
+    public class Computer<TDataType> where TDataType : IBusDataType
     {
-        public ICpuPinStates CpuPinStates { get; }
-        public IComputerState ComputerState { get; }
+        private readonly IBusDataTypeFactory<TDataType> _busDataTypeFactory;
+        public ICpuPinStates<TDataType> CpuPinStates { get; }
+        public IComputerState<TDataType> ComputerState { get; }
 
-        public Computer(ICpuPinStates cpuPinStates, IComputerState computerState)
+        public Computer(ICpuPinStates<TDataType> cpuPinStates, IComputerState<TDataType> computerState, IBusDataTypeFactory<TDataType> busDataTypeFactory)
         {
+            _busDataTypeFactory = busDataTypeFactory;
             CpuPinStates = cpuPinStates;
             ComputerState = computerState;
             // set counter to 0 as default starting point
-            ComputerState.Iar.ApplyOnce(new Byte());
+            ComputerState.Iar.ApplyOnce(busDataTypeFactory.Create());
         }
 
         public void Step()
@@ -26,7 +28,7 @@ namespace ButHowDoItComputer.Parts
             
             if (pinStates.ClockOutput.AllOff)
             {
-                ComputerState.Bus.UpdateData(new BusMessage<IByte> {Data = new Byte(), Name = "Bus"});
+                ComputerState.Bus.UpdateData(new BusMessage<TDataType> {Data = _busDataTypeFactory.Create(), Name = "Bus"});
             }
         }
 

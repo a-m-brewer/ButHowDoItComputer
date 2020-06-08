@@ -15,7 +15,7 @@ namespace ButHowDoItComputer.Tests.Parts
     {
         private IByte _fullByte;
         private ByteFactory _byteFactory;
-        private Computer _sut;
+        private Computer<IByte> _sut;
 
         [SetUp]
         public void Setup()
@@ -37,7 +37,7 @@ namespace ButHowDoItComputer.Tests.Parts
             var computerState = new ComputerState(byteRegisterFactory, ram, TestUtils.CreateBus1Factory(),
                 new ArithmeticLogicUnitFactory(), TestUtils.CreateCaezRegisterFactory(), new BitRegisterFactory(TestUtils.CreateMemoryGateFactory()), bus, ioBus);
 
-            _sut = new Computer(cpuPinStates, computerState);
+            _sut = new Computer<IByte>(cpuPinStates, computerState);
         }
 
         public Caez Flags { get; set; }

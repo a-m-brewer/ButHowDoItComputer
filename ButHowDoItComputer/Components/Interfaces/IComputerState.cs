@@ -7,18 +7,18 @@ using ButHowDoItComputer.Parts.Interfaces;
 
 namespace ButHowDoItComputer.Components.Interfaces
 {
-    public interface IComputerState
+    public interface IComputerState<TBusDataType> where TBusDataType : IBusDataType
     {
         IRegister<Caez> Flags { get; }
-        List<IRegister<IByte>> GeneralPurposeRegisters { get; }
-        IRegister<IByte> Ir { get; }
-        IRegister<IByte> Iar { get; }
-        IRegister<IByte> Acc { get; }
+        List<IRegister<TBusDataType>> GeneralPurposeRegisters { get; }
+        IRegister<TBusDataType> Ir { get; }
+        IRegister<TBusDataType> Iar { get; }
+        IRegister<TBusDataType> Acc { get; }
         IRam Ram { get; }
-        IRegister<IByte> Tmp { get; }
+        IRegister<TBusDataType> Tmp { get; }
         IBus1 Bus1 { get; }
         IArithmeticLogicUnit Alu { get; }
-        IBus<IByte> Bus { get; }
+        IBus<TBusDataType> Bus { get; }
         IoPinStates Io { get; set; }
         void UpdatePins(PinStates pinStates);
     }

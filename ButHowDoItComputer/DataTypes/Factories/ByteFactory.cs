@@ -5,7 +5,7 @@ using ButHowDoItComputer.Utils.Interfaces;
 
 namespace ButHowDoItComputer.DataTypes.Factories
 {
-    public class ByteFactory : IByteFactory
+    public class ByteFactory : IByteFactory, IBusDataTypeFactory<IByte>
     {
         private readonly IBase10Converter _base10Converter;
 

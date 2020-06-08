@@ -11,7 +11,7 @@ using ButHowDoItComputer.Parts.Interfaces;
 
 namespace ButHowDoItComputer.Components
 {
-    public class ComputerState : IComputerState
+    public class ComputerState<TBusDataType> where TBusDataType : IBusDataType, IComputerState<TBusDataType>
     {
         public ComputerState(
             IByteRegisterFactory byteRegisterFactory, 
