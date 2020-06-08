@@ -52,10 +52,10 @@ namespace ButHowDoItComputer.Parts
         {
             var inputData = MemoryAddressRegister.Data;
 
-            var yInput = new[] {inputData.Eight, inputData.Seven, inputData.Six, inputData.Five};
+            var yInput = new[] {inputData[7], inputData[6], inputData[5], inputData[4]};
             var yDecoder = _decoder.Apply(yInput).ToList();
 
-            var xInput = new[] {inputData.Four, inputData.Three, inputData.Two, inputData.One};
+            var xInput = new[] {inputData[3], inputData[2], inputData[1], inputData[0]};
             var xDecoder = _decoder.Apply(xInput).ToList();
 
             for (var y = 0; y < yDecoder.Count; y++)

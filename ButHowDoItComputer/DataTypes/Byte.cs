@@ -23,64 +23,16 @@ namespace ButHowDoItComputer.DataTypes
             _bits = Enumerable.Range(0, 8).Select(s => false).ToArray();
         }
 
-        public bool One
-        {
-            get => _bits[0];
-            set => _bits[0] = value;
-        }
-
-        public bool Two
-        {
-            get => _bits[1];
-            set => _bits[1] = value;
-        }
-
-        public bool Three
-        {
-            get => _bits[2];
-            set => _bits[2] = value;
-        }
-
-        public bool Four
-        {
-            get => _bits[3];
-            set => _bits[3] = value;
-        }
-
-        public bool Five
-        {
-            get => _bits[4];
-            set => _bits[4] = value;
-        }
-
-        public bool Six
-        {
-            get => _bits[5];
-            set => _bits[5] = value;
-        }
-
-        public bool Seven
-        {
-            get => _bits[6];
-            set => _bits[6] = value;
-        }
-
-        public bool Eight
-        {
-            get => _bits[7];
-            set => _bits[7] = value;
-        }
-
         public IEnumerator<bool> GetEnumerator()
         {
-            yield return One;
-            yield return Two;
-            yield return Three;
-            yield return Four;
-            yield return Five;
-            yield return Six;
-            yield return Seven;
-            yield return Eight;
+            yield return _bits[0];
+            yield return _bits[1];
+            yield return _bits[2];
+            yield return _bits[3];
+            yield return _bits[4];
+            yield return _bits[5];
+            yield return _bits[6];
+            yield return _bits[7];
         }
 
         IEnumerator IEnumerable.GetEnumerator()
