@@ -4,20 +4,20 @@ using ButHowDoItComputer.Gates.Interfaces;
 
 namespace ButHowDoItComputer.Gates
 {
-    public class Inverter : IInverter
+    public class Inverter<TBusDataType> : IInverter<TBusDataType> where TBusDataType : IBusDataType
     {
-        private readonly IByteFactory _byteFactory;
+        private readonly IBusDataTypeFactory<TBusDataType> _busDataTypeFactory;
         private readonly INot _not;
 
-        public Inverter(INot not, IByteFactory byteFactory)
+        public Inverter(INot not, IBusDataTypeFactory<TBusDataType> busDataTypeFactory)
         {
             _not = not;
-            _byteFactory = byteFactory;
+            _busDataTypeFactory = busDataTypeFactory;
         }
 
-        public IByte Invert(IByte input)
+        public TBusDataType Invert(TBusDataType input)
         {
-            return _byteFactory.Create(input.Select(s => _not.Apply(s)).ToArray());
+            return _busDataTypeFactory.Create(input.Select(s => _not.Apply(s)).ToArray());
         }
     }
 }

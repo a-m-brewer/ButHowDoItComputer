@@ -17,9 +17,9 @@ namespace ButHowDoItComputer.Components.Interfaces
         IRam Ram { get; }
         IRegister<TBusDataType> Tmp { get; }
         IBus1 Bus1 { get; }
-        IArithmeticLogicUnit Alu { get; }
+        IArithmeticLogicUnit<TBusDataType> Alu { get; }
         IBus<TBusDataType> Bus { get; }
-        IoPinStates Io { get; set; }
+        IoPinStates<TBusDataType> Io { get; set; }
         void UpdatePins(PinStates pinStates);
     }
 }

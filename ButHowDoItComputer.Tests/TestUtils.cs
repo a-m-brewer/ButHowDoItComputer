@@ -80,18 +80,18 @@ namespace ButHowDoItComputer.Tests
             return new BitComparator(CreateXOr(), CreateAnd(), CreateOr(), CreateNot());
         }
 
-        public static ByteComparator CreateByteComparator()
+        public static ByteComparator<IByte> CreateByteComparator()
         {
-            return new ByteComparator(CreateBitComparator(), CreateByteFactory());
+            return new ByteComparator<IByte>(CreateBitComparator(), CreateByteFactory());
         }
 
-        public static ArithmeticLogicUnit CreateArithmeticLogicUnit()
+        public static ArithmeticLogicUnit<IByte> CreateArithmeticLogicUnit()
         {
             var byteFactory = CreateByteFactory();
-            return new ArithmeticLogicUnit(
-                new ByteXOr(CreateXOr(), byteFactory),
-                new ByteOr(CreateOr(), byteFactory),
-                new ByteAnd(CreateAnd(), byteFactory),
+            return new ArithmeticLogicUnit<IByte>(
+                new BusDataTypeXOr<IByte>(CreateXOr(), byteFactory),
+                new BusDataTypeOr<IByte>(CreateOr(), byteFactory),
+                new BusDataTypeAnd<IByte>(CreateAnd(), byteFactory),
                 new Inverter(CreateNot(), byteFactory),
                 new ByteAdder(new BitAdder(CreateXOr(), CreateOr(), CreateAnd()), CreateByteFactory()),
                 new ByteEnabler(CreateAnd(), CreateByteFactory()),
@@ -102,7 +102,7 @@ namespace ButHowDoItComputer.Tests
                 new ByteLeftShifter(CreateByteFactory()),
                 CreateOr(),
                 new AluWire(CreateByteFactory()),
-                new ByteComparator(new BitComparator(CreateXOr(), CreateAnd(), CreateOr(), CreateNot()),
+                new ByteComparator<IByte>(new BitComparator(CreateXOr(), CreateAnd(), CreateOr(), CreateNot()),
                     CreateByteFactory()), caez => {}, input => {},
                 byteFactory);
         }

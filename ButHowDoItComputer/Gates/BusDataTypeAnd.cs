@@ -5,18 +5,18 @@ using ButHowDoItComputer.Gates.Interfaces;
 
 namespace ButHowDoItComputer.Gates
 {
-    public class ByteAnd : IByteAnd
+    public class BusDataTypeAnd<TBusDataType> : IBusDataTypeAnd<TBusDataType> where TBusDataType : IBusDataType
     {
         private readonly IAnd _and;
-        private readonly IByteFactory _byteFactory;
+        private readonly IBusDataTypeFactory<TBusDataType> _byteFactory;
 
-        public ByteAnd(IAnd and, IByteFactory byteFactory)
+        public BusDataTypeAnd(IAnd and, IBusDataTypeFactory<TBusDataType> byteFactory)
         {
             _and = and;
             _byteFactory = byteFactory;
         }
 
-        public IByte Apply(params IByte[] input)
+        public TBusDataType Apply(params TBusDataType[] input)
         {
             var groups = new List<List<bool>>();
             for (var i = 0; i < input[0].Count; i++)

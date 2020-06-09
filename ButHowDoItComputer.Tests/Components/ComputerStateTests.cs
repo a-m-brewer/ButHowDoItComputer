@@ -14,7 +14,7 @@ namespace ButHowDoItComputer.Tests.Components
     [TestFixture]
     public class ComputerStateTests
     {
-        private ComputerState _sut;
+        private ComputerState<IByte> _sut;
         private PinStates _pinStates;
         private ByteFactory _byteFactory;
         private IByte _fullByte;
@@ -29,8 +29,8 @@ namespace ButHowDoItComputer.Tests.Components
             var byteRegisterFactory = TestUtils.CreateByteRegisterFactory();
             var ram = TestUtils.CreateRam(bus);
             _pinStates = new PinStates();
-            _sut = new ComputerState(byteRegisterFactory, ram, TestUtils.CreateBus1Factory(),
-                new ArithmeticLogicUnitFactory(), TestUtils.CreateCaezRegisterFactory(), new BitRegisterFactory(TestUtils.CreateMemoryGateFactory()), bus, ioBus);
+            _sut = new ComputerState<IByte>(byteRegisterFactory, ram, TestUtils.CreateBus1Factory(),
+                new ArithmeticLogicUnitFactory<IByte>(_byteFactory), TestUtils.CreateCaezRegisterFactory(), new BitRegisterFactory(TestUtils.CreateMemoryGateFactory()), bus, ioBus, _byteFactory);
         }
 
         [Test]

@@ -11,55 +11,56 @@ using ButHowDoItComputer.Parts.Interfaces;
 
 namespace ButHowDoItComputer.Components
 {
-    public class ComputerState<TBusDataType> where TBusDataType : IBusDataType, IComputerState<TBusDataType>
+    public class ComputerState<TBusDataType> : IComputerState<TBusDataType> where TBusDataType : IBusDataType
     {
         public ComputerState(
-            IByteRegisterFactory byteRegisterFactory, 
+            IRegisterFactory<TBusDataType> registerFactory, 
             IRam ram, 
             IBus1Factory bus1, 
-            IArithmeticLogicUnitFactory aluFactory, 
+            IArithmeticLogicUnitFactory<TBusDataType> aluFactory, 
             ICaezRegisterFactory caezRegisterFactory,
             IRegisterFactory<bool> bitRegisterFactory,
-            IBus<IByte> bus,
-            IBus<IByte> ioBus)
+            IBus<TBusDataType> bus,
+            IBus<TBusDataType> ioBus,
+            IBusDataTypeFactory<TBusDataType> busDataTypeFactory)
         {
-            Io = new IoPinStates();
+            Io = new IoPinStates<TBusDataType>(busDataTypeFactory);
             Bus = bus;
             Bus.AddByte(input =>
             {
-                Io.Bus.UpdateData(new BusMessage<IByte> {Name = nameof(Bus), Data = input});
+                Io.Bus.UpdateData(new BusMessage<TBusDataType> {Name = nameof(Bus), Data = input});
                 Io.Bus.UpdateSubs();
             });
             
             Io.Bus.AddByte(input =>
             {
-                Bus.UpdateData(new BusMessage<IByte> {Name = nameof(Io), Data = input});
+                Bus.UpdateData(new BusMessage<TBusDataType> {Name = nameof(Io), Data = input});
             });
             
             GeneralPurposeRegisters = Enumerable.Range(0, 4).Select(index =>
             {
                 var name = $"GeneralPurposeRegister_{index}";
-                var register = byteRegisterFactory.Create(data =>
+                var register = registerFactory.Create(data =>
                 {
-                    bus.UpdateData(new BusMessage<IByte> {Data = data, Name = name});
+                    bus.UpdateData(new BusMessage<TBusDataType> {Data = data, Name = name});
                     bus.UpdateSubs();
                 }, name);
                 bus.AddRegister(register);
                 return register;
             }).ToList();
-            Ir = byteRegisterFactory.Create(data => {}, nameof(Ir));
+            Ir = registerFactory.Create(data => {}, nameof(Ir));
             bus.AddRegister(Ir);
-            Iar = byteRegisterFactory.Create(data =>
+            Iar = registerFactory.Create(data =>
             {
-                bus.UpdateData(new BusMessage<IByte> {Data = data, Name = nameof(Iar)});
+                bus.UpdateData(new BusMessage<TBusDataType> {Data = data, Name = nameof(Iar)});
                 bus.UpdateSubs();
             }, nameof(Iar));
             bus.AddRegister(Iar);
             
-            Acc = byteRegisterFactory.Create(b =>
+            Acc = registerFactory.Create(b =>
             {
                 // for some reason updating subs here blows up, this is being updated in Computer
-                bus.UpdateData(new BusMessage<IByte> {Data = b, Name = nameof(Acc)});
+                bus.UpdateData(new BusMessage<TBusDataType> {Data = b, Name = nameof(Acc)});
             }, nameof(Acc));
             
             Alu = aluFactory.Create(input =>
@@ -81,7 +82,7 @@ namespace ButHowDoItComputer.Components
                 Alu.Apply();
             });
             
-            Tmp = byteRegisterFactory.Create(wire =>
+            Tmp = registerFactory.Create(wire =>
             {
                 Bus1.Input = wire;
                 Bus1.Apply();
@@ -107,15 +108,15 @@ namespace ButHowDoItComputer.Components
 
         public IRegister<Caez> Flags { get; }
 
-        public List<IRegister<IByte>> GeneralPurposeRegisters { get; }
-        public IRegister<IByte> Ir { get; }
-        public IRegister<IByte> Iar { get; }
-        public IRegister<IByte> Acc { get; }
+        public List<IRegister<TBusDataType>> GeneralPurposeRegisters { get; }
+        public IRegister<TBusDataType> Ir { get; }
+        public IRegister<TBusDataType> Iar { get; }
+        public IRegister<TBusDataType> Acc { get; }
         public IRam Ram { get; }
-        public IRegister<IByte> Tmp { get; }
+        public IRegister<TBusDataType> Tmp { get; }
         public IBus1 Bus1 { get; }
-        public IArithmeticLogicUnit Alu { get; }
-        public IBus<IByte> Bus { get; }
+        public IArithmeticLogicUnit<TBusDataType> Alu { get; }
+        public IBus<TBusDataType> Bus { get; }
         // This register does not exist in the book but is required to make this work
         // Going to steal the comment from simple-computer github
         // -----------
@@ -127,7 +128,7 @@ namespace ButHowDoItComputer.Components
         public IRegister<bool> CarryInTmp { get; set; }
         
         // IO
-        public IoPinStates Io { get; set; }
+        public IoPinStates<TBusDataType> Io { get; set; }
 
         public void UpdatePins(PinStates pinStates)
         {
@@ -144,7 +145,7 @@ namespace ButHowDoItComputer.Components
             CarryInTmp.Set = pinStates.CarryInTmp;
             UpdateIo(pinStates);
         }
-        private void UpdatePins(IReadOnlyList<IRegister<IByte>> parts, IReadOnlyList<SetEnable> states)
+        private void UpdatePins(IReadOnlyList<IRegister<TBusDataType>> parts, IReadOnlyList<SetEnable> states)
         {
             for (var i = 0; i < states.Count; i++)
             {

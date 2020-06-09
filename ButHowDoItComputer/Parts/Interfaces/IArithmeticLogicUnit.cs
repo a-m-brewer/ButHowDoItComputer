@@ -4,12 +4,12 @@ using ButHowDoItComputer.Utils.Interfaces;
 
 namespace ButHowDoItComputer.Parts.Interfaces
 {
-    public interface IArithmeticLogicUnit : IApplicable
+    public interface IArithmeticLogicUnit<TBusDataType> : IApplicable where TBusDataType : IBusDataType
     {
-        AluOutput Apply(IByte a, IByte b, bool carryIn, Op op);
+        AluOutput Apply(TBusDataType a, TBusDataType b, bool carryIn, Op op);
         public Op Op { get; set; }
-        public IByte InputA { get; set; }
-        public IByte InputB { get; set; }
+        public TBusDataType InputA { get; set; }
+        public TBusDataType InputB { get; set; }
         public bool CarryIn { get; set; }
     }
 }

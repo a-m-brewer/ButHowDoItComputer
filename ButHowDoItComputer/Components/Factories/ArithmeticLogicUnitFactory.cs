@@ -11,25 +11,31 @@ using ButHowDoItComputer.Utils;
 
 namespace ButHowDoItComputer.Components.Factories
 {
-    public class ArithmeticLogicUnitFactory : IArithmeticLogicUnitFactory
+    public class ArithmeticLogicUnitFactory<TBusDataType> : IArithmeticLogicUnitFactory<TBusDataType> where TBusDataType : IBusDataType
     {
-        public IArithmeticLogicUnit Create()
+        private readonly IBusDataTypeFactory<TBusDataType> _busDataTypeFactory;
+
+        public ArithmeticLogicUnitFactory(IBusDataTypeFactory<TBusDataType> busDataTypeFactory)
         {
-            return Create(b => {}, caez => {});
+            _busDataTypeFactory = busDataTypeFactory;
+        }
+        
+        public IArithmeticLogicUnit<TBusDataType> Create()
+        {
+            return Create<TBusDataType>(b => {}, caez => {});
         }
 
-        public IArithmeticLogicUnit Create(Action<IByte> updateAcc, Action<Caez> updateFlags)
+        public IArithmeticLogicUnit<TBusDataType> Create(Action<TBusDataType> updateAcc, Action<Caez> updateFlags)
         {
             var not = new Not();
             var and = new And();
             var nAnd = new NAnd(not, and);
             var or = new Or(not, nAnd);
             var xOr = new XOr(not, nAnd);
-            var byteFactory = new ByteFactory(new Base10Converter());
-            return new ArithmeticLogicUnit(
-                new ByteXOr(xOr, byteFactory),
-                new ByteOr(or, byteFactory),
-                new ByteAnd(and, byteFactory),
+            return new ArithmeticLogicUnit<TBusDataType>(
+                new BusDataTypeXOr<TBusDataType>(xOr, byteFactory),
+                new BusDataTypeOr<TBusDataType>(or, byteFactory),
+                new BusDataTypeAnd<TBusDataType>(and, byteFactory),
                 new Inverter(not, byteFactory),
                 new ByteAdder(new BitAdder(xOr, or, and), byteFactory),
                 new ByteEnabler(and, byteFactory),
@@ -40,13 +46,13 @@ namespace ButHowDoItComputer.Components.Factories
                 new ByteLeftShifter(byteFactory),
                 or,
                 new AluWire(byteFactory),
-                new ByteComparator(new BitComparator(xOr, and, or, not), byteFactory), updateFlags,
-                updateAcc, byteFactory);
+                new ByteComparator<TBusDataType>(new BitComparator(xOr, and, or, not), _busDataTypeFactory), updateFlags,
+                updateAcc, _busDataTypeFactory);
         }
     }
 
-    public interface IArithmeticLogicUnitFactory : IObjectCreationFactory<IArithmeticLogicUnit>
+    public interface IArithmeticLogicUnitFactory<TBusDataType> : IObjectCreationFactory<TBusDataType> where TBusDataType : IBusDataType
     {
-        IArithmeticLogicUnit Create(Action<IByte> updateAcc, Action<Caez> updateFlags);
+        IArithmeticLogicUnit<TBusDataType> Create(Action<TBusDataType> updateAcc, Action<Caez> updateFlags);
     }
 }

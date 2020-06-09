@@ -5,18 +5,18 @@ using ButHowDoItComputer.Gates.Interfaces;
 
 namespace ButHowDoItComputer.Gates
 {
-    public class ByteXOr : IByteXOr
+    public class BusDataTypeXOr<TBusDataType> : IBusDataTypeXOr<TBusDataType> where TBusDataType : IBusDataType
     {
-        private readonly IByteFactory _byteFactory;
+        private readonly IBusDataTypeFactory<TBusDataType> _busDataTypeFactory;
         private readonly IXOr _xOr;
 
-        public ByteXOr(IXOr xOr, IByteFactory byteFactory)
+        public BusDataTypeXOr(IXOr xOr, IBusDataTypeFactory<TBusDataType> busDataTypeFactory)
         {
             _xOr = xOr;
-            _byteFactory = byteFactory;
+            _busDataTypeFactory = busDataTypeFactory;
         }
 
-        public IByte Apply(params IByte[] input)
+        public TBusDataType Apply(params TBusDataType[] input)
         {
             var groups = new List<List<bool>>();
             for (var i = 0; i < input[0].Count; i++)
@@ -27,7 +27,7 @@ namespace ButHowDoItComputer.Gates
 
             var result = groups.Select(s => _xOr.Apply(s.ToArray())).ToArray();
 
-            return _byteFactory.Create(result);
+            return _busDataTypeFactory.Create(result);
         }
     }
 }

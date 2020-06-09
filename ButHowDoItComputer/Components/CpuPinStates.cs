@@ -8,14 +8,14 @@ using ButHowDoItComputer.Parts.Interfaces;
 
 namespace ButHowDoItComputer.Components
 {
-    public class CpuPinStates : ICpuPinStates
+    public class CpuPinStates<TBusDataType> : ICpuPinStates<TBusDataType> where TBusDataType : IBusDataType
     {
         private readonly IAnd _and;
         private readonly IByteFactory _byteFactory;
         private Caez _caez;
         private readonly IClock _clock;
         private readonly IDecoder _decoder;
-        private IByte _instruction;
+        private TBusDataType _instruction;
         private readonly INot _not;
         private readonly IOr _or;
         private readonly IStepper _stepper;
@@ -23,7 +23,7 @@ namespace ButHowDoItComputer.Components
         public CpuPinStates(
             IClock clock,
             IStepper stepper,
-            IByte instruction,
+            TBusDataType instruction,
             Caez caez,
             IAnd and,
             IOr or,
@@ -71,7 +71,7 @@ namespace ButHowDoItComputer.Components
 
         private bool Step7 => PinStates.StepperOutput[6];
 
-        public PinStates Step(IByte instruction, Caez flags)
+        public PinStates Step(TBusDataType instruction, Caez flags)
         {
             _instruction = instruction;
             _caez = flags;

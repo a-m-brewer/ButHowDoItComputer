@@ -2,8 +2,8 @@ using ButHowDoItComputer.DataTypes.Interfaces;
 
 namespace ButHowDoItComputer.Gates.Interfaces
 {
-    public interface IInverter
+    public interface IInverter<TBusDataType> where TBusDataType : IBusDataType
     {
-        IByte Invert(IByte input);
+        TBusDataType Invert(TBusDataType input);
     }
 }

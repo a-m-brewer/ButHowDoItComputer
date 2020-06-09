@@ -11,7 +11,7 @@ namespace ButHowDoItComputer.Tests.Components
     {
         private Clock _clock;
         private Stepper _stepper;
-        private CpuPinStates _sut;
+        private CpuPinStates<IByte> _sut;
         private IByte Instruction { get; set; }
         private Caez Caez { get; set; }
 
@@ -22,7 +22,7 @@ namespace ButHowDoItComputer.Tests.Components
             _stepper = TestUtils.CreateStepper();
             Instruction = new Byte();
             Caez = new Caez();
-            _sut = new CpuPinStates(_clock, _stepper, Instruction, Caez, new And(), TestUtils.CreateOr(), TestUtils.CreateNot(),
+            _sut = new CpuPinStates<IByte>(_clock, _stepper, Instruction, Caez, new And(), TestUtils.CreateOr(), TestUtils.CreateNot(),
                 TestUtils.CreateDecoder(), TestUtils.CreateByteFactory());
         }
 

@@ -2,21 +2,22 @@ using System.Collections.Generic;
 using System.Linq;
 using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Gates.Interfaces;
+using ButHowDoItComputer.Parts;
 
 namespace ButHowDoItComputer.Gates
 {
-    public class ByteOr : IByteOr
+    public class BusDataTypeOr<TBusDataType> : IBusDataTypeOr<TBusDataType> where TBusDataType : IBusDataType
     {
-        private readonly IByteFactory _byteFactory;
+        private readonly IBusDataTypeFactory<TBusDataType> _busDataTypeFactory;
         private readonly IOr _or;
 
-        public ByteOr(IOr or, IByteFactory byteFactory)
+        public BusDataTypeOr(IOr or, IBusDataTypeFactory<TBusDataType> busDataTypeFactory)
         {
             _or = or;
-            _byteFactory = byteFactory;
+            _busDataTypeFactory = busDataTypeFactory;
         }
 
-        public IByte Apply(params IByte[] input)
+        public TBusDataType Apply(params TBusDataType[] input)
         {
             var groups = new List<List<bool>>();
             for (var i = 0; i < input[0].Count; i++)
@@ -27,7 +28,7 @@ namespace ButHowDoItComputer.Gates
 
             var result = groups.Select(s => _or.Apply(s.ToArray())).ToArray();
 
-            return _byteFactory.Create(result);
+            return _busDataTypeFactory.Create(result);
         }
     }
 }

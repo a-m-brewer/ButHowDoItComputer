@@ -3,18 +3,18 @@ using ButHowDoItComputer.Gates.Interfaces;
 
 namespace ButHowDoItComputer.Gates
 {
-    public class ByteComparator : IByteComparator
+    public class ByteComparator<TBusDataType> : IByteComparator<TBusDataType> where TBusDataType : IBusDataType
     {
         private readonly IBitComparator _bitComparator;
-        private readonly IByteFactory _byteFactory;
+        private readonly IBusDataTypeFactory<TBusDataType> _busDataTypeFactory;
 
-        public ByteComparator(IBitComparator bitComparator, IByteFactory byteFactory)
+        public ByteComparator(IBitComparator bitComparator, IBusDataTypeFactory<TBusDataType> busDataTypeFactory)
         {
             _bitComparator = bitComparator;
-            _byteFactory = byteFactory;
+            _busDataTypeFactory = busDataTypeFactory;
         }
 
-        public (bool equal, bool ALarger, IByte output) AreEqual(IByte a, IByte b, bool aboveBitIsEqual,
+        public (bool equal, bool ALarger, TBusDataType output) AreEqual(TBusDataType a, TBusDataType b, bool aboveBitIsEqual,
             bool aboveBitALarger)
         {
             var output = new bool[8];
@@ -26,7 +26,7 @@ namespace ButHowDoItComputer.Gates
                 output[i] = op;
             }
 
-            return (aboveBitIsEqual, aboveBitALarger, _byteFactory.Create(output));
+            return (aboveBitIsEqual, aboveBitALarger, _busDataTypeFactory.Create(output));
         }
     }
 }

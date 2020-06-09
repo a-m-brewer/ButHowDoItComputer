@@ -6,6 +6,7 @@ using ButHowDoItComputer.DataTypes.Factories;
 using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Parts;
 using ButHowDoItComputer.Parts.Factories;
+using ButHowDoItComputer.Utils;
 using NUnit.Framework;
 
 namespace ButHowDoItComputer.Tests.Parts
@@ -26,7 +27,7 @@ namespace ButHowDoItComputer.Tests.Parts
             Instruction = _byteFactory.Create(0);
             Flags = new Caez();
 
-            var cpuPinStates = new CpuPinStates(TestUtils.CreateClock(), TestUtils.CreateStepper(), Instruction, Flags,
+            var cpuPinStates = new CpuPinStates<IByte>(TestUtils.CreateClock(), TestUtils.CreateStepper(), Instruction, Flags,
                 TestUtils.CreateAnd(), TestUtils.CreateOr(), TestUtils.CreateNot(), TestUtils.CreateDecoder(),
                 _byteFactory);
             
@@ -34,10 +35,10 @@ namespace ButHowDoItComputer.Tests.Parts
             var ioBus = new Bus<IByte>(new BusMessage<IByte> {Data = new Byte(), Name = "IoBus"});
             var byteRegisterFactory = TestUtils.CreateByteRegisterFactory();
             var ram = TestUtils.CreateRam(bus);
-            var computerState = new ComputerState(byteRegisterFactory, ram, TestUtils.CreateBus1Factory(),
-                new ArithmeticLogicUnitFactory(), TestUtils.CreateCaezRegisterFactory(), new BitRegisterFactory(TestUtils.CreateMemoryGateFactory()), bus, ioBus);
+            var computerState = new ComputerState<IByte>(byteRegisterFactory, ram, TestUtils.CreateBus1Factory(),
+                new ArithmeticLogicUnitFactory<IByte>(_byteFactory), TestUtils.CreateCaezRegisterFactory(), new BitRegisterFactory(TestUtils.CreateMemoryGateFactory()), bus, ioBus, _byteFactory);
 
-            _sut = new Computer<IByte>(cpuPinStates, computerState);
+            _sut = new Computer<IByte>(cpuPinStates, computerState, _byteFactory);
         }
 
         public Caez Flags { get; set; }

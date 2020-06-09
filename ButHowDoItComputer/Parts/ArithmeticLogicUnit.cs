@@ -7,30 +7,30 @@ using ButHowDoItComputer.Parts.Interfaces;
 
 namespace ButHowDoItComputer.Parts
 {
-    public class ArithmeticLogicUnit : IArithmeticLogicUnit
+    public class ArithmeticLogicUnit<TBusDataType> : IArithmeticLogicUnit<TBusDataType> where TBusDataType : IBusDataType
     {
         private readonly IAluWire _aluWire;
         private readonly IAnd _and;
         private readonly IByteAdder _byteAdder;
-        private readonly IByteAnd _byteAnd;
-        private readonly IByteComparator _byteComparator;
+        private readonly IBusDataTypeAnd<TBusDataType> _busDataTypeAnd;
+        private readonly IByteComparator<TBusDataType> _byteComparator;
         private readonly Action<Caez> _updateFlags;
         private readonly Action<IByte> _updateAcc;
         private readonly IByteDecoder _byteDecoder;
         private readonly IByteEnabler _byteEnabler;
-        private readonly IByteOr _byteOr;
-        private readonly IByteXOr _byteXOr;
-        private readonly IInverter _inverter;
+        private readonly IBusDataTypeOr<TBusDataType> _busDataTypeOr;
+        private readonly IBusDataTypeXOr<TBusDataType> _busDataTypeXOr;
+        private readonly IInverter<TBusDataType> _inverter;
         private readonly IIsZeroGate _isZeroGate;
         private readonly ILeftByteShifter _leftByteShifter;
         private readonly IOr _or;
         private readonly IRightByteShifter _rightByteShifter;
 
         public ArithmeticLogicUnit(
-            IByteXOr byteXOr,
-            IByteOr byteOr,
-            IByteAnd byteAnd,
-            IInverter inverter,
+            IBusDataTypeXOr<TBusDataType> busDataTypeXOr,
+            IBusDataTypeOr<TBusDataType> busDataTypeOr,
+            IBusDataTypeAnd<TBusDataType> busDataTypeAnd,
+            IInverter<TBusDataType> inverter,
             IByteAdder byteAdder,
             IByteEnabler byteEnabler,
             IAnd and,
@@ -40,14 +40,14 @@ namespace ButHowDoItComputer.Parts
             ILeftByteShifter leftByteShifter,
             IOr or,
             IAluWire aluWire,
-            IByteComparator byteComparator,
+            IByteComparator<TBusDataType> byteComparator,
             Action<Caez> updateFlags,
             Action<IByte> updateAcc,
-            IByteFactory byteFactory)
+            IBusDataTypeFactory<TBusDataType> busDataTypeFactory)
         {
-            _byteXOr = byteXOr;
-            _byteOr = byteOr;
-            _byteAnd = byteAnd;
+            _busDataTypeXOr = busDataTypeXOr;
+            _busDataTypeOr = busDataTypeOr;
+            _busDataTypeAnd = busDataTypeAnd;
             _inverter = inverter;
             _byteAdder = byteAdder;
             _byteEnabler = byteEnabler;
@@ -62,18 +62,18 @@ namespace ButHowDoItComputer.Parts
             _updateFlags = updateFlags;
             _updateAcc = updateAcc;
 
-            InputA = byteFactory.Create();
-            InputB = byteFactory.Create();
+            InputA = busDataTypeFactory.Create();
+            InputB = busDataTypeFactory.Create();
             Op = new Op();
         }
 
-        public AluOutput Apply(IByte a, IByte b, bool carryIn, Op op)
+        public AluOutput Apply(TBusDataType a, TBusDataType b, bool carryIn, Op op)
         {
             var opDecoder = _byteDecoder.Decode(op.One, op.Two, op.Three);
 
-            var xOr = _byteXOr.Apply(a, b);
-            var or = _byteOr.Apply(a, b);
-            var and = _byteAnd.Apply(a, b);
+            var xOr = _busDataTypeXOr.Apply(a, b);
+            var or = _busDataTypeOr.Apply(a, b);
+            var and = _busDataTypeAnd.Apply(a, b);
             var not = _inverter.Invert(a);
             var shiftLeft = _leftByteShifter.Shift(a, carryIn);
             var shiftRight = _rightByteShifter.Shift(a, carryIn);
@@ -113,8 +113,8 @@ namespace ButHowDoItComputer.Parts
         }
 
         public Op Op { get; set; }
-        public IByte InputA { get; set; }
-        public IByte InputB { get; set; }
+        public TBusDataType InputA { get; set; }
+        public TBusDataType InputB { get; set; }
         public bool CarryIn { get; set; }
 
         public void Apply()
