@@ -9,7 +9,7 @@ namespace ButHowDoItComputer.Parts
     {
         private readonly IDecoder _decoder;
 
-        public Ram64(IBus<ISixteenBit> outputBus, IBusDataTypeRegisterFactory<ISixteenBit> busDataTypeFactory, IDecoder decoder, IAnd and) : base(outputBus, busDataTypeFactory, decoder, and, 16)
+        public Ram64(IBus<ISixteenBit> outputBus, IBusDataTypeRegisterFactory<ISixteenBit> busDataTypeFactory, IDecoder decoder, IAnd and) : base(outputBus, busDataTypeFactory, decoder, and, 256)
         {
             _decoder = decoder;
         }

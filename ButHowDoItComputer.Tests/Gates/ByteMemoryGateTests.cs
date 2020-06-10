@@ -16,7 +16,7 @@ namespace ButHowDoItComputer.Tests.Gates
         public void CanKeepTheValueOfAByte()
         {
             var sut = new BusDataTypeMemoryGate<IByte>(new MemoryGateFactory(new NAnd(new Not(), new And())),
-                new ByteFactory(new Base10Converter()));
+                new ByteFactory(new Base10Converter()), 8);
 
             var input = new Byte(Enumerable.Range(0, 8).Select(s => true).ToArray());
 
@@ -37,7 +37,7 @@ namespace ButHowDoItComputer.Tests.Gates
         public void CanStoreAByte(bool expected)
         {
             var sut = new BusDataTypeMemoryGate<IByte>(new MemoryGateFactory(new NAnd(new Not(), new And())),
-                new ByteFactory(new Base10Converter()));
+                new ByteFactory(new Base10Converter()), 8);
 
             var input = new Byte(Enumerable.Range(0, 8).Select(s => expected).ToArray());
 

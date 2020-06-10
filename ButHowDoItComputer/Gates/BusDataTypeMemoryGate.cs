@@ -10,10 +10,10 @@ namespace ButHowDoItComputer.Gates
         private readonly IBusDataTypeFactory<TBusDataType> _busDataTypeFactory;
         private readonly List<IMemoryGate> _memoryGates;
 
-        public BusDataTypeMemoryGate(IMemoryGateFactory memoryGateFactory, IBusDataTypeFactory<TBusDataType> busDataTypeFactory)
+        public BusDataTypeMemoryGate(IMemoryGateFactory memoryGateFactory, IBusDataTypeFactory<TBusDataType> busDataTypeFactory, int bits)
         {
             _busDataTypeFactory = busDataTypeFactory;
-            _memoryGates = Enumerable.Range(0, 8).Select(_ => memoryGateFactory.Create()).ToList();
+            _memoryGates = Enumerable.Range(0, bits).Select(_ => memoryGateFactory.Create()).ToList();
         }
 
         public TBusDataType Apply(TBusDataType input, bool set)

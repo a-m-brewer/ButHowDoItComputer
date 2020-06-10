@@ -19,7 +19,7 @@ namespace ButHowDoItComputer.Tests.Parts
             _byteFactory = new ByteFactory(new Base10Converter());
             _and = new And();
             _memoryGateFactory = new MemoryGateFactory(new NAnd(new Not(), _and));
-            _busDataTypeMemoryGate = new BusDataTypeMemoryGate<IByte>(_memoryGateFactory, _byteFactory);
+            _busDataTypeMemoryGate = new BusDataTypeMemoryGate<IByte>(_memoryGateFactory, _byteFactory, 8);
             _busDataTypeEnabler = new BusDataTypeEnabler<IByte>(_and, _byteFactory);
             _sut = new BusDataTypeRegister<IByte>(_busDataTypeMemoryGate, _busDataTypeEnabler, _byteFactory, wire => {});
         }

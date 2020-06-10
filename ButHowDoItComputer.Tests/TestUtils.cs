@@ -18,7 +18,7 @@ namespace ButHowDoItComputer.Tests
             var byteFactory = new ByteFactory(new Base10Converter());
             var memoryGateFactory = new MemoryGateFactory(new NAnd(new Not(), new And()));
             var and = new And();
-            return new BusDataTypeRegister<IByte>(new BusDataTypeMemoryGate<IByte>(memoryGateFactory, byteFactory),
+            return new BusDataTypeRegister<IByte>(new BusDataTypeMemoryGate<IByte>(memoryGateFactory, byteFactory, 8),
                 new BusDataTypeEnabler<IByte>(and, byteFactory), byteFactory, wire => {})
             {
                 Set = set, Enable = enable
@@ -144,7 +144,7 @@ namespace ButHowDoItComputer.Tests
 
         public static BusDataTypeMemoryGateFactory<IByte> CreateByteMemoryGateFactory()
         {
-            return new BusDataTypeMemoryGateFactory<IByte>(CreateMemoryGateFactory(), CreateByteFactory());
+            return new BusDataTypeMemoryGateFactory<IByte>(CreateMemoryGateFactory(), CreateByteFactory(), 8);
         }
 
         public static BusDataTypeEnabler<IByte> CreateByteEnabler()

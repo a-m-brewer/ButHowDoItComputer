@@ -13,7 +13,7 @@ namespace ButHowDoItComputer.Parts
         private readonly IDecoder _decoder;
 
         public Ram(IBus<IByte> outputBus, IBusDataTypeRegisterFactory<IByte> busDataTypeFactory,
-            IDecoder decoder, IAnd and) : base(outputBus, busDataTypeFactory, decoder, and, 8)
+            IDecoder decoder, IAnd and) : base(outputBus, busDataTypeFactory, decoder, and, 16)
         {
             _decoder = decoder;
         }
