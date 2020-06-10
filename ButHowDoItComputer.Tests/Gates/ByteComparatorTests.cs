@@ -20,7 +20,7 @@ namespace ButHowDoItComputer.Tests.Gates
             _xOr = new XOr(_not, _nAnd);
             _bitComparator = new BitComparator(_xOr, _and, _or, _not);
             _byteToBase10 = new ByteToBase10Converter(_byteFactory, new Base10Converter());
-            _sut = new ByteComparator<IByte>(_bitComparator, _byteFactory);
+            _sut = new BusDataTypeComparator<IByte>(_bitComparator, _byteFactory);
         }
 
         private And _and;
@@ -29,7 +29,7 @@ namespace ButHowDoItComputer.Tests.Gates
         private Or _or;
         private XOr _xOr;
         private BitComparator _bitComparator;
-        private ByteComparator<IByte> _sut;
+        private BusDataTypeComparator<IByte> _sut;
         private ByteFactory _byteFactory;
         private ByteToBase10Converter _byteToBase10;
 

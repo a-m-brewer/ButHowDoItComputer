@@ -4,7 +4,7 @@ using ButHowDoItComputer.Gates.Interfaces;
 
 namespace ButHowDoItComputer.Gates
 {
-    public class IsZeroGate : IIsZeroGate
+    public class IsZeroGate<TBusDataType> : IIsZeroGate<TBusDataType> where TBusDataType : IBusDataType
     {
         private readonly INot _not;
         private readonly IOr _or;
@@ -15,7 +15,7 @@ namespace ButHowDoItComputer.Gates
             _not = not;
         }
 
-        public bool IsZero(IByte input)
+        public bool IsZero(TBusDataType input)
         {
             var orRes = _or.Apply(input.ToArray());
 

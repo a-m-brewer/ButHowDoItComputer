@@ -26,7 +26,7 @@ namespace ButHowDoItComputer.Tests.Components
             _fullByte = _byteFactory.Create(255);
             var bus = new Bus<IByte>(new BusMessage<IByte> {Data = new Byte(), Name = "Bus"});
             var ioBus = new Bus<IByte>(new BusMessage<IByte> {Data = new Byte(), Name = "IoBus"});
-            var byteRegisterFactory = TestUtils.CreateByteRegisterFactory();
+            var byteRegisterFactory = TestUtils.CreateBusTypeRegisterFactory();
             var ram = TestUtils.CreateRam(bus);
             _pinStates = new PinStates();
             _sut = new ComputerState<IByte>(byteRegisterFactory, ram, TestUtils.CreateBus1Factory(),

@@ -9,56 +9,56 @@ namespace ButHowDoItComputer.Parts
 {
     public class ArithmeticLogicUnit<TBusDataType> : IArithmeticLogicUnit<TBusDataType> where TBusDataType : IBusDataType
     {
-        private readonly IAluWire _aluWire;
+        private readonly IAluWire<TBusDataType> _aluWire;
         private readonly IAnd _and;
-        private readonly IByteAdder _byteAdder;
+        private readonly IBusDataTypeAdder<TBusDataType> _busDataTypeAdder;
         private readonly IBusDataTypeAnd<TBusDataType> _busDataTypeAnd;
-        private readonly IByteComparator<TBusDataType> _byteComparator;
+        private readonly IBusDataTypeComparator<TBusDataType> _busDataTypeComparator;
         private readonly Action<Caez> _updateFlags;
-        private readonly Action<IByte> _updateAcc;
-        private readonly IByteDecoder _byteDecoder;
-        private readonly IByteEnabler _byteEnabler;
+        private readonly Action<TBusDataType> _updateAcc;
+        private readonly IBusDataTypeDecoder<TBusDataType> _busDataTypeDecoder;
+        private readonly IBusDataTypeEnabler<TBusDataType> _busDataTypeEnabler;
         private readonly IBusDataTypeOr<TBusDataType> _busDataTypeOr;
         private readonly IBusDataTypeXOr<TBusDataType> _busDataTypeXOr;
         private readonly IInverter<TBusDataType> _inverter;
-        private readonly IIsZeroGate _isZeroGate;
-        private readonly ILeftByteShifter _leftByteShifter;
+        private readonly IIsZeroGate<TBusDataType> _isZeroGate;
+        private readonly ILeftBusDataTypeShifter<TBusDataType> _leftBusDataTypeShifter;
         private readonly IOr _or;
-        private readonly IRightByteShifter _rightByteShifter;
+        private readonly IRightBusDataTypeShifter<TBusDataType> _rightBusDataTypeShifter;
 
         public ArithmeticLogicUnit(
             IBusDataTypeXOr<TBusDataType> busDataTypeXOr,
             IBusDataTypeOr<TBusDataType> busDataTypeOr,
             IBusDataTypeAnd<TBusDataType> busDataTypeAnd,
             IInverter<TBusDataType> inverter,
-            IByteAdder byteAdder,
-            IByteEnabler byteEnabler,
+            IBusDataTypeAdder<TBusDataType> busDataTypeAdder,
+            IBusDataTypeEnabler<TBusDataType> busDataTypeEnabler,
             IAnd and,
-            IIsZeroGate isZeroGate,
-            IByteDecoder byteDecoder,
-            IRightByteShifter rightByteShifter,
-            ILeftByteShifter leftByteShifter,
+            IIsZeroGate<TBusDataType> isZeroGate,
+            IBusDataTypeDecoder<TBusDataType> busDataTypeDecoder,
+            IRightBusDataTypeShifter<TBusDataType> rightBusDataTypeShifter,
+            ILeftBusDataTypeShifter<TBusDataType> leftBusDataTypeShifter,
             IOr or,
-            IAluWire aluWire,
-            IByteComparator<TBusDataType> byteComparator,
+            IAluWire<TBusDataType> aluWire,
+            IBusDataTypeComparator<TBusDataType> busDataTypeComparator,
             Action<Caez> updateFlags,
-            Action<IByte> updateAcc,
+            Action<TBusDataType> updateAcc,
             IBusDataTypeFactory<TBusDataType> busDataTypeFactory)
         {
             _busDataTypeXOr = busDataTypeXOr;
             _busDataTypeOr = busDataTypeOr;
             _busDataTypeAnd = busDataTypeAnd;
             _inverter = inverter;
-            _byteAdder = byteAdder;
-            _byteEnabler = byteEnabler;
+            _busDataTypeAdder = busDataTypeAdder;
+            _busDataTypeEnabler = busDataTypeEnabler;
             _and = and;
             _isZeroGate = isZeroGate;
-            _byteDecoder = byteDecoder;
-            _rightByteShifter = rightByteShifter;
-            _leftByteShifter = leftByteShifter;
+            _busDataTypeDecoder = busDataTypeDecoder;
+            _rightBusDataTypeShifter = rightBusDataTypeShifter;
+            _leftBusDataTypeShifter = leftBusDataTypeShifter;
             _or = or;
             _aluWire = aluWire;
-            _byteComparator = byteComparator;
+            _busDataTypeComparator = busDataTypeComparator;
             _updateFlags = updateFlags;
             _updateAcc = updateAcc;
 
@@ -67,27 +67,27 @@ namespace ButHowDoItComputer.Parts
             Op = new Op();
         }
 
-        public AluOutput Apply(TBusDataType a, TBusDataType b, bool carryIn, Op op)
+        public AluOutput<TBusDataType> Apply(TBusDataType a, TBusDataType b, bool carryIn, Op op)
         {
-            var opDecoder = _byteDecoder.Decode(op.One, op.Two, op.Three);
+            var opDecoder = _busDataTypeDecoder.Decode(op.One, op.Two, op.Three);
 
             var xOr = _busDataTypeXOr.Apply(a, b);
             var or = _busDataTypeOr.Apply(a, b);
             var and = _busDataTypeAnd.Apply(a, b);
             var not = _inverter.Invert(a);
-            var shiftLeft = _leftByteShifter.Shift(a, carryIn);
-            var shiftRight = _rightByteShifter.Shift(a, carryIn);
-            var adder = _byteAdder.Add(a, b, carryIn);
-            var comparatorResult = _byteComparator.AreEqual(a, b, true, false);
+            var shiftLeft = _leftBusDataTypeShifter.Shift(a, carryIn);
+            var shiftRight = _rightBusDataTypeShifter.Shift(a, carryIn);
+            var adder = _busDataTypeAdder.Add(a, b, carryIn);
+            var comparatorResult = _busDataTypeComparator.AreEqual(a, b, true, false);
 
-            var enabledAdd = _byteEnabler.Apply(adder.Sum, opDecoder[0]);
-            var enabledShiftRight = _byteEnabler.Apply(shiftRight.Ouput, opDecoder[1]);
-            var enabledShiftLeft = _byteEnabler.Apply(shiftLeft.Ouput, opDecoder[2]);
-            var enabledNot = _byteEnabler.Apply(not, opDecoder[3]);
-            var enabledAnd = _byteEnabler.Apply(and, opDecoder[4]);
-            var enabledOr = _byteEnabler.Apply(or, opDecoder[5]);
-            var enabledXOr = _byteEnabler.Apply(xOr, opDecoder[6]);
-            var enabledComparator = _byteEnabler.Apply(comparatorResult.output, opDecoder[7]);
+            var enabledAdd = _busDataTypeEnabler.Apply(adder.Sum, opDecoder[0]);
+            var enabledShiftRight = _busDataTypeEnabler.Apply(shiftRight.Ouput, opDecoder[1]);
+            var enabledShiftLeft = _busDataTypeEnabler.Apply(shiftLeft.Ouput, opDecoder[2]);
+            var enabledNot = _busDataTypeEnabler.Apply(not, opDecoder[3]);
+            var enabledAnd = _busDataTypeEnabler.Apply(and, opDecoder[4]);
+            var enabledOr = _busDataTypeEnabler.Apply(or, opDecoder[5]);
+            var enabledXOr = _busDataTypeEnabler.Apply(xOr, opDecoder[6]);
+            var enabledComparator = _busDataTypeEnabler.Apply(comparatorResult.output, opDecoder[7]);
 
             var carryOutAdd = _and.Apply(adder.CarryOut, opDecoder[0]);
             var carryOutShiftRight = _and.Apply(shiftRight.ShiftOut, opDecoder[1]);
@@ -98,7 +98,7 @@ namespace ButHowDoItComputer.Parts
                 enabledOr, enabledXOr, enabledComparator);
             var zero = _isZeroGate.IsZero(output);
 
-            var aluOutput = new AluOutput
+            var aluOutput = new AluOutput<TBusDataType>
             {
                 ALarger = comparatorResult.ALarger,
                 CarryOut = carryOut,

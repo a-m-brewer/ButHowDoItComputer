@@ -1,6 +1,7 @@
 using System.Linq;
 using ButHowDoItComputer.DataTypes;
 using ButHowDoItComputer.DataTypes.Factories;
+using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Gates;
 using ButHowDoItComputer.Gates.Factories;
 using ButHowDoItComputer.Utils;
@@ -14,7 +15,7 @@ namespace ButHowDoItComputer.Tests.Gates
         [Test]
         public void CanKeepTheValueOfAByte()
         {
-            var sut = new ByteMemoryGate(new MemoryGateFactory(new NAnd(new Not(), new And())),
+            var sut = new BusDataTypeMemoryGate<IByte>(new MemoryGateFactory(new NAnd(new Not(), new And())),
                 new ByteFactory(new Base10Converter()));
 
             var input = new Byte(Enumerable.Range(0, 8).Select(s => true).ToArray());
@@ -35,7 +36,7 @@ namespace ButHowDoItComputer.Tests.Gates
         [TestCase(true)]
         public void CanStoreAByte(bool expected)
         {
-            var sut = new ByteMemoryGate(new MemoryGateFactory(new NAnd(new Not(), new And())),
+            var sut = new BusDataTypeMemoryGate<IByte>(new MemoryGateFactory(new NAnd(new Not(), new And())),
                 new ByteFactory(new Base10Converter()));
 
             var input = new Byte(Enumerable.Range(0, 8).Select(s => expected).ToArray());

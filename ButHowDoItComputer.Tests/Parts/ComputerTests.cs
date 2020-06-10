@@ -33,7 +33,7 @@ namespace ButHowDoItComputer.Tests.Parts
             
             var bus = new Bus<IByte>(new BusMessage<IByte> {Data = new Byte(), Name = "Bus"});
             var ioBus = new Bus<IByte>(new BusMessage<IByte> {Data = new Byte(), Name = "IoBus"});
-            var byteRegisterFactory = TestUtils.CreateByteRegisterFactory();
+            var byteRegisterFactory = TestUtils.CreateBusTypeRegisterFactory();
             var ram = TestUtils.CreateRam(bus);
             var computerState = new ComputerState<IByte>(byteRegisterFactory, ram, TestUtils.CreateBus1Factory(),
                 new ArithmeticLogicUnitFactory<IByte>(_byteFactory), TestUtils.CreateCaezRegisterFactory(), new BitRegisterFactory(TestUtils.CreateMemoryGateFactory()), bus, ioBus, _byteFactory);

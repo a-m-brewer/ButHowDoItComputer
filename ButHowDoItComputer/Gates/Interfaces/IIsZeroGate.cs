@@ -2,8 +2,8 @@
 
 namespace ButHowDoItComputer.Gates.Interfaces
 {
-    public interface IIsZeroGate
+    public interface IIsZeroGate<in TBusDataType> where TBusDataType : IBusDataType
     {
-        bool IsZero(IByte input);
+        bool IsZero(TBusDataType input);
     }
 }

@@ -1,5 +1,6 @@
 using ButHowDoItComputer.DataTypes;
 using ButHowDoItComputer.DataTypes.Factories;
+using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Gates;
 using ButHowDoItComputer.Gates.Factories;
 using ButHowDoItComputer.Utils;
@@ -60,7 +61,7 @@ namespace ButHowDoItComputer.Tests.Gates
 
             inputRegister.Input = beforeByte;
 
-            var sut = new LeftShifter(_byteFactory, new ByteLeftShifter(_byteFactory));
+            var sut = new LeftShifter<IByte>(_byteFactory, new BusDataTypeLeftShifter<IByte>(_byteFactory));
 
             sut.Apply(inputRegister, outputRegister);
 
@@ -105,7 +106,7 @@ namespace ButHowDoItComputer.Tests.Gates
 
             inputRegister.Input = beforeByte;
 
-            var sut = new RightShifter(_byteFactory, new ByteRightShifter(_byteFactory));
+            var sut = new RightShifter<IByte>(_byteFactory, new BusDataTypeRightShifter<IByte>(_byteFactory));
 
             sut.Apply(inputRegister, outputRegister);
 

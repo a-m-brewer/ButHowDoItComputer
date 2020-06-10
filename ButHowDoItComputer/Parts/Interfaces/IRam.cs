@@ -4,14 +4,14 @@ using ButHowDoItComputer.Utils.Interfaces;
 
 namespace ButHowDoItComputer.Parts.Interfaces
 {
-    public interface IRam : IApplicable, IPinPart
+    public interface IRam<TBusDataType> : IApplicable, IPinPart where TBusDataType : IBusDataType
     {
-        IRegister<IByte> MemoryAddressRegister { get; }
-        List<List<IRegister<IByte>>> InternalRegisters { get; }
+        IRegister<TBusDataType> MemoryAddressRegister { get; }
+        List<List<IRegister<TBusDataType>>> InternalRegisters { get; }
         bool Set { get; set; }
         bool Enable { get; set; }
-        IBus<IByte> Io { get; }
-        void SetMemoryAddress(IByte address);
+        IBus<TBusDataType> Io { get; }
+        void SetMemoryAddress(TBusDataType address);
         void Apply();
         void ApplyState();
         void ApplyEnable();

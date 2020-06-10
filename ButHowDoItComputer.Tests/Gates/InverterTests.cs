@@ -1,4 +1,5 @@
 using ButHowDoItComputer.DataTypes.Factories;
+using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Gates;
 using ButHowDoItComputer.Utils;
 using NUnit.Framework;
@@ -12,7 +13,7 @@ namespace ButHowDoItComputer.Tests.Gates
         public void InvertsAllInputs()
         {
             var byteFactory = new ByteFactory(new Base10Converter());
-            var sut = new Inverter(new Not(), byteFactory);
+            var sut = new Inverter<IByte>(new Not(), byteFactory);
             var input = byteFactory.Create(255);
             var expectedOutput = byteFactory.Create(0);
 

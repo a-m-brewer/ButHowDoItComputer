@@ -8,17 +8,17 @@ using ButHowDoItComputer.Utils.Interfaces;
 
 namespace ButHowDoItComputer.Parts
 {
-    public class Ram : IRam
+    public class Ram : IRam<IByte>
     {
         private readonly IAnd _and;
-        private readonly IByteRegisterFactory _byteRegisterFactory;
+        private readonly IBusDataTypeRegisterFactory<IByte> _busDataTypeFactory;
         private readonly IDecoder _decoder;
 
-        public Ram(IBus<IByte> outputBus, IByteRegisterFactory byteRegisterFactory,
+        public Ram(IBus<IByte> outputBus, IBusDataTypeRegisterFactory<IByte> busDataTypeFactory,
             IDecoder decoder, IAnd and)
         {
             Io = outputBus;
-            _byteRegisterFactory = byteRegisterFactory;
+            _busDataTypeFactory = busDataTypeFactory;
             _decoder = decoder;
             _and = and;
 
@@ -89,7 +89,7 @@ namespace ButHowDoItComputer.Parts
 
         private void SetupInputRegister()
         {
-            MemoryAddressRegister = _byteRegisterFactory.Create(update => {}, nameof(MemoryAddressRegister));
+            MemoryAddressRegister = _busDataTypeFactory.Create(update => {}, nameof(MemoryAddressRegister));
             // never need to hide input registers value
             MemoryAddressRegister.Enable = true;
         }
@@ -99,7 +99,7 @@ namespace ButHowDoItComputer.Parts
             InternalRegisters = Enumerable.Range(0, 16)
                 .Select(x => Enumerable.Range(0, 16).Select(y =>
                 {
-                    var reg = _byteRegisterFactory.Create(updateWire =>
+                    var reg = _busDataTypeFactory.Create(updateWire =>
                     {
                         Io.UpdateData(new BusMessage<IByte> {Name = $@"RamInternalRegister{x}{y}", Data = updateWire});
                         Io.UpdateSubs();

@@ -6,7 +6,7 @@ namespace ButHowDoItComputer.Parts.Interfaces
 {
     public interface IArithmeticLogicUnit<TBusDataType> : IApplicable where TBusDataType : IBusDataType
     {
-        AluOutput Apply(TBusDataType a, TBusDataType b, bool carryIn, Op op);
+        AluOutput<TBusDataType> Apply(TBusDataType a, TBusDataType b, bool carryIn, Op op);
         public Op Op { get; set; }
         public TBusDataType InputA { get; set; }
         public TBusDataType InputB { get; set; }

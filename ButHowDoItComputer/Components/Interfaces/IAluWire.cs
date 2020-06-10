@@ -2,8 +2,8 @@
 
 namespace ButHowDoItComputer.Components.Interfaces
 {
-    public interface IAluWire
+    public interface IAluWire<TBusDataType> where TBusDataType : IBusDataType
     {
-        IByte Apply(params IByte[] input);
+        TBusDataType Apply(params TBusDataType[] input);
     }
 }

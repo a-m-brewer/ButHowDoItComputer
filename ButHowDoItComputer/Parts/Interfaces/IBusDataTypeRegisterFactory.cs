@@ -3,7 +3,7 @@ using ButHowDoItComputer.Gates.Interfaces;
 
 namespace ButHowDoItComputer.Parts.Interfaces
 {
-    public interface IByteRegisterFactory : IRegisterFactory<IByte>
+    public interface IBusDataTypeRegisterFactory<TBusDataType> : IRegisterFactory<TBusDataType> where TBusDataType : IBusDataType
     {
     }
 }

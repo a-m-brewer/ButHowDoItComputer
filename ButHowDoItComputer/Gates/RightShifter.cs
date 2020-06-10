@@ -8,18 +8,18 @@ using ButHowDoItComputer.Utils;
 
 namespace ButHowDoItComputer.Gates
 {
-    public class RightShifter : Shifter, IRightShifter
+    public class RightShifter<TBusDataType> : Shifter<TBusDataType>, IRightShifter<TBusDataType> where TBusDataType : IBusDataType
     {
-        private readonly IRightByteShifter _rightByteShifter;
+        private readonly IRightBusDataTypeShifter<TBusDataType> _rightBusDataTypeShifter;
 
-        public RightShifter(ByteFactory byteFactory, IRightByteShifter rightByteShifter) : base(byteFactory)
+        public RightShifter(IBusDataTypeFactory<TBusDataType> busDataTypeFactory, IRightBusDataTypeShifter<TBusDataType> rightBusDataTypeShifter) : base(busDataTypeFactory)
         {
-            _rightByteShifter = rightByteShifter;
+            _rightBusDataTypeShifter = rightBusDataTypeShifter;
         }
 
-        protected override bool[] GetShifter(IRegister<IByte> inputRegister)
+        protected override bool[] GetShifter(IRegister<TBusDataType> inputRegister)
         {
-            var (secondRegisterInput, shiftOut) = _rightByteShifter.Shift(inputRegister.Output, ShiftIn);
+            var (secondRegisterInput, shiftOut) = _rightBusDataTypeShifter.Shift(inputRegister.Output, ShiftIn);
             ShiftOut = shiftOut;
 
             return secondRegisterInput.ToBits();

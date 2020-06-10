@@ -4,7 +4,7 @@ using ButHowDoItComputer.Utils.Interfaces;
 
 namespace ButHowDoItComputer.Gates.Interfaces
 {
-    public interface IBus1 : IByteGate, ISettable, IApplicable, IOutputable<IByte>, IInputable<IByte>
+    public interface IBus1<TBusDataType> : IBusDataTypeGate<TBusDataType>, ISettable, IApplicable, IOutputable<TBusDataType>, IInputable<TBusDataType> where TBusDataType : IBusDataType
     {
     }
 }

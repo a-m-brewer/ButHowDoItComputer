@@ -1,3 +1,4 @@
+using System.Linq;
 using ButHowDoItComputer.Components.Interfaces;
 using ButHowDoItComputer.DataTypes.Factories;
 using ButHowDoItComputer.DataTypes.Interfaces;
@@ -6,13 +7,13 @@ using ButHowDoItComputer.Parts.Interfaces;
 
 namespace ButHowDoItComputer.Gates
 {
-    public class Shifter : IShifter
+    public class Shifter<TBusDataType> : IShifter<TBusDataType> where TBusDataType : IBusDataType
     {
-        private readonly ByteFactory _byteFactory;
+        private readonly IBusDataTypeFactory<TBusDataType> _busDataTypeFactory;
 
-        protected Shifter(ByteFactory byteFactory)
+        protected Shifter(IBusDataTypeFactory<TBusDataType> busDataTypeFactory)
         {
-            _byteFactory = byteFactory;
+            _busDataTypeFactory = busDataTypeFactory;
             ShiftIn = false;
             ShiftOut = false;
         }
@@ -20,29 +21,22 @@ namespace ButHowDoItComputer.Gates
         public bool ShiftIn { get; set; }
         public bool ShiftOut { get; set; }
 
-        public void Apply(IRegister<IByte> inputRegister, IRegister<IByte> outputRegister)
+        public void Apply(IRegister<TBusDataType> inputRegister, IRegister<TBusDataType> outputRegister)
         {
             inputRegister.Apply();
             var secondRegisterInput = GetShifter(inputRegister);
-            outputRegister.Input = _byteFactory.Create(secondRegisterInput);
+            outputRegister.Input = _busDataTypeFactory.Create(secondRegisterInput);
             outputRegister.Apply();
         }
 
-        protected virtual bool[] GetShifter(IRegister<IByte> inputRegister)
+        protected virtual bool[] GetShifter(IRegister<TBusDataType> inputRegister)
         {
             ShiftOut = inputRegister.Output[0];
-            var secondRegisterInput = new[]
-            {
-                inputRegister.Output[1],
-                inputRegister.Output[2],
-                inputRegister.Output[3],
-                inputRegister.Output[4],
-                inputRegister.Output[5],
-                inputRegister.Output[6],
-                inputRegister.Output[7],
-                ShiftIn
-            };
-            return secondRegisterInput;
+
+            var output = inputRegister.Output.Skip(1).ToList();
+            output.Add(ShiftIn);
+            
+            return output.ToArray();
         }
     }
 }

@@ -3,8 +3,8 @@ using ButHowDoItComputer.Parts.Interfaces;
 
 namespace ButHowDoItComputer.Gates.Interfaces
 {
-    public interface IRegisterTransfer
+    public interface IRegisterTransfer<TBusDataType> where TBusDataType : IBusDataType
     {
-        void Apply(IRegister<IByte> inputRegister, IRegister<IByte> outputRegister);
+        void Apply(IRegister<TBusDataType> inputRegister, IRegister<TBusDataType> outputRegister);
     }
 }

@@ -1,6 +1,7 @@
 using System.Linq;
 using ButHowDoItComputer.DataTypes;
 using ButHowDoItComputer.DataTypes.Factories;
+using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Gates;
 using ButHowDoItComputer.Gates.Factories;
 using ButHowDoItComputer.Parts;
@@ -18,17 +19,17 @@ namespace ButHowDoItComputer.Tests.Parts
             _byteFactory = new ByteFactory(new Base10Converter());
             _and = new And();
             _memoryGateFactory = new MemoryGateFactory(new NAnd(new Not(), _and));
-            _byteMemoryGate = new ByteMemoryGate(_memoryGateFactory, _byteFactory);
-            _byteEnabler = new ByteEnabler(_and, _byteFactory);
-            _sut = new ByteRegister(_byteMemoryGate, _byteEnabler, _byteFactory, wire => {});
+            _busDataTypeMemoryGate = new BusDataTypeMemoryGate<IByte>(_memoryGateFactory, _byteFactory);
+            _busDataTypeEnabler = new BusDataTypeEnabler<IByte>(_and, _byteFactory);
+            _sut = new BusDataTypeRegister<IByte>(_busDataTypeMemoryGate, _busDataTypeEnabler, _byteFactory, wire => {});
         }
 
         private ByteFactory _byteFactory;
         private MemoryGateFactory _memoryGateFactory;
-        private ByteMemoryGate _byteMemoryGate;
+        private BusDataTypeMemoryGate<IByte> _busDataTypeMemoryGate;
         private And _and;
-        private ByteEnabler _byteEnabler;
-        private ByteRegister _sut;
+        private BusDataTypeEnabler<IByte> _busDataTypeEnabler;
+        private BusDataTypeRegister<IByte> _sut;
 
         [Test]
         [TestCase(false, false, false)]

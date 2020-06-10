@@ -14,9 +14,9 @@ namespace ButHowDoItComputer.Components.Interfaces
         IRegister<TBusDataType> Ir { get; }
         IRegister<TBusDataType> Iar { get; }
         IRegister<TBusDataType> Acc { get; }
-        IRam Ram { get; }
+        IRam<TBusDataType> Ram { get; }
         IRegister<TBusDataType> Tmp { get; }
-        IBus1 Bus1 { get; }
+        IBus1<TBusDataType> Bus1 { get; }
         IArithmeticLogicUnit<TBusDataType> Alu { get; }
         IBus<TBusDataType> Bus { get; }
         IoPinStates<TBusDataType> Io { get; set; }

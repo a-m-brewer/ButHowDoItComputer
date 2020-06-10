@@ -1,3 +1,4 @@
+using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Gates;
 using ButHowDoItComputer.Utils;
 using NUnit.Framework;
@@ -10,11 +11,11 @@ namespace ButHowDoItComputer.Tests.Gates
         [SetUp]
         public void Setup()
         {
-            _sut = new IsZeroGate(TestUtils.CreateOr(), TestUtils.CreateNot());
+            _sut = new IsZeroGate<IByte>(TestUtils.CreateOr(), TestUtils.CreateNot());
             _base10ToByte = TestUtils.CreateByteToBase10Converter();
         }
 
-        private IsZeroGate _sut;
+        private IsZeroGate<IByte> _sut;
         private ByteToBase10Converter _base10ToByte;
 
         [Test]

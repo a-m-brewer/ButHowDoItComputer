@@ -5,26 +5,26 @@ using ButHowDoItComputer.Gates.Interfaces;
 
 namespace ButHowDoItComputer.Gates
 {
-    public class Bus1 : IBus1
+    public class Bus1<TBusDataType> : IBus1<TBusDataType> where TBusDataType : IBusDataType
     {
         private readonly IAnd _and;
-        private readonly IByteFactory _byteFactory;
-        private readonly Action<IByte> _updateWire;
+        private readonly IBusDataTypeFactory<TBusDataType> _busDataTypeFactory;
+        private readonly Action<TBusDataType> _updateWire;
         private readonly INot _not;
         private readonly IOr _or;
 
-        public Bus1(IAnd and, INot not, IOr or, IByteFactory byteFactory, Action<IByte> updateWire)
+        public Bus1(IAnd and, INot not, IOr or, IBusDataTypeFactory<TBusDataType> busDataTypeFactory, Action<TBusDataType> updateWire)
         {
             _and = and;
             _not = not;
             _or = or;
-            _byteFactory = byteFactory;
+            _busDataTypeFactory = busDataTypeFactory;
             _updateWire = updateWire;
-            Input = _byteFactory.Create(0);
-            Output = _byteFactory.Create(0);
+            Input = _busDataTypeFactory.Create();
+            Output = _busDataTypeFactory.Create();
         }
 
-        public IByte Apply(IByte input, bool bus1)
+        public TBusDataType Apply(TBusDataType input, bool bus1)
         {
             Input = input;
             Set = bus1;
@@ -36,7 +36,7 @@ namespace ButHowDoItComputer.Gates
 
             var output = notAndRest.Prepend(orOneAndBus1).ToArray();
 
-            Output = _byteFactory.Create(output);
+            Output = _busDataTypeFactory.Create(output);
             _updateWire(Output);
             return Output;
         }
@@ -46,8 +46,8 @@ namespace ButHowDoItComputer.Gates
             Apply(Input, Set);
         }
 
-        public IByte Input { get; set; }
+        public TBusDataType Input { get; set; }
         public bool Set { get; set; }
-        public IByte Output { get; set; }
+        public TBusDataType Output { get; set; }
     }
 }

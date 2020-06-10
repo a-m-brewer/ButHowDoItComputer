@@ -5,18 +5,18 @@ using ButHowDoItComputer.Parts.Interfaces;
 
 namespace ButHowDoItComputer.Components
 {
-    public class AluWire : IAluWire
+    public class AluWire<TBusDataType> : IAluWire<TBusDataType> where TBusDataType : IBusDataType
     {
-        private readonly IByteFactory _byteFactory;
+        private readonly IBusDataTypeFactory<TBusDataType> _byteFactory;
 
-        public AluWire(IByteFactory byteFactory)
+        public AluWire(IBusDataTypeFactory<TBusDataType> byteFactory)
         {
             _byteFactory = byteFactory;
         }
 
-        public IByte Apply(params IByte[] input)
+        public TBusDataType Apply(params TBusDataType[] input)
         {
-            return input.LastOrDefault(w => w.Any(a => a)) ?? _byteFactory.Create(0);
+            return input.LastOrDefault(w => w.Any(a => a)) ?? _byteFactory.Create();
         }
     }
 }

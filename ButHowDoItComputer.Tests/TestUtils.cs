@@ -13,19 +13,19 @@ namespace ButHowDoItComputer.Tests
 {
     public static class TestUtils
     {
-        public static ByteRegister CreateRegister(bool set = true, bool enable = true)
+        public static BusDataTypeRegister<IByte> CreateRegister(bool set = true, bool enable = true)
         {
             var byteFactory = new ByteFactory(new Base10Converter());
             var memoryGateFactory = new MemoryGateFactory(new NAnd(new Not(), new And()));
             var and = new And();
-            return new ByteRegister(new ByteMemoryGate(memoryGateFactory, byteFactory),
-                new ByteEnabler(and, byteFactory), byteFactory, wire => {})
+            return new BusDataTypeRegister<IByte>(new BusDataTypeMemoryGate<IByte>(memoryGateFactory, byteFactory),
+                new BusDataTypeEnabler<IByte>(and, byteFactory), byteFactory, wire => {})
             {
                 Set = set, Enable = enable
             };
         }
 
-        public static ByteRegister CreateRegister(this uint input, bool set = true, bool enable = true)
+        public static BusDataTypeRegister<IByte> CreateRegister(this uint input, bool set = true, bool enable = true)
         {
             var b10ToByte = CreateByteToBase10Converter();
             var register = CreateRegister(set, enable);
@@ -33,7 +33,7 @@ namespace ButHowDoItComputer.Tests
             return register;
         }
 
-        public static ByteRegister CreateRegister(this IByte input, bool set = true, bool enable = true)
+        public static BusDataTypeRegister<IByte> CreateRegister(this IByte input, bool set = true, bool enable = true)
         {
             var register = CreateRegister(set, enable);
             register.Input = input;
@@ -80,9 +80,9 @@ namespace ButHowDoItComputer.Tests
             return new BitComparator(CreateXOr(), CreateAnd(), CreateOr(), CreateNot());
         }
 
-        public static ByteComparator<IByte> CreateByteComparator()
+        public static BusDataTypeComparator<IByte> CreateByteComparator()
         {
-            return new ByteComparator<IByte>(CreateBitComparator(), CreateByteFactory());
+            return new BusDataTypeComparator<IByte>(CreateBitComparator(), CreateByteFactory());
         }
 
         public static ArithmeticLogicUnit<IByte> CreateArithmeticLogicUnit()
@@ -92,29 +92,29 @@ namespace ButHowDoItComputer.Tests
                 new BusDataTypeXOr<IByte>(CreateXOr(), byteFactory),
                 new BusDataTypeOr<IByte>(CreateOr(), byteFactory),
                 new BusDataTypeAnd<IByte>(CreateAnd(), byteFactory),
-                new Inverter(CreateNot(), byteFactory),
-                new ByteAdder(new BitAdder(CreateXOr(), CreateOr(), CreateAnd()), CreateByteFactory()),
-                new ByteEnabler(CreateAnd(), CreateByteFactory()),
+                new Inverter<IByte>(CreateNot(), byteFactory),
+                new BusDataTypeAdder<IByte>(new BitAdder(CreateXOr(), CreateOr(), CreateAnd()), CreateByteFactory()),
+                new BusDataTypeEnabler<IByte>(CreateAnd(), CreateByteFactory()),
                 CreateAnd(),
-                new IsZeroGate(CreateOr(), CreateNot()),
-                new ByteDecoder(new Decoder(CreateNot(), CreateAnd()), CreateByteFactory()),
-                new ByteRightShifter(CreateByteFactory()),
-                new ByteLeftShifter(CreateByteFactory()),
+                new IsZeroGate<IByte>(CreateOr(), CreateNot()),
+                new BusDataTypeDecoder<IByte>(new Decoder(CreateNot(), CreateAnd()), CreateByteFactory()),
+                new BusDataTypeRightShifter<IByte>(CreateByteFactory()),
+                new BusDataTypeLeftShifter<IByte>(CreateByteFactory()),
                 CreateOr(),
-                new AluWire(CreateByteFactory()),
-                new ByteComparator<IByte>(new BitComparator(CreateXOr(), CreateAnd(), CreateOr(), CreateNot()),
+                new AluWire<IByte>(CreateByteFactory()),
+                new BusDataTypeComparator<IByte>(new BitComparator(CreateXOr(), CreateAnd(), CreateOr(), CreateNot()),
                     CreateByteFactory()), caez => {}, input => {},
                 byteFactory);
         }
 
-        public static Bus1 CreateBus1()
+        public static Bus1<IByte> CreateBus1()
         {
-            return new Bus1(CreateAnd(), CreateNot(), CreateOr(), CreateByteFactory(), wire => {});
+            return new Bus1<IByte>(CreateAnd(), CreateNot(), CreateOr(), CreateByteFactory(), wire => {});
         }
 
-        public static Bus1Factory CreateBus1Factory()
+        public static Bus1Factory<IByte> CreateBus1Factory()
         {
-            return new Bus1Factory(CreateAnd(), CreateNot(), CreateOr(), CreateByteFactory());
+            return new Bus1Factory<IByte>(CreateAnd(), CreateNot(), CreateOr(), CreateByteFactory());
         }
 
         public static Clock CreateClock()
@@ -142,19 +142,19 @@ namespace ButHowDoItComputer.Tests
             return new Decoder(CreateNot(), CreateAnd());
         }
 
-        public static ByteMemoryGateFactory CreateByteMemoryGateFactory()
+        public static BusDataTypeMemoryGateFactory<IByte> CreateByteMemoryGateFactory()
         {
-            return new ByteMemoryGateFactory(CreateMemoryGateFactory(), CreateByteFactory());
+            return new BusDataTypeMemoryGateFactory<IByte>(CreateMemoryGateFactory(), CreateByteFactory());
         }
 
-        public static ByteEnabler CreateByteEnabler()
+        public static BusDataTypeEnabler<IByte> CreateByteEnabler()
         {
-            return new ByteEnabler(CreateAnd(), CreateByteFactory());
+            return new BusDataTypeEnabler<IByte>(CreateAnd(), CreateByteFactory());
         }
 
-        public static ByteRegisterFactory CreateByteRegisterFactory()
+        public static BusDataTypeRegisterFactory<IByte> CreateBusTypeRegisterFactory()
         {
-            return new ByteRegisterFactory(CreateByteMemoryGateFactory(), CreateByteEnabler(), CreateByteFactory());
+            return new BusDataTypeRegisterFactory<IByte>(CreateByteMemoryGateFactory(), CreateByteEnabler(), CreateByteFactory());
         }
 
         public static Ram CreateRam()
@@ -164,7 +164,7 @@ namespace ButHowDoItComputer.Tests
 
         public static Ram CreateRam(IBus<IByte> bus)
         {
-            return new Ram(bus, CreateByteRegisterFactory(), CreateDecoder(), CreateAnd());
+            return new Ram(bus, CreateBusTypeRegisterFactory(), CreateDecoder(), CreateAnd());
         }
         
         public static CaezRegister CreateCaezRegister()

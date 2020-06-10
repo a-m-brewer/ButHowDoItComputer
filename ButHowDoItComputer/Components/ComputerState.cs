@@ -14,9 +14,9 @@ namespace ButHowDoItComputer.Components
     public class ComputerState<TBusDataType> : IComputerState<TBusDataType> where TBusDataType : IBusDataType
     {
         public ComputerState(
-            IRegisterFactory<TBusDataType> registerFactory, 
-            IRam ram, 
-            IBus1Factory bus1, 
+            IBusDataTypeRegisterFactory<TBusDataType> registerFactory, 
+            IRam<TBusDataType> ram, 
+            IBus1Factory<TBusDataType> bus1, 
             IArithmeticLogicUnitFactory<TBusDataType> aluFactory, 
             ICaezRegisterFactory caezRegisterFactory,
             IRegisterFactory<bool> bitRegisterFactory,
@@ -112,9 +112,9 @@ namespace ButHowDoItComputer.Components
         public IRegister<TBusDataType> Ir { get; }
         public IRegister<TBusDataType> Iar { get; }
         public IRegister<TBusDataType> Acc { get; }
-        public IRam Ram { get; }
+        public IRam<TBusDataType> Ram { get; }
         public IRegister<TBusDataType> Tmp { get; }
-        public IBus1 Bus1 { get; }
+        public IBus1<TBusDataType> Bus1 { get; }
         public IArithmeticLogicUnit<TBusDataType> Alu { get; }
         public IBus<TBusDataType> Bus { get; }
         // This register does not exist in the book but is required to make this work

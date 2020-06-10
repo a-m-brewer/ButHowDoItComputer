@@ -7,20 +7,20 @@ using ButHowDoItComputer.Utils;
 
 namespace ButHowDoItComputer.Gates
 {
-    public class LeftShifter : Shifter, ILeftShifter
+    public class LeftShifter<TBusDataType> : Shifter<TBusDataType>, ILeftShifter<TBusDataType> where TBusDataType : IBusDataType
     {
-        private readonly ILeftByteShifter _leftByteShifter;
+        private readonly ILeftBusDataTypeShifter<TBusDataType> _leftBusDataTypeShifter;
 
-        public LeftShifter(ByteFactory byteFactory, ILeftByteShifter leftByteShifter) : base(byteFactory)
+        public LeftShifter(IBusDataTypeFactory<TBusDataType> busDataTypeFactory, ILeftBusDataTypeShifter<TBusDataType> leftBusDataTypeShifter) : base(busDataTypeFactory)
         {
-            _leftByteShifter = leftByteShifter;
+            _leftBusDataTypeShifter = leftBusDataTypeShifter;
         }
 
-        protected override bool[] GetShifter(IRegister<IByte> inputRegister)
+        protected override bool[] GetShifter(IRegister<TBusDataType> inputRegister)
         {
-            var (ouput, shiftOut) = _leftByteShifter.Shift(inputRegister.Output, ShiftIn);
+            var (output, shiftOut) = _leftBusDataTypeShifter.Shift(inputRegister.Output, ShiftIn);
             ShiftOut = shiftOut;
-            return ouput.ToBits();
+            return output.ToBits();
         }
     }
 }
