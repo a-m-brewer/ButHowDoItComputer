@@ -1,8 +1,6 @@
 namespace ButHowDoItComputer.DataTypes.Interfaces
 {
-    public interface IByteFactory
+    public interface IByteFactory : IBusDataTypeFactory<IByte>
     {
-        IByte Create(params bool[] bits);
-        IByte Create(uint input);
     }
 }

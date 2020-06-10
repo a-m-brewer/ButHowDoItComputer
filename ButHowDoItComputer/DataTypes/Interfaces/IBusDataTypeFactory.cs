@@ -4,5 +4,6 @@ namespace ButHowDoItComputer.DataTypes.Interfaces
     {
         TBusDataType Create();
         TBusDataType Create(bool[] bits);
+        TBusDataType Create(uint input);
     }
 }
