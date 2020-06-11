@@ -3,31 +3,33 @@ using System.Collections.Generic;
 using System.Linq;
 using ButHowDoItComputer.Gates.Interfaces;
 using ButHowDoItComputer.Utils;
+using ButHowDoItComputer.Utils.Interfaces;
 
 namespace ButHowDoItComputer.Gates
 {
     public class Decoder : IDecoder
     {
         private readonly IAnd _and;
+        private readonly IBase10Converter _base10Converter;
         private readonly INot _not;
 
-        public Decoder(INot not, IAnd and)
+        public Decoder(INot not, IAnd and, IBase10Converter base10Converter)
         {
             _not = not;
             _and = and;
+            _base10Converter = base10Converter;
         }
 
         public IEnumerable<bool> Apply(params bool[] inputs)
         {
-            var inputList = inputs.ToList();
             // get a truth table based on the length of the input
-            var combinations = GenerateCombinations(inputList.Count).ToArray();
+            var combinations = GenerateCombinations(inputs.Length);
 
             // apply the not inputs based on each truth table row
-            var allGatesInputs = CreateGatesInputs(combinations, inputList).ToArray();
+            var allGatesInputs = CreateGatesInputs(combinations, inputs);
 
             // take the inputs and apply and to them
-            var gatesOutput = allGatesInputs.Select(s => _and.Apply(s.ToArray())).ToList();
+            var gatesOutput = allGatesInputs.Select(s => _and.Apply(s));
 
             // result yay!
             return gatesOutput;
@@ -38,21 +40,28 @@ namespace ButHowDoItComputer.Gates
         ///     So using the GenerateCombinations method we can no what inputs need to be negated based on the truth table
         /// </summary>
         /// <param name="combinations"></param>
-        /// <param name="inputList"></param>
+        /// <param name="input"></param>
         /// <returns></returns>
-        private IEnumerable<List<bool>> CreateGatesInputs(IEnumerable<BitList> combinations,
-            IEnumerable<bool> inputList)
+        private IEnumerable<bool[]> CreateGatesInputs(IEnumerable<BitList> combinations,
+            bool[] input)
         {
-            var input = inputList.Reverse().ToList();
+            Array.Reverse(input);
+            
             return combinations.Select(
-                    combination =>
-                        combination.Select(
-                            (bit, bitIndex) =>
-                                bit
-                                    ? input[bitIndex]
-                                    : _not.Apply(input[bitIndex])).ToList()
-                )
-                .ToList();
+                    combination => GenerateGate(combination, input)
+            );
+        }
+        
+        private bool[] GenerateGate(BitList combination, IReadOnlyList<bool> input)
+        {
+            var tmp = new bool[combination.Count];
+            
+            for (var i = 0; i < tmp.Length; i++)
+            {
+                tmp[i] = combination[i] ? input[i] : _not.Apply(input[i]);
+            }
+
+            return tmp;
         }
 
         /// <summary>
@@ -68,20 +77,17 @@ namespace ButHowDoItComputer.Gates
         /// <returns></returns>
         private IEnumerable<BitList> GenerateCombinations(int length)
         {
-            var output = new List<BitList>();
             var numberOfCombinations = (int) Math.Pow(2, length);
-            for (var bitList = new BitList(); bitList < numberOfCombinations; bitList++)
-            {
-                if (bitList.Count != length)
-                {
-                    var paddingNeeded = length - bitList.Count;
-                    bitList.AddRange(paddingNeeded.BitListOfLength());
-                }
 
-                output.Add(bitList);
+            var combinations = new BitList[numberOfCombinations];
+
+            for (uint i = 0; i < combinations.Length; i++)
+            {
+                var bits = _base10Converter.ToBit(i, length);
+                combinations[i] = new BitList(bits);
             }
 
-            return output;
+            return combinations;
         }
     }
 }

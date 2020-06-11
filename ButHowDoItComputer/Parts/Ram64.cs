@@ -16,6 +16,7 @@ namespace ButHowDoItComputer.Parts
 
         public override void Apply()
         {
+            // TODO: refactor this to not use tolist
             var inputData = MemoryAddressRegister.Data;
 
             var yInput = new[] {inputData[15], inputData[14], inputData[13], inputData[12], inputData[11], inputData[10], inputData[9], inputData[8]};

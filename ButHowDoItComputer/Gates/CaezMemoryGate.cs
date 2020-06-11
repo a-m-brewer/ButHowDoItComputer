@@ -17,16 +17,12 @@ namespace ButHowDoItComputer.Gates
         public Caez Apply(Caez input, bool set)
         {
             var newState = new bool[4];
-            var listCaez = input.ToList();
-            for (var i = 0; i < listCaez.Count; i++) newState[i] = _memoryGates[i].Apply(listCaez[i], set);
-
-            return new Caez
+            for (var i = 0; i < input.Count; i++)
             {
-                C = newState[0],
-                A = newState[1],
-                E = newState[2],
-                Z = newState[3]
-            };
+                newState[i] = _memoryGates[i].Apply(input[i], set);
+            }
+
+            return new Caez(newState);
         }
     }
 }

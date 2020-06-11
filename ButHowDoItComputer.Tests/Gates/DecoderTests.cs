@@ -1,5 +1,6 @@
 using System.Linq;
 using ButHowDoItComputer.Gates;
+using ButHowDoItComputer.Utils;
 using NUnit.Framework;
 
 namespace ButHowDoItComputer.Tests.Gates
@@ -10,7 +11,7 @@ namespace ButHowDoItComputer.Tests.Gates
         [SetUp]
         public void Setup()
         {
-            _sut = new Decoder(new Not(), new And());
+            _sut = new Decoder(new Not(), new And(), new Base10Converter());
         }
 
         private Decoder _sut;

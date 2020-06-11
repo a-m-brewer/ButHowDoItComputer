@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using ButHowDoItComputer.Gates.Interfaces;
 
@@ -7,7 +8,7 @@ namespace ButHowDoItComputer.Gates
     {
         public bool Apply(params bool[] bits)
         {
-            return bits.All(a => a);
+            return Array.TrueForAll(bits, b => b);
         }
     }
 }

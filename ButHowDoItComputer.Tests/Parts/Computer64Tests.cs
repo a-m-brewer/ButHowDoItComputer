@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Linq;
 using ButHowDoItComputer.Components;
 using ButHowDoItComputer.Components.Factories;
@@ -19,14 +20,15 @@ namespace ButHowDoItComputer.Tests.Parts
         private ISixteenBit _fullByte;
         private SixteenBitFactory _sixteenBitFactory;
         private Computer<ISixteenBit> _sut;
+        private uint _max;
 
         [SetUp]
         public void Setup()
         {
             var byteFactory = TestUtils.CreateByteFactory();
             _sixteenBitFactory = new SixteenBitFactory(new Base10Converter());
+            _max = 65535;
             _fullByte = _sixteenBitFactory.Create(65535);
-
             Instruction = _sixteenBitFactory.Create(0);
             Flags = new Caez();
 
@@ -66,7 +68,7 @@ namespace ButHowDoItComputer.Tests.Parts
         [Test]
         public void MarIsSetToAddressInIarInStepOne()
         {
-            _sut.ComputerState.Iar.ApplyOnce(_sixteenBitFactory.Create(255));
+            _sut.ComputerState.Iar.ApplyOnce(_sixteenBitFactory.Create(_max));
             
             StepFull(1);
             
@@ -215,7 +217,7 @@ namespace ButHowDoItComputer.Tests.Parts
 
             _sut.ComputerState.Ram.InternalRegisters[0][0].ApplyOnce(instruction);
             _sut.ComputerState.GeneralPurposeRegisters[0].ApplyOnce(_sixteenBitFactory.Create(0));
-            _sut.ComputerState.GeneralPurposeRegisters[1].ApplyOnce(_sixteenBitFactory.Create(255));
+            _sut.ComputerState.GeneralPurposeRegisters[1].ApplyOnce(_sixteenBitFactory.Create(_max));
             
             StepFull(6);
 
@@ -273,7 +275,7 @@ namespace ButHowDoItComputer.Tests.Parts
             _sut.ComputerState.Ram.InternalRegisters[0][0].ApplyOnce(instruction);
             
             _sut.ComputerState.GeneralPurposeRegisters[0].ApplyOnce(_sixteenBitFactory.Create(1));
-            _sut.ComputerState.Ram.InternalRegisters[0][1].ApplyOnce(_sixteenBitFactory.Create(255));
+            _sut.ComputerState.Ram.InternalRegisters[0][1].ApplyOnce(_sixteenBitFactory.Create(_max));
             
             StepFull(6);
 
@@ -292,7 +294,7 @@ namespace ButHowDoItComputer.Tests.Parts
             _sut.ComputerState.Ram.InternalRegisters[0][0].ApplyOnce(instruction);
             
             _sut.ComputerState.GeneralPurposeRegisters[0].ApplyOnce(_sixteenBitFactory.Create(1));
-            _sut.ComputerState.GeneralPurposeRegisters[1].ApplyOnce(_sixteenBitFactory.Create(255));
+            _sut.ComputerState.GeneralPurposeRegisters[1].ApplyOnce(_sixteenBitFactory.Create(_max));
             
             StepFull(6);
 
@@ -309,7 +311,7 @@ namespace ButHowDoItComputer.Tests.Parts
             var instruction = _sixteenBitFactory.Create(false, false, true, false, false, false, false, false);
             _sut.ComputerState.Ram.InternalRegisters[0][0].ApplyOnce(instruction);
             
-            _sut.ComputerState.Ram.InternalRegisters[0][1].ApplyOnce(_sixteenBitFactory.Create(255));
+            _sut.ComputerState.Ram.InternalRegisters[0][1].ApplyOnce(_sixteenBitFactory.Create(_max));
             
             StepFull(6);
 
@@ -390,8 +392,8 @@ namespace ButHowDoItComputer.Tests.Parts
             _sut.ComputerState.Ram.InternalRegisters[0][1].ApplyOnce(instruction);
             _sut.ComputerState.Ram.InternalRegisters[0][2].ApplyOnce(_fullByte);
             
-            _sut.ComputerState.GeneralPurposeRegisters[0].ApplyOnce(_sixteenBitFactory.Create(200));
-            _sut.ComputerState.GeneralPurposeRegisters[1].ApplyOnce(_sixteenBitFactory.Create(200));
+            _sut.ComputerState.GeneralPurposeRegisters[0].ApplyOnce(_sixteenBitFactory.Create(32769));
+            _sut.ComputerState.GeneralPurposeRegisters[1].ApplyOnce(_sixteenBitFactory.Create(32769));
             
             StepFull(6);
             
@@ -415,8 +417,8 @@ namespace ButHowDoItComputer.Tests.Parts
             var clearInstruction = _sixteenBitFactory.Create(false, true, true, false, false, false, false, false);
             _sut.ComputerState.Ram.InternalRegisters[0][1].ApplyOnce(clearInstruction);
             
-            _sut.ComputerState.GeneralPurposeRegisters[0].ApplyOnce(_sixteenBitFactory.Create(200));
-            _sut.ComputerState.GeneralPurposeRegisters[1].ApplyOnce(_sixteenBitFactory.Create(200));
+            _sut.ComputerState.GeneralPurposeRegisters[0].ApplyOnce(_sixteenBitFactory.Create(32769));
+            _sut.ComputerState.GeneralPurposeRegisters[1].ApplyOnce(_sixteenBitFactory.Create(32769));
             
             StepFull(6);
 

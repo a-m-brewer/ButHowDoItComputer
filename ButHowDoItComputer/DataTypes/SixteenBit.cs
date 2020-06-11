@@ -8,12 +8,12 @@ namespace ButHowDoItComputer.DataTypes
 {
     public class SixteenBit : ISixteenBit
     {
-        private bool[] _bits;
+        private IList<bool> _bits;
 
-        public SixteenBit(bool[] bits)
+        public SixteenBit(IList<bool> bits)
         {
-            if (bits.Length != 16)
-                throw new ArgumentException($"{nameof(bits)} should be 16 bits. input array way {bits.Length} long");
+            if (bits.Count != 16)
+                throw new ArgumentException($"{nameof(bits)} should be 16 bits. input array way {bits.Count} long");
 
             _bits = bits;
         }
@@ -74,7 +74,7 @@ namespace ButHowDoItComputer.DataTypes
             throw new NotImplementedException();
         }
 
-        public int Count => _bits.Length;
+        public int Count => _bits.Count;
 
         public bool IsReadOnly { get; } = false;
         

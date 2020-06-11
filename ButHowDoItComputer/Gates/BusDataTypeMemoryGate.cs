@@ -18,9 +18,16 @@ namespace ButHowDoItComputer.Gates
 
         public TBusDataType Apply(TBusDataType input, bool set)
         {
-            var newState = input.Select((s, i) => _memoryGates[i].Apply(s, set)).ToArray();
+            var bits = new bool[input.Count];
 
-            return _busDataTypeFactory.Create(newState);
+            for (var i = 0; i < bits.Length; i++)
+            {
+                bits[i] = _memoryGates[i].Apply(input[i], set);
+            }
+            
+            // var newState = input.Select((s, i) => _memoryGates[i].Apply(s, set)).ToArray();
+
+            return _busDataTypeFactory.Create(bits);
         }
     }
 }

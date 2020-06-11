@@ -11,6 +11,7 @@ namespace ButHowDoItComputer.Parts
     public class RamBase<TBusDataType> where TBusDataType : IBusDataType
     {
         private readonly IAnd _and;
+        private readonly int _registerDepth;
         private readonly IBusDataTypeRegisterFactory<TBusDataType> _busDataTypeFactory;
         private readonly IDecoder _decoder;
 
@@ -23,12 +24,13 @@ namespace ButHowDoItComputer.Parts
             _busDataTypeFactory = busDataTypeFactory;
             _decoder = decoder;
             _and = and;
+            _registerDepth = registerDepth;
 
             Set = false;
             Enable = false;
 
             SetupInputRegister();
-            SetupInternalRegisters(registerDepth);
+            SetupInternalRegisters(_registerDepth);
         }
 
         public IRegister<TBusDataType> MemoryAddressRegister { get; private set; }
@@ -39,8 +41,7 @@ namespace ButHowDoItComputer.Parts
 
         public IBus<TBusDataType> Io { get; }
 
-        public List<List<IRegister<TBusDataType>>> InternalRegisters { get; private set; } =
-            new List<List<IRegister<TBusDataType>>>();
+        public IRegister<TBusDataType>[][] InternalRegisters { get; private set; }
 
         public void SetMemoryAddress(TBusDataType address)
         {
@@ -67,6 +68,11 @@ namespace ButHowDoItComputer.Parts
 
                 InternalRegisters[y][x].Set = s;
                 InternalRegisters[y][x].Enable = e;
+
+                if (!s && !e)
+                {
+                    continue;
+                }
 
                 InternalRegisters[y][x].Apply();
             }
@@ -95,16 +101,23 @@ namespace ButHowDoItComputer.Parts
 
         private void SetupInternalRegisters(int registerDepth)
         {
-            InternalRegisters = Enumerable.Range(0, registerDepth)
-                .Select(x => Enumerable.Range(0, registerDepth).Select(y =>
+            InternalRegisters = new IRegister<TBusDataType>[registerDepth][];
+
+            for (var y = 0; y < InternalRegisters.Length; y++)
+            {
+                InternalRegisters[y] = new IRegister<TBusDataType>[registerDepth];
+
+                for (var x = 0; x < InternalRegisters[y].Length; x++)
                 {
-                    var reg = _busDataTypeFactory.Create(updateWire =>
+                    var x1 = x;
+                    var y1 = y;
+                    InternalRegisters[y][x] =  _busDataTypeFactory.Create(updateWire =>
                     {
-                        Io.UpdateData(new BusMessage<TBusDataType> {Name = $@"RamInternalRegister{x}{y}", Data = updateWire});
+                        Io.UpdateData(new BusMessage<TBusDataType> {Name = $@"RamInternalRegister{x1}{y1}", Data = updateWire});
                         Io.UpdateSubs();
                     }, $@"RamInternalRegister{x}{y}");
-                    return reg;
-                }).ToList()).ToList();
+                }
+            }
 
             foreach (var register in InternalRegisters.SelectMany(internalRegisterRow => internalRegisterRow))
             {

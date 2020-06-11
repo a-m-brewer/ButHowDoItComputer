@@ -8,12 +8,12 @@ namespace ButHowDoItComputer.DataTypes
 {
     public class Byte : IByte
     {
-        private bool[] _bits;
+        private IList<bool> _bits;
 
-        public Byte(bool[] bits)
+        public Byte(IList<bool> bits)
         {
-            if (bits.Length != 8)
-                throw new ArgumentException($"A byte must be 8 bits. input array way {bits.Length} long");
+            if (bits.Count != 8)
+                throw new ArgumentException($"A byte must be 8 bits. input array way {bits.Count} long");
 
             _bits = bits;
         }
@@ -66,7 +66,7 @@ namespace ButHowDoItComputer.DataTypes
             throw new NotSupportedException();
         }
 
-        public int Count => _bits.Length;
+        public int Count => _bits.Count;
 
         public bool IsReadOnly { get; } = false;
 

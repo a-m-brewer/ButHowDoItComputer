@@ -41,7 +41,7 @@ namespace ButHowDoItComputer.Components.Factories
                 new BusDataTypeEnabler<TBusDataType>(and, _busDataTypeFactory),
                 and,
                 new IsZeroGate<TBusDataType>(or, not),
-                new BusDataTypeDecoder<TBusDataType>(new Decoder(not, and), _busDataTypeFactory),
+                new BusDataTypeDecoder<TBusDataType>(new Decoder(not, and, new Base10Converter()), _busDataTypeFactory),
                 new BusDataTypeRightShifter<TBusDataType>(_busDataTypeFactory),
                 new BusDataTypeLeftShifter<TBusDataType>(_busDataTypeFactory),
                 or,

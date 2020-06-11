@@ -28,13 +28,17 @@ namespace ButHowDoItComputer.Gates
         {
             Input = input;
             Set = bus1;
-            var one = input[0];
-            var rest = input.Skip(1).ToArray();
+            
             var notBus1 = _not.Apply(bus1);
-            var notAndRest = rest.Select(s => _and.Apply(s, notBus1)).ToList();
-            var orOneAndBus1 = _or.Apply(one, bus1);
 
-            var output = notAndRest.Prepend(orOneAndBus1).ToArray();
+            var output = new bool[input.Count];
+
+            output[0] = _or.Apply(input[0], bus1);
+
+            for (var i = 1; i < output.Length; i++)
+            {
+                output[i] = _and.Apply(input[i], notBus1);
+            }
 
             Output = _busDataTypeFactory.Create(output);
             _updateWire(Output);

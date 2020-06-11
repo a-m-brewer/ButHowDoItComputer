@@ -30,7 +30,7 @@ namespace ButHowDoItComputer.Utils
             if (result.Count == 8) return _byteFactory.Create(result.ToArray());
 
             var toAdd = 8 - result.Count;
-            result.AddRange(toAdd.BitListOfLength());
+            result.AddRange(new bool[toAdd]);
 
             return _byteFactory.Create(result.ToArray());
         }

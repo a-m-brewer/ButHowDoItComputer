@@ -31,6 +31,11 @@ namespace ButHowDoItComputer.Parts
             {
                 register.Input = Data.Data;
 
+                if (!register.Set && !register.Enable)
+                {
+                    continue;
+                }
+
                 if (register.Name != Data.Name)
                 {
                     register.Apply();

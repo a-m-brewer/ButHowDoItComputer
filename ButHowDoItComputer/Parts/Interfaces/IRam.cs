@@ -7,7 +7,7 @@ namespace ButHowDoItComputer.Parts.Interfaces
     public interface IRam<TBusDataType> : IApplicable, IPinPart where TBusDataType : IBusDataType
     {
         IRegister<TBusDataType> MemoryAddressRegister { get; }
-        List<List<IRegister<TBusDataType>>> InternalRegisters { get; }
+        IRegister<TBusDataType>[][] InternalRegisters { get; }
         bool Set { get; set; }
         bool Enable { get; set; }
         IBus<TBusDataType> Io { get; }

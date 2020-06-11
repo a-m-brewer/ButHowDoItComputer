@@ -7,7 +7,7 @@ namespace ButHowDoItComputer.Utils
 {
     public class Base10Converter : IBase10Converter
     {
-        public IEnumerable<bool> ToBit(uint input)
+        public List<bool> ToBit(uint input)
         {
             var quotient = (int) input;
 
@@ -15,12 +15,40 @@ namespace ButHowDoItComputer.Utils
 
             while (quotient != 0)
             {
-                quotient = Math.DivRem(quotient, 2, out var remainder);
-                var state = remainder == 1;
-                result.Add(state);
+                var (tmpQuotient, newState) = UpdateQuotient(quotient);
+                quotient = tmpQuotient;
+                result.Add(newState);
             }
 
             return result;
+        }
+
+        public bool[] ToBit(uint input, int arraySize)
+        {
+            var quotient = (int) input;
+
+            var result = new bool[arraySize];
+
+            for (var i = 0; i < result.Length; i++)
+            {
+                if (quotient <= 0)
+                {
+                    break;
+                }
+
+                var (tmpQuotient, newState) = UpdateQuotient(quotient);
+                quotient = tmpQuotient;
+                result[i] = newState;
+            }
+
+            return result;
+        }
+
+        private (int quotient, bool state) UpdateQuotient(int quotient)
+        {
+            var quotientTemp = Math.DivRem(quotient, 2, out var remainder);
+            var state = remainder == 1;
+            return (quotientTemp, state);
         }
 
         public uint ToInt(IList<bool> bits)
@@ -40,7 +68,7 @@ namespace ButHowDoItComputer.Utils
         public IEnumerable<bool> Pad(List<bool> bits, int amount)
         {
             var toAdd = amount - bits.Count;
-            bits.AddRange(toAdd.BitListOfLength());
+            bits.AddRange(new bool[toAdd]);
             return bits;
         }
     }

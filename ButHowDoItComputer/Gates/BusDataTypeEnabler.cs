@@ -17,7 +17,13 @@ namespace ButHowDoItComputer.Gates
 
         public TBusDataType Apply(TBusDataType input, bool set)
         {
-            var bits = input.Select(b => _andGate.Apply(b, set)).ToArray();
+            var bits = new bool[input.Count];
+
+            for (var i = 0; i < bits.Length; i++)
+            {
+                bits[i] = _andGate.Apply(input[i], set);
+            }
+            
             return _busDataTypeFactory.Create(bits);
         }
     }

@@ -97,7 +97,7 @@ namespace ButHowDoItComputer.Tests
                 new BusDataTypeEnabler<IByte>(CreateAnd(), CreateByteFactory()),
                 CreateAnd(),
                 new IsZeroGate<IByte>(CreateOr(), CreateNot()),
-                new BusDataTypeDecoder<IByte>(new Decoder(CreateNot(), CreateAnd()), CreateByteFactory()),
+                new BusDataTypeDecoder<IByte>(new Decoder(CreateNot(), CreateAnd(), new Base10Converter()), CreateByteFactory()),
                 new BusDataTypeRightShifter<IByte>(CreateByteFactory()),
                 new BusDataTypeLeftShifter<IByte>(CreateByteFactory()),
                 CreateOr(),
@@ -139,7 +139,7 @@ namespace ButHowDoItComputer.Tests
 
         public static Decoder CreateDecoder()
         {
-            return new Decoder(CreateNot(), CreateAnd());
+            return new Decoder(CreateNot(), CreateAnd(), new Base10Converter());
         }
 
         public static BusDataTypeMemoryGateFactory<IByte> CreateByteMemoryGateFactory()
