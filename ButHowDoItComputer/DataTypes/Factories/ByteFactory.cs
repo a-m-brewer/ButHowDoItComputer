@@ -35,11 +35,10 @@ namespace ButHowDoItComputer.DataTypes.Factories
 
         public IByte Create(uint input)
         {
-            var number = _base10Converter.ToBit(input).ToArray();
-            var padding = Enumerable.Range(0, 8 - number.Length).Select(s => false).ToList();
-            var output = number.ToList();
-            output.AddRange(padding);
-            return new Byte(output.ToArray());
+            var number = _base10Converter.ToBit(input);
+            var padding = new bool[8 - number.Count];
+            number.AddRange(padding);
+            return new Byte(number);
         }
     }
 }

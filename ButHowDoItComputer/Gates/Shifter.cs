@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Gates.Interfaces;
@@ -23,18 +24,18 @@ namespace ButHowDoItComputer.Gates
         {
             inputRegister.Apply();
             var secondRegisterInput = GetShifter(inputRegister);
-            outputRegister.Input = _busDataTypeFactory.CreateParams(secondRegisterInput);
+            outputRegister.Input = _busDataTypeFactory.Create(secondRegisterInput);
             outputRegister.Apply();
         }
 
-        protected virtual bool[] GetShifter(IRegister<TBusDataType> inputRegister)
+        protected virtual IList<bool> GetShifter(IRegister<TBusDataType> inputRegister)
         {
             ShiftOut = inputRegister.Output[0];
 
             var output = inputRegister.Output.Skip(1).ToList();
             output.Add(ShiftIn);
-            
-            return output.ToArray();
+
+            return output;
         }
     }
 }

@@ -19,7 +19,15 @@ namespace ButHowDoItComputer.Utils
         public IByte[] Input()
         {
             var input = _inputDevice.Get();
-            return input.Select(c => _byteToAsciiConverter.ToByte(c.ToString())).ToArray();
+
+            var output = new IByte[input.Length];
+
+            for (var i = 0; i < output.Length; i++)
+            {
+                output[i] = _byteToAsciiConverter.ToByte(input[i].ToString());
+            }
+
+            return output;
         }
     }
 }

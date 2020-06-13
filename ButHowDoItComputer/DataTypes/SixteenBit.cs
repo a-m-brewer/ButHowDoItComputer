@@ -55,8 +55,7 @@ namespace ButHowDoItComputer.DataTypes
 
         public void Clear()
         {
-            var falseArray = new bool[16];
-            _bits = falseArray.Select(s => false).ToArray();
+            _bits = new bool[16];
         }
 
         public bool Contains(bool item)

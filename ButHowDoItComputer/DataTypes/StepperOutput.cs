@@ -11,7 +11,7 @@ namespace ButHowDoItComputer.DataTypes
 
         public StepperOutput()
         {
-            _bits = Enumerable.Range(0, 7).Select(_ => false).ToArray();
+            _bits = new bool[7];
         }
 
         public StepperOutput(bool[] bits)
@@ -39,8 +39,7 @@ namespace ButHowDoItComputer.DataTypes
 
         public void Clear()
         {
-            var falseArray = new bool[8];
-            _bits = falseArray.Select(s => false).ToArray();
+            _bits = new bool[8];
         }
 
         public bool Contains(bool item)

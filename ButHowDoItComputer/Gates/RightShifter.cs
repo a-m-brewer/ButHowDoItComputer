@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Gates.Interfaces;
 using ButHowDoItComputer.Parts.Interfaces;
@@ -14,7 +15,7 @@ namespace ButHowDoItComputer.Gates
             _rightBusDataTypeShifter = rightBusDataTypeShifter;
         }
 
-        protected override bool[] GetShifter(IRegister<TBusDataType> inputRegister)
+        protected override IList<bool> GetShifter(IRegister<TBusDataType> inputRegister)
         {
             var (secondRegisterInput, shiftOut) = _rightBusDataTypeShifter.Shift(inputRegister.Output, ShiftIn);
             ShiftOut = shiftOut;

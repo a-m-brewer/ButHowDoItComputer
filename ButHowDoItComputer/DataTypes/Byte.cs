@@ -20,7 +20,7 @@ namespace ButHowDoItComputer.DataTypes
 
         public Byte()
         {
-            _bits = Enumerable.Range(0, 8).Select(s => false).ToArray();
+            _bits = new bool[8];
         }
 
         public IEnumerator<bool> GetEnumerator()
@@ -47,8 +47,7 @@ namespace ButHowDoItComputer.DataTypes
 
         public void Clear()
         {
-            var falseArray = new bool[8];
-            _bits = falseArray.Select(s => false).ToArray();
+            _bits = new bool[8];
         }
 
         public bool Contains(bool item)

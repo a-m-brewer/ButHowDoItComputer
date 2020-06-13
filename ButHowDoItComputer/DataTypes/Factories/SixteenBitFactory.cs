@@ -17,7 +17,7 @@ namespace ButHowDoItComputer.DataTypes.Factories
         
         public ISixteenBit Create()
         {
-            return CreateParams(Enumerable.Range(0, 16).Select(s => false).ToArray());
+            return CreateParams(new bool[16]);
         }
 
         public ISixteenBit CreateParams(params bool[] bits)
