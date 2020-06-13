@@ -47,7 +47,7 @@ namespace ButHowDoItComputer.Gates
         /// <param name="combinations"></param>
         /// <param name="input"></param>
         /// <returns></returns>
-        private IList<bool[]> CreateGatesInputs(IList<BitList> combinations,
+        private IList<bool[]> CreateGatesInputs(IList<bool[]> combinations,
             bool[] input)
         {
             Array.Reverse(input);
@@ -62,9 +62,9 @@ namespace ButHowDoItComputer.Gates
             return tmp;
         }
         
-        private bool[] GenerateGate(BitList combination, IReadOnlyList<bool> input)
+        private bool[] GenerateGate(bool[] combination, IReadOnlyList<bool> input)
         {
-            var tmp = new bool[combination.Count];
+            var tmp = new bool[combination.Length];
             
             for (var i = 0; i < tmp.Length; i++)
             {
@@ -85,16 +85,15 @@ namespace ButHowDoItComputer.Gates
         /// </summary>
         /// <param name="length"></param>
         /// <returns></returns>
-        private IList<BitList> GenerateCombinations(int length)
+        private IList<bool[]> GenerateCombinations(int length)
         {
             var numberOfCombinations = (int) Math.Pow(2, length);
 
-            var combinations = new BitList[numberOfCombinations];
+            var combinations = new bool[numberOfCombinations][];
 
             for (uint i = 0; i < combinations.Length; i++)
             {
-                var bits = _base10Converter.ToBit(i, length);
-                combinations[i] = new BitList(bits);
+                combinations[i] = _base10Converter.ToBit(i, length);
             }
 
             return combinations;
