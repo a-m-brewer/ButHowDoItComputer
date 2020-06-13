@@ -392,9 +392,9 @@ namespace ButHowDoItComputer.Components
 
         public void UpdateGeneralPurposeRegisters(bool regAEnable, bool regBEnable, bool regBSet)
         {
-            var decoderEnableRegA = _decoder.Apply(_instruction[4], _instruction[5]).ToArray();
-            var decoderEnableRegB = _decoder.Apply(_instruction[6], _instruction[7]).ToArray();
-            var decoderSetRegB = _decoder.Apply(_instruction[6], _instruction[7]).ToArray();
+            var decoderEnableRegA = _decoder.Apply(_instruction[4], _instruction[5]);
+            var decoderEnableRegB = _decoder.Apply(_instruction[6], _instruction[7]);
+            var decoderSetRegB = _decoder.Apply(_instruction[6], _instruction[7]);
 
             var clkE = PinStates.ClockOutput.ClkE;
             var clkS = PinStates.ClockOutput.ClkS;

@@ -20,7 +20,7 @@ namespace ButHowDoItComputer.Gates
             _base10Converter = base10Converter;
         }
 
-        public IEnumerable<bool> Apply(params bool[] inputs)
+        public IList<bool> Apply(params bool[] inputs)
         {
             // get a truth table based on the length of the input
             var combinations = GenerateCombinations(inputs.Length);
@@ -29,7 +29,12 @@ namespace ButHowDoItComputer.Gates
             var allGatesInputs = CreateGatesInputs(combinations, inputs);
 
             // take the inputs and apply and to them
-            var gatesOutput = allGatesInputs.Select(s => _and.Apply(s));
+            var gatesOutput = new bool[allGatesInputs.Count];
+
+            for (var i = 0; i < gatesOutput.Length; i++)
+            {
+                gatesOutput[i] = _and.Apply(allGatesInputs[i]);
+            }
 
             // result yay!
             return gatesOutput;
@@ -42,14 +47,19 @@ namespace ButHowDoItComputer.Gates
         /// <param name="combinations"></param>
         /// <param name="input"></param>
         /// <returns></returns>
-        private IEnumerable<bool[]> CreateGatesInputs(IEnumerable<BitList> combinations,
+        private IList<bool[]> CreateGatesInputs(IList<BitList> combinations,
             bool[] input)
         {
             Array.Reverse(input);
-            
-            return combinations.Select(
-                    combination => GenerateGate(combination, input)
-            );
+
+            var tmp = new bool[combinations.Count][];
+
+            for (var i = 0; i < tmp.Length; i++)
+            {
+                tmp[i] = GenerateGate(combinations[i], input);
+            }
+
+            return tmp;
         }
         
         private bool[] GenerateGate(BitList combination, IReadOnlyList<bool> input)
@@ -75,7 +85,7 @@ namespace ButHowDoItComputer.Gates
         /// </summary>
         /// <param name="length"></param>
         /// <returns></returns>
-        private IEnumerable<BitList> GenerateCombinations(int length)
+        private IList<BitList> GenerateCombinations(int length)
         {
             var numberOfCombinations = (int) Math.Pow(2, length);
 
