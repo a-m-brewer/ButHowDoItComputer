@@ -1,6 +1,4 @@
 using System.Linq;
-using ButHowDoItComputer.Components.Interfaces;
-using ButHowDoItComputer.DataTypes.Factories;
 using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Gates.Interfaces;
 using ButHowDoItComputer.Parts.Interfaces;

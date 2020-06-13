@@ -6,7 +6,6 @@ using ButHowDoItComputer.DataTypes.Factories;
 using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Parts;
 using ButHowDoItComputer.Parts.Factories;
-using ButHowDoItComputer.Utils;
 using NUnit.Framework;
 
 namespace ButHowDoItComputer.Tests.Parts

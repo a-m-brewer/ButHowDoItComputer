@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using ButHowDoItComputer.DataTypes.Interfaces;
+﻿using ButHowDoItComputer.DataTypes.Interfaces;
 
 namespace ButHowDoItComputer.Utils
 {
@@ -7,7 +6,14 @@ namespace ButHowDoItComputer.Utils
     {
         public static bool[] ToBits<TBusDataType>(this TBusDataType input) where TBusDataType : IBusDataType
         {
-            return input.Select(s => s).ToArray();
+            var tmp = new bool[input.Count];
+
+            for (var i = 0; i < tmp.Length; i++)
+            {
+                tmp[i] = input[i];
+            }
+
+            return tmp;
         }
     }
 }

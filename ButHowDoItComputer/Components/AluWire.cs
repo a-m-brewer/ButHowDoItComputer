@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using ButHowDoItComputer.Components.Interfaces;
 using ButHowDoItComputer.DataTypes.Interfaces;
-using ButHowDoItComputer.Parts.Interfaces;
 
 namespace ButHowDoItComputer.Components
 {

@@ -24,8 +24,6 @@ namespace ButHowDoItComputer.Gates
             {
                 bits[i] = _memoryGates[i].Apply(input[i], set);
             }
-            
-            // var newState = input.Select((s, i) => _memoryGates[i].Apply(s, set)).ToArray();
 
             return _busDataTypeFactory.Create(bits);
         }

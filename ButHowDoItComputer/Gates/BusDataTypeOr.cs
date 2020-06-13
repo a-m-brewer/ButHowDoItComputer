@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Linq;
 using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Gates.Interfaces;
-using ButHowDoItComputer.Parts;
 
 namespace ButHowDoItComputer.Gates
 {

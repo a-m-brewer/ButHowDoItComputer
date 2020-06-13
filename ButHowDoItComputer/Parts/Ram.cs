@@ -1,10 +1,7 @@
-using System.Collections.Generic;
 using System.Linq;
-using ButHowDoItComputer.DataTypes;
 using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Gates.Interfaces;
 using ButHowDoItComputer.Parts.Interfaces;
-using ButHowDoItComputer.Utils.Interfaces;
 
 namespace ButHowDoItComputer.Parts
 {

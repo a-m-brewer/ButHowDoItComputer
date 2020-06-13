@@ -1,5 +1,4 @@
-﻿using System;
-using ButHowDoItComputer.Codes.ASCII;
+﻿using ButHowDoItComputer.Codes.ASCII;
 using ButHowDoItComputer.DataTypes.Factories;
 using ButHowDoItComputer.Utils;
 

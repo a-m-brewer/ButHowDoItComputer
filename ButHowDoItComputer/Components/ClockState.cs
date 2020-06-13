@@ -1,5 +1,4 @@
 ﻿using ButHowDoItComputer.Components.Interfaces;
-using ButHowDoItComputer.Parts.Interfaces;
 
 namespace ButHowDoItComputer.Components
 {

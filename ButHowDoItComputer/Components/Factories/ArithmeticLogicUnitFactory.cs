@@ -1,10 +1,7 @@
 using System;
-using ButHowDoItComputer.Components.Interfaces;
 using ButHowDoItComputer.DataTypes;
-using ButHowDoItComputer.DataTypes.Factories;
 using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Gates;
-using ButHowDoItComputer.Gates.Interfaces;
 using ButHowDoItComputer.Parts;
 using ButHowDoItComputer.Parts.Interfaces;
 using ButHowDoItComputer.Utils;
