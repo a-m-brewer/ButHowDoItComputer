@@ -19,7 +19,7 @@ namespace ButHowDoItComputer.Gates
             
             output.Add(shiftIn);
             
-            return (_busDataTypeFactory.Create(output.ToArray()), input[0]);
+            return (_busDataTypeFactory.CreateParams(output.ToArray()), input[0]);
         }
     }
 }

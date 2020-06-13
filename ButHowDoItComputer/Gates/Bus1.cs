@@ -39,7 +39,7 @@ namespace ButHowDoItComputer.Gates
                 output[i] = _and.ApplyParams(input[i], notBus1);
             }
 
-            Output = _busDataTypeFactory.Create(output);
+            Output = _busDataTypeFactory.CreateParams(output);
             _updateWire(Output);
             return Output;
         }

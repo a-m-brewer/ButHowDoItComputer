@@ -27,7 +27,7 @@ namespace ButHowDoItComputer.Gates
 
             var result = groups.Select(s => _and.ApplyParams(s.ToArray())).ToArray();
 
-            return _byteFactory.Create(result);
+            return _byteFactory.CreateParams(result);
         }
     }
 }

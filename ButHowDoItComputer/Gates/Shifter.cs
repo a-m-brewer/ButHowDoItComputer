@@ -23,7 +23,7 @@ namespace ButHowDoItComputer.Gates
         {
             inputRegister.Apply();
             var secondRegisterInput = GetShifter(inputRegister);
-            outputRegister.Input = _busDataTypeFactory.Create(secondRegisterInput);
+            outputRegister.Input = _busDataTypeFactory.CreateParams(secondRegisterInput);
             outputRegister.Apply();
         }
 

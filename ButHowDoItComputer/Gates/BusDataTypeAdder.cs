@@ -26,7 +26,7 @@ namespace ButHowDoItComputer.Gates
                 carryOut = carry;
             }
 
-            var outputByte = _busDataTypeFactory.Create(output);
+            var outputByte = _busDataTypeFactory.CreateParams(output);
 
             return (outputByte, carryOut);
         }

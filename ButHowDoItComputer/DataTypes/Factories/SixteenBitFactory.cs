@@ -17,13 +17,18 @@ namespace ButHowDoItComputer.DataTypes.Factories
         
         public ISixteenBit Create()
         {
-            return Create(Enumerable.Range(0, 16).Select(s => false).ToArray());
+            return CreateParams(Enumerable.Range(0, 16).Select(s => false).ToArray());
         }
 
-        public ISixteenBit Create(params bool[] bits)
+        public ISixteenBit CreateParams(params bool[] bits)
         {
-            if (bits.Length > 16)
-                throw new ArgumentException($"SixteenBit must be 16 long. input array was {bits.Length} long");
+            return Create(bits);
+        }
+
+        public ISixteenBit Create(IList<bool> bits)
+        {
+            if (bits.Count > 16)
+                throw new ArgumentException($"SixteenBit must be 16 long. input array was {bits.Count} long");
 
             return new SixteenBit(PadBits(bits));
         }

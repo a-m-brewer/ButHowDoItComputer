@@ -45,7 +45,7 @@ namespace ButHowDoItComputer.Tests.Components
 
             var opCode = OpCodes.And;
 
-            var actual = _sut.Apply(_byteFactory.Create(a), _byteFactory.Create(b), false, opCode);
+            var actual = _sut.Apply(_byteFactory.CreateParams(a), _byteFactory.CreateParams(b), false, opCode);
 
             for (var i = 0; i < expected.Length; i++) Assert.AreEqual(expected[i], actual.Output[i]);
         }
@@ -59,7 +59,7 @@ namespace ButHowDoItComputer.Tests.Components
 
             var opCode = OpCodes.Cmp;
 
-            var actual = _sut.Apply(_byteFactory.Create(a), _byteFactory.Create(b), false, opCode);
+            var actual = _sut.Apply(_byteFactory.CreateParams(a), _byteFactory.CreateParams(b), false, opCode);
 
             Assert.IsTrue(actual.Equal);
             Assert.IsFalse(actual.ALarger);
@@ -76,7 +76,7 @@ namespace ButHowDoItComputer.Tests.Components
 
             var opCode = OpCodes.Cmp;
 
-            var actual = _sut.Apply(_byteFactory.Create(a), _byteFactory.Create(b), false, opCode);
+            var actual = _sut.Apply(_byteFactory.CreateParams(a), _byteFactory.CreateParams(b), false, opCode);
 
             Assert.AreEqual(!expected, actual.Equal);
             Assert.AreEqual(expected, actual.ALarger);
@@ -91,7 +91,7 @@ namespace ButHowDoItComputer.Tests.Components
 
             var opCode = OpCodes.Not;
 
-            var actual = _sut.Apply(_byteFactory.Create(input), _byteFactory.Create(0), false, opCode);
+            var actual = _sut.Apply(_byteFactory.CreateParams(input), _byteFactory.Create(0), false, opCode);
 
             for (var i = 0; i < expected.Length; i++) Assert.AreEqual(expected[i], actual.Output[i]);
         }
@@ -105,7 +105,7 @@ namespace ButHowDoItComputer.Tests.Components
 
             var opCode = OpCodes.Or;
 
-            var actual = _sut.Apply(_byteFactory.Create(a), _byteFactory.Create(b), false, opCode);
+            var actual = _sut.Apply(_byteFactory.CreateParams(a), _byteFactory.CreateParams(b), false, opCode);
 
             for (var i = 0; i < expected.Length; i++) Assert.AreEqual(expected[i], actual.Output[i]);
         }
@@ -118,7 +118,7 @@ namespace ButHowDoItComputer.Tests.Components
 
             var opCode = OpCodes.Shl;
 
-            var actual = _sut.Apply(_byteFactory.Create(input), _byteFactory.Create(0), false, opCode);
+            var actual = _sut.Apply(_byteFactory.CreateParams(input), _byteFactory.Create(0), false, opCode);
 
             for (var i = 0; i < expected.Length; i++) Assert.AreEqual(expected[i], actual.Output[i]);
         }
@@ -131,7 +131,7 @@ namespace ButHowDoItComputer.Tests.Components
 
             var opCode = OpCodes.Shr;
 
-            var actual = _sut.Apply(_byteFactory.Create(input), _byteFactory.Create(0), false, opCode);
+            var actual = _sut.Apply(_byteFactory.CreateParams(input), _byteFactory.Create(0), false, opCode);
 
             for (var i = 0; i < expected.Length; i++) Assert.AreEqual(expected[i], actual.Output[i]);
         }
@@ -145,7 +145,7 @@ namespace ButHowDoItComputer.Tests.Components
 
             var opCode = OpCodes.XOr;
 
-            var actual = _sut.Apply(_byteFactory.Create(a), _byteFactory.Create(b), false, opCode);
+            var actual = _sut.Apply(_byteFactory.CreateParams(a), _byteFactory.CreateParams(b), false, opCode);
 
             for (var i = 0; i < expected.Length; i++) Assert.AreEqual(expected[i], actual.Output[i]);
         }

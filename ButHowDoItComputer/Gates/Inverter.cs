@@ -17,7 +17,14 @@ namespace ButHowDoItComputer.Gates
 
         public TBusDataType Invert(TBusDataType input)
         {
-            return _busDataTypeFactory.Create(input.Select(s => _not.Apply(s)).ToArray());
+            var inverted = new bool[input.Count];
+
+            for (var i = 0; i < inverted.Length; i++)
+            {
+                inverted[i] = _not.Apply(input[i]);
+            }
+            
+            return _busDataTypeFactory.Create(inverted);
         }
     }
 }

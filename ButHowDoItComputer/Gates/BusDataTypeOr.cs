@@ -27,7 +27,7 @@ namespace ButHowDoItComputer.Gates
 
             var result = groups.Select(s => _or.ApplyParams(s.ToArray())).ToArray();
 
-            return _busDataTypeFactory.Create(result);
+            return _busDataTypeFactory.CreateParams(result);
         }
     }
 }

@@ -26,7 +26,7 @@ namespace ButHowDoItComputer.Gates
                 output[i] = op;
             }
 
-            return (aboveBitIsEqual, aboveBitALarger, _busDataTypeFactory.Create(output));
+            return (aboveBitIsEqual, aboveBitALarger, _busDataTypeFactory.CreateParams(output));
         }
     }
 }

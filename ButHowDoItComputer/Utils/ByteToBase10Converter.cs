@@ -27,12 +27,12 @@ namespace ButHowDoItComputer.Utils
 
             var result = _base10Converter.ToBit(input).ToList();
 
-            if (result.Count == 8) return _byteFactory.Create(result.ToArray());
+            if (result.Count == 8) return _byteFactory.CreateParams(result.ToArray());
 
             var toAdd = 8 - result.Count;
             result.AddRange(new bool[toAdd]);
 
-            return _byteFactory.Create(result.ToArray());
+            return _byteFactory.CreateParams(result.ToArray());
         }
     }
 }

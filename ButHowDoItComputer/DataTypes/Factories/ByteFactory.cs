@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Utils.Interfaces;
@@ -14,10 +15,15 @@ namespace ButHowDoItComputer.DataTypes.Factories
             _base10Converter = base10Converter;
         }
 
-        public IByte Create(params bool[] bits)
+        public IByte CreateParams(params bool[] bits)
         {
-            if (bits.Length != 8)
-                throw new ArgumentException($"A byte must be 8 bits. input array way {bits.Length} long");
+            return Create(bits);
+        }
+
+        public IByte Create(IList<bool> bits)
+        {
+            if (bits.Count != 8)
+                throw new ArgumentException($"A byte must be 8 bits. input array way {bits.Count} long");
 
             return new Byte(bits);
         }

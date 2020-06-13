@@ -430,7 +430,7 @@ namespace ButHowDoItComputer.Components
             var threeXEightDecoded = _decoder.Apply(_instruction[1], _instruction[2], _instruction[3]);
             var notAluFlag = _not.Apply(_instruction[0]);
             PinStates.ThreeXEight =
-                _byteFactory.Create(threeXEightDecoded.Select(bit => _and.ApplyParams(notAluFlag, bit)).ToArray());
+                _byteFactory.CreateParams(threeXEightDecoded.Select(bit => _and.ApplyParams(notAluFlag, bit)).ToArray());
         }
 
         private void UpdateIoAllSteps()

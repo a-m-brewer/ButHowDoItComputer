@@ -23,7 +23,7 @@ namespace ButHowDoItComputer.Gates
                 bits[i] = _andGate.ApplyParams(input[i], set);
             }
             
-            return _busDataTypeFactory.Create(bits);
+            return _busDataTypeFactory.CreateParams(bits);
         }
     }
 }

@@ -108,7 +108,7 @@ namespace ButHowDoItComputer.Tests.Parts
         {
             var expected = _byteFactory.Create(75);
 
-            var instruction = _byteFactory.Create(true, false, false, false, false, false, false, true);
+            var instruction = _byteFactory.CreateParams(true, false, false, false, false, false, false, true);
 
             _sut.ComputerState.Ram.InternalRegisters[0][0].ApplyOnce(instruction);
             _sut.ComputerState.GeneralPurposeRegisters[0].ApplyOnce(_byteFactory.Create(50));
@@ -129,7 +129,7 @@ namespace ButHowDoItComputer.Tests.Parts
         [Test]
         public void CanShiftLeft()
         {
-            var instruction = _byteFactory.Create(true, false, false, true, false, false, false, true);
+            var instruction = _byteFactory.CreateParams(true, false, false, true, false, false, false, true);
 
             _sut.ComputerState.Ram.InternalRegisters[0][0].ApplyOnce(instruction);
             _sut.ComputerState.GeneralPurposeRegisters[0].ApplyOnce(_byteFactory.Create(128));
@@ -145,7 +145,7 @@ namespace ButHowDoItComputer.Tests.Parts
         [Test]
         public void CanShiftRight()
         {
-            var instruction = _byteFactory.Create(true, false, true, false, false, false, false, true);
+            var instruction = _byteFactory.CreateParams(true, false, true, false, false, false, false, true);
             
             _sut.ComputerState.Ram.InternalRegisters[0][0].ApplyOnce(instruction);
             _sut.ComputerState.GeneralPurposeRegisters[0].ApplyOnce(_byteFactory.Create(1));
@@ -161,7 +161,7 @@ namespace ButHowDoItComputer.Tests.Parts
         [Test]
         public void CanNotAByte()
         {
-            var instruction = _byteFactory.Create(true, false, true, true, false, false, false, true);
+            var instruction = _byteFactory.CreateParams(true, false, true, true, false, false, false, true);
 
             _sut.ComputerState.Ram.InternalRegisters[0][0].ApplyOnce(instruction);
             _sut.ComputerState.GeneralPurposeRegisters[0].ApplyOnce(_byteFactory.Create(0));
@@ -177,7 +177,7 @@ namespace ButHowDoItComputer.Tests.Parts
         [Test]
         public void CanAndByte()
         {
-            var instruction = _byteFactory.Create(true, true, false, false, false, false, false, true);
+            var instruction = _byteFactory.CreateParams(true, true, false, false, false, false, false, true);
 
             _sut.ComputerState.Ram.InternalRegisters[0][0].ApplyOnce(instruction);
             _sut.ComputerState.GeneralPurposeRegisters[0].ApplyOnce(_byteFactory.Create(0));
@@ -194,7 +194,7 @@ namespace ButHowDoItComputer.Tests.Parts
         [Test]
         public void CanOrByte()
         {
-            var instruction = _byteFactory.Create(true, true, false, true, false, false, false, true);
+            var instruction = _byteFactory.CreateParams(true, true, false, true, false, false, false, true);
 
             _sut.ComputerState.Ram.InternalRegisters[0][0].ApplyOnce(instruction);
             _sut.ComputerState.GeneralPurposeRegisters[0].ApplyOnce(_byteFactory.Create(0));
@@ -211,7 +211,7 @@ namespace ButHowDoItComputer.Tests.Parts
         [Test]
         public void CanXorByte()
         {
-            var instruction = _byteFactory.Create(true, true, true, false, false, false, false, true);
+            var instruction = _byteFactory.CreateParams(true, true, true, false, false, false, false, true);
 
             _sut.ComputerState.Ram.InternalRegisters[0][0].ApplyOnce(instruction);
             _sut.ComputerState.GeneralPurposeRegisters[0].ApplyOnce(_byteFactory.Create(255));
@@ -228,7 +228,7 @@ namespace ButHowDoItComputer.Tests.Parts
         [Test]
         public void CanCmpEqualBytes()
         {
-            var instruction = _byteFactory.Create(true, true, true, true, false, false, false, true);
+            var instruction = _byteFactory.CreateParams(true, true, true, true, false, false, false, true);
 
             _sut.ComputerState.Ram.InternalRegisters[0][0].ApplyOnce(instruction);
             _sut.ComputerState.GeneralPurposeRegisters[0].ApplyOnce(_byteFactory.Create(255));
@@ -251,7 +251,7 @@ namespace ButHowDoItComputer.Tests.Parts
         [Test]
         public void CanLoadFromRam()
         {
-            var instruction = _byteFactory.Create(false, false, false, false, false, false, false, true);
+            var instruction = _byteFactory.CreateParams(false, false, false, false, false, false, false, true);
 
             _sut.ComputerState.Ram.InternalRegisters[0][0].ApplyOnce(instruction);
             
@@ -270,7 +270,7 @@ namespace ButHowDoItComputer.Tests.Parts
         [Test]
         public void CanStoreDataInRam()
         {
-            var instruction = _byteFactory.Create(false, false, false, true, false, false, false, true);
+            var instruction = _byteFactory.CreateParams(false, false, false, true, false, false, false, true);
 
             _sut.ComputerState.Ram.InternalRegisters[0][0].ApplyOnce(instruction);
             
@@ -289,7 +289,7 @@ namespace ButHowDoItComputer.Tests.Parts
         [Test]
         public void CanPerformDataInstruction()
         {
-            var instruction = _byteFactory.Create(false, false, true, false, false, false, false, false);
+            var instruction = _byteFactory.CreateParams(false, false, true, false, false, false, false, false);
             _sut.ComputerState.Ram.InternalRegisters[0][0].ApplyOnce(instruction);
             
             _sut.ComputerState.Ram.InternalRegisters[0][1].ApplyOnce(_byteFactory.Create(255));
@@ -306,7 +306,7 @@ namespace ButHowDoItComputer.Tests.Parts
         [Test]
         public void CanPerformJumpRegisterInstruction()
         {
-            var instruction = _byteFactory.Create(false, false, true, true, false, false, false, false);
+            var instruction = _byteFactory.CreateParams(false, false, true, true, false, false, false, false);
             _sut.ComputerState.Ram.InternalRegisters[0][0].ApplyOnce(instruction);
 
             _sut.ComputerState.GeneralPurposeRegisters[0].ApplyOnce(_fullByte);
@@ -323,7 +323,7 @@ namespace ButHowDoItComputer.Tests.Parts
         [Test]
         public void CanPerformJumpInstruction()
         {
-            var instruction = _byteFactory.Create(false, true, false, false, false, false, false, false);
+            var instruction = _byteFactory.CreateParams(false, true, false, false, false, false, false, false);
             _sut.ComputerState.Ram.InternalRegisters[0][0].ApplyOnce(instruction);
             
             _sut.ComputerState.Ram.InternalRegisters[0][1].ApplyOnce(_fullByte);
@@ -340,10 +340,10 @@ namespace ButHowDoItComputer.Tests.Parts
         [Test]
         public void CanPerformJumpIfEqualIsOn()
         {
-            var addInstruction = _byteFactory.Create(true, false, false, false, false, false, false, true);
+            var addInstruction = _byteFactory.CreateParams(true, false, false, false, false, false, false, true);
 
             _sut.ComputerState.Ram.InternalRegisters[0][0].ApplyOnce(addInstruction);
-            var instruction = _byteFactory.Create(false, true, false, true, false, false, true, false);
+            var instruction = _byteFactory.CreateParams(false, true, false, true, false, false, true, false);
             _sut.ComputerState.Ram.InternalRegisters[0][1].ApplyOnce(instruction);
             _sut.ComputerState.Ram.InternalRegisters[0][2].ApplyOnce(_fullByte);
             
@@ -366,10 +366,10 @@ namespace ButHowDoItComputer.Tests.Parts
         [Test]
         public void CanPerformJumpIfCarryIsOn()
         {
-            var addInstruction = _byteFactory.Create(true, false, false, false, false, false, false, true);
+            var addInstruction = _byteFactory.CreateParams(true, false, false, false, false, false, false, true);
 
             _sut.ComputerState.Ram.InternalRegisters[0][0].ApplyOnce(addInstruction);
-            var instruction = _byteFactory.Create(false, true, false, true, true, false, false, false);
+            var instruction = _byteFactory.CreateParams(false, true, false, true, true, false, false, false);
             _sut.ComputerState.Ram.InternalRegisters[0][1].ApplyOnce(instruction);
             _sut.ComputerState.Ram.InternalRegisters[0][2].ApplyOnce(_fullByte);
             
@@ -392,10 +392,10 @@ namespace ButHowDoItComputer.Tests.Parts
         [Test]
         public void CanClearFlags()
         {
-            var addInstruction = _byteFactory.Create(true, false, false, false, false, false, false, true);
+            var addInstruction = _byteFactory.CreateParams(true, false, false, false, false, false, false, true);
             _sut.ComputerState.Ram.InternalRegisters[0][0].ApplyOnce(addInstruction);
 
-            var clearInstruction = _byteFactory.Create(false, true, true, false, false, false, false, false);
+            var clearInstruction = _byteFactory.CreateParams(false, true, true, false, false, false, false, false);
             _sut.ComputerState.Ram.InternalRegisters[0][1].ApplyOnce(clearInstruction);
             
             _sut.ComputerState.GeneralPurposeRegisters[0].ApplyOnce(_byteFactory.Create(200));
@@ -431,7 +431,7 @@ namespace ButHowDoItComputer.Tests.Parts
         public void CanInputIoDataToRb()
         {
             _sut.ComputerState.Io.Bus.Data = new BusMessage<IByte> {Name = "FromIO", Data = _fullByte};
-            var instruction = _byteFactory.Create(false, true, true, true, false, false, false, false);
+            var instruction = _byteFactory.CreateParams(false, true, true, true, false, false, false, false);
             _sut.ComputerState.Ram.InternalRegisters[0][0].ApplyOnce(instruction);
             
             StepFull(6);
@@ -445,7 +445,7 @@ namespace ButHowDoItComputer.Tests.Parts
         public void CanInputIoAddressToRb()
         {
             _sut.ComputerState.Io.Bus.Data = new BusMessage<IByte> {Name = "FromIO", Data = _fullByte};
-            var instruction = _byteFactory.Create(false, true, true, true, false, true, false, false);
+            var instruction = _byteFactory.CreateParams(false, true, true, true, false, true, false, false);
             _sut.ComputerState.Ram.InternalRegisters[0][0].ApplyOnce(instruction);
             
             StepFull(6);
@@ -459,7 +459,7 @@ namespace ButHowDoItComputer.Tests.Parts
         public void CanOutputToIoAsData()
         {
             _sut.ComputerState.GeneralPurposeRegisters[0].ApplyOnce(_fullByte);
-            var instruction = _byteFactory.Create(false, true, true, true, true, false, false, false);
+            var instruction = _byteFactory.CreateParams(false, true, true, true, true, false, false, false);
             _sut.ComputerState.Ram.InternalRegisters[0][0].ApplyOnce(instruction);
             
             StepFull(6);
@@ -473,7 +473,7 @@ namespace ButHowDoItComputer.Tests.Parts
         public void CanOutputToIoAsAddress()
         {
             _sut.ComputerState.GeneralPurposeRegisters[0].ApplyOnce(_fullByte);
-            var instruction = _byteFactory.Create(false, true, true, true, true, true, false, false);
+            var instruction = _byteFactory.CreateParams(false, true, true, true, true, true, false, false);
             _sut.ComputerState.Ram.InternalRegisters[0][0].ApplyOnce(instruction);
             
             StepFull(6);
