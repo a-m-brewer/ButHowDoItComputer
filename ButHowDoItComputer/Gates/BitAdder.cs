@@ -17,12 +17,12 @@ namespace ButHowDoItComputer.Gates
 
         public (bool Sum, bool CarryOut) Add(bool a, bool b, bool carryIn)
         {
-            var aXorB = _xOr.Apply(a, b);
-            var sum = _xOr.Apply(aXorB, carryIn);
+            var aXorB = _xOr.ApplyParams(a, b);
+            var sum = _xOr.ApplyParams(aXorB, carryIn);
 
-            var aAndB = _and.Apply(a, b);
-            var aXorBAndCarryIn = _and.Apply(aXorB, carryIn);
-            var carryOut = _or.Apply(aAndB, aXorBAndCarryIn);
+            var aAndB = _and.ApplyParams(a, b);
+            var aXorBAndCarryIn = _and.ApplyParams(aXorB, carryIn);
+            var carryOut = _or.ApplyParams(aAndB, aXorBAndCarryIn);
 
             return (sum, carryOut);
         }

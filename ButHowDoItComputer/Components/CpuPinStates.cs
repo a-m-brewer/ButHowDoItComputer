@@ -46,28 +46,28 @@ namespace ButHowDoItComputer.Components
 
         // steps
         private bool Step1 => PinStates.StepperOutput[0];
-        private bool Step1E => _and.Apply(Step1, PinStates.ClockOutput.ClkE);
-        private bool Step1S => _and.Apply(Step1, PinStates.ClockOutput.ClkS);
+        private bool Step1E => _and.ApplyParams(Step1, PinStates.ClockOutput.ClkE);
+        private bool Step1S => _and.ApplyParams(Step1, PinStates.ClockOutput.ClkS);
 
         private bool Step2 => PinStates.StepperOutput[1];
-        private bool Step2E => _and.Apply(Step2, PinStates.ClockOutput.ClkE);
-        private bool Step2S => _and.Apply(Step2, PinStates.ClockOutput.ClkS);
+        private bool Step2E => _and.ApplyParams(Step2, PinStates.ClockOutput.ClkE);
+        private bool Step2S => _and.ApplyParams(Step2, PinStates.ClockOutput.ClkS);
 
         private bool Step3 => PinStates.StepperOutput[2];
-        private bool Step3E => _and.Apply(Step3, PinStates.ClockOutput.ClkE);
-        private bool Step3S => _and.Apply(Step3, PinStates.ClockOutput.ClkS);
+        private bool Step3E => _and.ApplyParams(Step3, PinStates.ClockOutput.ClkE);
+        private bool Step3S => _and.ApplyParams(Step3, PinStates.ClockOutput.ClkS);
 
         private bool Step4 => PinStates.StepperOutput[3];
-        private bool Step4E => _and.Apply(Step4, PinStates.ClockOutput.ClkE);
-        private bool Step4S => _and.Apply(Step4, PinStates.ClockOutput.ClkS);
+        private bool Step4E => _and.ApplyParams(Step4, PinStates.ClockOutput.ClkE);
+        private bool Step4S => _and.ApplyParams(Step4, PinStates.ClockOutput.ClkS);
 
         private bool Step5 => PinStates.StepperOutput[4];
-        private bool Step5E => _and.Apply(Step5, PinStates.ClockOutput.ClkE);
-        private bool Step5S => _and.Apply(Step5, PinStates.ClockOutput.ClkS);
+        private bool Step5E => _and.ApplyParams(Step5, PinStates.ClockOutput.ClkE);
+        private bool Step5S => _and.ApplyParams(Step5, PinStates.ClockOutput.ClkS);
 
         private bool Step6 => PinStates.StepperOutput[5];
-        private bool Step6E => _and.Apply(Step6, PinStates.ClockOutput.ClkE);
-        private bool Step6S => _and.Apply(Step6, PinStates.ClockOutput.ClkS);
+        private bool Step6E => _and.ApplyParams(Step6, PinStates.ClockOutput.ClkE);
+        private bool Step6S => _and.ApplyParams(Step6, PinStates.ClockOutput.ClkS);
 
         private bool Step7 => PinStates.StepperOutput[6];
 
@@ -145,7 +145,7 @@ namespace ButHowDoItComputer.Components
         private void UpdateAluStep4()
         {
             // setup
-            var step4AndIr0 = _and.Apply(Step4, _instruction[0]);
+            var step4AndIr0 = _and.ApplyParams(Step4, _instruction[0]);
 
             // enables
             PinStates.RegB.Enable = NewPinState(PinStates.RegB.Enable, step4AndIr0);
@@ -158,10 +158,10 @@ namespace ButHowDoItComputer.Components
         private void UpdateLoadStep4()
         {
             // setup
-            var step43X80 = _and.Apply(Step4, PinStates.ThreeXEight[0]);
-            var step43X81 = _and.Apply(Step4, PinStates.ThreeXEight[1]);
+            var step43X80 = _and.ApplyParams(Step4, PinStates.ThreeXEight[0]);
+            var step43X81 = _and.ApplyParams(Step4, PinStates.ThreeXEight[1]);
 
-            var newState = _or.Apply(step43X80, step43X81);
+            var newState = _or.ApplyParams(step43X80, step43X81);
 
             // enables
             PinStates.RegA.Enable = NewPinState(PinStates.RegA.Enable, newState);
@@ -173,7 +173,7 @@ namespace ButHowDoItComputer.Components
         private void UpdateDataStep4()
         {
             // setup
-            var step43X82 = _and.Apply(Step4, PinStates.ThreeXEight[2]);
+            var step43X82 = _and.ApplyParams(Step4, PinStates.ThreeXEight[2]);
 
             // enables
             PinStates.Bus1 = NewPinState(PinStates.Bus1, step43X82);
@@ -187,7 +187,7 @@ namespace ButHowDoItComputer.Components
         private void UpdateJumpRegisterStep4()
         {
             // setup
-            var step43X83 = _and.Apply(Step4, PinStates.ThreeXEight[3]);
+            var step43X83 = _and.ApplyParams(Step4, PinStates.ThreeXEight[3]);
 
             // enables
             PinStates.RegB.Enable = NewPinState(PinStates.RegB.Enable, step43X83);
@@ -199,7 +199,7 @@ namespace ButHowDoItComputer.Components
         private void UpdateJumpStep4()
         {
             // setup
-            var step43X84 = _and.Apply(Step4, PinStates.ThreeXEight[4]);
+            var step43X84 = _and.ApplyParams(Step4, PinStates.ThreeXEight[4]);
 
             // enables
             PinStates.Iar.Enable = NewPinState(PinStates.Iar.Enable, ClkEAnd(step43X84));
@@ -211,7 +211,7 @@ namespace ButHowDoItComputer.Components
         private void UpdateJumpIfStep4()
         {
             // setup
-            var step43X85 = _and.Apply(Step4, PinStates.ThreeXEight[5]);
+            var step43X85 = _and.ApplyParams(Step4, PinStates.ThreeXEight[5]);
 
             // enables
             PinStates.Bus1 = NewPinState(PinStates.Bus1, step43X85);
@@ -225,7 +225,7 @@ namespace ButHowDoItComputer.Components
         private void UpdateClearStep4()
         {
             // setup 
-            var step43X86 = _and.Apply(Step4, PinStates.ThreeXEight[6]);
+            var step43X86 = _and.ApplyParams(Step4, PinStates.ThreeXEight[6]);
             
             // enable
             PinStates.Bus1 = NewPinState(PinStates.Bus1, step43X86);
@@ -237,7 +237,7 @@ namespace ButHowDoItComputer.Components
         private void UpdateIoStep4()
         {
             // setup
-            var step43X87Ir4 = _and.Apply(Step4, PinStates.ThreeXEight[7], _instruction[4]);
+            var step43X87Ir4 = _and.ApplyParams(Step4, PinStates.ThreeXEight[7], _instruction[4]);
 
             PinStates.RegB.Enable = NewPinState(PinStates.RegB.Enable, step43X87Ir4);
             
@@ -258,7 +258,7 @@ namespace ButHowDoItComputer.Components
         private void UpdateAluStep5()
         {
             // setup
-            var step5AndIr0 = _and.Apply(Step5, _instruction[0]);
+            var step5AndIr0 = _and.ApplyParams(Step5, _instruction[0]);
 
             // enables
             PinStates.RegA.Enable = NewPinState(PinStates.RegA.Enable, step5AndIr0);
@@ -273,8 +273,8 @@ namespace ButHowDoItComputer.Components
         private void UpdateLoadStep5()
         {
             // setup
-            var storeFlag = _and.Apply(Step5, PinStates.ThreeXEight[0]);
-            var loadFlag = _and.Apply(Step5, PinStates.ThreeXEight[1]);
+            var storeFlag = _and.ApplyParams(Step5, PinStates.ThreeXEight[0]);
+            var loadFlag = _and.ApplyParams(Step5, PinStates.ThreeXEight[1]);
 
             // enables
             PinStates.RegB.Enable = NewPinState(PinStates.RegB.Enable, loadFlag);
@@ -288,7 +288,7 @@ namespace ButHowDoItComputer.Components
         private void UpdateDataStep5()
         {
             // setup
-            var step53X82 = _and.Apply(Step5, PinStates.ThreeXEight[2]);
+            var step53X82 = _and.ApplyParams(Step5, PinStates.ThreeXEight[2]);
 
             // enables
             PinStates.Ram.Enable = NewPinState(PinStates.Ram.Enable, ClkEAnd(step53X82));
@@ -300,7 +300,7 @@ namespace ButHowDoItComputer.Components
         private void UpdateJumpStep5()
         {
             // setup
-            var step53X84 = _and.Apply(Step5, PinStates.ThreeXEight[4]);
+            var step53X84 = _and.ApplyParams(Step5, PinStates.ThreeXEight[4]);
 
             // enables
             PinStates.Ram.Enable = NewPinState(PinStates.Ram.Enable, ClkEAnd(step53X84));
@@ -312,7 +312,7 @@ namespace ButHowDoItComputer.Components
         private void UpdateJumpIfStep5()
         {
             // setup
-            var step53X85 = _and.Apply(Step5, PinStates.ThreeXEight[5]);
+            var step53X85 = _and.ApplyParams(Step5, PinStates.ThreeXEight[5]);
 
             // enables
             PinStates.Acc.Enable = NewPinState(PinStates.Acc.Enable, ClkEAnd(step53X85));
@@ -323,7 +323,7 @@ namespace ButHowDoItComputer.Components
 
         private void UpdateIoStep5()
         {
-            var step53X87NotIr4 = _and.Apply(Step5, PinStates.ThreeXEight[7], _not.Apply(_instruction[4]));
+            var step53X87NotIr4 = _and.ApplyParams(Step5, PinStates.ThreeXEight[7], _not.Apply(_instruction[4]));
 
             // sets
             PinStates.RegB.Set = NewPinState(PinStates.RegB.Set, step53X87NotIr4);
@@ -332,9 +332,9 @@ namespace ButHowDoItComputer.Components
 
         private void UpdateOpCode()
         {
-            PinStates.Op.One = _and.Apply(Step5, _instruction[0], _instruction[1]);
-            PinStates.Op.Two = _and.Apply(Step5, _instruction[0], _instruction[2]);
-            PinStates.Op.Three = _and.Apply(Step5, _instruction[0], _instruction[3]);
+            PinStates.Op.One = _and.ApplyParams(Step5, _instruction[0], _instruction[1]);
+            PinStates.Op.Two = _and.ApplyParams(Step5, _instruction[0], _instruction[2]);
+            PinStates.Op.Three = _and.ApplyParams(Step5, _instruction[0], _instruction[3]);
         }
 
         private void UpdateStep6Pins()
@@ -347,8 +347,8 @@ namespace ButHowDoItComputer.Components
         private void UpdateAluStep6()
         {
             // setup
-            var notAndIr123 = _not.Apply(_and.Apply(_instruction[1], _instruction[2], _instruction[3]));
-            var step6AndIr0AndNotAndIr123 = _and.Apply(Step6, _instruction[0], notAndIr123);
+            var notAndIr123 = _not.Apply(_and.ApplyParams(_instruction[1], _instruction[2], _instruction[3]));
+            var step6AndIr0AndNotAndIr123 = _and.ApplyParams(Step6, _instruction[0], notAndIr123);
 
             // enable
             PinStates.Acc.Enable = NewPinState(PinStates.Acc.Enable, ClkEAnd(step6AndIr0AndNotAndIr123));
@@ -360,7 +360,7 @@ namespace ButHowDoItComputer.Components
         private void UpdateDataStep6()
         {
             // setup
-            var step63X82 = _and.Apply(Step6, PinStates.ThreeXEight[2]);
+            var step63X82 = _and.ApplyParams(Step6, PinStates.ThreeXEight[2]);
 
             // enable
             PinStates.Acc.Enable = NewPinState(PinStates.Acc.Enable, ClkEAnd(step63X82));
@@ -371,14 +371,14 @@ namespace ButHowDoItComputer.Components
 
         private void UpdateJumpIfStep6()
         {
-            var cAndIr4 = _and.Apply(_caez.C, _instruction[4]);
-            var aAndIr5 = _and.Apply(_caez.A, _instruction[5]);
-            var eAndIr6 = _and.Apply(_caez.E, _instruction[6]);
-            var zAndIr7 = _and.Apply(_caez.Z, _instruction[7]);
+            var cAndIr4 = _and.ApplyParams(_caez.C, _instruction[4]);
+            var aAndIr5 = _and.ApplyParams(_caez.A, _instruction[5]);
+            var eAndIr6 = _and.ApplyParams(_caez.E, _instruction[6]);
+            var zAndIr7 = _and.ApplyParams(_caez.Z, _instruction[7]);
 
             // setup
-            var orCaez = _or.Apply(cAndIr4, aAndIr5, eAndIr6, zAndIr7);
-            var step63X85AndCaez = _and.Apply(
+            var orCaez = _or.ApplyParams(cAndIr4, aAndIr5, eAndIr6, zAndIr7);
+            var step63X85AndCaez = _and.ApplyParams(
                 Step6,
                 PinStates.ThreeXEight[5],
                 orCaez);
@@ -399,25 +399,25 @@ namespace ButHowDoItComputer.Components
             var clkE = PinStates.ClockOutput.ClkE;
             var clkS = PinStates.ClockOutput.ClkS;
 
-            var r0Ea = _and.Apply(decoderEnableRegA[0], regAEnable, clkE);
-            var r1Ea = _and.Apply(decoderEnableRegA[1], regAEnable, clkE);
-            var r2Ea = _and.Apply(decoderEnableRegA[2], regAEnable, clkE);
-            var r3Ea = _and.Apply(decoderEnableRegA[3], regAEnable, clkE);
+            var r0Ea = _and.ApplyParams(decoderEnableRegA[0], regAEnable, clkE);
+            var r1Ea = _and.ApplyParams(decoderEnableRegA[1], regAEnable, clkE);
+            var r2Ea = _and.ApplyParams(decoderEnableRegA[2], regAEnable, clkE);
+            var r3Ea = _and.ApplyParams(decoderEnableRegA[3], regAEnable, clkE);
 
-            var r0Eb = _and.Apply(decoderEnableRegB[0], regBEnable, clkE);
-            var r1Eb = _and.Apply(decoderEnableRegB[1], regBEnable, clkE);
-            var r2Eb = _and.Apply(decoderEnableRegB[2], regBEnable, clkE);
-            var r3Eb = _and.Apply(decoderEnableRegB[3], regBEnable, clkE);
+            var r0Eb = _and.ApplyParams(decoderEnableRegB[0], regBEnable, clkE);
+            var r1Eb = _and.ApplyParams(decoderEnableRegB[1], regBEnable, clkE);
+            var r2Eb = _and.ApplyParams(decoderEnableRegB[2], regBEnable, clkE);
+            var r3Eb = _and.ApplyParams(decoderEnableRegB[3], regBEnable, clkE);
 
-            var r0S = _and.Apply(decoderSetRegB[0], regBSet, clkS);
-            var r1S = _and.Apply(decoderSetRegB[1], regBSet, clkS);
-            var r2S = _and.Apply(decoderSetRegB[2], regBSet, clkS);
-            var r3S = _and.Apply(decoderSetRegB[3], regBSet, clkS);
+            var r0S = _and.ApplyParams(decoderSetRegB[0], regBSet, clkS);
+            var r1S = _and.ApplyParams(decoderSetRegB[1], regBSet, clkS);
+            var r2S = _and.ApplyParams(decoderSetRegB[2], regBSet, clkS);
+            var r3S = _and.ApplyParams(decoderSetRegB[3], regBSet, clkS);
 
-            PinStates.GeneralPurposeRegisters[0].Enable = _or.Apply(r0Ea, r0Eb);
-            PinStates.GeneralPurposeRegisters[1].Enable = _or.Apply(r1Ea, r1Eb);
-            PinStates.GeneralPurposeRegisters[2].Enable = _or.Apply(r2Ea, r2Eb);
-            PinStates.GeneralPurposeRegisters[3].Enable = _or.Apply(r3Ea, r3Eb);
+            PinStates.GeneralPurposeRegisters[0].Enable = _or.ApplyParams(r0Ea, r0Eb);
+            PinStates.GeneralPurposeRegisters[1].Enable = _or.ApplyParams(r1Ea, r1Eb);
+            PinStates.GeneralPurposeRegisters[2].Enable = _or.ApplyParams(r2Ea, r2Eb);
+            PinStates.GeneralPurposeRegisters[3].Enable = _or.ApplyParams(r3Ea, r3Eb);
 
             PinStates.GeneralPurposeRegisters[0].Set = r0S;
             PinStates.GeneralPurposeRegisters[1].Set = r1S;
@@ -430,7 +430,7 @@ namespace ButHowDoItComputer.Components
             var threeXEightDecoded = _decoder.Apply(_instruction[1], _instruction[2], _instruction[3]);
             var notAluFlag = _not.Apply(_instruction[0]);
             PinStates.ThreeXEight =
-                _byteFactory.Create(threeXEightDecoded.Select(bit => _and.Apply(notAluFlag, bit)).ToArray());
+                _byteFactory.Create(threeXEightDecoded.Select(bit => _and.ApplyParams(notAluFlag, bit)).ToArray());
         }
 
         private void UpdateIoAllSteps()
@@ -441,17 +441,17 @@ namespace ButHowDoItComputer.Components
 
         private bool NewPinState(bool current, bool newData)
         {
-            return _or.Apply(current, newData);
+            return _or.ApplyParams(current, newData);
         }
 
         private bool ClkEAnd(bool update)
         {
-            return _and.Apply(PinStates.ClockOutput.ClkE, update);
+            return _and.ApplyParams(PinStates.ClockOutput.ClkE, update);
         }
 
         private bool ClkSAnd(bool update)
         {
-            return _and.Apply(PinStates.ClockOutput.ClkS, update);
+            return _and.ApplyParams(PinStates.ClockOutput.ClkS, update);
         }
     }
 

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using ButHowDoItComputer.Gates.Interfaces;
 
@@ -14,7 +15,12 @@ namespace ButHowDoItComputer.Gates
             _nAnd = nAnd;
         }
 
-        public bool Apply(params bool[] bits)
+        public bool ApplyParams(params bool[] bits)
+        {
+            return Apply(bits);
+        }
+
+        public bool Apply(IList<bool> bits)
         {
             var bitList = bits.ToList();
 
@@ -32,10 +38,10 @@ namespace ButHowDoItComputer.Gates
             var notA = _not.Apply(a);
             var notB = _not.Apply(b);
 
-            var nAndA = _nAnd.Apply(a, notB);
-            var nAndB = _nAnd.Apply(notA, b);
+            var nAndA = _nAnd.ApplyParams(a, notB);
+            var nAndB = _nAnd.ApplyParams(notA, b);
 
-            return _nAnd.Apply(nAndA, nAndB);
+            return _nAnd.ApplyParams(nAndA, nAndB);
         }
     }
 }

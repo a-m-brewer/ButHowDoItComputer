@@ -31,7 +31,7 @@ namespace ButHowDoItComputer.Gates
 
             for (var i = 0; i < gatesOutput.Length; i++)
             {
-                gatesOutput[i] = _and.Apply(allGatesInputs[i]);
+                gatesOutput[i] = _and.ApplyParams(allGatesInputs[i]);
             }
 
             // result yay!

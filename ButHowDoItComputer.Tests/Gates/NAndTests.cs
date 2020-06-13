@@ -20,7 +20,7 @@ namespace ButHowDoItComputer.Tests.Gates
         public void ReturnsCorrectNewBit(bool expected, bool[] bits)
         {
             var sut = new NAnd(new Not(), new And());
-            Assert.AreEqual(expected, sut.Apply(bits));
+            Assert.AreEqual(expected, sut.ApplyParams(bits));
         }
     }
 }

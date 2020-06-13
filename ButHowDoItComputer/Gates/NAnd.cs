@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using ButHowDoItComputer.Gates.Interfaces;
 
 namespace ButHowDoItComputer.Gates
@@ -13,7 +14,12 @@ namespace ButHowDoItComputer.Gates
             _and = and;
         }
 
-        public bool Apply(params bool[] bits)
+        public bool ApplyParams(params bool[] bits)
+        {
+            return Apply(bits);
+        }
+
+        public bool Apply(IList<bool> bits)
         {
             return _not.Apply(_and.Apply(bits));
         }

@@ -32,11 +32,11 @@ namespace ButHowDoItComputer.Gates
 
             var output = new bool[input.Count];
 
-            output[0] = _or.Apply(input[0], bus1);
+            output[0] = _or.ApplyParams(input[0], bus1);
 
             for (var i = 1; i < output.Length; i++)
             {
-                output[i] = _and.Apply(input[i], notBus1);
+                output[i] = _and.ApplyParams(input[i], notBus1);
             }
 
             Output = _busDataTypeFactory.Create(output);

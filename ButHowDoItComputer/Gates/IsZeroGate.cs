@@ -17,7 +17,7 @@ namespace ButHowDoItComputer.Gates
 
         public bool IsZero(TBusDataType input)
         {
-            var orRes = _or.Apply(input.ToArray());
+            var orRes = _or.ApplyParams(input.ToArray());
 
             return _not.Apply(orRes);
         }

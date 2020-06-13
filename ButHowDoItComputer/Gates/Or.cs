@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using ButHowDoItComputer.Gates.Interfaces;
 
@@ -14,9 +15,20 @@ namespace ButHowDoItComputer.Gates
             _nAnd = nAnd;
         }
 
-        public bool Apply(params bool[] bits)
+        public bool ApplyParams(params bool[] bits)
         {
-            var negatedBits = bits.Select(s => _not.Apply(s)).ToArray();
+            return Apply(bits);
+        }
+
+        public bool Apply(IList<bool> bits)
+        {
+            var negatedBits = new bool[bits.Count];
+
+            for (var i = 0; i < negatedBits.Length; i++)
+            {
+                negatedBits[i] = _not.Apply(bits[i]);
+            }
+            
             return _nAnd.Apply(negatedBits);
         }
     }

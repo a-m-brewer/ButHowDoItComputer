@@ -20,7 +20,7 @@ namespace ButHowDoItComputer.Parts
         public void Apply()
         {
             Data = _memoryGate.Apply(Input, Set);
-            Output = _and.Apply(Data, Enable);
+            Output = _and.ApplyParams(Data, Enable);
 
             if (Enable)
             {

@@ -25,7 +25,7 @@ namespace ButHowDoItComputer.Gates
                 groups.Add(tempList);
             }
 
-            var result = groups.Select(s => _and.Apply(s.ToArray())).ToArray();
+            var result = groups.Select(s => _and.ApplyParams(s.ToArray())).ToArray();
 
             return _byteFactory.Create(result);
         }

@@ -16,10 +16,10 @@ namespace ButHowDoItComputer.Gates
         {
             return new Caez
             {
-                C = _and.Apply(input.C, set),
-                A = _and.Apply(input.A, set),
-                E = _and.Apply(input.E, set),
-                Z = _and.Apply(input.Z, set)
+                C = _and.ApplyParams(input.C, set),
+                A = _and.ApplyParams(input.A, set),
+                E = _and.ApplyParams(input.E, set),
+                Z = _and.ApplyParams(input.Z, set)
             };
         }
     }

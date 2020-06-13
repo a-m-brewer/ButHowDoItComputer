@@ -1,7 +1,10 @@
+using System.Collections.Generic;
+
 namespace ButHowDoItComputer.Gates.Interfaces
 {
     public interface IGate
     {
-        bool Apply(params bool[] bits);
+        bool ApplyParams(params bool[] bits);
+        bool Apply(IList<bool> bits);
     }
 }

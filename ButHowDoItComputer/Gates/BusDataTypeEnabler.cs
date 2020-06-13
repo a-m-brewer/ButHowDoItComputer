@@ -20,7 +20,7 @@ namespace ButHowDoItComputer.Gates
 
             for (var i = 0; i < bits.Length; i++)
             {
-                bits[i] = _andGate.Apply(input[i], set);
+                bits[i] = _andGate.ApplyParams(input[i], set);
             }
             
             return _busDataTypeFactory.Create(bits);

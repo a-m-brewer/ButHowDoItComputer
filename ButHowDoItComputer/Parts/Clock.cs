@@ -76,12 +76,12 @@ namespace ButHowDoItComputer.Parts
 
         private void ApplyCycleE()
         {
-            ClkE = _or.Apply(Clk, ClkD);
+            ClkE = _or.ApplyParams(Clk, ClkD);
         }
 
         private void ApplyCycleS()
         {
-            ClkS = _and.Apply(Clk, ClkD);
+            ClkS = _and.ApplyParams(Clk, ClkD);
         }
     }
 }

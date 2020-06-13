@@ -27,8 +27,8 @@ namespace ButHowDoItComputer.Parts
             var notReset = _not.Apply(reset);
             var notClk = _not.Apply(clk);
 
-            var resetOrNotClk = _or.Apply(notClk, reset);
-            var clkOrReset = _or.Apply(clk, reset);
+            var resetOrNotClk = _or.ApplyParams(notClk, reset);
+            var clkOrReset = _or.ApplyParams(clk, reset);
 
             var m0 = _memoryGates[0].Apply(notReset, resetOrNotClk);
             var m1 = _memoryGates[1].Apply(m0, clkOrReset);
@@ -50,12 +50,12 @@ namespace ButHowDoItComputer.Parts
             var notM9 = _not.Apply(m9);
             var notM11 = _not.Apply(m11);
 
-            var step1 = _or.Apply(reset, notM1);
-            var step2 = _and.Apply(m1, notM3);
-            var step3 = _and.Apply(m3, notM5);
-            var step4 = _and.Apply(m5, notM7);
-            var step5 = _and.Apply(m7, notM9);
-            var step6 = _and.Apply(m9, notM11);
+            var step1 = _or.ApplyParams(reset, notM1);
+            var step2 = _and.ApplyParams(m1, notM3);
+            var step3 = _and.ApplyParams(m3, notM5);
+            var step4 = _and.ApplyParams(m5, notM7);
+            var step5 = _and.ApplyParams(m7, notM9);
+            var step6 = _and.ApplyParams(m9, notM11);
             _step7 = m11;
 
             var stepperArray = new[] {step1, step2, step3, step4, step5, step6, _step7};

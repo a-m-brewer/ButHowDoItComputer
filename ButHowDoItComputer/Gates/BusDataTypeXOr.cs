@@ -25,7 +25,7 @@ namespace ButHowDoItComputer.Gates
                 groups.Add(tempList);
             }
 
-            var result = groups.Select(s => _xOr.Apply(s.ToArray())).ToArray();
+            var result = groups.Select(s => _xOr.ApplyParams(s.ToArray())).ToArray();
 
             return _busDataTypeFactory.Create(result);
         }

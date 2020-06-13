@@ -17,11 +17,11 @@ namespace ButHowDoItComputer.Gates
 
         public bool Apply(bool input, bool set)
         {
-            var a = _nAnd.Apply(input, set);
-            var b = _nAnd.Apply(a, set);
+            var a = _nAnd.ApplyParams(input, set);
+            var b = _nAnd.ApplyParams(a, set);
 
-            _c = _nAnd.Apply(b, _o);
-            _o = _nAnd.Apply(a, _c);
+            _c = _nAnd.ApplyParams(b, _o);
+            _o = _nAnd.ApplyParams(a, _c);
 
             return _o;
         }

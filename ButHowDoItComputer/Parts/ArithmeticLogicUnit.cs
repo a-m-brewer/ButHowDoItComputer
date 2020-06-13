@@ -89,10 +89,10 @@ namespace ButHowDoItComputer.Parts
             var enabledXOr = _busDataTypeEnabler.Apply(xOr, opDecoder[6]);
             var enabledComparator = _busDataTypeEnabler.Apply(comparatorResult.output, opDecoder[7]);
 
-            var carryOutAdd = _and.Apply(adder.CarryOut, opDecoder[0]);
-            var carryOutShiftRight = _and.Apply(shiftRight.ShiftOut, opDecoder[1]);
-            var carryOutShiftLeft = _and.Apply(shiftLeft.ShiftOut, opDecoder[2]);
-            var carryOut = _or.Apply(carryOutAdd, carryOutShiftRight, carryOutShiftLeft);
+            var carryOutAdd = _and.ApplyParams(adder.CarryOut, opDecoder[0]);
+            var carryOutShiftRight = _and.ApplyParams(shiftRight.ShiftOut, opDecoder[1]);
+            var carryOutShiftLeft = _and.ApplyParams(shiftLeft.ShiftOut, opDecoder[2]);
+            var carryOut = _or.ApplyParams(carryOutAdd, carryOutShiftRight, carryOutShiftLeft);
 
             var output = _aluWire.Apply(enabledAdd, enabledShiftLeft, enabledShiftRight, enabledNot, enabledAnd,
                 enabledOr, enabledXOr, enabledComparator);
