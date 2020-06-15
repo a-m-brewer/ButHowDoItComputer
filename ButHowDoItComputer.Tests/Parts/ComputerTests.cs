@@ -425,8 +425,6 @@ namespace ButHowDoItComputer.Tests.Parts
             Assert.IsFalse(_sut.ComputerState.Flags.Data.Z);
         }
         
-        // TODO: Create instructions for IOBus pg. 149
-
         [Test]
         public void CanInputIoDataToRb()
         {

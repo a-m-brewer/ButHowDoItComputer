@@ -1,6 +1,5 @@
-using System.Linq;
+using System.Collections.Generic;
 using ButHowDoItComputer.Codes.ASCII.Interfaces;
-using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Utils.Interfaces;
 
 namespace ButHowDoItComputer.Utils
@@ -16,15 +15,15 @@ namespace ButHowDoItComputer.Utils
             _byteToAsciiConverter = byteToAsciiConverter;
         }
         
-        public IByte[] Input()
+        public List<bool[]> Input()
         {
             var input = _inputDevice.Get();
 
-            var output = new IByte[input.Length];
+            var output = new List<bool[]>();
 
-            for (var i = 0; i < output.Length; i++)
+            for (var i = 0; i < input.Length; i++)
             {
-                output[i] = _byteToAsciiConverter.ToByte(input[i].ToString());
+                output.Add(_byteToAsciiConverter.ToByte(input[i].ToString()).ToBits());
             }
 
             return output;
