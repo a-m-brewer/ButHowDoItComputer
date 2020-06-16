@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Gates.Interfaces;
@@ -9,14 +10,17 @@ namespace ButHowDoItComputer.Parts
     {
         private readonly IDecoder _decoder;
 
-        public Ram64(IBus<ISixteenBit> outputBus, IBusDataTypeRegisterFactory<ISixteenBit> busDataTypeFactory, IDecoder decoder, IAnd and) : base(outputBus, busDataTypeFactory, decoder, and, 256)
+        public Ram64(IBus<ISixteenBit> outputBus, IBusDataTypeRegisterFactory<ISixteenBit> busDataTypeFactory, IDecoder decoder, IAnd and) : base(outputBus, busDataTypeFactory, decoder, and)
         {
+            var arraySize = (int) Math.Pow(2, 8);
+            X = arraySize;
+            Y = arraySize;
+            SetupInternalRegisters(X, Y);
             _decoder = decoder;
         }
 
         public override void Apply()
         {
-            // TODO: refactor this to not use tolist
             var inputData = MemoryAddressRegister.Data;
 
             var yInput = new[] {inputData[15], inputData[14], inputData[13], inputData[12], inputData[11], inputData[10], inputData[9], inputData[8]};

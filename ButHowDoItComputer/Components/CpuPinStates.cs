@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using ButHowDoItComputer.Components.Interfaces;
 using ButHowDoItComputer.DataTypes;
+using ButHowDoItComputer.DataTypes.BusDataTypes;
 using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Gates.Interfaces;
 using ButHowDoItComputer.Parts.Interfaces;

@@ -1,6 +1,7 @@
 using ButHowDoItComputer.Components;
 using ButHowDoItComputer.Components.Factories;
 using ButHowDoItComputer.DataTypes;
+using ButHowDoItComputer.DataTypes.BusDataTypes;
 using ButHowDoItComputer.DataTypes.Factories;
 using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Gates;

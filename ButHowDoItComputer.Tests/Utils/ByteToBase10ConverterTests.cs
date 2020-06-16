@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using ButHowDoItComputer.DataTypes.Factories;
 using ButHowDoItComputer.Utils;
 using NUnit.Framework;
-using Byte = ButHowDoItComputer.DataTypes.Byte;
+using Byte = ButHowDoItComputer.DataTypes.BusDataTypes.Byte;
 
 namespace ButHowDoItComputer.Tests.Utils
 {

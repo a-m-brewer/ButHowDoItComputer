@@ -3,6 +3,7 @@ using System.Linq;
 using System.Text;
 using ButHowDoItComputer.Codes.ASCII;
 using ButHowDoItComputer.DataTypes;
+using ButHowDoItComputer.DataTypes.BusDataTypes;
 using ButHowDoItComputer.DataTypes.Factories;
 using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Utils;

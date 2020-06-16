@@ -1,5 +1,6 @@
 using System.Linq;
 using ButHowDoItComputer.DataTypes;
+using ButHowDoItComputer.DataTypes.BusDataTypes;
 using ButHowDoItComputer.DataTypes.Factories;
 using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Gates;

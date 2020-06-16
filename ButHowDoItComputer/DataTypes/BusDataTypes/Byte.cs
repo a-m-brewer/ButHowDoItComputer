@@ -1,10 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using ButHowDoItComputer.DataTypes.Interfaces;
 
-namespace ButHowDoItComputer.DataTypes
+namespace ButHowDoItComputer.DataTypes.BusDataTypes
 {
     public class Byte : IByte
     {

@@ -11,26 +11,26 @@ namespace ButHowDoItComputer.Parts
     public class RamBase<TBusDataType> where TBusDataType : IBusDataType
     {
         private readonly IAnd _and;
-        private readonly int _registerDepth;
         private readonly IBusDataTypeRegisterFactory<TBusDataType> _busDataTypeFactory;
-        private readonly IDecoder _decoder;
+        protected readonly IDecoder Decoder;
+
+        protected int X;
+        protected int Y;
 
         public RamBase(
             IBus<TBusDataType> outputBus, 
             IBusDataTypeRegisterFactory<TBusDataType> busDataTypeFactory,
-            IDecoder decoder, IAnd and, int registerDepth)
+            IDecoder decoder, IAnd and)
         {
             Io = outputBus;
             _busDataTypeFactory = busDataTypeFactory;
-            _decoder = decoder;
+            Decoder = decoder;
             _and = and;
-            _registerDepth = registerDepth;
 
             Set = false;
             Enable = false;
 
             SetupInputRegister();
-            SetupInternalRegisters(_registerDepth);
         }
 
         public IRegister<TBusDataType> MemoryAddressRegister { get; private set; }
@@ -99,13 +99,13 @@ namespace ButHowDoItComputer.Parts
             MemoryAddressRegister.Enable = true;
         }
 
-        private void SetupInternalRegisters(int registerDepth)
+        protected void SetupInternalRegisters(int lenX, int lenY)
         {
-            InternalRegisters = new IRegister<TBusDataType>[registerDepth][];
+            InternalRegisters = new IRegister<TBusDataType>[lenY][];
 
             for (var y = 0; y < InternalRegisters.Length; y++)
             {
-                InternalRegisters[y] = new IRegister<TBusDataType>[registerDepth];
+                InternalRegisters[y] = new IRegister<TBusDataType>[lenX];
 
                 for (var x = 0; x < InternalRegisters[y].Length; x++)
                 {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Utils.Interfaces;
+using Byte = ButHowDoItComputer.DataTypes.BusDataTypes.Byte;
 
 namespace ButHowDoItComputer.DataTypes.Factories
 {

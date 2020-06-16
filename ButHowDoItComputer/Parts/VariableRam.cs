@@ -1,22 +1,23 @@
 using System;
 using System.Linq;
-using ButHowDoItComputer.DataTypes.Interfaces;
+using ButHowDoItComputer.DataTypes.BusDataTypes;
 using ButHowDoItComputer.Gates.Interfaces;
 using ButHowDoItComputer.Parts.Interfaces;
 
 namespace ButHowDoItComputer.Parts
 {
-    public class Ram : RamBase<IByte>, IRam<IByte>
+    public class VariableRam : RamBase<VariableBitLength>, IRam<VariableBitLength>
     {
-        public Ram(IBus<IByte> outputBus, IBusDataTypeRegisterFactory<IByte> busDataTypeFactory,
-            IDecoder decoder, IAnd and) : base(outputBus, busDataTypeFactory, decoder, and)
+        public VariableRam(IBus<VariableBitLength> outputBus, IBusDataTypeRegisterFactory<VariableBitLength> busDataTypeFactory, IDecoder decoder, IAnd and) : base(outputBus, busDataTypeFactory, decoder, and)
         {
-            var arraySize = (int) Math.Pow(2, 4);
+            // TODO: make this work on variable size
+            var arraySize = (int) Math.Pow(2, 8);
             X = arraySize;
             Y = arraySize;
             SetupInternalRegisters(X, Y);
         }
-
+        
+        // TODO: make this work on variable size
         public override void Apply()
         {
             var inputData = MemoryAddressRegister.Data;
