@@ -14,7 +14,15 @@ namespace ButHowDoItComputer.Gates
 
         public bool Apply(IList<bool> bits)
         {
-            return bits.All(a => a);
+            for (var i = 0; i < bits.Count; i++)
+            {
+                if (!bits[i])
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
     }
 }

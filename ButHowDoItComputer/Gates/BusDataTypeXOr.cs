@@ -18,14 +18,24 @@ namespace ButHowDoItComputer.Gates
 
         public TBusDataType Apply(params TBusDataType[] input)
         {
-            var groups = new List<List<bool>>();
-            for (var i = 0; i < input[0].Count; i++)
+            var groups = new bool[input[0].Count][];
+            for (var i = 0; i < input.Length; i++)
             {
-                var tempList = input.Select(t => t[i]).ToList();
-                groups.Add(tempList);
+                var tmpList = new bool[input[i].Count];
+                
+                for (var j = 0; j < input[i].Count; j++)
+                {
+                    tmpList[j] = input[i][j];
+                }
+                
+                groups[i] = tmpList;
             }
 
-            var result = groups.Select(s => _xOr.ApplyParams(s.ToArray())).ToArray();
+            var result = new bool[groups.Length];
+            for (var i = 0; i < result.Length; i++)
+            {
+                result[i] = _xOr.Apply(groups[i]);
+            }
 
             return _busDataTypeFactory.CreateParams(result);
         }

@@ -158,14 +158,14 @@ namespace ButHowDoItComputer.Tests
             return new BusDataTypeRegisterFactory<IByte>(CreateByteMemoryGateFactory(), CreateByteEnabler(), CreateByteFactory());
         }
 
-        public static Ram CreateRam()
+        public static Ram<IByte> CreateRam()
         {
             return CreateRam(new Bus<IByte>(new BusMessage<IByte> {Data = new Byte(), Name = "Ram"}));
         }
 
-        public static Ram CreateRam(IBus<IByte> bus)
+        public static Ram<IByte> CreateRam(IBus<IByte> bus)
         {
-            return new Ram(bus, CreateBusTypeRegisterFactory(), CreateDecoder(), CreateAnd());
+            return new Ram<IByte>(8, bus, CreateBusTypeRegisterFactory(), CreateDecoder(), CreateAnd());
         }
         
         public static CaezRegister CreateCaezRegister()

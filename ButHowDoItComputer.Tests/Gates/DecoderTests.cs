@@ -28,7 +28,7 @@ namespace ButHowDoItComputer.Tests.Gates
         public void CanBeExtended(bool a, bool b, bool c, bool o1, bool o2, bool o3, bool o4, bool o5, bool o6, bool o7,
             bool o8)
         {
-            var result = _sut.Apply(a, b, c).ToList();
+            var result = _sut.ApplyParams(a, b, c).ToList();
             var expected = new[]
             {
                 o1, o2, o3, o4, o5, o6, o7, o8
@@ -46,7 +46,7 @@ namespace ButHowDoItComputer.Tests.Gates
         [TestCase(true, true, false, false, false, true)]
         public void TruthTableTest(bool a, bool b, bool o1, bool o2, bool o3, bool o4)
         {
-            var result = _sut.Apply(a, b).ToList();
+            var result = _sut.ApplyParams(a, b).ToList();
             var expected = new[] {o1, o2, o3, o4};
 
             Assert.AreEqual(4, result.Count);

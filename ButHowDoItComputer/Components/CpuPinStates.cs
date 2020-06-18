@@ -393,9 +393,9 @@ namespace ButHowDoItComputer.Components
 
         public void UpdateGeneralPurposeRegisters(bool regAEnable, bool regBEnable, bool regBSet)
         {
-            var decoderEnableRegA = _decoder.Apply(_instruction[4], _instruction[5]);
-            var decoderEnableRegB = _decoder.Apply(_instruction[6], _instruction[7]);
-            var decoderSetRegB = _decoder.Apply(_instruction[6], _instruction[7]);
+            var decoderEnableRegA = _decoder.ApplyParams(_instruction[4], _instruction[5]);
+            var decoderEnableRegB = _decoder.ApplyParams(_instruction[6], _instruction[7]);
+            var decoderSetRegB = _decoder.ApplyParams(_instruction[6], _instruction[7]);
 
             var clkE = PinStates.ClockOutput.ClkE;
             var clkS = PinStates.ClockOutput.ClkS;
@@ -428,7 +428,7 @@ namespace ButHowDoItComputer.Components
 
         private void Update3X8()
         {
-            var threeXEightDecoded = _decoder.Apply(_instruction[1], _instruction[2], _instruction[3]);
+            var threeXEightDecoded = _decoder.ApplyParams(_instruction[1], _instruction[2], _instruction[3]);
             var notAluFlag = _not.Apply(_instruction[0]);
             PinStates.ThreeXEight =
                 _byteFactory.CreateParams(threeXEightDecoded.Select(bit => _and.ApplyParams(notAluFlag, bit)).ToArray());

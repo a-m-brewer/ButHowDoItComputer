@@ -17,7 +17,7 @@ namespace ButHowDoItComputer.Gates
 
         public TBusDataType Decode(bool a, bool b, bool c)
         {
-            return _busDataTypeFactory.CreateParams(_decoder.Apply(a, b, c).ToArray());
+            return _busDataTypeFactory.Create(_decoder.ApplyParams(a, b, c));
         }
     }
 }

@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using ButHowDoItComputer.Gates.Interfaces;
+using ButHowDoItComputer.Utils;
 using ButHowDoItComputer.Utils.Interfaces;
 
 namespace ButHowDoItComputer.Gates
@@ -18,10 +20,15 @@ namespace ButHowDoItComputer.Gates
             _base10Converter = base10Converter;
         }
 
-        public IList<bool> Apply(params bool[] inputs)
+        public IList<bool> ApplyParams(params bool[] inputs)
+        {
+            return Apply(inputs);
+        }
+
+        public IList<bool> Apply(IList<bool> inputs)
         {
             // get a truth table based on the length of the input
-            var combinations = GenerateCombinations(inputs.Length);
+            var combinations = GenerateCombinations(inputs.Count);
 
             // apply the not inputs based on each truth table row
             var allGatesInputs = CreateGatesInputs(combinations, inputs);
@@ -46,21 +53,21 @@ namespace ButHowDoItComputer.Gates
         /// <param name="input"></param>
         /// <returns></returns>
         private IList<bool[]> CreateGatesInputs(IList<bool[]> combinations,
-            bool[] input)
+            IList<bool> input)
         {
-            Array.Reverse(input);
-
+            var reverseList = input.ReverseList();
+            
             var tmp = new bool[combinations.Count][];
 
             for (var i = 0; i < tmp.Length; i++)
             {
-                tmp[i] = GenerateGate(combinations[i], input);
+                tmp[i] = GenerateGate(combinations[i], reverseList);
             }
 
             return tmp;
         }
         
-        private bool[] GenerateGate(bool[] combination, IReadOnlyList<bool> input)
+        private bool[] GenerateGate(bool[] combination, IList<bool> input)
         {
             var tmp = new bool[combination.Length];
             
