@@ -1,10 +1,11 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using ButHowDoItComputer.Components.Interfaces;
 using ButHowDoItComputer.DataTypes.Interfaces;
 
 namespace ButHowDoItComputer.Components
 {
-    public class AluWire<TBusDataType> : IAluWire<TBusDataType> where TBusDataType : IBusDataType
+    public class AluWire<TBusDataType> : IAluWire<TBusDataType> where TBusDataType : IList<bool>
     {
         private readonly IBusDataTypeFactory<TBusDataType> _byteFactory;
 

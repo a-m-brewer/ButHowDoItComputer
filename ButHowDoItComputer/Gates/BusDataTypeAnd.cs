@@ -6,7 +6,7 @@ using ButHowDoItComputer.Utils;
 
 namespace ButHowDoItComputer.Gates
 {
-    public class BusDataTypeAnd<TBusDataType> : IBusDataTypeAnd<TBusDataType> where TBusDataType : IBusDataType
+    public class BusDataTypeAnd<TBusDataType> : IBusDataTypeAnd<TBusDataType> where TBusDataType : IList<bool>
     {
         private readonly IBusDataTypeFactory<TBusDataType> _busDataTypeFactory;
 

@@ -1,9 +1,10 @@
+using System.Collections.Generic;
 using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Utils.Interfaces;
 
 namespace ButHowDoItComputer.Parts.Interfaces
 {
-    public interface IRam<TBusDataType> : IApplicable, IPinPart where TBusDataType : IBusDataType
+    public interface IRam<TBusDataType> : IApplicable, IPinPart where TBusDataType : IList<bool>
     {
         IRegister<TBusDataType> MemoryAddressRegister { get; }
         IRegister<TBusDataType>[][] InternalRegisters { get; }

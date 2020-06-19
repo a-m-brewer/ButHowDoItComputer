@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Gates.Interfaces;
 using ButHowDoItComputer.Parts.Interfaces;
@@ -5,7 +6,7 @@ using ButHowDoItComputer.Utils.Interfaces;
 
 namespace ButHowDoItComputer.Parts.IO
 {
-    public class KeyboardAdapter<TBusDataType> : IoAdapter<TBusDataType>, IApplicable where TBusDataType : IBusDataType
+    public class KeyboardAdapter<TBusDataType> : IoAdapter<TBusDataType>, IApplicable where TBusDataType : IList<bool>
 
     {
         private readonly IKeyboardBuffer<TBusDataType> _keyboardBuffer;

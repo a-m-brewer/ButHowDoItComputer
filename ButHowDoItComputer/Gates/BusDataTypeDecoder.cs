@@ -1,10 +1,11 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Gates.Interfaces;
 
 namespace ButHowDoItComputer.Gates
 {
-    public class BusDataTypeDecoder<TBusDataType> : IBusDataTypeDecoder<TBusDataType> where TBusDataType : IBusDataType
+    public class BusDataTypeDecoder<TBusDataType> : IBusDataTypeDecoder<TBusDataType> where TBusDataType : IList<bool>
     {
         private readonly IBusDataTypeFactory<TBusDataType> _busDataTypeFactory;
         private readonly IDecoder _decoder;

@@ -1,9 +1,10 @@
+using System.Collections.Generic;
 using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Gates.Interfaces;
 
 namespace ButHowDoItComputer.Gates
 {
-    public class BusDataTypeComparator<TBusDataType> : IBusDataTypeComparator<TBusDataType> where TBusDataType : IBusDataType
+    public class BusDataTypeComparator<TBusDataType> : IBusDataTypeComparator<TBusDataType> where TBusDataType : IList<bool>
     {
         private readonly IBitComparator _bitComparator;
         private readonly IBusDataTypeFactory<TBusDataType> _busDataTypeFactory;

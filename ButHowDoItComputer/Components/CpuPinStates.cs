@@ -9,7 +9,7 @@ using ButHowDoItComputer.Parts.Interfaces;
 
 namespace ButHowDoItComputer.Components
 {
-    public class CpuPinStates<TBusDataType> : ICpuPinStates<TBusDataType> where TBusDataType : IBusDataType
+    public class CpuPinStates<TBusDataType> : ICpuPinStates<TBusDataType> where TBusDataType : IList<bool>
     {
         private readonly IByteFactory _byteFactory;
         private Caez _caez;

@@ -6,7 +6,7 @@ using ButHowDoItComputer.Utils;
 
 namespace ButHowDoItComputer.Gates
 {
-    public class LeftShifter<TBusDataType> : Shifter<TBusDataType>, ILeftShifter<TBusDataType> where TBusDataType : IBusDataType
+    public class LeftShifter<TBusDataType> : Shifter<TBusDataType>, ILeftShifter<TBusDataType> where TBusDataType : IList<bool>
     {
         private readonly ILeftBusDataTypeShifter<TBusDataType> _leftBusDataTypeShifter;
 

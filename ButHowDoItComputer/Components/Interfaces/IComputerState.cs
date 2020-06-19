@@ -7,7 +7,7 @@ using ButHowDoItComputer.Parts.Interfaces;
 
 namespace ButHowDoItComputer.Components.Interfaces
 {
-    public interface IComputerState<TBusDataType> where TBusDataType : IBusDataType
+    public interface IComputerState<TBusDataType> where TBusDataType : IList<bool>
     {
         IRegister<Caez> Flags { get; }
         List<IRegister<TBusDataType>> GeneralPurposeRegisters { get; }

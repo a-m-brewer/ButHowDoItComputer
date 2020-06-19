@@ -1,15 +1,16 @@
 using System;
+using System.Collections.Generic;
 using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Gates.Interfaces;
 
 namespace ButHowDoItComputer.Gates.Factories
 {
-    public interface IBus1Factory<TBusDataType> where TBusDataType : IBusDataType
+    public interface IBus1Factory<TBusDataType> where TBusDataType : IList<bool>
     {
         IBus1<TBusDataType> Create(Action<TBusDataType> updateWireAction);
     }
 
-    public class Bus1Factory<TBusDataType> : IBus1Factory<TBusDataType> where TBusDataType : IBusDataType
+    public class Bus1Factory<TBusDataType> : IBus1Factory<TBusDataType> where TBusDataType : IList<bool>
     {
         private readonly INot _not;
         private readonly IOr _or;

@@ -1,10 +1,11 @@
+using System.Collections.Generic;
 using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Gates.Interfaces;
 using ButHowDoItComputer.Utils.Interfaces;
 
 namespace ButHowDoItComputer.Parts.IO
 {
-    public class IoAdapter<TBusDataType> : ISettable, IEnablable, IInputable<TBusDataType> where TBusDataType : IBusDataType
+    public class IoAdapter<TBusDataType> : ISettable, IEnablable, IInputable<TBusDataType> where TBusDataType : IList<bool>
     {
         private readonly TBusDataType _address;
         private readonly IMemoryGate _memoryGate;

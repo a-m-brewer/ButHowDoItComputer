@@ -9,7 +9,7 @@ using ButHowDoItComputer.Utils;
 
 namespace ButHowDoItComputer.Parts
 {
-    public class Ram<TBusDataType> : IRam<TBusDataType> where TBusDataType : IBusDataType
+    public class Ram<TBusDataType> : IRam<TBusDataType> where TBusDataType : IList<bool>
     {
         private readonly IBusDataTypeRegisterFactory<TBusDataType> _busDataTypeRegisterFactory;
         private readonly IDecoder _decoder;

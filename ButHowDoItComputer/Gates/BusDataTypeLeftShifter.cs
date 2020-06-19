@@ -5,7 +5,7 @@ using ButHowDoItComputer.Gates.Interfaces;
 
 namespace ButHowDoItComputer.Gates
 {
-    public class BusDataTypeLeftShifter<TBusDataType> : ILeftBusDataTypeShifter<TBusDataType> where TBusDataType : IBusDataType
+    public class BusDataTypeLeftShifter<TBusDataType> : ILeftBusDataTypeShifter<TBusDataType> where TBusDataType : IList<bool>
     {
         private readonly IBusDataTypeFactory<TBusDataType> _busDataTypeFactory;
 

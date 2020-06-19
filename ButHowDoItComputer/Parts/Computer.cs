@@ -1,10 +1,11 @@
+using System.Collections.Generic;
 using ButHowDoItComputer.Components.Interfaces;
 using ButHowDoItComputer.DataTypes;
 using ButHowDoItComputer.DataTypes.Interfaces;
 
 namespace ButHowDoItComputer.Parts
 {
-    public class Computer<TDataType> where TDataType : IBusDataType
+    public class Computer<TDataType> where TDataType : IList<bool>
     {
         private readonly IBusDataTypeFactory<TDataType> _busDataTypeFactory;
         public ICpuPinStates<TDataType> CpuPinStates { get; }

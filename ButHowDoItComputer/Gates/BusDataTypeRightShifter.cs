@@ -1,10 +1,11 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Gates.Interfaces;
 
 namespace ButHowDoItComputer.Gates
 {
-    public class BusDataTypeRightShifter<TBusDataType> : IRightBusDataTypeShifter<TBusDataType> where TBusDataType : IBusDataType
+    public class BusDataTypeRightShifter<TBusDataType> : IRightBusDataTypeShifter<TBusDataType> where TBusDataType : IList<bool>
     {
         private readonly IBusDataTypeFactory<TBusDataType> _busDataTypeFactory;
 

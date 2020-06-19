@@ -1,9 +1,10 @@
+using System.Collections.Generic;
 using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Gates.Interfaces;
 
 namespace ButHowDoItComputer.Gates.Factories
 {
-    public class BusDataTypeMemoryGateFactory<TBusDataType> : IBusDataTypeMemoryGateFactory<TBusDataType> where TBusDataType : IBusDataType
+    public class BusDataTypeMemoryGateFactory<TBusDataType> : IBusDataTypeMemoryGateFactory<TBusDataType> where TBusDataType : IList<bool>
     {
         private readonly IBusDataTypeFactory<TBusDataType> _busDataTypeFactory;
         private readonly int _bits;

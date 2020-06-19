@@ -1,10 +1,11 @@
+using System.Collections.Generic;
 using System.Linq;
 using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Gates.Interfaces;
 
 namespace ButHowDoItComputer.Gates
 {
-    public class Inverter<TBusDataType> : IInverter<TBusDataType> where TBusDataType : IBusDataType
+    public class Inverter<TBusDataType> : IInverter<TBusDataType> where TBusDataType : IList<bool>
     {
         private readonly IBusDataTypeFactory<TBusDataType> _busDataTypeFactory;
         private readonly INot _not;

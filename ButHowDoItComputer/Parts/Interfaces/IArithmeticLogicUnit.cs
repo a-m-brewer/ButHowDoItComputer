@@ -1,10 +1,11 @@
-﻿using ButHowDoItComputer.DataTypes;
+﻿using System.Collections.Generic;
+using ButHowDoItComputer.DataTypes;
 using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Utils.Interfaces;
 
 namespace ButHowDoItComputer.Parts.Interfaces
 {
-    public interface IArithmeticLogicUnit<TBusDataType> : IApplicable where TBusDataType : IBusDataType
+    public interface IArithmeticLogicUnit<TBusDataType> : IApplicable where TBusDataType : IList<bool>
     {
         AluOutput<TBusDataType> Apply(TBusDataType a, TBusDataType b, bool carryIn, Op op);
         public Op Op { get; set; }

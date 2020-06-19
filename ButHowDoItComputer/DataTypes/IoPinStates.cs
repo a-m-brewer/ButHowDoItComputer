@@ -1,10 +1,11 @@
+using System.Collections.Generic;
 using ButHowDoItComputer.Components;
 using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Parts;
 
 namespace ButHowDoItComputer.DataTypes
 {
-    public class IoPinStates<TBusDataType> where TBusDataType : IBusDataType
+    public class IoPinStates<TBusDataType> where TBusDataType : IList<bool>
     {
         public IoPinStates(IBusDataTypeFactory<TBusDataType> busDataTypeFactory)
         {

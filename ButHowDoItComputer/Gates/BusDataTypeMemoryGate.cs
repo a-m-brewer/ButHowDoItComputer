@@ -5,7 +5,7 @@ using ButHowDoItComputer.Gates.Interfaces;
 
 namespace ButHowDoItComputer.Gates
 {
-    public class BusDataTypeMemoryGate<TBusDataType> : IBusDataTypeMemoryGate<TBusDataType> where TBusDataType : IBusDataType
+    public class BusDataTypeMemoryGate<TBusDataType> : IBusDataTypeMemoryGate<TBusDataType> where TBusDataType : IList<bool>
     {
         private readonly IBusDataTypeFactory<TBusDataType> _busDataTypeFactory;
         private readonly List<IMemoryGate> _memoryGates;

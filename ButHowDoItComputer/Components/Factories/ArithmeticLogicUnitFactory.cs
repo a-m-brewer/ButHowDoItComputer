@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using ButHowDoItComputer.DataTypes;
 using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Gates;
@@ -8,7 +9,7 @@ using ButHowDoItComputer.Utils;
 
 namespace ButHowDoItComputer.Components.Factories
 {
-    public class ArithmeticLogicUnitFactory<TBusDataType> : IArithmeticLogicUnitFactory<TBusDataType> where TBusDataType : IBusDataType
+    public class ArithmeticLogicUnitFactory<TBusDataType> : IArithmeticLogicUnitFactory<TBusDataType> where TBusDataType : IList<bool>
     {
         private readonly IBusDataTypeFactory<TBusDataType> _busDataTypeFactory;
 
@@ -46,7 +47,7 @@ namespace ButHowDoItComputer.Components.Factories
         }
     }
 
-    public interface IArithmeticLogicUnitFactory<TBusDataType> where TBusDataType : IBusDataType
+    public interface IArithmeticLogicUnitFactory<TBusDataType> where TBusDataType : IList<bool>
     {
         IArithmeticLogicUnit<TBusDataType> Create(Action<TBusDataType> updateAcc, Action<Caez> updateFlags);
         IArithmeticLogicUnit<TBusDataType> Create();

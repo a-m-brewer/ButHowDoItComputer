@@ -1,10 +1,11 @@
+using System.Collections.Generic;
 using System.Linq;
 using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Gates.Interfaces;
 
 namespace ButHowDoItComputer.Gates
 {
-    public class IsZeroGate<TBusDataType> : IIsZeroGate<TBusDataType> where TBusDataType : IBusDataType
+    public class IsZeroGate<TBusDataType> : IIsZeroGate<TBusDataType> where TBusDataType : IList<bool>
     {
         private readonly INot _not;
         private readonly IOr _or;

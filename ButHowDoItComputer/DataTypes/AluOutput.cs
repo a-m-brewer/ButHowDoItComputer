@@ -1,8 +1,9 @@
-﻿using ButHowDoItComputer.DataTypes.Interfaces;
+﻿using System.Collections.Generic;
+using ButHowDoItComputer.DataTypes.Interfaces;
 
 namespace ButHowDoItComputer.DataTypes
 {
-    public class AluOutput<TBusDataType> where TBusDataType : IBusDataType
+    public class AluOutput<TBusDataType> where TBusDataType : IList<bool>
     {
         public TBusDataType Output { get; set; }
         public bool ALarger { get; set; }

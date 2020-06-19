@@ -5,7 +5,7 @@ using ButHowDoItComputer.DataTypes.Interfaces;
 
 namespace ButHowDoItComputer.DataTypes.BusDataTypes
 {
-    public class VariableBitLength : IBusDataType
+    public class VariableBitLength : IList<bool>
     {
         private IList<bool> _bits;
         private int _expectedLength;

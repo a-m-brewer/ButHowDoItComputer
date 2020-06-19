@@ -1,11 +1,12 @@
 using System;
+using System.Collections.Generic;
 using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Gates.Interfaces;
 using ButHowDoItComputer.Parts.Interfaces;
 
 namespace ButHowDoItComputer.Parts
 {
-    public class BusDataTypeRegister<TBusDataType> : IRegister<TBusDataType> where TBusDataType : IBusDataType
+    public class BusDataTypeRegister<TBusDataType> : IRegister<TBusDataType> where TBusDataType : IList<bool>
     {
         private readonly IBusDataTypeEnabler<TBusDataType> _busDataTypeEnabler;
         private readonly Action<TBusDataType> _updateWire;

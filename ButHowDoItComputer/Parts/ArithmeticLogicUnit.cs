@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using ButHowDoItComputer.Components.Interfaces;
 using ButHowDoItComputer.DataTypes;
 using ButHowDoItComputer.DataTypes.Interfaces;
@@ -7,7 +8,7 @@ using ButHowDoItComputer.Parts.Interfaces;
 
 namespace ButHowDoItComputer.Parts
 {
-    public class ArithmeticLogicUnit<TBusDataType> : IArithmeticLogicUnit<TBusDataType> where TBusDataType : IBusDataType
+    public class ArithmeticLogicUnit<TBusDataType> : IArithmeticLogicUnit<TBusDataType> where TBusDataType : IList<bool>
     {
         private readonly IAluWire<TBusDataType> _aluWire;
         private readonly IBusDataTypeAdder<TBusDataType> _busDataTypeAdder;

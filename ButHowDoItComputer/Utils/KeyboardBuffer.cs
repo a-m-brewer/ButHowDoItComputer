@@ -1,4 +1,5 @@
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using ButHowDoItComputer.DataTypes.Interfaces;
@@ -6,7 +7,7 @@ using ButHowDoItComputer.Utils.Interfaces;
 
 namespace ButHowDoItComputer.Utils
 {
-    public class KeyboardBuffer<TBusDataType> : IKeyboardBuffer<TBusDataType> where TBusDataType : IBusDataType
+    public class KeyboardBuffer<TBusDataType> : IKeyboardBuffer<TBusDataType> where TBusDataType : IList<bool>
     {
         private readonly IBusDataTypeFactory<TBusDataType> _busDataTypeFactory;
         private readonly IUserInput _userInput;

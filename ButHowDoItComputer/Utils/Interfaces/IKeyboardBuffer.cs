@@ -1,9 +1,9 @@
+using System.Collections.Generic;
 using System.Threading;
-using ButHowDoItComputer.DataTypes.Interfaces;
 
 namespace ButHowDoItComputer.Utils.Interfaces
 {
-    public interface IKeyboardBuffer<out TBusDataType> where TBusDataType : IBusDataType
+    public interface IKeyboardBuffer<out TBusDataType> where TBusDataType : IList<bool>
     {
         TBusDataType Pop();
         void Clear();

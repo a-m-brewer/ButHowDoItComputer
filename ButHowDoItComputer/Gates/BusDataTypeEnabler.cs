@@ -1,9 +1,10 @@
+using System.Collections.Generic;
 using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Gates.Interfaces;
 
 namespace ButHowDoItComputer.Gates
 {
-    public class BusDataTypeEnabler<TBusDataType> : IBusDataTypeEnabler<TBusDataType> where TBusDataType : IBusDataType
+    public class BusDataTypeEnabler<TBusDataType> : IBusDataTypeEnabler<TBusDataType> where TBusDataType : IList<bool>
     {
         private readonly IBusDataTypeFactory<TBusDataType> _busDataTypeFactory;
 
