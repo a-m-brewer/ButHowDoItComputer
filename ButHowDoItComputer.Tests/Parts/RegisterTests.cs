@@ -18,7 +18,7 @@ namespace ButHowDoItComputer.Tests.Parts
         {
             _byteFactory = new ByteFactory(new Base10Converter());
             _memoryGateFactory = new MemoryGateFactory(new NAnd(new Not()));
-            _busDataTypeMemoryGate = new BusDataTypeMemoryGate<IList<bool>>(_memoryGateFactory, _byteFactory, 8);
+            _busDataTypeMemoryGate = new BusDataTypeMemoryGate<IList<bool>>(new NAnd(new Not()), _byteFactory, 8);
             _busDataTypeEnabler = new BusDataTypeEnabler<IList<bool>>(_byteFactory);
             _sut = new BusDataTypeRegister<IList<bool>>(_busDataTypeMemoryGate, _busDataTypeEnabler, _byteFactory, wire => {});
         }

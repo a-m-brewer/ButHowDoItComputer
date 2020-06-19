@@ -17,8 +17,7 @@ namespace ButHowDoItComputer.Tests
         public static BusDataTypeRegister<IList<bool>> CreateRegister(bool set = true, bool enable = true)
         {
             var byteFactory = new ByteFactory(new Base10Converter());
-            var memoryGateFactory = new MemoryGateFactory(new NAnd(new Not()));
-            return new BusDataTypeRegister<IList<bool>>(new BusDataTypeMemoryGate<IList<bool>>(memoryGateFactory, byteFactory, 8),
+            return new BusDataTypeRegister<IList<bool>>(new BusDataTypeMemoryGate<IList<bool>>(new NAnd(new Not()), byteFactory, 8),
                 new BusDataTypeEnabler<IList<bool>>(byteFactory), byteFactory, wire => {})
             {
                 Set = set, Enable = enable

@@ -39,7 +39,7 @@ namespace ButHowDoItComputer.Tests.Parts.IO
             _keyboardBuffer = new KeyboardBuffer<IList<bool>>(_sixteenBitFactory, ui);
 
             var busDataTypeRegister = new BusDataTypeRegister<IList<bool>>(
-                new BusDataTypeMemoryGate<IList<bool>>(new MemoryGateFactory(new NAnd(new Not())),
+                new BusDataTypeMemoryGate<IList<bool>>(new NAnd(new Not()),
                     _sixteenBitFactory, 16), new BusDataTypeEnabler<IList<bool>>(_sixteenBitFactory),
                 _sixteenBitFactory, bit => { });
 
