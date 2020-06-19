@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using ButHowDoItComputer.DataTypes;
 using ButHowDoItComputer.Gates.Interfaces;
 using ButHowDoItComputer.Parts.Interfaces;
@@ -27,25 +29,22 @@ namespace ButHowDoItComputer.Parts
 
         public virtual void UpdateSubs()
         {
-            foreach (var register in _registers)
+            Parallel.ForEach(_registers, register =>
             {
                 register.Input = Data.Data;
 
                 if (!register.Set && !register.Enable)
                 {
-                    continue;
+                    return;
                 }
 
                 if (register.Name != Data.Name)
                 {
                     register.Apply();
                 }
-            }
+            });
 
-            foreach (var update in _bytes)
-            {
-                update(Data.Data);
-            }
+            Parallel.ForEach(_bytes, action => action(Data.Data));
         }
 
         public void AddRegister(IRegister<T> updateFunc)

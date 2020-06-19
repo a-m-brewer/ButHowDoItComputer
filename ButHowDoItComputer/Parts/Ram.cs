@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using ButHowDoItComputer.DataTypes;
 using ButHowDoItComputer.Gates.Interfaces;
 using ButHowDoItComputer.Parts.Interfaces;
@@ -69,23 +70,25 @@ namespace ButHowDoItComputer.Parts
 
         private void Apply(IList<bool> xDecoder, IList<bool> yDecoder)
         {
-            for (var y = 0; y < yDecoder.Count; y++)
-            for (var x = 0; x < xDecoder.Count; x++)
+            Parallel.For(0, yDecoder.Count * xDecoder.Count, i =>
             {
+                var y = i / yDecoder.Count;
+                var x = i % yDecoder.Count;
+
                 var xAndY = xDecoder[x] && yDecoder[y];
                 var s = xAndY && Set;
                 var e = xAndY && Enable;
                 
                 InternalRegisters[y][x].Set = s;
                 InternalRegisters[y][x].Enable = e;
-
+                
                 if (!s && !e)
                 {
-                    continue;
+                    return;
                 }
-
+                
                 InternalRegisters[y][x].Apply();
-            }
+            });
         }
 
         public void ApplyState()
@@ -126,12 +129,9 @@ namespace ButHowDoItComputer.Parts
                         Io.UpdateData(new BusMessage<TBusDataType> {Name = $@"RamInternalRegister{x1}{y1}", Data = updateWire});
                         Io.UpdateSubs();
                     }, $@"RamInternalRegister{x}{y}");
+                    
+                    Io.AddRegister(InternalRegisters[y][x]);
                 }
-            }
-
-            foreach (var register in InternalRegisters.SelectMany(internalRegisterRow => internalRegisterRow))
-            {
-                Io.AddRegister(register);
             }
         }
     }

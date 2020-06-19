@@ -16,9 +16,13 @@ namespace ButHowDoItComputer.Gates
 
         public (TBusDataType Ouput, bool ShiftOut) Shift(TBusDataType input, bool shiftIn)
         {
-            var output = new List<bool> {shiftIn};
-            
-            output.AddRange(input.SkipLast(1));
+            var output = new bool[input.Count];
+            output[0] = shiftIn;
+
+            for (var i = 1; i < output.Length; i++)
+            {
+                output[i] = input[i - 1];
+            }
 
             return (_busDataTypeFactory.Create(output), input.Last());
         }
