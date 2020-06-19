@@ -22,13 +22,11 @@ namespace ButHowDoItComputer.Gates
 
         public bool Apply(IList<bool> bits)
         {
-            var bitList = bits.ToList();
+            if (bits.Count < 2) return false;
 
-            if (bitList.Count < 2) return false;
+            var lastResult = ApplyXor(bits[0], bits[1]);
 
-            var lastResult = ApplyXor(bitList[0], bitList[1]);
-
-            for (var i = 2; i < bitList.Count; i++) lastResult = ApplyXor(lastResult, bitList[i]);
+            for (var i = 2; i < bits.Count; i++) lastResult = ApplyXor(lastResult, bits[i]);
 
             return lastResult;
         }

@@ -20,7 +20,7 @@ namespace ButHowDoItComputer.Gates
             
             output.AddRange(input.SkipLast(1));
 
-            return (_busDataTypeFactory.CreateParams(output.ToArray()), input.Last());
+            return (_busDataTypeFactory.Create(output), input.Last());
         }
     }
 }
