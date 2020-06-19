@@ -1,6 +1,6 @@
+using System.Collections.Generic;
 using System.Linq;
 using ButHowDoItComputer.DataTypes.Factories;
-using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Gates;
 using ButHowDoItComputer.Utils;
 using NUnit.Framework;
@@ -15,11 +15,11 @@ namespace ButHowDoItComputer.Tests.Gates
         {
             _b10Converter = new Base10Converter();
             _byteFactory = new ByteFactory(_b10Converter);
-            _sut = new BusDataTypeAdder<IByte>(Create(), _byteFactory);
+            _sut = new BusDataTypeAdder<IList<bool>>(Create(), _byteFactory);
         }
 
         private ByteFactory _byteFactory;
-        private BusDataTypeAdder<IByte> _sut;
+        private BusDataTypeAdder<IList<bool>> _sut;
         private Base10Converter _b10Converter;
 
         private static BitAdder Create()

@@ -1,6 +1,4 @@
-﻿using ButHowDoItComputer.Codes.ASCII;
-using ButHowDoItComputer.DataTypes.Factories;
-using ButHowDoItComputer.Utils;
+﻿using ButHowDoItComputer.Utils;
 
 namespace ButHowDoItComputer
 {

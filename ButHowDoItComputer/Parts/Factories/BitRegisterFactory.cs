@@ -1,5 +1,4 @@
 using System;
-using ButHowDoItComputer.Gates;
 using ButHowDoItComputer.Gates.Interfaces;
 using ButHowDoItComputer.Parts.Interfaces;
 

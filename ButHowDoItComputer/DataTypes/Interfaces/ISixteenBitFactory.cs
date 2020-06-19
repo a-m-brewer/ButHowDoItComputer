@@ -1,6 +1,8 @@
+using System.Collections.Generic;
+
 namespace ButHowDoItComputer.DataTypes.Interfaces
 {
-    public interface ISixteenBitFactory : IBusDataTypeFactory<ISixteenBit>
+    public interface ISixteenBitFactory : IBusDataTypeFactory<IList<bool>>
     {
     }
 }

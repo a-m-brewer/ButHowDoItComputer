@@ -1,5 +1,5 @@
+using System.Collections.Generic;
 using ButHowDoItComputer.DataTypes.Factories;
-using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Gates;
 using ButHowDoItComputer.Utils;
 using NUnit.Framework;
@@ -19,7 +19,7 @@ namespace ButHowDoItComputer.Tests.Gates
             _xOr = new XOr(_not, _nAnd);
             _bitComparator = new BitComparator(_xOr, _or, _not);
             _byteToBase10 = new ByteToBase10Converter(_byteFactory, new Base10Converter());
-            _sut = new BusDataTypeComparator<IByte>(_bitComparator, _byteFactory);
+            _sut = new BusDataTypeComparator<IList<bool>>(_bitComparator, _byteFactory);
         }
         
         private Not _not;
@@ -27,7 +27,7 @@ namespace ButHowDoItComputer.Tests.Gates
         private Or _or;
         private XOr _xOr;
         private BitComparator _bitComparator;
-        private BusDataTypeComparator<IByte> _sut;
+        private BusDataTypeComparator<IList<bool>> _sut;
         private ByteFactory _byteFactory;
         private ByteToBase10Converter _byteToBase10;
 

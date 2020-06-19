@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Linq;
 using ButHowDoItComputer.Components.Interfaces;
 using ButHowDoItComputer.DataTypes;
-using ButHowDoItComputer.DataTypes.BusDataTypes;
 using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Gates.Interfaces;
 using ButHowDoItComputer.Parts.Interfaces;
@@ -480,7 +479,7 @@ namespace ButHowDoItComputer.Components
         public Op Op { get; set; } = new Op();
         public bool Flags { get; set; }
 
-        public IByte ThreeXEight { get; set; } = new Byte();
+        public IList<bool> ThreeXEight { get; set; } = new bool[8];
         
         public bool CarryInTmp { get; set; }
 

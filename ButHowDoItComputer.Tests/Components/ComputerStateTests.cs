@@ -1,10 +1,10 @@
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using ButHowDoItComputer.Components;
 using ButHowDoItComputer.Components.Factories;
 using ButHowDoItComputer.DataTypes;
-using ButHowDoItComputer.DataTypes.BusDataTypes;
 using ButHowDoItComputer.DataTypes.Factories;
-using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Parts;
 using ButHowDoItComputer.Parts.Factories;
 using ButHowDoItComputer.Utils;
@@ -15,23 +15,23 @@ namespace ButHowDoItComputer.Tests.Components
     [TestFixture]
     public class ComputerStateTests
     {
-        private ComputerState<IByte> _sut;
+        private ComputerState<IList<bool>> _sut;
         private PinStates _pinStates;
         private ByteFactory _byteFactory;
-        private IByte _fullByte;
+        private IList<bool> _fullByte;
 
         [SetUp]
         public void Setup()
         {
             _byteFactory = TestUtils.CreateByteFactory();
             _fullByte = _byteFactory.Create(255);
-            var bus = new Bus<IByte>(new BusMessage<IByte> {Data = new Byte(), Name = "Bus"});
-            var ioBus = new Bus<IByte>(new BusMessage<IByte> {Data = new Byte(), Name = "IoBus"});
+            var bus = new Bus<IList<bool>>(new BusMessage<IList<bool>> {Data = new bool[8], Name = "Bus"});
+            var ioBus = new Bus<IList<bool>>(new BusMessage<IList<bool>> {Data = new bool[8], Name = "IoBus"});
             var byteRegisterFactory = TestUtils.CreateBusTypeRegisterFactory();
             var ram = TestUtils.CreateRam(bus);
             _pinStates = new PinStates();
-            _sut = new ComputerState<IByte>(byteRegisterFactory, ram, TestUtils.CreateBus1Factory(),
-                new ArithmeticLogicUnitFactory<IByte>(_byteFactory), TestUtils.CreateCaezRegisterFactory(), new BitRegisterFactory(TestUtils.CreateMemoryGateFactory()), bus, ioBus, _byteFactory);
+            _sut = new ComputerState<IList<bool>>(byteRegisterFactory, ram, TestUtils.CreateBus1Factory(),
+                new ArithmeticLogicUnitFactory<IList<bool>>(_byteFactory), TestUtils.CreateCaezRegisterFactory(), new BitRegisterFactory(TestUtils.CreateMemoryGateFactory()), bus, ioBus, _byteFactory);
         }
 
         [Test]
@@ -239,7 +239,7 @@ namespace ButHowDoItComputer.Tests.Components
         public void BusCanUpdateGeneralPurposeRegisters(int register)
         {
             _sut.GeneralPurposeRegisters[register].Set = true;
-            _sut.Bus.UpdateData(new BusMessage<IByte> {Data = _fullByte, Name = "fromBus"});
+            _sut.Bus.UpdateData(new BusMessage<IList<bool>> {Data = _fullByte, Name = "fromBus"});
             _sut.Bus.UpdateSubs();
             Assert.IsTrue(_sut.GeneralPurposeRegisters[register].Data.All(a => a));
         }
@@ -258,7 +258,7 @@ namespace ButHowDoItComputer.Tests.Components
             _sut.Alu.Op = OpCodes.Add;
             _sut.Acc.Set = true;
             _sut.Acc.Enable = false;
-            _sut.Bus.UpdateData(new BusMessage<IByte> {Data = _fullByte, Name = "fromBus"});
+            _sut.Bus.UpdateData(new BusMessage<IList<bool>> {Data = _fullByte, Name = "fromBus"});
             _sut.Bus.UpdateSubs();
             
             Assert.IsTrue(_sut.Alu.InputA.All(a => a));
@@ -280,7 +280,7 @@ namespace ButHowDoItComputer.Tests.Components
         public void CanUpdateMarFromBus()
         {
             _sut.Ram.MemoryAddressRegister.Set = true;
-            _sut.Bus.UpdateData(new BusMessage<IByte> {Data = _fullByte, Name = "fromBus"});
+            _sut.Bus.UpdateData(new BusMessage<IList<bool>> {Data = _fullByte, Name = "fromBus"});
             _sut.Bus.UpdateSubs();
             
             Assert.IsTrue(_sut.Ram.MemoryAddressRegister.Data.All(a => a));
@@ -297,7 +297,7 @@ namespace ButHowDoItComputer.Tests.Components
         public void BusCanUpdateIar()
         {
             _sut.Iar.Set = true;
-            _sut.Bus.UpdateData(new BusMessage<IByte> {Data = _fullByte, Name = "fromBus"});
+            _sut.Bus.UpdateData(new BusMessage<IList<bool>> {Data = _fullByte, Name = "fromBus"});
             _sut.Bus.UpdateSubs();
             Assert.IsTrue(_sut.Iar.Data.All(a => a));
         }
@@ -306,7 +306,7 @@ namespace ButHowDoItComputer.Tests.Components
         public void BusCanUpdateIr()
         {
             _sut.Ir.Set = true;
-            _sut.Bus.UpdateData(new BusMessage<IByte> {Data = _fullByte, Name = "fromBus"});
+            _sut.Bus.UpdateData(new BusMessage<IList<bool>> {Data = _fullByte, Name = "fromBus"});
             _sut.Bus.UpdateSubs();
             Assert.IsTrue(_sut.Ir.Data.All(a => a));
         }
@@ -344,7 +344,7 @@ namespace ButHowDoItComputer.Tests.Components
             _sut.Ram.Set = true;
             _sut.Ram.Apply();
             
-            _sut.Bus.UpdateData(new BusMessage<IByte> {Data = _fullByte, Name = "fromBus"});
+            _sut.Bus.UpdateData(new BusMessage<IList<bool>> {Data = _fullByte, Name = "fromBus"});
             _sut.Bus.UpdateSubs();
 
             var result = _sut.Ram.InternalRegisters[0][0].Data;
@@ -412,7 +412,7 @@ namespace ButHowDoItComputer.Tests.Components
         public void CpuBusUpdatesIoBus()
         {
             _sut.Io.Clk.Set = true;
-            _sut.Bus.UpdateData(new BusMessage<IByte> {Name = "CpuBus", Data = _fullByte});
+            _sut.Bus.UpdateData(new BusMessage<IList<bool>> {Name = "CpuBus", Data = _fullByte});
             _sut.Bus.UpdateSubs();
 
             Assert.IsTrue(_sut.Io.Bus.Data.Data.All(a => a));

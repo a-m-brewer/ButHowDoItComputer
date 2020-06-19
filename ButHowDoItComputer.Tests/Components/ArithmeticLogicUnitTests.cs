@@ -1,6 +1,6 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using ButHowDoItComputer.DataTypes.Factories;
-using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Parts;
 using ButHowDoItComputer.Utils;
 using NUnit.Framework;
@@ -18,7 +18,7 @@ namespace ButHowDoItComputer.Tests.Components
             _byteFactory = TestUtils.CreateByteFactory();
         }
 
-        private ArithmeticLogicUnit<IByte> _sut;
+        private ArithmeticLogicUnit<IList<bool>> _sut;
         private ByteToBase10Converter _base10ToByte;
         private ByteFactory _byteFactory;
 

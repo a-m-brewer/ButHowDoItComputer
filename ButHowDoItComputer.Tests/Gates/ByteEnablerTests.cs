@@ -1,8 +1,7 @@
+using System;
+using System.Collections.Generic;
 using System.Linq;
-using ButHowDoItComputer.DataTypes;
-using ButHowDoItComputer.DataTypes.BusDataTypes;
 using ButHowDoItComputer.DataTypes.Factories;
-using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Gates;
 using ButHowDoItComputer.Utils;
 using NUnit.Framework;
@@ -17,10 +16,10 @@ namespace ButHowDoItComputer.Tests.Gates
         {
             _byteFactory = new ByteFactory(new Base10Converter());
 
-            _sut = new BusDataTypeEnabler<IByte>(_byteFactory);
+            _sut = new BusDataTypeEnabler<IList<bool>>(_byteFactory);
         }
 
-        private BusDataTypeEnabler<IByte> _sut;
+        private BusDataTypeEnabler<IList<bool>> _sut;
         private ByteFactory _byteFactory;
 
         [Test]
@@ -32,7 +31,7 @@ namespace ButHowDoItComputer.Tests.Gates
         {
             var expected = enabler && input;
             var bits = Enumerable.Range(0, 8).Select(s => input).ToArray();
-            var result = _sut.Apply(new Byte(bits), enabler);
+            var result = _sut.Apply(bits, enabler);
             Assert.AreEqual(expected, result.All(a => a));
         }
     }

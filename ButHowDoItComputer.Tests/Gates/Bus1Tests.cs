@@ -1,4 +1,4 @@
-﻿using ButHowDoItComputer.DataTypes.Interfaces;
+﻿using System.Collections.Generic;
 using ButHowDoItComputer.Gates;
 using ButHowDoItComputer.Utils;
 using NUnit.Framework;
@@ -15,7 +15,7 @@ namespace ButHowDoItComputer.Tests.Gates
             _base10ToByte = TestUtils.CreateByteToBase10Converter();
         }
 
-        private Bus1<IByte> _sut;
+        private Bus1<IList<bool>> _sut;
         private ByteToBase10Converter _base10ToByte;
 
         [Test]

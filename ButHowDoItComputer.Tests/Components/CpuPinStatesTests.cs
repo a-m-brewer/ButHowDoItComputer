@@ -1,8 +1,7 @@
+using System;
+using System.Collections.Generic;
 using ButHowDoItComputer.Components;
 using ButHowDoItComputer.DataTypes;
-using ButHowDoItComputer.DataTypes.BusDataTypes;
-using ButHowDoItComputer.DataTypes.Interfaces;
-using ButHowDoItComputer.Gates;
 using ButHowDoItComputer.Parts;
 using NUnit.Framework;
 
@@ -12,8 +11,8 @@ namespace ButHowDoItComputer.Tests.Components
     {
         private Clock _clock;
         private Stepper _stepper;
-        private CpuPinStates<IByte> _sut;
-        private IByte Instruction { get; set; }
+        private CpuPinStates<IList<bool>> _sut;
+        private IList<bool> Instruction { get; set; }
         private Caez Caez { get; set; }
 
         [SetUp]
@@ -21,9 +20,9 @@ namespace ButHowDoItComputer.Tests.Components
         {
             _clock = TestUtils.CreateClock();
             _stepper = TestUtils.CreateStepper();
-            Instruction = new Byte();
+            Instruction = new bool[8];
             Caez = new Caez();
-            _sut = new CpuPinStates<IByte>(_clock, _stepper, Instruction, Caez, TestUtils.CreateOr(), TestUtils.CreateNot(),
+            _sut = new CpuPinStates<IList<bool>>(_clock, _stepper, Instruction, Caez, TestUtils.CreateOr(), TestUtils.CreateNot(),
                 TestUtils.CreateDecoder(), TestUtils.CreateByteFactory());
         }
 

@@ -1,10 +1,9 @@
+using System.Collections.Generic;
 using System.Linq;
 using ButHowDoItComputer.Components;
 using ButHowDoItComputer.Components.Factories;
 using ButHowDoItComputer.DataTypes;
-using ButHowDoItComputer.DataTypes.BusDataTypes;
 using ButHowDoItComputer.DataTypes.Factories;
-using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Gates;
 using ButHowDoItComputer.Gates.Factories;
 using ButHowDoItComputer.Parts;
@@ -17,9 +16,9 @@ namespace ButHowDoItComputer.Tests.Parts
     [TestFixture]
     public class ComputerTests
     {
-        private ISixteenBit _fullByte;
+        private IList<bool> _fullByte;
         private SixteenBitFactory _sixteenBitFactory;
-        private Computer<ISixteenBit> _sut;
+        private Computer<IList<bool>> _sut;
         private uint _max;
 
         [SetUp]
@@ -37,30 +36,30 @@ namespace ButHowDoItComputer.Tests.Parts
             var decoder = TestUtils.CreateDecoder();
             
             var memoryGateFactory = TestUtils.CreateMemoryGateFactory();
-            var busDataTypeMemoryGateFactory = new BusDataTypeMemoryGateFactory<ISixteenBit>(memoryGateFactory, _sixteenBitFactory, 16);
-            var enabler = new BusDataTypeEnabler<ISixteenBit>(_sixteenBitFactory);
+            var busDataTypeMemoryGateFactory = new BusDataTypeMemoryGateFactory<IList<bool>>(memoryGateFactory, _sixteenBitFactory, 16);
+            var enabler = new BusDataTypeEnabler<IList<bool>>(_sixteenBitFactory);
             
-            var sixteenBitRegisterFactory = new BusDataTypeRegisterFactory<ISixteenBit>(busDataTypeMemoryGateFactory, enabler, _sixteenBitFactory);
-            var bus1Factory = new Bus1Factory<ISixteenBit>(not, or, _sixteenBitFactory);
+            var sixteenBitRegisterFactory = new BusDataTypeRegisterFactory<IList<bool>>(busDataTypeMemoryGateFactory, enabler, _sixteenBitFactory);
+            var bus1Factory = new Bus1Factory<IList<bool>>(not, or, _sixteenBitFactory);
             
-            var cpuPinStates = new CpuPinStates<ISixteenBit>(TestUtils.CreateClock(), TestUtils.CreateStepper(), Instruction, Flags,
+            var cpuPinStates = new CpuPinStates<IList<bool>>(TestUtils.CreateClock(), TestUtils.CreateStepper(), Instruction, Flags,
                 or, not, decoder, byteFactory);
             
-            var bus = new Bus<ISixteenBit>(new BusMessage<ISixteenBit> {Data = new SixteenBit(), Name = "Bus"});
-            var ioBus = new Bus<ISixteenBit>(new BusMessage<ISixteenBit> {Data = new SixteenBit(), Name = "IoBus"});
+            var bus = new Bus<IList<bool>>(new BusMessage<IList<bool>> {Data = new bool[16], Name = "Bus"});
+            var ioBus = new Bus<IList<bool>>(new BusMessage<IList<bool>> {Data = new bool[16], Name = "IoBus"});
 
             
-            var ram = new Ram<ISixteenBit>(16, bus, sixteenBitRegisterFactory, decoder);
+            var ram = new Ram<IList<bool>>(16, bus, sixteenBitRegisterFactory, decoder);
             
-            var computerState = new ComputerState<ISixteenBit>(sixteenBitRegisterFactory, ram, bus1Factory,
-                new ArithmeticLogicUnitFactory<ISixteenBit>(_sixteenBitFactory), TestUtils.CreateCaezRegisterFactory(), new BitRegisterFactory(TestUtils.CreateMemoryGateFactory()), bus, ioBus, _sixteenBitFactory);
+            var computerState = new ComputerState<IList<bool>>(sixteenBitRegisterFactory, ram, bus1Factory,
+                new ArithmeticLogicUnitFactory<IList<bool>>(_sixteenBitFactory), TestUtils.CreateCaezRegisterFactory(), new BitRegisterFactory(TestUtils.CreateMemoryGateFactory()), bus, ioBus, _sixteenBitFactory);
 
-            _sut = new Computer<ISixteenBit>(cpuPinStates, computerState, _sixteenBitFactory);
+            _sut = new Computer<IList<bool>>(cpuPinStates, computerState, _sixteenBitFactory);
         }
 
         public Caez Flags { get; set; }
 
-        public ISixteenBit Instruction { get; set; }
+        public IList<bool> Instruction { get; set; }
 
         // step one
         
@@ -446,7 +445,7 @@ namespace ButHowDoItComputer.Tests.Parts
         [Test]
         public void CanInputIoDataToRb()
         {
-            _sut.ComputerState.Io.Bus.Data = new BusMessage<ISixteenBit> {Name = "FromIO", Data = _fullByte};
+            _sut.ComputerState.Io.Bus.Data = new BusMessage<IList<bool>> {Name = "FromIO", Data = _fullByte};
             var instruction = _sixteenBitFactory.CreateParams(false, true, true, true, false, false, false, false);
             _sut.ComputerState.Ram.InternalRegisters[0][0].ApplyOnce(instruction);
             
@@ -460,7 +459,7 @@ namespace ButHowDoItComputer.Tests.Parts
         [Test]
         public void CanInputIoAddressToRb()
         {
-            _sut.ComputerState.Io.Bus.Data = new BusMessage<ISixteenBit> {Name = "FromIO", Data = _fullByte};
+            _sut.ComputerState.Io.Bus.Data = new BusMessage<IList<bool>> {Name = "FromIO", Data = _fullByte};
             var instruction = _sixteenBitFactory.CreateParams(false, true, true, true, false, true, false, false);
             _sut.ComputerState.Ram.InternalRegisters[0][0].ApplyOnce(instruction);
             

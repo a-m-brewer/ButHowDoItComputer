@@ -1,8 +1,8 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using ButHowDoItComputer.Codes.ASCII;
 using ButHowDoItComputer.DataTypes.Factories;
-using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Utils;
 using NUnit.Framework;
 
@@ -24,7 +24,7 @@ namespace ButHowDoItComputer.Tests.Codes.Ascii
 
         [Test]
         [TestCaseSource(nameof(TestData))]
-        public void CanConvertFromAsciiToByte(IByte outputByte, string inputChar)
+        public void CanConvertFromAsciiToByte(IList<bool> outputByte, string inputChar)
         {
             var result =
                 new ByteToAsciiConverter(new ByteToBase10Converter(new ByteFactory(new Base10Converter()),
@@ -36,7 +36,7 @@ namespace ButHowDoItComputer.Tests.Codes.Ascii
 
         [Test]
         [TestCaseSource(nameof(TestData))]
-        public void CanConvertFromByteToAscii(IByte inputByte, string expectedChar)
+        public void CanConvertFromByteToAscii(IList<bool> inputByte, string expectedChar)
         {
             var result = new ByteToAsciiConverter(new ByteToBase10Converter(
                 new ByteFactory(new Base10Converter()), new Base10Converter())).ToAscii(inputByte);

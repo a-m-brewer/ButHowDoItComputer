@@ -2,10 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ButHowDoItComputer.Codes.ASCII;
-using ButHowDoItComputer.DataTypes;
-using ButHowDoItComputer.DataTypes.BusDataTypes;
 using ButHowDoItComputer.DataTypes.Factories;
-using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Utils;
 using ButHowDoItComputer.Utils.Interfaces;
 using Moq;
@@ -49,11 +46,11 @@ namespace ButHowDoItComputer.Tests.Utils
             }
         }
 
-        private IByte ToByte(char c)
+        private IList<bool> ToByte(char c)
         {
             var asByte = Encoding.ASCII.GetBytes(new[] {c}).First();
             var bits = GetBits(asByte);
-            return new Byte(bits.ToArray());
+            return bits.ToArray();
         }
         
         private IEnumerable<bool> GetBits(byte b)

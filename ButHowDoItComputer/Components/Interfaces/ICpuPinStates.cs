@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using ButHowDoItComputer.DataTypes;
-using ButHowDoItComputer.DataTypes.Interfaces;
 
 namespace ButHowDoItComputer.Components.Interfaces
 {

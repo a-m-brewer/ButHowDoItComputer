@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Utils.Interfaces;
@@ -16,12 +17,12 @@ namespace ButHowDoItComputer.Utils
             _base10Converter = base10Converter;
         }
 
-        public uint ToInt(IByte input)
+        public uint ToInt(IList<bool> input)
         {
             return _base10Converter.ToInt(input);
         }
 
-        public IByte ToByte(uint input)
+        public IList<bool> ToByte(uint input)
         {
             if (255 < input) throw new OutOfMemoryException("Number must be between 0 and 255");
 

@@ -1,8 +1,7 @@
+using System;
+using System.Collections.Generic;
 using System.Linq;
-using ButHowDoItComputer.DataTypes;
-using ButHowDoItComputer.DataTypes.BusDataTypes;
 using ButHowDoItComputer.DataTypes.Factories;
-using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Gates;
 using ButHowDoItComputer.Gates.Factories;
 using ButHowDoItComputer.Utils;
@@ -16,20 +15,20 @@ namespace ButHowDoItComputer.Tests.Gates
         [Test]
         public void CanKeepTheValueOfAByte()
         {
-            var sut = new BusDataTypeMemoryGate<IByte>(new MemoryGateFactory(new NAnd(new Not())),
+            var sut = new BusDataTypeMemoryGate<IList<bool>>(new MemoryGateFactory(new NAnd(new Not())),
                 new ByteFactory(new Base10Converter()), 8);
 
-            var input = new Byte(Enumerable.Range(0, 8).Select(s => true).ToArray());
+            var input = Enumerable.Range(0, 8).Select(s => true).ToArray();
 
             var result = sut.Apply(input, true);
 
-            for (var i = 0; i < input.Count; i++) Assert.AreEqual(input[i], result[i]);
+            for (var i = 0; i < input.Length; i++) Assert.AreEqual(input[i], result[i]);
 
-            input = new Byte(Enumerable.Range(0, 8).Select(s => false).ToArray());
+            input = Enumerable.Range(0, 8).Select(s => false).ToArray();
 
             result = sut.Apply(input, false);
 
-            for (var i = 0; i < input.Count; i++) Assert.AreEqual(true, result[i]);
+            for (var i = 0; i < input.Length; i++) Assert.AreEqual(true, result[i]);
         }
 
         [Test]
@@ -37,14 +36,14 @@ namespace ButHowDoItComputer.Tests.Gates
         [TestCase(true)]
         public void CanStoreAByte(bool expected)
         {
-            var sut = new BusDataTypeMemoryGate<IByte>(new MemoryGateFactory(new NAnd(new Not())),
+            var sut = new BusDataTypeMemoryGate<IList<bool>>(new MemoryGateFactory(new NAnd(new Not())),
                 new ByteFactory(new Base10Converter()), 8);
 
-            var input = new Byte(Enumerable.Range(0, 8).Select(s => expected).ToArray());
+            var input = Enumerable.Range(0, 8).Select(s => expected).ToArray();
 
             var result = sut.Apply(input, true);
 
-            for (var i = 0; i < input.Count; i++) Assert.AreEqual(input[i], result[i]);
+            for (var i = 0; i < input.Length; i++) Assert.AreEqual(input[i], result[i]);
         }
     }
 }

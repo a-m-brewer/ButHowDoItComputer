@@ -1,7 +1,6 @@
-using ButHowDoItComputer.DataTypes;
-using ButHowDoItComputer.DataTypes.BusDataTypes;
+using System;
+using System.Collections.Generic;
 using ButHowDoItComputer.DataTypes.Factories;
-using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Gates;
 using ButHowDoItComputer.Gates.Factories;
 using ButHowDoItComputer.Utils;
@@ -32,7 +31,7 @@ namespace ButHowDoItComputer.Tests.Gates
             outputRegister.Set = true;
             outputRegister.Enable = true;
 
-            var beforeByte = new Byte(new[]
+            var beforeByte = new[]
             {
                 false,
                 true,
@@ -43,9 +42,9 @@ namespace ButHowDoItComputer.Tests.Gates
                 false,
                 true,
                 false
-            });
+            };
 
-            var afterByte = new Byte(new[]
+            var afterByte = new[]
             {
                 false,
                 false,
@@ -56,15 +55,15 @@ namespace ButHowDoItComputer.Tests.Gates
                 false,
                 false,
                 true
-            });
+            };
 
             inputRegister.Input = beforeByte;
 
-            var sut = new LeftShifter<IByte>(_byteFactory, new BusDataTypeLeftShifter<IByte>(_byteFactory));
+            var sut = new LeftShifter<IList<bool>>(_byteFactory, new BusDataTypeLeftShifter<IList<bool>>(_byteFactory));
 
             sut.Apply(inputRegister, outputRegister);
 
-            for (var i = 0; i < afterByte.Count; i++) Assert.AreEqual(afterByte[i], outputRegister.Output[i]);
+            for (var i = 0; i < afterByte.Length; i++) Assert.AreEqual(afterByte[i], outputRegister.Output[i]);
         }
 
         [Test]
@@ -77,7 +76,7 @@ namespace ButHowDoItComputer.Tests.Gates
             outputRegister.Set = true;
             outputRegister.Enable = true;
 
-            var beforeByte = new Byte(new[]
+            var beforeByte = new[]
             {
                 false,
                 true,
@@ -88,9 +87,9 @@ namespace ButHowDoItComputer.Tests.Gates
                 false,
                 true,
                 false
-            });
+            };
 
-            var afterByte = new Byte(new[]
+            var afterByte = new[]
             {
                 true,
                 false,
@@ -101,15 +100,15 @@ namespace ButHowDoItComputer.Tests.Gates
                 true,
                 false,
                 false
-            });
+            };
 
             inputRegister.Input = beforeByte;
 
-            var sut = new RightShifter<IByte>(_byteFactory, new BusDataTypeRightShifter<IByte>(_byteFactory));
+            var sut = new RightShifter<IList<bool>>(_byteFactory, new BusDataTypeRightShifter<IList<bool>>(_byteFactory));
 
             sut.Apply(inputRegister, outputRegister);
 
-            for (var i = 0; i < afterByte.Count; i++) Assert.AreEqual(afterByte[i], outputRegister.Output[i]);
+            for (var i = 0; i < afterByte.Length; i++) Assert.AreEqual(afterByte[i], outputRegister.Output[i]);
         }
     }
 }

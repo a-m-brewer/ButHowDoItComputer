@@ -1,10 +1,10 @@
-using ButHowDoItComputer.DataTypes.Interfaces;
+using System.Collections.Generic;
 
 namespace ButHowDoItComputer.Codes.ASCII.Interfaces
 {
     public interface IByteToAsciiConverter
     {
-        IByte ToByte(string input);
-        string ToAscii(IByte input);
+        IList<bool> ToByte(string input);
+        string ToAscii(IList<bool> input);
     }
 }

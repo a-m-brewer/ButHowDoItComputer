@@ -1,9 +1,9 @@
+using System;
+using System.Collections.Generic;
 using ButHowDoItComputer.Components;
 using ButHowDoItComputer.Components.Factories;
 using ButHowDoItComputer.DataTypes;
-using ButHowDoItComputer.DataTypes.BusDataTypes;
 using ButHowDoItComputer.DataTypes.Factories;
-using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Gates;
 using ButHowDoItComputer.Gates.Factories;
 using ButHowDoItComputer.Parts;
@@ -14,18 +14,18 @@ namespace ButHowDoItComputer.Tests
 {
     public static class TestUtils
     {
-        public static BusDataTypeRegister<IByte> CreateRegister(bool set = true, bool enable = true)
+        public static BusDataTypeRegister<IList<bool>> CreateRegister(bool set = true, bool enable = true)
         {
             var byteFactory = new ByteFactory(new Base10Converter());
             var memoryGateFactory = new MemoryGateFactory(new NAnd(new Not()));
-            return new BusDataTypeRegister<IByte>(new BusDataTypeMemoryGate<IByte>(memoryGateFactory, byteFactory, 8),
-                new BusDataTypeEnabler<IByte>(byteFactory), byteFactory, wire => {})
+            return new BusDataTypeRegister<IList<bool>>(new BusDataTypeMemoryGate<IList<bool>>(memoryGateFactory, byteFactory, 8),
+                new BusDataTypeEnabler<IList<bool>>(byteFactory), byteFactory, wire => {})
             {
                 Set = set, Enable = enable
             };
         }
 
-        public static BusDataTypeRegister<IByte> CreateRegister(this uint input, bool set = true, bool enable = true)
+        public static BusDataTypeRegister<IList<bool>> CreateRegister(this uint input, bool set = true, bool enable = true)
         {
             var b10ToByte = CreateByteToBase10Converter();
             var register = CreateRegister(set, enable);
@@ -33,7 +33,7 @@ namespace ButHowDoItComputer.Tests
             return register;
         }
 
-        public static BusDataTypeRegister<IByte> CreateRegister(this IByte input, bool set = true, bool enable = true)
+        public static BusDataTypeRegister<IList<bool>> CreateRegister(this IList<bool> input, bool set = true, bool enable = true)
         {
             var register = CreateRegister(set, enable);
             register.Input = input;
@@ -75,41 +75,41 @@ namespace ButHowDoItComputer.Tests
             return new BitComparator(CreateXOr(), CreateOr(), CreateNot());
         }
 
-        public static BusDataTypeComparator<IByte> CreateByteComparator()
+        public static BusDataTypeComparator<IList<bool>> CreateByteComparator()
         {
-            return new BusDataTypeComparator<IByte>(CreateBitComparator(), CreateByteFactory());
+            return new BusDataTypeComparator<IList<bool>>(CreateBitComparator(), CreateByteFactory());
         }
 
-        public static ArithmeticLogicUnit<IByte> CreateArithmeticLogicUnit()
+        public static ArithmeticLogicUnit<IList<bool>> CreateArithmeticLogicUnit()
         {
             var byteFactory = CreateByteFactory();
-            return new ArithmeticLogicUnit<IByte>(
-                new BusDataTypeXOr<IByte>(CreateXOr(), byteFactory),
-                new BusDataTypeOr<IByte>(CreateOr(), byteFactory),
-                new BusDataTypeAnd<IByte>(byteFactory),
-                new Inverter<IByte>(CreateNot(), byteFactory),
-                new BusDataTypeAdder<IByte>(new BitAdder(CreateXOr(), CreateOr()), CreateByteFactory()),
-                new BusDataTypeEnabler<IByte>(CreateByteFactory()),
+            return new ArithmeticLogicUnit<IList<bool>>(
+                new BusDataTypeXOr<IList<bool>>(CreateXOr(), byteFactory),
+                new BusDataTypeOr<IList<bool>>(CreateOr(), byteFactory),
+                new BusDataTypeAnd<IList<bool>>(byteFactory),
+                new Inverter<IList<bool>>(CreateNot(), byteFactory),
+                new BusDataTypeAdder<IList<bool>>(new BitAdder(CreateXOr(), CreateOr()), CreateByteFactory()),
+                new BusDataTypeEnabler<IList<bool>>(CreateByteFactory()),
                 
-                new IsZeroGate<IByte>(CreateOr(), CreateNot()),
-                new BusDataTypeDecoder<IByte>(new Decoder(CreateNot(), new Base10Converter()), CreateByteFactory()),
-                new BusDataTypeRightShifter<IByte>(CreateByteFactory()),
-                new BusDataTypeLeftShifter<IByte>(CreateByteFactory()),
+                new IsZeroGate<IList<bool>>(CreateOr(), CreateNot()),
+                new BusDataTypeDecoder<IList<bool>>(new Decoder(CreateNot(), new Base10Converter()), CreateByteFactory()),
+                new BusDataTypeRightShifter<IList<bool>>(CreateByteFactory()),
+                new BusDataTypeLeftShifter<IList<bool>>(CreateByteFactory()),
                 CreateOr(),
-                new AluWire<IByte>(CreateByteFactory()),
-                new BusDataTypeComparator<IByte>(new BitComparator(CreateXOr(), CreateOr(), CreateNot()),
+                new AluWire<IList<bool>>(CreateByteFactory()),
+                new BusDataTypeComparator<IList<bool>>(new BitComparator(CreateXOr(), CreateOr(), CreateNot()),
                     CreateByteFactory()), caez => {}, input => {},
                 byteFactory);
         }
 
-        public static Bus1<IByte> CreateBus1()
+        public static Bus1<IList<bool>> CreateBus1()
         {
-            return new Bus1<IByte>(CreateNot(), CreateOr(), CreateByteFactory(), wire => {});
+            return new Bus1<IList<bool>>(CreateNot(), CreateOr(), CreateByteFactory(), wire => {});
         }
 
-        public static Bus1Factory<IByte> CreateBus1Factory()
+        public static Bus1Factory<IList<bool>> CreateBus1Factory()
         {
-            return new Bus1Factory<IByte>(CreateNot(), CreateOr(), CreateByteFactory());
+            return new Bus1Factory<IList<bool>>(CreateNot(), CreateOr(), CreateByteFactory());
         }
 
         public static Clock CreateClock()
@@ -137,29 +137,29 @@ namespace ButHowDoItComputer.Tests
             return new Decoder(CreateNot(), new Base10Converter());
         }
 
-        public static BusDataTypeMemoryGateFactory<IByte> CreateByteMemoryGateFactory()
+        public static BusDataTypeMemoryGateFactory<IList<bool>> CreateByteMemoryGateFactory()
         {
-            return new BusDataTypeMemoryGateFactory<IByte>(CreateMemoryGateFactory(), CreateByteFactory(), 8);
+            return new BusDataTypeMemoryGateFactory<IList<bool>>(CreateMemoryGateFactory(), CreateByteFactory(), 8);
         }
 
-        public static BusDataTypeEnabler<IByte> CreateByteEnabler()
+        public static BusDataTypeEnabler<IList<bool>> CreateByteEnabler()
         {
-            return new BusDataTypeEnabler<IByte>(CreateByteFactory());
+            return new BusDataTypeEnabler<IList<bool>>(CreateByteFactory());
         }
 
-        public static BusDataTypeRegisterFactory<IByte> CreateBusTypeRegisterFactory()
+        public static BusDataTypeRegisterFactory<IList<bool>> CreateBusTypeRegisterFactory()
         {
-            return new BusDataTypeRegisterFactory<IByte>(CreateByteMemoryGateFactory(), CreateByteEnabler(), CreateByteFactory());
+            return new BusDataTypeRegisterFactory<IList<bool>>(CreateByteMemoryGateFactory(), CreateByteEnabler(), CreateByteFactory());
         }
 
-        public static Ram<IByte> CreateRam()
+        public static Ram<IList<bool>> CreateRam()
         {
-            return CreateRam(new Bus<IByte>(new BusMessage<IByte> {Data = new Byte(), Name = "Ram"}));
+            return CreateRam(new Bus<IList<bool>>(new BusMessage<IList<bool>> {Data = new bool[8], Name = "Ram"}));
         }
 
-        public static Ram<IByte> CreateRam(IBus<IByte> bus)
+        public static Ram<IList<bool>> CreateRam(IBus<IList<bool>> bus)
         {
-            return new Ram<IByte>(8, bus, CreateBusTypeRegisterFactory(), CreateDecoder());
+            return new Ram<IList<bool>>(8, bus, CreateBusTypeRegisterFactory(), CreateDecoder());
         }
         
         public static CaezRegister CreateCaezRegister()

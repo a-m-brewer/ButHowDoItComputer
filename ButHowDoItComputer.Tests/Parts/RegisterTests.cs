@@ -1,8 +1,7 @@
+using System;
+using System.Collections.Generic;
 using System.Linq;
-using ButHowDoItComputer.DataTypes;
-using ButHowDoItComputer.DataTypes.BusDataTypes;
 using ButHowDoItComputer.DataTypes.Factories;
-using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Gates;
 using ButHowDoItComputer.Gates.Factories;
 using ButHowDoItComputer.Parts;
@@ -19,16 +18,16 @@ namespace ButHowDoItComputer.Tests.Parts
         {
             _byteFactory = new ByteFactory(new Base10Converter());
             _memoryGateFactory = new MemoryGateFactory(new NAnd(new Not()));
-            _busDataTypeMemoryGate = new BusDataTypeMemoryGate<IByte>(_memoryGateFactory, _byteFactory, 8);
-            _busDataTypeEnabler = new BusDataTypeEnabler<IByte>(_byteFactory);
-            _sut = new BusDataTypeRegister<IByte>(_busDataTypeMemoryGate, _busDataTypeEnabler, _byteFactory, wire => {});
+            _busDataTypeMemoryGate = new BusDataTypeMemoryGate<IList<bool>>(_memoryGateFactory, _byteFactory, 8);
+            _busDataTypeEnabler = new BusDataTypeEnabler<IList<bool>>(_byteFactory);
+            _sut = new BusDataTypeRegister<IList<bool>>(_busDataTypeMemoryGate, _busDataTypeEnabler, _byteFactory, wire => {});
         }
 
         private ByteFactory _byteFactory;
         private MemoryGateFactory _memoryGateFactory;
-        private BusDataTypeMemoryGate<IByte> _busDataTypeMemoryGate;
-        private BusDataTypeEnabler<IByte> _busDataTypeEnabler;
-        private BusDataTypeRegister<IByte> _sut;
+        private BusDataTypeMemoryGate<IList<bool>> _busDataTypeMemoryGate;
+        private BusDataTypeEnabler<IList<bool>> _busDataTypeEnabler;
+        private BusDataTypeRegister<IList<bool>> _sut;
 
         [Test]
         [TestCase(false, false, false)]
@@ -45,7 +44,7 @@ namespace ButHowDoItComputer.Tests.Parts
             var bits = Enumerable.Range(0, 8).Select(s => input).ToArray();
             _sut.Set = set;
             _sut.Enable = enable;
-            var result = _sut.Apply(new Byte(bits));
+            var result = _sut.Apply(bits);
             Assert.AreEqual(expected, result.All(a => a));
         }
     }

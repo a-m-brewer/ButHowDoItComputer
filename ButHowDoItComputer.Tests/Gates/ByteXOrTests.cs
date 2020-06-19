@@ -1,6 +1,6 @@
+using System.Collections.Generic;
 using System.Linq;
 using ButHowDoItComputer.DataTypes.Factories;
-using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Gates;
 using ButHowDoItComputer.Utils;
 using NUnit.Framework;
@@ -13,7 +13,7 @@ namespace ButHowDoItComputer.Tests.Gates
         public void ByteAndRunsAsExpected()
         {
             var byteFactory = new ByteFactory(new Base10Converter());
-            var sut = new BusDataTypeXOr<IByte>(
+            var sut = new BusDataTypeXOr<IList<bool>>(
                 new XOr(new Not(), new NAnd(new Not())),
                 byteFactory);
 

@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using ButHowDoItComputer.DataTypes.Interfaces;
 using ButHowDoItComputer.Gates.Interfaces;
 
 namespace ButHowDoItComputer.Gates

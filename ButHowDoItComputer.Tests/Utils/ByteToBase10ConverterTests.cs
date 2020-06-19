@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using ButHowDoItComputer.DataTypes.Factories;
 using ButHowDoItComputer.Utils;
 using NUnit.Framework;
-using Byte = ButHowDoItComputer.DataTypes.BusDataTypes.Byte;
 
 namespace ButHowDoItComputer.Tests.Utils
 {
@@ -11,7 +10,7 @@ namespace ButHowDoItComputer.Tests.Utils
     {
         private ByteToBase10Converter _sut;
         private uint _twenty;
-        private Byte _twentyByte;
+        private IList<bool> _twentyByte;
         private List<bool> _twentyInBits;
 
         [SetUp]
@@ -30,7 +29,7 @@ namespace ButHowDoItComputer.Tests.Utils
             };
 
             _twenty = 20;
-            _twentyByte = new Byte(_twentyInBits.ToArray());
+            _twentyByte = _twentyInBits;
 
             _sut = new ByteToBase10Converter(new ByteFactory(new Base10Converter()),
                 new Base10Converter());
