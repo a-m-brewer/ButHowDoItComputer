@@ -17,7 +17,7 @@ namespace ButHowDoItComputer.Tests.Gates
         {
             _byteFactory = new ByteFactory(new Base10Converter());
 
-            _sut = new BusDataTypeEnabler<IByte>(new And(), _byteFactory);
+            _sut = new BusDataTypeEnabler<IByte>(_byteFactory);
         }
 
         private BusDataTypeEnabler<IByte> _sut;

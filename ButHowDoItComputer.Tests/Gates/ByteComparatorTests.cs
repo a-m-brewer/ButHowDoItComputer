@@ -13,17 +13,15 @@ namespace ButHowDoItComputer.Tests.Gates
         public void Setup()
         {
             _byteFactory = new ByteFactory(new Base10Converter());
-            _and = new And();
             _not = new Not();
-            _nAnd = new NAnd(_not, _and);
+            _nAnd = new NAnd(_not);
             _or = new Or(_not, _nAnd);
             _xOr = new XOr(_not, _nAnd);
-            _bitComparator = new BitComparator(_xOr, _and, _or, _not);
+            _bitComparator = new BitComparator(_xOr, _or, _not);
             _byteToBase10 = new ByteToBase10Converter(_byteFactory, new Base10Converter());
             _sut = new BusDataTypeComparator<IByte>(_bitComparator, _byteFactory);
         }
-
-        private And _and;
+        
         private Not _not;
         private NAnd _nAnd;
         private Or _or;

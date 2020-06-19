@@ -18,17 +18,15 @@ namespace ButHowDoItComputer.Tests.Parts
         public void Setup()
         {
             _byteFactory = new ByteFactory(new Base10Converter());
-            _and = new And();
-            _memoryGateFactory = new MemoryGateFactory(new NAnd(new Not(), _and));
+            _memoryGateFactory = new MemoryGateFactory(new NAnd(new Not()));
             _busDataTypeMemoryGate = new BusDataTypeMemoryGate<IByte>(_memoryGateFactory, _byteFactory, 8);
-            _busDataTypeEnabler = new BusDataTypeEnabler<IByte>(_and, _byteFactory);
+            _busDataTypeEnabler = new BusDataTypeEnabler<IByte>(_byteFactory);
             _sut = new BusDataTypeRegister<IByte>(_busDataTypeMemoryGate, _busDataTypeEnabler, _byteFactory, wire => {});
         }
 
         private ByteFactory _byteFactory;
         private MemoryGateFactory _memoryGateFactory;
         private BusDataTypeMemoryGate<IByte> _busDataTypeMemoryGate;
-        private And _and;
         private BusDataTypeEnabler<IByte> _busDataTypeEnabler;
         private BusDataTypeRegister<IByte> _sut;
 

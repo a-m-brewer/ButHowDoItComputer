@@ -5,12 +5,10 @@ namespace ButHowDoItComputer.Gates
 {
     public class BusDataTypeEnabler<TBusDataType> : IBusDataTypeEnabler<TBusDataType> where TBusDataType : IBusDataType
     {
-        private readonly IAnd _andGate;
         private readonly IBusDataTypeFactory<TBusDataType> _busDataTypeFactory;
 
-        public BusDataTypeEnabler(IAnd andGate, IBusDataTypeFactory<TBusDataType> busDataTypeFactory)
+        public BusDataTypeEnabler(IBusDataTypeFactory<TBusDataType> busDataTypeFactory)
         {
-            _andGate = andGate;
             _busDataTypeFactory = busDataTypeFactory;
         }
 
@@ -20,7 +18,7 @@ namespace ButHowDoItComputer.Gates
 
             for (var i = 0; i < bits.Length; i++)
             {
-                bits[i] = _andGate.ApplyParams(input[i], set);
+                bits[i] = input[i] && set;
             }
             
             return _busDataTypeFactory.CreateParams(bits);

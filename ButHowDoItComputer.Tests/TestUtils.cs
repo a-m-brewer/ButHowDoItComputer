@@ -17,10 +17,9 @@ namespace ButHowDoItComputer.Tests
         public static BusDataTypeRegister<IByte> CreateRegister(bool set = true, bool enable = true)
         {
             var byteFactory = new ByteFactory(new Base10Converter());
-            var memoryGateFactory = new MemoryGateFactory(new NAnd(new Not(), new And()));
-            var and = new And();
+            var memoryGateFactory = new MemoryGateFactory(new NAnd(new Not()));
             return new BusDataTypeRegister<IByte>(new BusDataTypeMemoryGate<IByte>(memoryGateFactory, byteFactory, 8),
-                new BusDataTypeEnabler<IByte>(and, byteFactory), byteFactory, wire => {})
+                new BusDataTypeEnabler<IByte>(byteFactory), byteFactory, wire => {})
             {
                 Set = set, Enable = enable
             };
@@ -46,11 +45,6 @@ namespace ButHowDoItComputer.Tests
             return new Not();
         }
 
-        public static And CreateAnd()
-        {
-            return new And();
-        }
-
         public static Or CreateOr()
         {
             return new Or(CreateNot(), CreateNAnd());
@@ -63,7 +57,7 @@ namespace ButHowDoItComputer.Tests
 
         public static NAnd CreateNAnd()
         {
-            return new NAnd(CreateNot(), CreateAnd());
+            return new NAnd(CreateNot());
         }
 
         public static ByteFactory CreateByteFactory()
@@ -78,7 +72,7 @@ namespace ButHowDoItComputer.Tests
 
         public static BitComparator CreateBitComparator()
         {
-            return new BitComparator(CreateXOr(), CreateAnd(), CreateOr(), CreateNot());
+            return new BitComparator(CreateXOr(), CreateOr(), CreateNot());
         }
 
         public static BusDataTypeComparator<IByte> CreateByteComparator()
@@ -92,35 +86,35 @@ namespace ButHowDoItComputer.Tests
             return new ArithmeticLogicUnit<IByte>(
                 new BusDataTypeXOr<IByte>(CreateXOr(), byteFactory),
                 new BusDataTypeOr<IByte>(CreateOr(), byteFactory),
-                new BusDataTypeAnd<IByte>(CreateAnd(), byteFactory),
+                new BusDataTypeAnd<IByte>(byteFactory),
                 new Inverter<IByte>(CreateNot(), byteFactory),
-                new BusDataTypeAdder<IByte>(new BitAdder(CreateXOr(), CreateOr(), CreateAnd()), CreateByteFactory()),
-                new BusDataTypeEnabler<IByte>(CreateAnd(), CreateByteFactory()),
-                CreateAnd(),
+                new BusDataTypeAdder<IByte>(new BitAdder(CreateXOr(), CreateOr()), CreateByteFactory()),
+                new BusDataTypeEnabler<IByte>(CreateByteFactory()),
+                
                 new IsZeroGate<IByte>(CreateOr(), CreateNot()),
-                new BusDataTypeDecoder<IByte>(new Decoder(CreateNot(), CreateAnd(), new Base10Converter()), CreateByteFactory()),
+                new BusDataTypeDecoder<IByte>(new Decoder(CreateNot(), new Base10Converter()), CreateByteFactory()),
                 new BusDataTypeRightShifter<IByte>(CreateByteFactory()),
                 new BusDataTypeLeftShifter<IByte>(CreateByteFactory()),
                 CreateOr(),
                 new AluWire<IByte>(CreateByteFactory()),
-                new BusDataTypeComparator<IByte>(new BitComparator(CreateXOr(), CreateAnd(), CreateOr(), CreateNot()),
+                new BusDataTypeComparator<IByte>(new BitComparator(CreateXOr(), CreateOr(), CreateNot()),
                     CreateByteFactory()), caez => {}, input => {},
                 byteFactory);
         }
 
         public static Bus1<IByte> CreateBus1()
         {
-            return new Bus1<IByte>(CreateAnd(), CreateNot(), CreateOr(), CreateByteFactory(), wire => {});
+            return new Bus1<IByte>(CreateNot(), CreateOr(), CreateByteFactory(), wire => {});
         }
 
         public static Bus1Factory<IByte> CreateBus1Factory()
         {
-            return new Bus1Factory<IByte>(CreateAnd(), CreateNot(), CreateOr(), CreateByteFactory());
+            return new Bus1Factory<IByte>(CreateNot(), CreateOr(), CreateByteFactory());
         }
 
         public static Clock CreateClock()
         {
-            return new Clock(CreateClockStateFactory(), CreateAnd(), CreateOr());
+            return new Clock(CreateClockStateFactory(), CreateOr());
         }
 
         public static ClockStateFactory CreateClockStateFactory()
@@ -135,12 +129,12 @@ namespace ButHowDoItComputer.Tests
 
         public static Stepper CreateStepper()
         {
-            return new Stepper(CreateMemoryGateFactory(), CreateAnd(), CreateNot(), CreateOr());
+            return new Stepper(CreateMemoryGateFactory(), CreateNot(), CreateOr());
         }
 
         public static Decoder CreateDecoder()
         {
-            return new Decoder(CreateNot(), CreateAnd(), new Base10Converter());
+            return new Decoder(CreateNot(), new Base10Converter());
         }
 
         public static BusDataTypeMemoryGateFactory<IByte> CreateByteMemoryGateFactory()
@@ -150,7 +144,7 @@ namespace ButHowDoItComputer.Tests
 
         public static BusDataTypeEnabler<IByte> CreateByteEnabler()
         {
-            return new BusDataTypeEnabler<IByte>(CreateAnd(), CreateByteFactory());
+            return new BusDataTypeEnabler<IByte>(CreateByteFactory());
         }
 
         public static BusDataTypeRegisterFactory<IByte> CreateBusTypeRegisterFactory()
@@ -165,17 +159,17 @@ namespace ButHowDoItComputer.Tests
 
         public static Ram<IByte> CreateRam(IBus<IByte> bus)
         {
-            return new Ram<IByte>(8, bus, CreateBusTypeRegisterFactory(), CreateDecoder(), CreateAnd());
+            return new Ram<IByte>(8, bus, CreateBusTypeRegisterFactory(), CreateDecoder());
         }
         
         public static CaezRegister CreateCaezRegister()
         {
-            return new CaezRegister(new CaezMemoryGate(CreateMemoryGateFactory()), new CaezEnabler(CreateAnd()), wire => {});
+            return new CaezRegister(new CaezMemoryGate(CreateMemoryGateFactory()), new CaezEnabler(), wire => {});
         }
 
         public static CaezRegisterFactory CreateCaezRegisterFactory()
         {
-            return new CaezRegisterFactory(CreateMemoryGateFactory(), CreateAnd());
+            return new CaezRegisterFactory(CreateMemoryGateFactory());
         }
     }
 }

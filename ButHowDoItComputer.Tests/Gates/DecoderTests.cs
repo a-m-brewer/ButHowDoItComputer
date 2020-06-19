@@ -11,7 +11,7 @@ namespace ButHowDoItComputer.Tests.Gates
         [SetUp]
         public void Setup()
         {
-            _sut = new Decoder(new Not(), new And(), new Base10Converter());
+            _sut = new Decoder(new Not(), new Base10Converter());
         }
 
         private Decoder _sut;

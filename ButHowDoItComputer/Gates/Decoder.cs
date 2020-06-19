@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using ButHowDoItComputer.Gates.Interfaces;
 using ButHowDoItComputer.Utils;
 using ButHowDoItComputer.Utils.Interfaces;
@@ -9,14 +8,12 @@ namespace ButHowDoItComputer.Gates
 {
     public class Decoder : IDecoder
     {
-        private readonly IAnd _and;
         private readonly IBase10Converter _base10Converter;
         private readonly INot _not;
 
-        public Decoder(INot not, IAnd and, IBase10Converter base10Converter)
+        public Decoder(INot not, IBase10Converter base10Converter)
         {
             _not = not;
-            _and = and;
             _base10Converter = base10Converter;
         }
 
@@ -38,7 +35,7 @@ namespace ButHowDoItComputer.Gates
 
             for (var i = 0; i < gatesOutput.Length; i++)
             {
-                gatesOutput[i] = _and.ApplyParams(allGatesInputs[i]);
+                gatesOutput[i] = allGatesInputs[i].AndList();
             }
 
             // result yay!

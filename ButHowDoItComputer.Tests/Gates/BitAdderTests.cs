@@ -8,11 +8,10 @@ namespace ButHowDoItComputer.Tests.Gates
     {
         public BitAdder Create()
         {
-            var and = new And();
             var not = new Not();
-            var nAnd = new NAnd(not, and);
+            var nAnd = new NAnd(not);
             var or = new Or(not, nAnd);
-            return new BitAdder(new XOr(not, nAnd), or, and);
+            return new BitAdder(new XOr(not, nAnd), or);
         }
 
         [Test]

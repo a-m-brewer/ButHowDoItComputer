@@ -9,16 +9,14 @@ namespace ButHowDoItComputer.Tests.Gates
         [SetUp]
         public void Setup()
         {
-            _and = new And();
             _not = new Not();
-            _nAnd = new NAnd(_not, _and);
+            _nAnd = new NAnd(_not);
             _or = new Or(_not, _nAnd);
             _xOr = new XOr(_not, _nAnd);
-            _bitComparator = new BitComparator(_xOr, _and, _or, _not);
+            _bitComparator = new BitComparator(_xOr, _or, _not);
         }
 
         private BitComparator _bitComparator;
-        private And _and;
         private Not _not;
         private NAnd _nAnd;
         private Or _or;

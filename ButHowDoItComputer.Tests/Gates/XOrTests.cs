@@ -27,7 +27,7 @@ namespace ButHowDoItComputer.Tests.Gates
         [TestCaseSource(nameof(OrData))]
         public void ReturnsCorrectNewBit(bool expected, bool[] bits)
         {
-            var sut = new XOr(new Not(), new NAnd(new Not(), new And()));
+            var sut = new XOr(new Not(), new NAnd(new Not()));
             Assert.AreEqual(expected, sut.ApplyParams(bits));
         }
     }

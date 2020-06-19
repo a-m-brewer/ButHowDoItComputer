@@ -10,7 +10,6 @@ namespace ButHowDoItComputer.Parts
     public class ArithmeticLogicUnit<TBusDataType> : IArithmeticLogicUnit<TBusDataType> where TBusDataType : IBusDataType
     {
         private readonly IAluWire<TBusDataType> _aluWire;
-        private readonly IAnd _and;
         private readonly IBusDataTypeAdder<TBusDataType> _busDataTypeAdder;
         private readonly IBusDataTypeAnd<TBusDataType> _busDataTypeAnd;
         private readonly IBusDataTypeComparator<TBusDataType> _busDataTypeComparator;
@@ -33,7 +32,6 @@ namespace ButHowDoItComputer.Parts
             IInverter<TBusDataType> inverter,
             IBusDataTypeAdder<TBusDataType> busDataTypeAdder,
             IBusDataTypeEnabler<TBusDataType> busDataTypeEnabler,
-            IAnd and,
             IIsZeroGate<TBusDataType> isZeroGate,
             IBusDataTypeDecoder<TBusDataType> busDataTypeDecoder,
             IRightBusDataTypeShifter<TBusDataType> rightBusDataTypeShifter,
@@ -51,7 +49,6 @@ namespace ButHowDoItComputer.Parts
             _inverter = inverter;
             _busDataTypeAdder = busDataTypeAdder;
             _busDataTypeEnabler = busDataTypeEnabler;
-            _and = and;
             _isZeroGate = isZeroGate;
             _busDataTypeDecoder = busDataTypeDecoder;
             _rightBusDataTypeShifter = rightBusDataTypeShifter;
@@ -89,9 +86,9 @@ namespace ButHowDoItComputer.Parts
             var enabledXOr = _busDataTypeEnabler.Apply(xOr, opDecoder[6]);
             var enabledComparator = _busDataTypeEnabler.Apply(comparatorResult.output, opDecoder[7]);
 
-            var carryOutAdd = _and.ApplyParams(adder.CarryOut, opDecoder[0]);
-            var carryOutShiftRight = _and.ApplyParams(shiftRight.ShiftOut, opDecoder[1]);
-            var carryOutShiftLeft = _and.ApplyParams(shiftLeft.ShiftOut, opDecoder[2]);
+            var carryOutAdd = adder.CarryOut && opDecoder[0];
+            var carryOutShiftRight = shiftRight.ShiftOut && opDecoder[1];
+            var carryOutShiftLeft = shiftLeft.ShiftOut && opDecoder[2];
             var carryOut = _or.ApplyParams(carryOutAdd, carryOutShiftRight, carryOutShiftLeft);
 
             var output = _aluWire.Apply(enabledAdd, enabledShiftLeft, enabledShiftRight, enabledNot, enabledAnd,

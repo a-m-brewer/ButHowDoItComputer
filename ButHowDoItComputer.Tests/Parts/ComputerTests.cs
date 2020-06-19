@@ -31,27 +31,26 @@ namespace ButHowDoItComputer.Tests.Parts
             _fullByte = _sixteenBitFactory.Create(65535);
             Instruction = _sixteenBitFactory.Create(0);
             Flags = new Caez();
-
-            var and = TestUtils.CreateAnd();
+            
             var not = TestUtils.CreateNot();
             var or = TestUtils.CreateOr();
             var decoder = TestUtils.CreateDecoder();
             
             var memoryGateFactory = TestUtils.CreateMemoryGateFactory();
             var busDataTypeMemoryGateFactory = new BusDataTypeMemoryGateFactory<ISixteenBit>(memoryGateFactory, _sixteenBitFactory, 16);
-            var enabler = new BusDataTypeEnabler<ISixteenBit>(and, _sixteenBitFactory);
+            var enabler = new BusDataTypeEnabler<ISixteenBit>(_sixteenBitFactory);
             
             var sixteenBitRegisterFactory = new BusDataTypeRegisterFactory<ISixteenBit>(busDataTypeMemoryGateFactory, enabler, _sixteenBitFactory);
-            var bus1Factory = new Bus1Factory<ISixteenBit>(and, not, or, _sixteenBitFactory);
+            var bus1Factory = new Bus1Factory<ISixteenBit>(not, or, _sixteenBitFactory);
             
             var cpuPinStates = new CpuPinStates<ISixteenBit>(TestUtils.CreateClock(), TestUtils.CreateStepper(), Instruction, Flags,
-                and, or, not, decoder, byteFactory);
+                or, not, decoder, byteFactory);
             
             var bus = new Bus<ISixteenBit>(new BusMessage<ISixteenBit> {Data = new SixteenBit(), Name = "Bus"});
             var ioBus = new Bus<ISixteenBit>(new BusMessage<ISixteenBit> {Data = new SixteenBit(), Name = "IoBus"});
 
             
-            var ram = new Ram<ISixteenBit>(16, bus, sixteenBitRegisterFactory, decoder, and);
+            var ram = new Ram<ISixteenBit>(16, bus, sixteenBitRegisterFactory, decoder);
             
             var computerState = new ComputerState<ISixteenBit>(sixteenBitRegisterFactory, ram, bus1Factory,
                 new ArithmeticLogicUnitFactory<ISixteenBit>(_sixteenBitFactory), TestUtils.CreateCaezRegisterFactory(), new BitRegisterFactory(TestUtils.CreateMemoryGateFactory()), bus, ioBus, _sixteenBitFactory);

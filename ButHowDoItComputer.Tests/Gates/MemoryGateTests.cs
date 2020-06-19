@@ -9,7 +9,7 @@ namespace ButHowDoItComputer.Tests.Gates
         [Test]
         public void CanKeepTheValueOfABit()
         {
-            var sut = new MemoryGate(new NAnd(new Not(), new And()));
+            var sut = new MemoryGate(new NAnd(new Not()));
 
             // set the initial state of the memory to on
             var result = sut.Apply(true, true);
@@ -26,7 +26,7 @@ namespace ButHowDoItComputer.Tests.Gates
         [Test]
         public void CanSetTheBitAgain()
         {
-            var sut = new MemoryGate(new NAnd(new Not(), new And()));
+            var sut = new MemoryGate(new NAnd(new Not()));
 
             // set the initial state of the memory to on
             var result = sut.Apply(true, true);
@@ -47,7 +47,7 @@ namespace ButHowDoItComputer.Tests.Gates
         [TestCase(true)]
         public void CanStoreABit(bool expected)
         {
-            var sut = new MemoryGate(new NAnd(new Not(), new And()));
+            var sut = new MemoryGate(new NAnd(new Not()));
 
             var result = sut.Apply(expected, true);
 

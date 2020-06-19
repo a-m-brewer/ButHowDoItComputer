@@ -8,7 +8,6 @@ namespace ButHowDoItComputer.Parts.IO
     {
         private readonly TBusDataType _address;
         private readonly IMemoryGate _memoryGate;
-        private readonly IAnd _and;
         private readonly IXOr _xOr;
 
         public bool Set { get; set; }
@@ -22,12 +21,10 @@ namespace ButHowDoItComputer.Parts.IO
 
         public IoAdapter(TBusDataType address, 
             IMemoryGate memoryGate,
-            IAnd and,
             IXOr xOr)
         {
             _address = address;
             _memoryGate = memoryGate;
-            _and = and;
             _xOr = xOr;
         }
 
@@ -53,7 +50,7 @@ namespace ButHowDoItComputer.Parts.IO
 
         private bool ClkSOfOutInstruction()
         {
-            return _and.ApplyParams(Set, InputOutput, DataAddress);
+            return Set && InputOutput && DataAddress;
         }
     }
 }

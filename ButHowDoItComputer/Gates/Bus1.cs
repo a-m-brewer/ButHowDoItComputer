@@ -6,15 +6,13 @@ namespace ButHowDoItComputer.Gates
 {
     public class Bus1<TBusDataType> : IBus1<TBusDataType> where TBusDataType : IBusDataType
     {
-        private readonly IAnd _and;
         private readonly IBusDataTypeFactory<TBusDataType> _busDataTypeFactory;
         private readonly Action<TBusDataType> _updateWire;
         private readonly INot _not;
         private readonly IOr _or;
 
-        public Bus1(IAnd and, INot not, IOr or, IBusDataTypeFactory<TBusDataType> busDataTypeFactory, Action<TBusDataType> updateWire)
+        public Bus1(INot not, IOr or, IBusDataTypeFactory<TBusDataType> busDataTypeFactory, Action<TBusDataType> updateWire)
         {
-            _and = and;
             _not = not;
             _or = or;
             _busDataTypeFactory = busDataTypeFactory;
@@ -36,7 +34,7 @@ namespace ButHowDoItComputer.Gates
 
             for (var i = 1; i < output.Length; i++)
             {
-                output[i] = _and.ApplyParams(input[i], notBus1);
+                output[i] = input[i] && notBus1;
             }
 
             Output = _busDataTypeFactory.CreateParams(output);

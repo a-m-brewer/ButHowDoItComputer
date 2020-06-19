@@ -23,7 +23,7 @@ namespace ButHowDoItComputer.Tests.Components
             _stepper = TestUtils.CreateStepper();
             Instruction = new Byte();
             Caez = new Caez();
-            _sut = new CpuPinStates<IByte>(_clock, _stepper, Instruction, Caez, new And(), TestUtils.CreateOr(), TestUtils.CreateNot(),
+            _sut = new CpuPinStates<IByte>(_clock, _stepper, Instruction, Caez, TestUtils.CreateOr(), TestUtils.CreateNot(),
                 TestUtils.CreateDecoder(), TestUtils.CreateByteFactory());
         }
 

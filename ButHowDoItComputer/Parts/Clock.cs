@@ -7,16 +7,14 @@ namespace ButHowDoItComputer.Parts
 {
     public class Clock : IClock
     {
-        private readonly IAnd _and;
         private readonly IOr _or;
         private readonly IClockState _clk;
 
         private bool _clkCycledLast;
         private readonly IClockState _clkD;
 
-        public Clock(IClockStateFactory clockStateFactory, IAnd and, IOr or)
+        public Clock(IClockStateFactory clockStateFactory, IOr or)
         {
-            _and = and;
             _or = or;
             _clk = clockStateFactory.Create();
             _clkD = clockStateFactory.Create();
@@ -81,7 +79,7 @@ namespace ButHowDoItComputer.Parts
 
         private void ApplyCycleS()
         {
-            ClkS = _and.ApplyParams(Clk, ClkD);
+            ClkS = Clk && ClkD;
         }
     }
 }

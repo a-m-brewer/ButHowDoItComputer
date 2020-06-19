@@ -1,17 +1,16 @@
 using System.Collections.Generic;
 using ButHowDoItComputer.Gates.Interfaces;
+using ButHowDoItComputer.Utils;
 
 namespace ButHowDoItComputer.Gates
 {
     public class NAnd : INAnd
     {
-        private readonly IAnd _and;
         private readonly INot _not;
 
-        public NAnd(INot not, IAnd and)
+        public NAnd(INot not)
         {
             _not = not;
-            _and = and;
         }
 
         public bool ApplyParams(params bool[] bits)
@@ -21,7 +20,7 @@ namespace ButHowDoItComputer.Gates
 
         public bool Apply(IList<bool> bits)
         {
-            return _not.Apply(_and.Apply(bits));
+            return _not.Apply(bits.AndList());
         }
     }
 }

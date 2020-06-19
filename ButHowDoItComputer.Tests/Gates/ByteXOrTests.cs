@@ -14,7 +14,7 @@ namespace ButHowDoItComputer.Tests.Gates
         {
             var byteFactory = new ByteFactory(new Base10Converter());
             var sut = new BusDataTypeXOr<IByte>(
-                new XOr(new Not(), new NAnd(new Not(), new And())),
+                new XOr(new Not(), new NAnd(new Not())),
                 byteFactory);
 
             var result = sut.Apply(byteFactory.Create(255), byteFactory.Create(255));

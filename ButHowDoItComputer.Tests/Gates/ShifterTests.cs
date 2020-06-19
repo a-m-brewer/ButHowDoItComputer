@@ -16,12 +16,10 @@ namespace ButHowDoItComputer.Tests.Gates
         public void Setup()
         {
             _byteFactory = new ByteFactory(new Base10Converter());
-            _and = new And();
-            _memoryGateFactory = new MemoryGateFactory(new NAnd(new Not(), _and));
+            _memoryGateFactory = new MemoryGateFactory(new NAnd(new Not()));
         }
 
         private ByteFactory _byteFactory;
-        private And _and;
         private MemoryGateFactory _memoryGateFactory;
 
         [Test]

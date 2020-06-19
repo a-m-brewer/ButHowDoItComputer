@@ -21,7 +21,7 @@ namespace ButHowDoItComputer.Parts.Factories
 
         public IRegister<bool> Create(Action<bool> updateOutput, string name)
         {
-            return new BitRegister(_memoryGateFactory.Create(), new And(), updateOutput);
+            return new BitRegister(_memoryGateFactory.Create(), updateOutput);
         }
     }
 }

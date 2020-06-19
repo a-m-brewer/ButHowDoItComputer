@@ -7,20 +7,18 @@ namespace ButHowDoItComputer.Parts
     public class BitRegister : IRegister<bool>
     {
         private readonly IMemoryGate _memoryGate;
-        private readonly IAnd _and;
         private readonly Action<bool> _updateWire;
 
-        public BitRegister(IMemoryGate memoryGate, IAnd and, Action<bool> updateWire)
+        public BitRegister(IMemoryGate memoryGate, Action<bool> updateWire)
         {
             _memoryGate = memoryGate;
-            _and = and;
             _updateWire = updateWire;
         }
         
         public void Apply()
         {
             Data = _memoryGate.Apply(Input, Set);
-            Output = _and.ApplyParams(Data, Enable);
+            Output = Data && Enable;
 
             if (Enable)
             {

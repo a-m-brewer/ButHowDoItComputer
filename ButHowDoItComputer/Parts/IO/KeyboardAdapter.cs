@@ -11,7 +11,6 @@ namespace ButHowDoItComputer.Parts.IO
         private readonly IKeyboardBuffer<TBusDataType> _keyboardBuffer;
         private readonly IRegister<TBusDataType> _keyboardRegister;
         private readonly INot _not;
-        private readonly IAnd _and;
 
         public TBusDataType Ouput { get; set; }
 
@@ -19,20 +18,19 @@ namespace ButHowDoItComputer.Parts.IO
             IKeyboardBuffer<TBusDataType> keyboardBuffer,
             IRegister<TBusDataType> keyboardRegister,
             IBusDataTypeFactory<TBusDataType> busDataTypeFactory, INot not,
-            IMemoryGate memoryGate, IAnd and, IXOr xOr) : base(busDataTypeFactory.CreateParams(
-            new []{true, true, true, true, false, false, false, false}), memoryGate, and, xOr)
+            IMemoryGate memoryGate, IXOr xOr) : base(busDataTypeFactory.CreateParams(
+            new []{true, true, true, true, false, false, false, false}), memoryGate, xOr)
         {
             _keyboardBuffer = keyboardBuffer;
             _keyboardRegister = keyboardRegister;
             _keyboardRegister.Set = true;
             _not = not;
-            _and = and;
         }
 
         public void Apply()
         {
             var memoryBitResult = MemoryGateOutput();
-            var memoryBitAndClkEOfInput = _and.ApplyParams(memoryBitResult, ClkEOfInInstruction());
+            var memoryBitAndClkEOfInput = memoryBitResult && ClkEOfInInstruction();
             
             _keyboardRegister.Enable = memoryBitAndClkEOfInput;
 
@@ -48,7 +46,7 @@ namespace ButHowDoItComputer.Parts.IO
 
         private bool ClkEOfInInstruction()
         {
-            return _and.ApplyParams(Enable, _not.Apply(DataAddress), _not.Apply(InputOutput));
+            return Enable && _not.Apply(DataAddress) && _not.Apply(InputOutput);
         }
     }
 }

@@ -11,14 +11,12 @@ namespace ButHowDoItComputer.Gates.Factories
 
     public class Bus1Factory<TBusDataType> : IBus1Factory<TBusDataType> where TBusDataType : IBusDataType
     {
-        private readonly IAnd _and;
         private readonly INot _not;
         private readonly IOr _or;
         private readonly IBusDataTypeFactory<TBusDataType> _busDataTypeFactory;
 
-        public Bus1Factory(IAnd and, INot not, IOr or, IBusDataTypeFactory<TBusDataType> busDataTypeFactory)
+        public Bus1Factory(INot not, IOr or, IBusDataTypeFactory<TBusDataType> busDataTypeFactory)
         {
-            _and = and;
             _not = not;
             _or = or;
             _busDataTypeFactory = busDataTypeFactory;
@@ -26,7 +24,7 @@ namespace ButHowDoItComputer.Gates.Factories
 
         public IBus1<TBusDataType> Create(Action<TBusDataType> updateWireAction)
         {
-            return new Bus1<TBusDataType>(_and, _not, _or, _busDataTypeFactory, updateWireAction);
+            return new Bus1<TBusDataType>(_not, _or, _busDataTypeFactory, updateWireAction);
         }
     }
 }

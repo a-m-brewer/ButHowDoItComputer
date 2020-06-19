@@ -40,13 +40,13 @@ namespace ButHowDoItComputer.Tests.Parts.IO
             _keyboardBuffer = new KeyboardBuffer<ISixteenBit>(_sixteenBitFactory, ui);
 
             var busDataTypeRegister = new BusDataTypeRegister<ISixteenBit>(
-                new BusDataTypeMemoryGate<ISixteenBit>(new MemoryGateFactory(new NAnd(new Not(), new And())),
-                    _sixteenBitFactory, 16), new BusDataTypeEnabler<ISixteenBit>(new And(), _sixteenBitFactory),
+                new BusDataTypeMemoryGate<ISixteenBit>(new MemoryGateFactory(new NAnd(new Not())),
+                    _sixteenBitFactory, 16), new BusDataTypeEnabler<ISixteenBit>(_sixteenBitFactory),
                 _sixteenBitFactory, bit => { });
 
             _sut = new KeyboardAdapter<ISixteenBit>(_keyboardBuffer, busDataTypeRegister, _sixteenBitFactory, new Not(),
-                new MemoryGate(new NAnd(new Not(), new And())), new And(),
-                new XOr(new Not(), new NAnd(new Not(), new And())));
+                new MemoryGate(new NAnd(new Not())),
+                new XOr(new Not(), new NAnd(new Not())));
         }
 
         [Test]

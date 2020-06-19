@@ -8,15 +8,13 @@ namespace ButHowDoItComputer.Parts
 {
     public class Stepper : IStepper
     {
-        private readonly IAnd _and;
         private readonly INot _not;
         private readonly IOr _or;
         private readonly List<IMemoryGate> _memoryGates;
         private bool _step7;
 
-        public Stepper(IMemoryGateFactory memoryGateFactory, IAnd and, INot not, IOr or)
+        public Stepper(IMemoryGateFactory memoryGateFactory, INot not, IOr or)
         {
-            _and = and;
             _not = not;
             _or = or;
             _memoryGates = Enumerable.Range(0, 12).Select(_ => memoryGateFactory.Create()).ToList();
@@ -51,11 +49,11 @@ namespace ButHowDoItComputer.Parts
             var notM11 = _not.Apply(m11);
 
             var step1 = _or.ApplyParams(reset, notM1);
-            var step2 = _and.ApplyParams(m1, notM3);
-            var step3 = _and.ApplyParams(m3, notM5);
-            var step4 = _and.ApplyParams(m5, notM7);
-            var step5 = _and.ApplyParams(m7, notM9);
-            var step6 = _and.ApplyParams(m9, notM11);
+            var step2 = m1 && notM3;
+            var step3 = m3 && notM5;
+            var step4 = m5 && notM7;
+            var step5 = m7 && notM9;
+            var step6 = m9 && notM11;
             _step7 = m11;
 
             var stepperArray = new[] {step1, step2, step3, step4, step5, step6, _step7};

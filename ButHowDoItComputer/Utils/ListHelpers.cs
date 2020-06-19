@@ -40,5 +40,18 @@ namespace ButHowDoItComputer.Utils
 
             return tempList;
         }
+
+        public static bool AndList(this IList<bool> items)
+        {
+            for (var i = 0; i < items.Count; i++)
+            {
+                if (!items[i])
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
     }
 }

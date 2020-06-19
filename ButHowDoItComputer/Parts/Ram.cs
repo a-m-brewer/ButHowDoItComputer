@@ -11,7 +11,6 @@ namespace ButHowDoItComputer.Parts
 {
     public class Ram<TBusDataType> : IRam<TBusDataType> where TBusDataType : IBusDataType
     {
-        private readonly IAnd _and;
         private readonly IBusDataTypeRegisterFactory<TBusDataType> _busDataTypeRegisterFactory;
         private readonly IDecoder _decoder;
         private readonly int _decoderSize;
@@ -20,13 +19,12 @@ namespace ButHowDoItComputer.Parts
             int bitLength,
             IBus<TBusDataType> outputBus, 
             IBusDataTypeRegisterFactory<TBusDataType> busDataTypeRegisterFactory,
-            IDecoder decoder, IAnd and)
+            IDecoder decoder)
         {
             Io = outputBus;
             _busDataTypeRegisterFactory = busDataTypeRegisterFactory;
             _decoder = decoder;
-            _and = and;
-
+            
             Set = false;
             Enable = false;
 
@@ -75,11 +73,10 @@ namespace ButHowDoItComputer.Parts
             for (var y = 0; y < yDecoder.Count; y++)
             for (var x = 0; x < xDecoder.Count; x++)
             {
-                var xAndY = _and.ApplyParams(xDecoder[x], yDecoder[y]);
-
-                var s = _and.ApplyParams(xAndY, Set);
-                var e = _and.ApplyParams(xAndY, Enable);
-
+                var xAndY = xDecoder[x] && yDecoder[y];
+                var s = xAndY && Set;
+                var e = xAndY && Enable;
+                
                 InternalRegisters[y][x].Set = s;
                 InternalRegisters[y][x].Enable = e;
 

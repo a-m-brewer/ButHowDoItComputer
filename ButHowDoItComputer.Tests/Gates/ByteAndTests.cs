@@ -14,7 +14,7 @@ namespace ButHowDoItComputer.Tests.Gates
         public void ByteAndRunsAsExpected()
         {
             var byteFactory = new ByteFactory(new Base10Converter());
-            var sut = new BusDataTypeAnd<IByte>(new And(), new ByteFactory(new Base10Converter()));
+            var sut = new BusDataTypeAnd<IByte>(new ByteFactory(new Base10Converter()));
 
             var result = sut.Apply(byteFactory.Create(0), byteFactory.Create(255));
 

@@ -8,13 +8,11 @@ namespace ButHowDoItComputer.Parts.Factories
 {
     public class CaezRegisterFactory : ICaezRegisterFactory
     {
-        private readonly IAnd _and;
         private readonly IMemoryGateFactory _memoryGateFactory;
 
-        public CaezRegisterFactory(IMemoryGateFactory memoryGateFactory, IAnd and)
+        public CaezRegisterFactory(IMemoryGateFactory memoryGateFactory)
         {
             _memoryGateFactory = memoryGateFactory;
-            _and = and;
         }
 
         public IRegister<Caez> Create()
@@ -24,7 +22,7 @@ namespace ButHowDoItComputer.Parts.Factories
 
         public IRegister<Caez> Create(Action<Caez> dataToUpdate, string name)
         {
-            return new CaezRegister(new CaezMemoryGate(_memoryGateFactory), new CaezEnabler(_and), dataToUpdate) {Name = name};
+            return new CaezRegister(new CaezMemoryGate(_memoryGateFactory), new CaezEnabler(), dataToUpdate) {Name = name};
         }
     }
 }
